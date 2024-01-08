@@ -1,0 +1,77 @@
+@media screen and (max-width: 768px) {
+  .confirmdelete-slide {
+    width: 100%;
+    position: fixed;
+    bottom: -100%;
+    transition: all 1s ease-in-out;
+    z-index: 3;
+  }
+
+  .confirmdelete-slide.open {
+    bottom: 0;
+  }
+  
+}
+
+@media screen and (min-width: 768px) {
+  .confirmdelete-slide {
+    position: fixed;
+    bottom: -100%;
+    transition: all 0.3s ease-in-out;
+    z-index: 3;
+  }
+
+  .confirmdelete-slide.open {
+    bottom: 40%;
+    display: block;
+    transition: all 0.3s ease-in-out;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .binnotfound-slide {
+    width: 100%;
+    position: fixed;
+    bottom: -100%;
+    transition: all 1s ease-in-out;
+    z-index: 3;
+  }
+
+  .binnotfound-slide.open {
+    bottom: 0;
+  }
+  
+}
+
+@media screen and (min-width: 768px) {
+  .binnotfound-slide {
+    position: fixed;
+    bottom: -100%;
+    transition: all 0.3s ease-in-out;
+    z-index: 3;
+  }
+
+  .binnotfound-slide.open {
+    bottom: 40%;
+    display: block;
+    transition: all 0.3s ease-in-out;
+  }
+}
+
+.dim {
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  z-index: 1;
+  background-color: black;
+  display: none;
+}
+
+.dim.open {
+  display: block;
+  transition: all 1s ease-in-out;
+}

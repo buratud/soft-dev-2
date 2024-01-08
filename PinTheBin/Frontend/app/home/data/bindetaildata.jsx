@@ -1,0 +1,23 @@
+export const bindetaildata = [
+    {
+        location: '1518 ถนน ประชาราษฎร์ 1 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพมหานคร 10800 ไทย',
+        description: 'เคยอยู่หน้า 40 เมื่อ 10 ปีที่แล้ว',
+        position: {lat : 13.803, lng : 100.531},
+        timestamp: '2023-09-28T00:00:00.000Z',
+        picture: 'https://media.discordapp.net/attachments/1154651284788498432/1156268583983259669/5c59a0c2dd09f80d0538e7f263ae0dc0.png?ex=65145a88&is=65130908&hm=1bfa231d34455a575185dbbb30b726c31125bc314fdd767c56d1ab956b5c4707&=&width=681&height=525',
+        BlueBin: true,
+        YellowBin: true,
+        GreenBin: false,
+        RedBin: true,
+    },
+    {   location: '1693 ถ. พหลโยธิน แขวงจตุจักร เขตจตุจักร กรุงเทพมหานคร 10900',
+        description: 'ศูนย์การค้าขนาดใหญ่ มีร้านขายเสื้อผ้า ร้านเครื่องใช้ไฟฟ้า ซูเปอร์มาร์เก็ต และร้านอาหารบรรยากาศสบายๆ',
+        position: {lat : 13.8177396, lng : 100.5597245},
+        timestamp: '2023-10-04T02:00:00.000Z',
+        picture: 'https://media.discordapp.net/attachments/1154651284788498432/1158951240336687224/image.png?ex=651e1cf3&is=651ccb73&hm=7b4c5cf9632db209863ced500f3bfbff6653efa9c9773dae4836fe3111d07645&=',
+        BlueBin: true,
+        YellowBin: true,
+        GreenBin: true,
+        RedBin: true,
+    },
+]
