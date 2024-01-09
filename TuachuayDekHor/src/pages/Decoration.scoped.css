@@ -1,0 +1,191 @@
+/* .Decoration{
+    width: 100vw;
+    height: 100vh;
+    background-color: #f8f8f8;
+}
+
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins',sans-serif;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #3D39BD;
+    display: flex;
+    align-items: center;
+    z-index: 99;
+}
+ 
+main{
+    width: 100%;
+    height: 60vh;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    background: linear-gradient(#35477dde,#546baf65),url(../../src/Assets/img_Dec/covercook.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.title{
+    padding-top: 8rem;
+    font-size: 60px;
+    font-family: 'Galindo';
+    color: #f8f8f8;
+    margin-bottom: 3rem;
+}
+
+
+.rec{
+    display: flex;
+    flex-direction: column;
+}
+
+.rec__title{
+    display:flex ;
+    margin-left: 4rem;
+    align-items: center;
+    text-align: center;
+    padding-right: 7rem;
+}
+
+.title_sub{
+    margin-top: 3rem;
+    position: relative;
+    padding-top: 1rem;
+    font-size:30px;
+    text-align: center;
+}
+
+.Container{
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    padding-left: 10rem;
+    padding-right: 10rem;
+    justify-content: center;
+    background-color: #f8f8f8;
+}
+ */
+ .cleaning{
+    width: 100vw;
+    height: 100vh;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #3D39BD;
+    display: flex;
+    align-items: center;
+    z-index: 99;
+} 
+
+.Decoration{
+    width: 100vw;
+    height: 100vh;
+    background-color: #f8f8f8;
+}
+
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins',sans-serif;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #3D39BD;
+    display: flex;
+    align-items: center;
+    z-index: 99;
+}
+ 
+main{
+    width: 100%;
+    height: 60vh;
+    padding: 4rem;
+    padding-left: 8rem;
+    padding-right: 8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    background: linear-gradient(#35477dde,#546baf65),url(../../src/Assets/img_Dec/covercook.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+}
+
+.title{
+    padding-top: 8rem;
+    font-size: 60px;
+    font-family: 'Galindo';
+    color: #f8f8f8;
+    width: 100%;
+    height: 100%;
+    /* border: 5px solid #f8f8f8;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.203);
+    background-color: #322f2f47; */
+    /* backdrop-filter: blur(1px); */
+}
+
+
+.rec{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.rec__title{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+.title_sub{
+    font-size:30px;
+    text-align: center;
+    padding: 2rem;
+    border-bottom: solid 3px #74717134;
+}
+
+.Container{
+    width: 100%;
+    /* height: 100%;
+    padding: 2rem; */
+    padding-left: 10rem;
+    padding-right: 10rem;
+    justify-content: center;
+    text-align: center;
+    background-color: #f8f8f8;
+    padding-top: 3rem;
+}
+
+
+.content{
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}

@@ -1,0 +1,68 @@
+
+img{
+    position: relative;
+    justify-self: center;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 100px;
+}
+
+/* rgba(178, 178, 178, 0.74) */
+.singleDest{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    /* overflow: hidden; */
+    border-radius: 1000px;
+    /* padding: 0.5rem; */
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+    cursor: pointer;
+}
+
+.box:hover{
+    scale: 1.1;
+}
+
+
+.destText a{
+    color: black;
+    font-size: 1.1rem;
+    font-family:'Poppins' ;
+}
+
+.icon{
+    position: relative;
+    color: #3D39BD ;
+}
+
+.userwrite{
+    background-color: #3D39BD;
+    height: 30px;
+    width: 60%;
+    /* color: aliceblue; */
+    font-size: 18px;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+}
+
+.userwrite a{
+    color: rgb(255, 255, 255);
+}
+
+
+.box{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
+}
+

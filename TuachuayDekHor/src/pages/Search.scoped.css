@@ -1,0 +1,163 @@
+.search{
+    width: 100vw;
+    height: 100vh;
+    /* background-color: #f8f8f8; */
+    justify-content: center;
+    align-items: center;
+    background-color: #eceff1;
+}
+
+.showResult{
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #3D39BD;
+    display: flex;
+    align-items: center;
+    z-index: 99;
+} 
+
+.search_wrapper{
+    width: 100%;
+    height: 100%;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    padding-top: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+.headResult h2 {
+    width: 100%;
+    height: 100%;
+    border-bottom: 2px solid rgba(102, 98, 98, 0.221);
+    padding: 1rem;
+    font-size: 50px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1rem;
+    font-weight: 800;
+    display: flex;
+    color: rgba(0, 0, 0, 0.621);
+}
+
+.headResult p{
+    margin-left: 1rem;
+    font-style: italic;
+    color: black;
+}
+
+.headResult {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+img{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.main_content{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap 33%;
+    width: 100%;
+    height: 100vh;
+}
+
+.singleDest{
+    position: relative;
+    width: 30%;
+    height: 350px;
+    overflow: hidden;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+    margin: 1.2rem;
+    cursor: pointer;
+    
+}
+
+.singleDest:hover{
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.74);
+    scale: 1.1;
+}
+
+.dastImage{
+    position: relative;
+    width: 100%;
+    height: 60%;
+    overflow: hidden;
+}
+
+.dastFooter{
+    position: relative;
+    padding: 2rem; 
+}
+
+.heart{
+    position: relative;
+    float: right;
+    width: max-content;
+    padding: 0.5rem;
+}
+
+.destText{
+    color: black;
+    justify-content: space-between; 
+    padding: 1rem; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
+.destText a{
+    color: black;
+    font-family:'Poppins' ;
+}
+
+.icon{
+    position: relative;
+    color: #3D39BD ;
+}
+
+.userwrite{
+    display: flex;
+}
+
+
+.name{
+    margin-top: 2rem;
+}
+
+.like-icon{
+    color: rgb(209, 89, 89) ;
+}
+
+.noResults{
+    padding: 1rem;
+    padding-left: 1rem;
+}
+
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #3D39BD;
+    display: flex;
+    align-items: center;
+    z-index: 99;
+} 
