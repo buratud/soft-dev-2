@@ -1,0 +1,107 @@
+.report{
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 150px;
+    padding-right: 150px;
+    /* padding-top: 100px; */
+    background-color: #f8f8f8;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #3D39BD;
+    display: flex;
+    align-items: center;
+    z-index: 99;
+} 
+
+#reporttitle{
+    padding-top: 5rem;
+    position: relative;
+    align-self: center;
+    font-size: 45px;
+    font-weight: 500;
+    color: black;
+    font-family: Galindo;
+}
+
+#textreport{
+    color: #000;
+    font-family: Hubballi;
+    background-color: #ffffffe6;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 30px;
+    border-radius: 20px;
+    margin-top: 50px;
+    margin-left: 200px;
+    margin-right: 200px;
+    width: 1000px;
+    align-self: center;
+}
+
+.reportfooter{
+    margin-top: 30px;
+    display: flex;
+    justify-content:flex-end;
+    align-self: flex-end;
+    padding: 10px;
+    padding-right: 120px;
+}
+
+.btn-report{
+    padding: 15px;
+    width: 150px;
+    background: #D9C029; 
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    cursor: pointer;  
+    color: #000;
+    font-family: 'Poppins';
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 2rem;
+}
+
+.btn-report a{
+    color: black;
+    font-family: 'Poppins';
+    font-size: 16px;
+}
+
+.btn-report a:hover{
+    color: #f8f8f8;
+    font-family: 'Poppins';
+    font-size: 16px;
+}
+
+.btn-report:hover{
+    background: #cdaf07;
+}
+
+#btn-cancel{
+    width: 100px;
+    margin-left: 20px;
+    background: #848481c7;
+}
+
+
+#btn-cancel:hover{
+    width: 100px;
+    margin-left: 20px;
+    background: #5b5b59c7;
+}
+
+#btn-cancel a:hover{
+    color: #f8f8f8;
+}

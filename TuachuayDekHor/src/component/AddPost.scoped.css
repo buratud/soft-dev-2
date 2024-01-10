@@ -1,0 +1,160 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins',sans-serif;
+}
+
+.wrapper{
+    padding: 2rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Poppins';
+}
+
+
+.writing{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+
+}
+
+.img_cover Label{
+    width: 100%;
+    text-align: left;
+    padding-bottom: 1rem;
+}
+
+.img_cover{
+    width: 50%;
+    padding: 1rem;
+}
+
+.img_cover Input{
+    padding: 0.2rem;
+    width: 100%;
+}
+
+.title__head{
+    width: 50%;
+    padding: 1rem;
+}
+
+.title__head Label{
+    width: 100%;
+    text-align: left;
+    padding-bottom: 1rem;
+}
+
+.title__head Input{
+    font-size: 1rem;
+    padding: 0.2rem;
+    border: 0.2px solid rgba(0, 0, 0, 0.151);
+    border-radius: 5px;
+    width: 100%;
+}
+
+.Catagory{
+    width: 50%;
+    padding: 1rem;
+}
+
+.Catagory Label{
+    width: 100%;
+    text-align: left;
+    padding-bottom: 1rem;
+}
+
+.choose{
+    width: 50%;
+    padding: 1rem; 
+}
+
+.choose Label{
+    width: 100%;
+    text-align: left;
+    padding-bottom: 1rem;
+}
+
+.choose Input{
+    padding: 0.2rem;
+    width: 50%;
+}
+
+.content__head{
+    /* height: 500px; */
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.content__head Label{
+    width: 100%;
+    text-align: left;
+    padding-bottom: 1rem;
+}
+
+.Post-btn{
+    width: max-content;
+    margin: 1em;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    position: relative;
+    cursor: pointer;
+    background-color: #D9C029;
+    color: #000;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    border-radius: 10px;
+}
+
+.Post-btn:hover{
+    background-color: #d7b90e;
+}
+
+.Cancel{
+    width: max-content;
+    margin: 1em;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    position: relative;
+    cursor: pointer;
+    background-color: #D9C029;
+    color: #000;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    border-radius: 10px;
+}
+
+.Cancel:hover{
+    background-color: #D9C029;
+    color: rgba(227, 61, 61, 0.861);
+}
+
+.button__Blog{
+    align-items: flex-end;
+    display: flex;
+    justify-content: center;
+}
+
+.img_cover{
+    width: 50%;
+    padding-top: 2rem;
+    padding-left: 1rem;
+}
+
+h1{
+    font-family: 'Galindo';
+    font-size: 4rem;
+    margin-left: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}

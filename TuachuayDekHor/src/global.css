@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Galindo:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hubballi:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gaegu:wght@400&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins',sans-serif;
+  transition: .3s ease;
+}
+
+
+h1{
+  font-family: var(--font-galindo);
+  font-size: 34px;
+}
+ 
+body {
+  margin: 0;
+  line-height: normal;
+  font-family: 'Poppins', sans-serif;
+  background-color: #eceff1;
+}
+
+#root{
+  width: 100vw;
+  height: 100vh;
+}
+
+:root {
+  /* fonts */
+  --font-gaegu: Gaegu;
+  --font-hubballi: Hubballi;
+  --font-galindo: Galindo;
+  --font-Poppins: Poppins;
+
+  /* font sizes */
+  --font-size-4xl: 23px;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-black: #000;
+  --color: #d9c029;
+  --color-gainsboro: #d9d9d9;
+  --color-gray: rgba(0, 0, 0, 0.5);
+
+  /* Border radiuses */
+  --br-8xs: 5px;
+}
+
+a{
+  text-decoration: none;
+}
+
+li{
+  list-style: none;
+}
+
+.section{
+  padding: 4rem 0 2rem;
+}
+
+.container{
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+

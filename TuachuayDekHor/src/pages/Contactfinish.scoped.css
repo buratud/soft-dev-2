@@ -1,0 +1,72 @@
+.noti-box{
+    position: fixed;
+    z-index: 2;
+    width: 50%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    padding-bottom: 2rem;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+    background-color: #f8f8f8;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #3D39BD;
+    display: flex;
+    align-items: center;
+    z-index: 99;
+} 
+
+.noti-box h2{
+    padding: 2rem;
+    font-size: 3rem;
+    font-family: 'Poppins';
+}
+
+.noti-box p{
+    padding-bottom: 2rem;
+    font-family: 'Poppins';
+}
+
+.noti-box button{
+    padding: 15px;
+    width: 120px;
+    background: #D9C029; 
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    cursor: pointer;  
+    color: #000;
+    font-family: 'Poppins';
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 2rem;
+}
+
+.noti-box button:hover{
+    background: #cdaf07;
+    color: #fff;
+    scale: 1.1;
+}
+
+.noti-box a{
+    color: black;
+    font-family: 'Poppins';
+    font-size: 16px;
+
+}
+
+.noti-box a:hover{
+    color: #f8f8f8;
+    font-family: 'Poppins';
+    font-size: 16px;
+}

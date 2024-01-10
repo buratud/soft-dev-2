@@ -1,0 +1,67 @@
+.head{
+    /* border-b border-gray-900/10 pb-12 */
+    border-bottom-width: 1px ;
+    --tw-border-opacity:1;
+    border-color: rgb(17, 24, 39/var(--tw-border-opacity));
+    padding-bottom: 3rem;
+}
+
+.edit__profile{
+    align-items: center;
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    background-color: #D9C029;
+    font-family: 'Poppins';
+}
+
+.edit__profile:hover{
+    background-color: #cdaf07;
+}
+
+.Update-btn{
+    align-items: center;
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    background-color: #D9C029;
+    font-family: 'Poppins';
+}
+
+.Update-btn:hover{
+    background-color: #cdaf07;
+}
+
+.close-btn{
+    align-items: center;
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(130, 127, 127);
+    font-family: 'Poppins';
+    color: #f8f8f8;
+}
+
+.close-btn:hover{
+    background-color: rgb(113, 111, 111);
+}
+
+.input_user{
+    width: 100%; 
+    padding: 0.5rem;
+    border: none;
+    border-radius: 10px;
+    border: #D9D9D9;
+    background-color: #D9D9D9;
+    /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
+}
+
+.input__Image{
+    padding-top: 1rem;
+}

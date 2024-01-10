@@ -1,0 +1,110 @@
+.content{
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    background-color: #f8f8f8;
+}
+
+img{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+
+.main_content{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    background-color: #f8f8f8;
+}
+
+/* rgba(178, 178, 178, 0.74) */
+.singleDest{
+    position: relative;
+    width: 30%;
+    height: 350px;
+    overflow: hidden;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+    margin: 1.2rem;
+    cursor: pointer;
+    
+}
+
+.singleDest:hover{
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.74);
+    scale: 1.1;
+}
+
+.dastImage{
+    position: relative;
+    width: 100%;
+    height: 60%;
+    overflow: hidden;
+}
+
+.dastFooter{
+    /* position: relative; */
+    padding: 2rem; 
+}
+
+.heart{
+    font-size: 16px;
+    position: relative;
+    background-color: #D9C029 ;
+    float: right;
+    width: max-content;
+    padding: 0.5rem;
+}
+
+.destText{
+    color: black;
+    justify-content: space-between;
+    padding: 1rem; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
+.destText a{
+    color: black;
+    font-size: 1.1rem;
+    font-family:'Poppins' ;
+}
+
+.icon{
+    position: relative;
+    color: #3D39BD ;
+}
+
+.userwrite{
+    display: flex;
+}
+
+
+.name{
+    margin-top: 2rem;
+}
+
+.delete{
+    color: #f8f8f8;
+    position: relative;
+    border-radius: 10px;
+    background-color: rgb(209, 89, 89) ;
+    margin-top: 1rem;
+    float: right;
+    width: max-content;
+    padding: 0.5rem;
+}
+
+.delete:hover{
+    background-color: rgb(177, 63, 63) ;
+}

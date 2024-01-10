@@ -1,0 +1,90 @@
+.Delete_btn{
+    color: #f8f8f8;
+    background-color: rgb(209, 89, 89);
+    width: 60px;
+    height: 35px;
+    /* padding: 0.2rem; */
+    border-radius: 5px;
+    cursor: pointer;
+    /* margin: 1em; */
+    border: none;
+    margin-left: 1rem;
+}
+
+.Delete_btn:hover{
+    scale: 1.2;
+}
+
+.Close_btn{
+    color: #f8f8f8;
+    background-color: rgb(130, 127, 127);
+    width: 60px;
+    height: 35px;
+    /* padding: 0.2rem; */
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 1rem;
+    border: none;
+}
+
+.Close_btn:hover{
+    scale: 1.2;
+}
+
+.text-delete{
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-size: 18px;
+    margin-top: 1rem;
+}
+
+
+.text-wraning{
+    width: 100%;
+    color: #D9C029 ;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    /* background-color: #3D39BD; */
+}
+/* 
+.modal-title{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}*/
+
+.button.btn-close{
+    margin: 0;
+    padding: 0;
+}
+
+.btn_blog{
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-top: 2px solid rgba(168, 165, 165, 0.18);
+
+} 
+
+
+#icon-close{
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: black;
+    /* background-color: rgb(130, 127, 127); */
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+    border-bottom-left-radius: 10px;
+    cursor: pointer;
+    border-top-right-radius: 7px;
+    /* z-index: 1; */
+}
+
