@@ -1,0 +1,196 @@
+.container{
+  max-width: 100vw;
+  min-height: 100vh;
+  background-color: #F6F4EB;
+}
+
+.main{
+  padding: 2rem;
+}
+h1{
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 3rem;
+}
+
+.form-box{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+form{
+  max-width:75%;
+  display: grid;
+  grid-template-columns: 1fr 2.5fr 1fr 2.5fr;
+  gap: 1.5rem;
+  font-size: 16px;
+  align-items: center;
+  justify-items: center;
+}
+
+form label{
+  font-family:'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: 1.2rem;
+}
+form input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  font-family:'Roboto', sans-serif;
+  font-weight: 100;
+}
+
+.button{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  grid-column: 3 / span 2 ;
+  grid-gap: 1rem;
+}
+
+.button button{
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 0.8rem;
+  font-size: 1rem;
+  font-family:'Roboto', sans-serif;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.button button:hover{
+  background-color: #e1d6a3;
+  transition: 0.5s;
+  transform: scale(1.1); 
+}
+
+.form-box-2{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  font-family:'Roboto', sans-serif;
+}
+
+.text-profile-box{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.pic-profile-box{
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.button-2{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.button-2 .save-button{
+  width: 10%;
+  padding: 1rem;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-family:'Roboto', sans-serif;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.button-2 .save-button:hover{
+  background-color: #e1d6a3;
+  transition: 0.5s;
+  transform: scale(1.1); 
+}
+
+p{
+  width: 30%;
+  font-family:'Roboto', sans-serif;
+  font-weight: 200;
+  font-size: 1.2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  border: #ccc 1px solid;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.Loading p {
+  border: none;
+}
+.Loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; 
+}
+
+.loader {
+  border: 15px solid #f3f3f3; 
+  border-top: 15px solid #3498db; /* สีของ Spinner */
+  border-radius: 50%;
+  width: 80px; /* ขนาดของ Spinner */
+  height: 80px; /* ขนาดของ Spinner */
+  animation: spin 1s linear infinite; /* ทำการหมุนอย่างต่อเนื่อง */
+}
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.Loading p {
+  margin-top: 1rem;
+  font-size: 1.5rem; 
+  font-weight: 500; 
+  color: #fff; 
+}
+
+
+h3{
+  font-family:'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}

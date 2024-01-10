@@ -1,0 +1,67 @@
+.container{
+    max-width: 100vw;
+    min-height: 100vh;
+    background-color: #F6F4EB;
+}
+
+#food-box{
+    background-color: #F6F4EB;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+    padding-bottom: 6rem;
+
+}
+
+h1{
+    font-family:'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    text-transform: uppercase;
+}
+
+.food-box-grid{
+    width: 70%;
+    padding-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30%, 2fr));
+    grid-gap: 3rem;
+}
+
+.food-item{
+    display : flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #efece2;
+    border-radius: 1rem;
+    box-shadow: 0 0 0.5rem 0.25rem rgba(0, 0, 0, 0.25);
+    text-decoration: none;
+    color: #12263a;
+    background-color: #F0F0F0;
+}
+
+.food-item img{
+    width: 100%;
+    border-radius: 1rem 1rem 0 0;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.food-item-name{
+    font-size: 1.2rem;
+    font-family:'Roboto', sans-serif;
+    font-weight: 300;
+    margin-top: 0.5rem;
+}
+
+.food-item-price{
+    font-size: 1.1rem;
+    font-family:'Roboto', sans-serif;
+    font-weight: 300;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+
+}

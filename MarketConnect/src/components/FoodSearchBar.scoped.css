@@ -1,0 +1,23 @@
+.food-search-bar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 3rem;
+    margin-right: 33%; 
+    margin-bottom: 2rem;
+  }
+  
+.food-search-bar input {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    width: 30%;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff;
+  }
+
+.food-search-bar input:hover {
+    background-color: #f1f1ef;
+    transition: 0.5s;
+  }
