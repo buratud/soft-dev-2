@@ -1,0 +1,153 @@
+จดคำสั่ง
+group concat กรุปแล้วบอกว่ามีไรบ้าง
+current_timestamp เวลาปัจจุบัน
+results[0].ACCOUNT_EMAIL
+---------------------------------
+API
+$/Sign up
+/-มี account อยู่รึเปล่า -> ถ้าไม่มี เพิ่ม account		: This email already has an account						
+/-confirm password = password มั้ย			    : Password must be the same
+/-เพิ่ม account
+
+$/Fill Information
+/-ใส่ตัวเลขทั้งหมดมั้ย                         : ํTheese information should only be numbers
+/-ใส่ข้อมูลครบทุกอันมั้ย                        : You need to fill all informations
+/-คำนวนสัดส่วน
+
+/Login
+/-มี account อยู่รึเปล่า					: No account with this email
+/-รหัสผ่านตรงกับอีเมลที่ใส่มั้ย					: Email or Password is incorrect
+    /forgot password
+    /-ตรวจสอบว่ามีอีเมลในฐานข้อมูลมั้ย ถ้ามีก็ส่งเมลไปหา แล้วไปหน้า verify reset password
+
+/Verify Email
+/-Change email                          : กลับไปหน้า login
+/-Check OTP
+/-Resend OTP
+/-Count down 10 mins
+
+/Reset password
+/-confirm password = new password มั้ย	: Password must be the same  
+
+/Verify reset password code
+/-Resend OTP
+/-check OTP                              : Verification failed เช้คที่เดียวกับ verify email
+/-Count down 10 mins
+
+/Menu bar
+
+/See New fashion
+/-แสดง New content Limit 20
+
+/See New Content
+/-แสดง New content Limit 30
+
+/See profile
+/-IS_PREMIUM = 0
+/-แสดงข้อมูล account
+    /upgrade to premium?
+    /-เคยสมัครรึยัง
+    /-ถ้ายังให้ insert
+    /-ถ้ามีแล้ว update
+    /-update history
+    /-รับเลขบัตรเครดิต
+    /-ส่งเมลว่าได้รับเงิน
+
+/Edit profile
+/-update ข้อมูล
+/-คำนวนสัดส่วน
+
+/See profile premium
+/-IS_PREMIUM = 1
+/-แสดงข้อมูล account
+
+Payment Detail
+/-แสดงข้อมูลการจ่ายเงิน (วิธีการชำระเงิน วันตัดรอบบิล ประวัติ(ย้อนหลัง20ครั้ง))
+/-เปลี่ยนเลขบัตร
+-ส่งเมลบอกตอนตัดบัตร/เปลี่ยน NEXT_BILL_DATE
+/omise
+
+/Cancel Premium
+/-ถ้า yes status=0                    : Doesn't cancel premium yet
+-เปลี่ยน NEXT_BILL_DATE?
+/-ส่งเมลบอก
+
+/Outfit Recommendation
+/-แสดง choice
+
+See recommendation
+/-คำนวนจากสัดส่วน
+/-คำนวนจาก theme place
+เหลือข้อมูล
+
+/Ask Question and concern
+/-เก็บข้อมูลเมล?
+/-ส่งไปเมลตอบรับ
+
+/Finish Question and concern
+
+/Sign out
+
+---------admin------------
+
+/update selection
+/-delete
+
+/update clothes
+/-delete
+
+/update fashion
+/-delete
+
+/update new contents
+
+/manage
+/-update
+/-delete
+
+/question and concern for admin
+/-ตอบกลับ
+/-แสดงข้อความที่ยังไม่ตอบ
+/-แสดงข้อความที่ตอบไปแล้ว
+
+---------------------------------
+account เก็บข้อมูลผู้ใช้งาน
+-id
+-email
+-password
+-weight
+-height
+-Bust
+-waist
+-Hip
+-premium
+
+premium เก็บข้อมูลผู้ใช้งานที่เป็น premium หรือเคยสมัคร
+-id
+-payment method
+-next billdate
+-history?
+-status (ยกเลิกpreium?)
+
+payment method (bank,credit card,true money)
+-id
+-method
+-name
+
+history
+-นับครั้ง
+-DATE
+
+content
+-id
+-pic
+-theme: white black dark vivid earth tone pastel
+-place: work date night holiday vacation beach picnic
+-title?
+
+ส่งเมล
+-reset password
+-verify email
+-question and concern
+
+-เข้ารหัส
