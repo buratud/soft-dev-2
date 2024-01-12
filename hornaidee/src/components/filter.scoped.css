@@ -1,0 +1,36 @@
+.filter{
+    width: 200px;
+    border: 1px black solid;
+    border-radius: 12px;
+    display: flex;
+    padding: 10px;
+    margin-bottom: 10px;
+    flex-direction: column;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+.section{
+    font-size: 20px;
+    color: rgba(56, 71, 11, 1);
+}
+
+.plus{
+    margin-left: auto;
+    width: 20px;
+    height: 20px;
+}
+
+.Head{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.Body{
+    transition: all 0.5s ease-in-out;
+    overflow: hidden;
+}
