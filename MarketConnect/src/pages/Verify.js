@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Verify.scoped.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { baseApiUrl } from "../config";
 
 function Verify() {
   const { state } = useLocation();
@@ -10,7 +11,7 @@ function Verify() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const sendOtp = () => {
     axios
-      .post("http://localhost:3200/verify", {
+      .post(`${baseApiUrl}/verify`, {
         email: email,
         token: otp.join(""),
       })

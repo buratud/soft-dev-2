@@ -2,6 +2,7 @@ import axios from "axios";
 import "./Register.scoped.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { baseApiUrl } from "../config";
 
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +13,7 @@ const Register = () => {
     if (event.target[1].value !== event.target[2].value)
       return alert("Password and comfrim Password does not match.");
     axios
-      .post("http://localhost:3200/register", {
+      .post(`${baseApiUrl}/register`, {
         email: event.target[0].value,
         password: event.target[1].value,
       })

@@ -6,12 +6,13 @@ import FoodSearchBar from "../components/FoodSearchBar";
 import "../components/FoodSearchBar.scoped.css";
 import "./Food.scoped.css";
 import { PopChat } from "../components/PopChat";
+import { baseApiUrl } from "../config";
 
 const Food = () => {
   const [foodAll, setFood] = useState([]);
   useEffect(() => {
     axios
-      .post("http://localhost:3200/food")
+      .post(`${baseApiUrl}/food`)
       .then((res) => {
         setFood(res.data);
       })

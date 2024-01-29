@@ -21,9 +21,8 @@ import GuardedAdmin from "./components/GuardedAdmin";
 import Admin from "./pages/Admin";
 import Chatpage from "./pages/Chatpage";
 import { createClient } from "@supabase/supabase-js";
+import { supabaseKey, supabaseUrl } from "./config";
 
-const supabaseUrl = "https://ooitkismzzkxarjmwdeb.supabase.co";
-const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export const useSupabase = () => {
