@@ -1,0 +1,25 @@
+button{
+    height: 35px;
+    border-radius: 5px;
+    color: rgba(56, 71, 11, 1);
+    background-color: white;
+    border: solid 1px rgba(56, 71, 11, 1);
+    /* margin: 5px; */
+}
+button:hover{
+    height: 35px;
+    border-radius: 5px;
+    color: white;
+    background-color:rgba(56, 71, 11, 1) ;
+    border: solid 1px rgba(56, 71, 11, 1);
+    /* margin: 5px; */
+    cursor: pointer;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+.no_mg{
+    margin-right: 0;
+}

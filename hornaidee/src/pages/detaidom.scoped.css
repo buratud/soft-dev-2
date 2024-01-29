@@ -1,0 +1,95 @@
+* {
+  box-sizing: border-box;
+}
+
+.background {
+  background-color: rgba(241, 214, 171, 1);
+  padding: 20px;
+  border-radius: 12px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+.register_box {
+  background-color: white;
+  border-radius: 60px;
+  height: auto;
+  width: 600px;
+  margin-top: 50px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  border: black 0.5px solid;
+  box-shadow: 0px 6px 6px 2px rgba(0, 0, 0, 0.14);
+  text-align: left;
+}
+.card {
+  border: black 0.5px solid;
+  background-color: #ffffff;
+  padding: 20px;
+  width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+img {
+  width: 100%;
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 4px;
+}
+.containei {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.text {
+  font-size: 20px;
+  padding-left: 5%;
+}
+.chat-button {
+  display: flex;
+  justify-content: right;
+}
+
+.bt {
+  background-color: #ffffff;
+  gap: 5px;
+  flex-direction: row;
+  border: black 0.5px solid;
+  color: rgb(0, 0, 0);
+  padding: 15px 32px;
+  text-decoration: none;
+  display: flex;
+  font-size: 16px;
+  margin: 4px 6px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.box {
+  background-color: rgb(255, 255, 255);
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 0 auto;
+}
+
+.clo {
+  color: rgba(124, 145, 61, 1);
+}
+
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.main_detail > div:not(:nth-last-child(2)):not(:last-child){
+  display: flex;
+  align-items: center;
+  height: 40px;
+  border-bottom: rgb(187, 187, 187) solid 1px;
+}
+

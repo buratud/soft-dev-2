@@ -1,0 +1,43 @@
+.content{
+    width: 1050px;
+}
+
+.input{
+    height: 35px;
+}
+
+.input_num{
+    margin-right: 10px;
+    background-color: rgba(245, 245, 245, 1);
+    border: solid 2px rgba(210, 210, 210, 1);
+    border-radius: 0.5rem;
+    width: 150px;
+    padding: 10px;
+}
+
+.line{
+    width: 25px;
+    background-color: black;
+    height: 2px;
+    margin: auto 10px auto 0;
+}
+
+.input_text{
+    margin-right: 10px;
+    background-color: rgba(245, 245, 245, 1);
+    border: solid 2px rgba(210, 210, 210, 1);
+    border-radius: 0.5rem;
+    width: 20rem;
+    padding: 10px;
+}
+
+.input_area{
+    margin-right: 10px;
+    background-color: rgba(245, 245, 245, 1);
+    border: solid 2px rgba(210, 210, 210, 1);
+    border-radius: 0.5rem;
+    width: 40%;
+    padding: 10px;
+    resize: none;
+}
+
