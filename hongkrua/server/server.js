@@ -6,9 +6,9 @@ const bcrypt = require("bcrypt"); // เพิ่ม bcrypt เพื่อใ�
 const port = 3001;
 const app = express();
 const jwt = require("jsonwebtoken");
-const User = require("./lib/user")
-const Recipe = require("./lib/recipe")
-const ingredient = require("./lib/ingredient")
+const User = require("../lib/user")
+const Recipe = require("../lib/recipe")
+const ingredient = require("../lib/ingredient")
 
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
