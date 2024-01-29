@@ -1,0 +1,12 @@
+
+.h{
+    height: calc(100vh - 75px);
+}
+
+.chat{
+    height: calc(100vh - 196px);
+}
+
+.people{
+    height: calc(100vh - 200px)
+}

@@ -1,0 +1,97 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+}
+body{
+  margin: 0;
+}
+.background{
+  background-color: rgba(241, 214, 171, 1);
+
+}
+
+.register_box{
+  background-color: white;
+  border-radius: 60px;
+  padding-left: 100px;
+  padding-right: 100px;
+  height: 700px;
+  margin-top: 0;
+  
+  border:black 0.5px solid;
+  box-shadow: 0px 6px 6px 2px rgba(0, 0, 0, 0.14);
+  text-align: center;
+  
+}
+
+.dha{
+  background-color: white;
+  border-radius: 60px;
+  padding: 45px;
+  margin-top: 70px;
+  border:black 0.5px solid;
+  box-shadow: 0px 6px 6px 2px rgba(0, 0, 0, 0.14);
+  padding-left: 150px;
+}
+
+h6,h1,p{
+  margin: 0;
+}
+
+.username,.password{
+  color: rgba(56, 71, 11, 1);
+  font-size: 48px;
+  text-align: left;
+}
+
+.hornaid{
+  color: rgba(124, 145, 61, 1);
+  font-size: 90px;
+}
+
+.login_page > *:not(:first-child){
+  margin-top: 50px;
+}
+
+.input{
+  width: 700px;
+  font-size: 40px;
+  box-shadow: 0px 3px 3px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  height: 50px;
+  
+}
+
+.login_bt{
+  padding: 10px;
+  width: 200px;
+  font-size: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 3px 3px 2px rgba(0, 0, 0, 0.1);
+  height: 75px;
+  margin-top: 7%;
+}
+
+.dha >*{
+  font-size: 38px;
+}
+
+.flex{
+  display: flex;
+}
+
+.rgt_bt{
+  margin-left: 20px;
+  color: rgba(23, 107, 233, 1);
+}
+
+.rang{
+  margin-top: 4%;
+}
+.containei{
+  height: 963px;
+  width: 900px;
+  margin:auto ;
+  padding-top:1% ;
+
+}
