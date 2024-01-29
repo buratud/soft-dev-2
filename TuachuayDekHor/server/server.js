@@ -4,7 +4,7 @@ const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
 require("dotenv").config();
 
-import { supabaseUrl, supabaseKey } from './config';
+const { supabaseUrl, supabaseKey } = require('./config');
 
 const app = express();
 
