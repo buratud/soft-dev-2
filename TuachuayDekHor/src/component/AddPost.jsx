@@ -73,7 +73,7 @@ function AddPost() {
         .getPublicUrl(image_title)
 
 
-        axios.post("http://localhost:3300/creatpost", {
+        axios.post(`${baseApiUrl}/creatpost`, {
             title: post.title,
             content: post.content,
             category: post.category,

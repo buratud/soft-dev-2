@@ -18,9 +18,8 @@ import Blogger from './pages/Blogger';
 import Search from './pages/Search';
 import { createClient } from '@supabase/supabase-js';
 import guarderout from './component/guarderout';
+import { supabaseKey, supabaseUrl } from './config';
 
-const supabaseUrl = "https://kykxspcgnsbnzvbofapj.supabase.co";
-const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl,supabaseKey);
 
 export const General =createContext({});

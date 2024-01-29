@@ -6,6 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import {BsFillTrashFill,BsXLg} from "react-icons/bs";
 import axios from 'axios';
 import { General } from '../App';
+import { baseApiUrl } from '../config'
 
 function CheckDelete(){
   const [show, setShow] = useState(false);
@@ -18,7 +19,7 @@ function CheckDelete(){
   const { supabase_for_use: supabase, session, user } = useContext(General);
   const handledelete = () => {
   // const [data,setData] = useState([]);
-    axios.delete("http://localhost:3300/deletepost?id_post=" + id)
+    axios.delete(`${baseApiUrl}/deletepost?id_post=` + id)
     .then(res => {
       navigate(`/profile/${user?.id}`)
     })

@@ -9,6 +9,7 @@ import {BiSolidPencil} from "react-icons/bi";
 import './LikeSlide.scoped.css'
 import { General } from '../App';
 import axios from 'axios';
+import { baseApiUrl } from '../config'
 
 
 function LikeSlide (props){
@@ -17,7 +18,7 @@ function LikeSlide (props){
     console.log(props.id)
     useEffect(() => {
         if (props.id) {
-            axios.get("http://localhost:3300/showlike?id=" + props.id)
+            axios.get(`${baseApiUrl}/showlike?id=` + props.id)
             .then(res => {
                 setData(res.data);
                 console.log(data)

@@ -9,10 +9,12 @@ import {BiSolidPencil} from "react-icons/bi";
 import img1 from '../../src/Assets/person-circle-outline.svg'
 import "./SlidePost.scoped.css"
 import axios from "axios";
+import { baseApiUrl } from '../config'
+
 function SlidePost() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    axios.post("http://localhost:3300/blogger",{
+    axios.post(`${baseApiUrl}/blogger`,{
        
     })
     .then(res => {
