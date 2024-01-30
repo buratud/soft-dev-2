@@ -1,2 +1,0 @@
-docker compose up
-docker exec -it sessiondb-redis-1 sh
