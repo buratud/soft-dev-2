@@ -13,6 +13,7 @@ import Footer from "../components/footer";
 import { Link, useSearchParams } from "react-router-dom";
 import { Slider, TextField } from "@mui/material";
 import { userContext } from "../App";
+import { baseApiUrl } from "../config"
 
 function Main() {
   const [dormlist, setdormlist] = useState([]);
@@ -62,7 +63,7 @@ function Main() {
 
   const ClickFilter = () => {
     const searchParams = new URLSearchParams(filter);
-    axios.get("http://localhost:3001/filter/?"+searchParams.toString())
+    axios.get(`${baseApiUrl}/filter/?`+searchParams.toString())
     .then((response) => {
       setdormlist(response.data);
     })

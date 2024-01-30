@@ -12,6 +12,7 @@ import Error from "./pages/error";
 import Helppage from "./pages/helppage";
 import axios from "axios";
 import Main from "./pages/main";
+import { baseApiUrl } from "../config"
 const router = createBrowserRouter([
   {
     path: "/",
@@ -62,7 +63,7 @@ function App() {
   // }, [user])
 
   useEffect(() => {
-    axios.post("http://localhost:3001/auten", {},
+    axios.post(`${baseApiUrl}/auten`, {},
       {
         headers: {
           Authorization: `Basic ${localStorage.getItem("token")}`

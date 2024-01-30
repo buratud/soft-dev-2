@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import Bt1 from "./bt1"
 import axios from "axios"
 import { userContext } from "../App"
+import { baseApiUrl } from "../config"
 
 function Help(){
     const [subject , setSubject] = useState("")
@@ -16,7 +17,7 @@ function Help(){
         }
     }
     const creat_ticket = () => {
-        axios.post("http://localhost:3001/creat_ticket",{
+        axios.post(`${baseApiUrl}/creat_ticket`,{
             subject : subject,
             message : message,
             user_id : user.id

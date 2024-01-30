@@ -5,18 +5,18 @@ const cors = require("cors");
 var jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const krit = "krit9354";
+const jwtKey = "krit9354";
 const { Server } = require('socket.io');
 const http = require("http");
-
+const { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, PORT, WEB_URL } = require("./config");
 app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  user: "root",
-  host: "localhost",
-  password: "",
-  database: "hornai_d",
+  user: MYSQL_USER,
+  host: MYSQL_HOST,
+  password: MYSQL_PASSWORD,
+  database: MYSQL_DATABASE,
   multipleStatements: true,
 });
 
@@ -30,7 +30,7 @@ const server = http.createServer(app);
 //socket
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: WEB_URL,
     methods: ["GET", "POST"],
   }
 })
@@ -39,12 +39,12 @@ io.on("disconnection", (socket) => { console.log("disconnect") })
 io.on('connection', (socket) => {
   console.log('a user connected');
 
-  socket.on("join_ticket",(data) => {
+  socket.on("join_ticket", (data) => {
     console.log(data)
-    socket.join("ticket"+data)
+    socket.join("ticket" + data)
   });
 
-  socket.on("join_chanel",(data) => {
+  socket.on("join_chanel", (data) => {
     socket.join(data)
   });
 
@@ -98,9 +98,9 @@ io.on('connection', (socket) => {
             (err, result) => {
               console.log(result)
               if (typeof result == "undefined") {
-                socket.to("ticket"+data.ticket_id).emit("receive message ticket", "")
+                socket.to("ticket" + data.ticket_id).emit("receive message ticket", "")
               } else {
-                socket.to("ticket"+data.ticket_id).emit("receive message ticket", result)
+                socket.to("ticket" + data.ticket_id).emit("receive message ticket", result)
               }
             }
           );
@@ -112,8 +112,8 @@ io.on('connection', (socket) => {
 });
 
 //server
-server.listen(3001, () => {
-  console.log("Yey, your server is running on port 3001");
+server.listen(PORT, () => {
+  console.log(`Yey, your server is running on port ${PORT}`);
 });
 
 // App (get)
@@ -296,12 +296,12 @@ app.post("/login", (req, res) => {
               profile: user[0].profile,
               actor: user[0].actor,
             },
-            krit,
+            jwtKey,
             {
               expiresIn: "1h",
             }
           );
-          res.json({ token,user });
+          res.json({ token, user });
         } else {
           res.status(400).json({ status: "err2" });
           console.log(err);
@@ -318,7 +318,7 @@ app.post("/login", (req, res) => {
 app.post("/auten", (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   try {
-    const decoded = jwt.verify(token, krit);
+    const decoded = jwt.verify(token, jwtKey);
     res.json({ decoded, status: "ok" });
   } catch (err) {
     res.status(400).json({ status: "err", token });
@@ -328,7 +328,7 @@ app.post("/auten", (req, res) => {
 
 //Manage (post) 
 app.put("/update", (req, res) => {
-  id = req.body.dorm.dorm_id;
+  _ = req.body.dorm.dorm_id;
   dorm_name = req.body.dorm.dorm_name;
   min = req.body.dorm.min_price;
   max = req.body.dorm.max_price;
@@ -412,13 +412,13 @@ app.delete("/delete/:id", (req, res) => {
 //Help  ticket(get)
 app.get("/ticket", (req, res) => {
   const user_id = req.query.user_id
-  console.log("user_id" ,typeof user_id)
-  var filter = "WHERE user_id = "+ user_id+";"
-  if(user_id ==="0"){
+  console.log("user_id", typeof user_id)
+  var filter = "WHERE user_id = " + user_id + ";"
+  if (user_id === "0") {
     filter = ";"
   }
-  console.log("filter" , filter)
-  db.query("SELECT * FROM ticket "+filter, (err, result) => {
+  console.log("filter", filter)
+  db.query("SELECT * FROM ticket " + filter, (err, result) => {
     if (err) {
       console.log(err);
     } else {
@@ -437,7 +437,7 @@ app.get("/ticketMessage", (req, res) => {
       WHERE ticket_id = ?
       ORDER BY time ASC;
   `,
-    [req.query.ticket_id,req.query.user_id,req.query.user_id],
+    [req.query.ticket_id, req.query.user_id, req.query.user_id],
     (err, result) => {
       if (typeof result == "undefined") {
         res.send("");
@@ -450,89 +450,89 @@ app.get("/ticketMessage", (req, res) => {
 });
 
 //Help (update status)
-app.put("/update_ticket_status",(req,res) => {
+app.put("/update_ticket_status", (req, res) => {
   console.log(req.body)
   new_status = req.body.new_status
   ticket_id = req.body.ticket_id
   db.query(`UPDATE ticket
   SET status = ?
-  WHERE ticket_id = ?;`,[new_status,ticket_id],
-  (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-    }
-  })
+  WHERE ticket_id = ?;`, [new_status, ticket_id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    })
 });
 
 app.post("/example", (req, res) => {
   console.log(req.body)
 })
 
-app.get("/get_chanel",(req,res) => {
+app.get("/get_chanel", (req, res) => {
   const person1 = req.query.user1
   const person2 = req.query.user2
   console.log("get chanel")
   db.query(`SELECT * FROM hornai_d.chanel 
   where (member1 = ? or member2 = ?)
   and (member1 = ? or member2 = ?);
-  `,[person1,person1,person2,person2],
-  (err,result) =>{
-    if (result[0] === undefined){
-      console.log("dont have")
-      db.query("INSERT INTO chanel (member1,member2) VALUE(?,?)",[person1,person2])
-      db.query(`SELECT * FROM hornai_d.chanel 
+  `, [person1, person1, person2, person2],
+    (err, result) => {
+      if (result[0] === undefined) {
+        console.log("dont have")
+        db.query("INSERT INTO chanel (member1,member2) VALUE(?,?)", [person1, person2])
+        db.query(`SELECT * FROM hornai_d.chanel 
       where (member1 = ? or member2 = ?)
       and (member1 = ? or member2 = ?);
-      `,[person1,person1,person2,person2],
-      (err, result) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.send(result[0]);
-        }
-      })
-    }else{
-      console.log("have")
-    res.send(result[0]);
-  }
-  })
+      `, [person1, person1, person2, person2],
+          (err, result) => {
+            if (err) {
+              console.log(err);
+            } else {
+              res.send(result[0]);
+            }
+          })
+      } else {
+        console.log("have")
+        res.send(result[0]);
+      }
+    })
 })
 
-app.get("/profile",(req,res) => {
+app.get("/profile", (req, res) => {
   db.query("SELECT * FROM hornai_d.user_data WHERE id = ?;",
-  [req.query.user_id],(err,result) => {
-    if(err){
-      res.send("unknow");
-    }else{
-      res.send(result)
-    }
-  })
+    [req.query.user_id], (err, result) => {
+      if (err) {
+        res.send("unknow");
+      } else {
+        res.send(result)
+      }
+    })
 })
 
 //creat ticket
-app.post("/creat_ticket",(req,res) => {
+app.post("/creat_ticket", (req, res) => {
   const subject = req.body.subject
   const message = req.body.message
   const user_id = req.body.user_id
   db.query("INSERT INTO ticket (user_id,subject,status) VALUE(?,?,?);",
-  [user_id,subject,"on hold"],(err,result) =>{
-    db.query("INSERT INTO ticket_message (ticket_id, sender_id, receiver_id, message_text) value(?,?,?,?);",
-    [result.insertId,user_id,0,message])
-  });
+    [user_id, subject, "on hold"], (err, result) => {
+      db.query("INSERT INTO ticket_message (ticket_id, sender_id, receiver_id, message_text) value(?,?,?,?);",
+        [result.insertId, user_id, 0, message])
+    });
 })
 
-app.get("/dorm_id",(req,res) => {
+app.get("/dorm_id", (req, res) => {
   db.query(`SELECT dorm_id FROM user_data
   JOIN dorm_detail ON user_data.user_name = dorm_detail.dorm_name
   WHERE user_name = ?;`
-  ,[req.query.username],(err,result) => {
-    if(err){
-      console.log(err)
-    }else{
-      console.log(result)
-      res.send(result)
-    }
-  })
+    , [req.query.username], (err, result) => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(result)
+        res.send(result)
+      }
+    })
 })
