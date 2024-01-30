@@ -3,12 +3,13 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt"); // เพิ่ม bcrypt เพื่อใช้ในการเข้ารหัสรหัสผ่าน
-const port = 3001;
 const app = express();
 const jwt = require("jsonwebtoken");
 const User = require("../lib/user")
 const Recipe = require("../lib/recipe")
-const ingredient = require("../lib/ingredient")
+const ingredient = require("../lib/ingredient");
+const { mongoDbConnectionString, port } = require("./config");
+
 
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
@@ -21,7 +22,7 @@ app.use(
 );
 app.use(bodyParser.text({ limit: "200mb" }));
 mongoose.connect(
-  "mongodb+srv://poohpooh2547:1234@cluster0.fwcav45.mongodb.net/hongkruadb",
+  mongoDbConnectionString,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

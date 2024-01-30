@@ -5,6 +5,8 @@ import Navbar from "../../../components/navbar";
 import Footer from "../../../components/footer";
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation";
+import {baseApiUrl} from '../../../config' 
+
 export default function Home() {
   const [foodData, setFoodData] = useState([]);
   const { data: session, status } = useSession()
@@ -12,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("http://localhost:3001/api/recipes");
+        const response = await fetch(`${baseApiUrl}/api/recipes`);
         if (response.ok) {
           const data = await response.json();
           setFoodData(data);

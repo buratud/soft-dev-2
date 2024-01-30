@@ -3,6 +3,7 @@ import Navbar from "../../../components/navbar";
 import Footer from "../../../components/footer";
 import React, { useState, useRef } from "react";
 import { nation } from "./nation";
+import {baseApiUrl} from '../../../config'
 
 export default function Home() {
     const [stepList, setStepList] = useState([{ step: "", image1: null, image2: null, image1Base64: "", image2Base64: "" }]);
@@ -100,7 +101,7 @@ export default function Home() {
                 steps: newStepList,
             };
             console.log(JSON.stringify(newRecipe ))
-            const response = await fetch('http://localhost:3001/api/recipes', {
+            const response = await fetch(`${baseApiUrl}/api/recipes`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -239,7 +240,7 @@ export default function Home() {
                                     เลือกรูป 1
                                 </button>
 
-                                {/* อัพโหลดและแสดงรูปที่ 2 */}
+                                {/* อัพโหลดและแสดงรูปที่     2 */}
                                 <input
                                     type="file"
                                     accept="image/*"
