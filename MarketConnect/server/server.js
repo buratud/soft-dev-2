@@ -3,16 +3,15 @@ const express = require("express");
 const cors = require("cors");
 const { decode } = require("base64-arraybuffer");
 const { createClient } = require("@supabase/supabase-js");
+const { supabaseKey, supabaseUrl } = require("./config");
 
-const supabaseUrl = "https://ooitkismzzkxarjmwdeb.supabase.co";
-const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
-const port = 3200;
+const port = process.env.PORT || 5000;
 
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
