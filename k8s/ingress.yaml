@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: global-ingress
+spec:
+  rules:
+  - host: linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com
+    http:
+      paths:
+      - path: /
+        backend:
+          service:
+            name: superapp-web-service
+            port:
+              number: 80

@@ -47,5 +47,6 @@ jobs:
               k8s/superapp/web-configmap.yaml
               k8s/superapp/web.yaml
               k8s/superapp/web-service.yaml
+              k8s/ingress.yaml
           images: |
             ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
