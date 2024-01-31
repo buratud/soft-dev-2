@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superapp-web
+spec:
+  selector:
+    matchLabels:
+      app: superapp-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: superapp-web
+    spec:
+      containers:
+        - name: superapp-web
+          image: superapp-web:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "0.2"
+            requests:
+              memory: "128Mi"
+              cpu: "0.1"

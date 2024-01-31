@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: superapp-web-service
+spec:
+  selector:
+    app: superapp-web
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
