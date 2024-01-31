@@ -43,7 +43,6 @@ jobs:
           name: ${{ secrets.AZURE_AKS_NAME }}
           action: deploy
           strategy: basic
-          private-cluster: true
           manifests: |
               k8s/superapp/web-configmap.yaml
               k8s/superapp/web.yaml
