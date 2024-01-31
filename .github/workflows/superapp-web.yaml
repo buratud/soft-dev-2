@@ -29,10 +29,13 @@ jobs:
             docker build super-app/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
 
-      - uses: azure/aks-set-context@v3
+      - uses: azure/k8s-set-context@v3
         with:
-          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          method: service-account
+          cluster-type: arc
           cluster-name: ${{ secrets.AZURE_AKS_NAME }}
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          token: '${{ secrets.AZURE_AKS_TOKEN }}'
 
       - uses: azure/k8s-deploy@v4
         with:
