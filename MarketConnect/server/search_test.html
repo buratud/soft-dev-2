@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="search.js"></script>
+    <script type="text/javascript">
+        function search_for(target) {
+            result = search(target)
+            display = document.getElementById("display")
+            for (let element of display.childNodes) {
+                display.removeChild(element)
+            }
+            for (const word of result) {
+                temp = document.createElement("DIV")
+                temp.innerHTML = word[0] + " " + word[1]
+                display.appendChild(temp)
+            }
+        }
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <input onkeypress="search_for(this.value)">
+    <fieldset>
+        <legend>Display</legend>
+        <div id="display"></div>
+    </fieldset>
+</body>
+</html>
