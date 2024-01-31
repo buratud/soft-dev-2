@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: superapp-web
-          image: superapp-web:latest
+          image: softdev2southeastasia.azurecr.io/superapp-web
           ports:
             - containerPort: 3000
           resources:
