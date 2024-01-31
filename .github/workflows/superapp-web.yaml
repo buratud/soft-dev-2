@@ -49,4 +49,4 @@ jobs:
               k8s/superapp/web.yaml
               k8s/superapp/web-service.yaml
           images: |
-            ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ g+ithub.sha }}
+            ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
