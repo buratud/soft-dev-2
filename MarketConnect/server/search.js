@@ -41,3 +41,4 @@ function search(target) {
     suggestions.sort(function(a, b){return a[1]-b[1]})
     return suggestions.slice(0, 10)
 }
+// console.log(search("tes"))

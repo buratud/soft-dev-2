@@ -6,14 +6,15 @@
     <script type="text/javascript" src="search.js"></script>
     <script type="text/javascript">
         function search_for(target) {
+            if (target == "") {
+                return
+            }
             result = search(target)
             display = document.getElementById("display")
-            for (let element of display.childNodes) {
-                display.removeChild(element)
-            }
+            while (display.firstChild) {display.removeChild(display.lastChild)}
             for (const word of result) {
                 temp = document.createElement("DIV")
-                temp.innerHTML = word[0] + " " + word[1]
+                temp.innerHTML = word[0]
                 display.appendChild(temp)
             }
         }
@@ -21,7 +22,7 @@
     <title>Document</title>
 </head>
 <body>
-    <input onkeypress="search_for(this.value)">
+    <input onkeydown="search_for(this.value)">
     <fieldset>
         <legend>Display</legend>
         <div id="display"></div>
