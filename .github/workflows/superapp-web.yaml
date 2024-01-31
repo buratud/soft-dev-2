@@ -1,0 +1,47 @@
+name: Build and deploy superapp website
+
+permissions:
+  id-token: write
+  contents: read
+  actions: read
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1.6.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and push image
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
+            docker build super-app/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
+
+      - uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          cluster-name: ${{ secrets.AZURE_AKS_NAME }}
+
+      - uses: azure/k8s-deploy@v4
+        with:
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          name: ${{ secrets.AZURE_AKS_NAME }}
+          action: deploy
+          strategy: basic
+          private-cluster: true
+          manifests: |
+              k8s/superapp/web-configmap.yaml
+              k8s/superapp/web.yaml
+              k8s/superapp/web-service.yaml
+              ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
