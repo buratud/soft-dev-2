@@ -1,0 +1,145 @@
+/* styles/globals.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f6f6fb;
+  font-weight: 600;
+}
+
+.contact_container {
+  flex-direction: column;
+  align-items: center;
+  padding-top: 150px;
+}
+
+.contact_head {
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.box_container {
+  display: flex;
+  justify-content: center;
+}
+
+.contact_box {
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  width: 87%;
+  max-width: 1300px;
+}
+
+.left_half,
+.right_half {
+  flex: 1;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  overflow: hidden;
+}
+
+.feedback_container {
+  text-align: center;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.separator-line {
+  border-right: 3px solid #d7d7d7;
+  height: 90%;
+  margin: auto;
+  border-radius: 20px;
+}
+
+.type_selection {
+  display: flex;
+  flex-direction: column;
+}
+
+.type_selection label {
+  display: flex;
+  align-items: center;
+}
+
+.type_selection input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px; 
+  height: 20px; 
+  background-color: #d9d9d9; 
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: none;
+  margin-right: 5px;
+}
+
+.type_selection input[type="checkbox"]:checked {
+  background-color: #4caf50; 
+  border-color: #4caf50;
+}
+
+textarea {
+  width: 100%;
+  max-width: 100%;
+  height: 150px;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 2px solid #1f2021;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+button {
+  background-color: #1f2021;
+  color: #ffffff;
+  padding: 10px 15px;
+  border: none;
+  border-radius:11px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  align-self: flex-end;
+}
+
+button:hover {
+  background-color: #353535;
+}
+
+.history_container {
+  text-align: center;
+}
+
+.history_table {
+  margin: auto;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.history_table th {
+  background-color: #d9d9d9;
+  padding: 10px;
+  text-align: center;
+}
+
+.history_table td {
+  border-bottom: 1px solid #888888; /* Darker grey border color */
+  padding: 10px;
+  text-align: center;
+}
