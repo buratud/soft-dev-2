@@ -88,6 +88,24 @@
     100% { transform: rotate(360deg); }
 }
 
+.not_found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.not_found_icon {
+    font-size: 30px;
+    color: #FF6347; /* Adjust the color to your preference */
+    margin-bottom: 5px;
+}
+
+.not_found p {
+    margin: 0;
+}
+
 .search_result_item {
     display: flex;
     align-items: center;
@@ -113,7 +131,7 @@
 .search_result_item_image {
     height: 10vh;
     border-radius: 15%;
-    margin-right: 10px;
+    padding-left: 10px;
 }
 
 .search_results {
@@ -121,6 +139,22 @@
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
     margin-top: 10px;
+    overflow-y: auto;
+}
+
+.search_results.show {
+    max-height: 500px;
+}
+
+/* Hide the scrollbar */
+.search_results::-webkit-scrollbar {
+    width: 0;
+}
+
+/* Add Firefox scrollbar hiding */
+.search_results {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;  /* hide scrollbar in Firefox */
 }
 
 .search_results.show {

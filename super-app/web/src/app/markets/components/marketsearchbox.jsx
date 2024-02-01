@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { BsCart4 } from "react-icons/bs";
 import { RiLoader4Line } from "react-icons/ri";
+import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Link from "next/link";
 import "./style.css";
 
@@ -10,6 +11,7 @@ export default function MarketSearchBox() {
     const [results, setResults] = useState([]);
     const [showResults, setShowResults] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [loadingTimeout, setLoadingTimeout] = useState(null);
 
     const handleSearch = (e) => {
         const searchTerm = e.target.value;
@@ -23,14 +25,21 @@ export default function MarketSearchBox() {
     }
 
     useEffect(() => {
-        if (search && !loading) {
+        console.log('loading: ', loading)
+        if (search) {
             setLoading(true);
+            
             const delayDebounceFn = setTimeout(() => {
                 fetchList(search);
             }, 1000);
 
+            setLoadingTimeout(setTimeout(() => {
+                setLoading(false);
+            }, 10000));
+
             return () => {
                 clearTimeout(delayDebounceFn);
+                clearTimeout(loadingTimeout);
             };
         }
     }, [search]);
@@ -42,13 +51,15 @@ export default function MarketSearchBox() {
                     item.name.toLowerCase().includes(searchTerm.toLowerCase())
                 );
                 setResults(filteredResults);
-                console.log('filteredResults : ', filteredResults);
+                setLoading(false);
+                clearTimeout(loadingTimeout);
+                console.log('filteredResults: ', filteredResults);
+                console.log('after loading: ', loading);
             })
             .catch(err => {
                 console.log(err);
-            })
-            .finally(() => {
                 setLoading(false);
+                clearTimeout(loadingTimeout);
             });
     }
 
@@ -71,6 +82,12 @@ export default function MarketSearchBox() {
                 {loading && (
                     <div className="loading_spinner">
                         <RiLoader4Line className="spinner_icon" />
+                    </div>
+                )}
+                {!loading && results.length === 0 && search && (
+                    <div className="not_found">
+                        <AiOutlineExclamationCircle className="not_found_icon" />
+                        <p>No results found</p>
                     </div>
                 )}
                 {!loading && results.map(result => (
