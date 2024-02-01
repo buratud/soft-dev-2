@@ -5,7 +5,10 @@ permissions:
   contents: read
   actions: read
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -30,6 +33,8 @@ jobs:
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
 
       - name: Replace image tag
+        env:
+          GITHUB_SHA: ${{ github.sha }}
         run: |
           sed -i "s|softdev2southeastasia.azurecr.io/superapp-web|softdev2southeastasia.azurecr.io/superapp-web:$GITHUB_SHA|g" k8s/superapp/web.yaml
 
@@ -60,7 +65,3 @@ jobs:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
           args: apply -f k8s/ingress.yaml
-      
-
-
-
