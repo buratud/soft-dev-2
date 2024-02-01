@@ -70,6 +70,24 @@
     opacity: 0.22;
 }
 
+.loading_spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.spinner_icon {
+    font-size: 30px;
+    color: #092F88;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .search_result_item {
     display: flex;
     align-items: center;
@@ -95,7 +113,7 @@
 }
 
 .search_result_item_image {
-    height: 150px;
+    height: 10vh;
     border-radius: 15%;
     margin-right: 10px;
 }
