@@ -6,9 +6,7 @@ import styles from "./page.module.css";
 const Verify = () => {
   const router = useRouter();
   const email  = router.query?.email; // Assuming you pass email as a query parameter
-
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-
   const sendOtp = () => {
     // Implement your axios request here to send and verify OTP
     // Use the 'otp' state to get the entered OTP
@@ -40,7 +38,7 @@ const Verify = () => {
     // Focus the first input when the component mounts
     document.getElementById("input1").focus();
   }, []);
-
+  
   return (
     <div className={styles.container}>
       <div className={styles.section}>
