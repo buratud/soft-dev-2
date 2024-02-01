@@ -6,19 +6,36 @@
     <script type="text/javascript" src="search.js"></script>
     <script type="text/javascript">
         function search_for(target) {
-            if (target == "") {
-                return
-            }
-            result = search(target)
+            if (target == "") { return }
+            let data = [{"name":"Oriental Metal Computer","image":"https://loremflickr.com/640/480/animals","price":"513.00","url":"http://digital-punctuation.biz","id":"1"},{"name":"Refined Concrete Soap","image":"https://loremflickr.com/640/480/animals","price":"863.00","url":"http://positive-mare.info","id":"2"},{"name":"Ergonomic Granite Cheese","image":"https://loremflickr.com/640/480/animals","price":"565.00","url":"https://studious-lament.com","id":"3"},{"name":"Licensed Frozen Pizza","image":"https://loremflickr.com/640/480/animals","price":"494.00","url":"https://kaleidoscopic-ballet.info","id":"4"},{"name":"Small Plastic Table","image":"https://loremflickr.com/640/480/animals","price":"564.00","url":"http://handmade-concentrate.biz","id":"5"},{"name":"Fantastic Frozen Chicken","image":"https://loremflickr.com/640/480/animals","price":"296.00","url":"https://smoggy-canal.org","id":"6"},{"name":"Oriental Concrete Chips","image":"https://loremflickr.com/640/480/animals","price":"444.00","url":"http://grateful-arrow.org","id":"7"},{"name":"Refined Cotton Chair","image":"https://loremflickr.com/640/480/animals","price":"923.00","url":"http://brilliant-locust.com","id":"8"},{"name":"Practical Cotton Towels","image":"https://loremflickr.com/640/480/animals","price":"461.00","url":"http://fantastic-nit.biz","id":"9"},{"name":"Fantastic Cotton Towels","image":"https://loremflickr.com/640/480/animals","price":"528.00","url":"http://agonizing-casualty.biz","id":"10"},{"name":"Awesome Bronze Salad","image":"https://loremflickr.com/640/480/animals","price":"668.00","url":"https://high-level-variant.net","id":"11"},{"name":"Tasty Concrete Chair","image":"https://loremflickr.com/640/480/animals","price":"866.00","url":"https://unpleasant-root.org","id":"12"},{"name":"Small Fresh Shoes","image":"https://loremflickr.com/640/480/animals","price":"608.00","url":"https://unlined-macaroni.info","id":"13"},{"name":"Modern Bronze Soap","image":"https://loremflickr.com/640/480/animals","price":"212.00","url":"http://shameless-reflection.biz","id":"14"},{"name":"Licensed Frozen Chair","image":"https://loremflickr.com/640/480/animals","price":"998.00","url":"http://separate-wink.org","id":"15"},{"name":"Tasty Fresh Bike","image":"https://loremflickr.com/640/480/animals","price":"130.00","url":"http://sane-macaroni.org","id":"16"},{"name":"Unbranded Rubber Table","image":"https://loremflickr.com/640/480/animals","price":"824.00","url":"http://dense-replacement.biz","id":"17"},{"name":"Handcrafted Plastic Ball","image":"https://loremflickr.com/640/480/animals","price":"471.00","url":"http://shy-panel.net","id":"18"},{"name":"Licensed Soft Pizza","image":"https://loremflickr.com/640/480/animals","price":"517.00","url":"http://afraid-fry.net","id":"19"},{"name":"Fantastic Frozen Bacon","image":"https://loremflickr.com/640/480/animals","price":"170.00","url":"https://forceful-recess.net","id":"20"},{"name":"Oriental Wooden Pants","image":"https://loremflickr.com/640/480/animals","price":"437.00","url":"http://important-sting.com","id":"21"},{"name":"Rustic Frozen Sausages","image":"https://loremflickr.com/640/480/animals","price":"365.00","url":"https://scrawny-leaf.net","id":"22"},{"name":"Rustic Cotton Shoes","image":"https://loremflickr.com/640/480/animals","price":"50.00","url":"http://thrifty-circumference.name","id":"23"},{"name":"Oriental Concrete Towels","image":"https://loremflickr.com/640/480/animals","price":"670.00","url":"https://forceful-jute.name","id":"24"},{"name":"Licensed Steel Pants","image":"https://loremflickr.com/640/480/animals","price":"719.00","url":"http://cultured-fowl.com","id":"25"},{"name":"Refined Cotton Towels","image":"https://loremflickr.com/640/480/animals","price":"574.00","url":"https://ordinary-burglar.name","id":"26"},{"name":"Handcrafted Concrete Gloves","image":"https://loremflickr.com/640/480/animals","price":"646.00","url":"https://orderly-milkshake.name","id":"27"},{"name":"Oriental Soft Table","image":"https://loremflickr.com/640/480/animals","price":"963.00","url":"http://marvelous-guava.org","id":"28"},{"name":"Tasty Wooden Fish","image":"https://loremflickr.com/640/480/animals","price":"638.00","url":"https://indelible-gelatin.biz","id":"29"},{"name":"Generic Frozen Shirt","image":"https://loremflickr.com/640/480/animals","price":"796.00","url":"http://good-ramen.org","id":"30"}]
+            result = search(target, data)
             display = document.getElementById("display")
             while (display.firstChild) {display.removeChild(display.lastChild)}
-            for (const word of result) {
+            for (const product of result) {
+                link = document.createElement("a")
+                link.href = product.url
                 temp = document.createElement("DIV")
-                temp.innerHTML = word[0]
-                display.appendChild(temp)
+                link.classList.add("product")
+                temp.innerHTML = `${product.name}\t${product.price}\t<img src=${product.image} width=30px, height=30px>`
+                display.appendChild(link)
+                link.appendChild(temp)
             }
         }
     </script>
+    <style>
+        .product {
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            vertical-align: middle;
+            text-decoration: inherit;
+            color: black;
+        }
+        .product:hover {
+            background-color: darkgray;
+            transition: 0.5s;
+        }
+    </style>
     <title>Document</title>
 </head>
 <body>
