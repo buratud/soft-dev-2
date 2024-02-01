@@ -1,15 +1,17 @@
 function wagner_fischer(base, target) {
+    // Get base and target length
     base_len = base.length
     target_len = target.length
+    // Check if target length is less than base length, if so return.
     if (target_len < base_len) {
         return -1
     }
-
+    // Check if target length is greater than base length, if so slice target so that it have the same length as base.
     if (base_len < target_len) {
         target = target.slice(0, base_len)
         target_len = base_len
     }
-
+    // Create and calculate Wagner-Fischer edit distance matrix
     current_row = [...Array(base_len + 1).keys()]
     for (let i = 1; i < target_len + 1; i++) {
         previous_row = current_row
@@ -25,11 +27,12 @@ function wagner_fischer(base, target) {
         }
     }
 
-    return current_row[base_len]
+    return current_row[base_len] // Return edit distance between from base to target
 }
 
 function search(target, database) {
     suggestions = []
+    // Get all edit distance for every product in the database
     for (const product of database) {
         edit_distance = wagner_fischer(" "+target.toUpperCase(), " "+product.name)
         if (edit_distance < 0) {
@@ -37,9 +40,10 @@ function search(target, database) {
         }
         suggestions.push([product, edit_distance])
     }
+    // Sort product by edit distance from ascending, and get first 10 product
     suggestions.sort(function(a, b){return a[1]-b[1]})
     suggestions = suggestions.splice(0, 10)
     suggestions.forEach((item, index, arr) => {arr[index] = item[0]})
     
-    return suggestions
+    return suggestions // Return suggested products
 }
