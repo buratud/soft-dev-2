@@ -13,6 +13,17 @@ app.use(express.json({ limit: "50mb" }));
 
 const port = process.env.PORT || 5000;
 
+app.post("/search", async (req, res) => {
+  const { searchTarget } = req.body;
+  const { data, error } = await supabase.from("Food").select("Food_name", "Price", "URL")
+  
+  if (error) {
+    res.status(400).json(error)
+  } else {
+    res.status(200).json(data)
+  }
+});
+
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
   const { data, error } = await supabase.auth.signUp({

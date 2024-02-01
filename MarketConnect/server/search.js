@@ -39,6 +39,9 @@ function search(target) {
         suggestions.push([word, edit_distance])
     }
     suggestions.sort(function(a, b){return a[1]-b[1]})
-    return suggestions.slice(0, 10)
+    suggestions = suggestions.splice(0, 10)
+    suggestions.forEach((item, index, arr) => {arr[index] = item[0]})
+    
+    return {"Suggestions": suggestions}
 }
-// console.log(search("tes"))
+console.log(search("tes"))
