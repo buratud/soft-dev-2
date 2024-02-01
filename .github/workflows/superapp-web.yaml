@@ -31,11 +31,10 @@ jobs:
 
       - uses: azure/k8s-set-context@v3
         with:
-          method: service-account
+          method: service-principal
           cluster-type: arc
           cluster-name: ${{ secrets.AZURE_AKS_NAME }}
           resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
-          token: '${{ secrets.AZURE_AKS_TOKEN }}'
 
       - uses: azure/k8s-deploy@v4
         with:
