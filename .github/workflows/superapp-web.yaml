@@ -29,9 +29,38 @@ jobs:
             docker build super-app/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
 
-      - name: Deploy to Kubernetes
-        env:
-          KUBECTL_TOKEN: ${{ secrets.KUBECTL_TOKEN }}
-          GITHUB_SHA: ${{ github.sha }}
+      - name: Replace image tag
         run: |
-          bash deploy.sh
+          sed -i "s|softdev2southeastasia.azurecr.io/superapp-web|softdev2southeastasia.azurecr.io/superapp-web:$GITHUB_SHA|g" k8s/superapp/web.yaml
+
+      - name: Deploy configuration map
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: apply -f k8s/superapp/web-configmap.yaml
+
+      - name: Deploy web 
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: apply -f k8s/superapp/web.yaml
+
+      - name: Deploy web service
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: apply -f k8s/superapp/web-service.yaml
+
+      - name: Deploy ingress
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: apply -f k8s/ingress.yaml
+      
+
+
+
