@@ -10,6 +10,7 @@
   },
   "scripts": {
     "log": "nodemon login.js",
-    "reg": "nodemon register.js"
+    "reg": "nodemon register.js",
+    "test": "nodemon test.js"
   }
 }

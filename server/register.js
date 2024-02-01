@@ -16,7 +16,12 @@ app.post("/register", async (req, res) => {
     const { username, email, password } = req.body;
     const { data, error } = await supabase.auth.signUp({
         email: email,
-        password: password
+        password: password,
+        options: {
+            data: {
+                username: username,
+            }
+        }
     });
 
     if (error) {

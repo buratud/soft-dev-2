@@ -1,13 +1,28 @@
-var express = require('express')
-var cors = require('cors')
-var app = express()
+// const express = require('express');
+// const cors = require('cors');
+// const { createClient } = require('@supabase/supabase-js');
+// require("dotenv").config();
 
-app.use(cors())
+// const app = express();
 
-app.get('/test', function (req, res, next) {
-  res.json({msg: 'This is CORS-enabled for all origins!'})
-})
+// app.use(cors());
+// app.use(express.json());
+// // const port = process.env.PORT;
+// const supabaseUrl = "https://nypzyitcvjrnisjdsbpk.supabase.co";
+// const supabaseKey = process.env.SUPERAPP_KEY;
+// const supabase = createClient(supabaseUrl, supabaseKey);
 
-app.listen(3300, function () {
-  console.log('CORS-enabled web server listening on port 3300')
-})
+// app.get("/test", async (req, res) => {
+//     const { username, email, password } = req.body;
+//     const { data, error } = await supabase
+//     .from('auth.users')
+//     .select('*'); // '*' selects all columns, you can specify specific columns if needed
+
+//     if (error) {
+//         console.error({error : error});
+//     } else {
+//         console.log('Data from auth.users:', data);
+//     }
+//     });
+
+// app.listen(process.env.PORT, () => console.log(`Server is running on port ${process.env.PORT}`));
