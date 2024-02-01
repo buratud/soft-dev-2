@@ -156,6 +156,19 @@ button {
 
 button:hover {
   background-color: #292c7b;
+  animation: jiggle 0.5s ease-in-out infinite;
+}
+
+@keyframes jiggle {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20%, 80% {
+    transform: translateX(-2px);
+  }
+  40%, 60% {
+    transform: translateX(2px);
+  }
 }
 
 .history_container {
@@ -167,29 +180,52 @@ button:hover {
   margin: auto;
   border-collapse: collapse;
   width: 100%;
-  table-layout: fixed; /* Added to fix column width */
 }
 
-.history_table th,
-.history_table td {
-  flex: 1;
+.history_table th{
   text-align: center;
-  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
   border-bottom: 1px solid #888888;
-  white-space: nowrap; /* Prevent text wrapping */
+  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* Display ellipsis for overflowed text */
+  text-overflow: ellipsis;
+}
+
+.history_table td {
+  text-align: center;
+  border-bottom: 1px solid #888888;
+  padding: 8px;
+}
+
+
+.history_table th:first-child, .history_table td:first-child {
+  width: 15%; /* Adjust the width as needed */
+}
+
+.history_table th:nth-child(2), .history_table td:nth-child(2) {
+  width: 55%; /* Adjust the width as needed */
+  max-width: 55%;
+}
+
+.history_table th:nth-child(3), .history_table td:nth-child(3) {
+  /* You can adjust the width or remove it if you want it to auto-size */
+  width: 15%; 
+}
+
+.history_table th:nth-child(4), .history_table td:nth-child(4) {
+  /* You can adjust the width or remove it if you want it to auto-size */
+  width: 15%; 
 }
 
 .history_table tr {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
-  box-sizing: border-box;
 }
 
 .history_scrollable {
-  max-height: 300px; /* Set your desired height */
+  max-height: 300px;
   overflow-x: auto;
 }
 
@@ -204,19 +240,30 @@ button:hover {
   display: block;
 }
 
-
-/* Add these styles to your existing CSS or style.css file */
-
-/* Add a new CSS class for the flashing effect */
 .feedback-success {
   animation: flash 1s ease-in-out;
 }
 
 @keyframes flash {
   0%, 100% {
-    background-color: inherit; /* Use the original background color */
+    background-color: inherit;
   }
   50% {
-    background-color: #b1ffb4; /* Flash to green color */
+    background-color: #b1ffb4;
+  }
+}
+
+/* Add these styles to your existing CSS or style.css file */
+
+.loading-icon {
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
