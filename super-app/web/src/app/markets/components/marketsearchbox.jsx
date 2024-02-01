@@ -25,7 +25,6 @@ export default function MarketSearchBox() {
     }
 
     useEffect(() => {
-        console.log('loading: ', loading)
         if (search) {
             setLoading(true);
             
@@ -53,8 +52,7 @@ export default function MarketSearchBox() {
                 setResults(filteredResults);
                 setLoading(false);
                 clearTimeout(loadingTimeout);
-                console.log('filteredResults: ', filteredResults);
-                console.log('after loading: ', loading);
+                // console.log('filteredResults: ', filteredResults);
             })
             .catch(err => {
                 console.log(err);
