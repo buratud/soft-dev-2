@@ -11,7 +11,7 @@ function wagner_fischer(base, target) {
         target = target.slice(0, base_len)
         target_len = base_len
     }
-    // Create and calculate Wagner-Fischer edit distance matrix
+    // Create and calculate Wagner-Fischer algorithm to get edit distance matrix
     current_row = [...Array(base_len + 1).keys()]
     for (let i = 1; i < target_len + 1; i++) {
         previous_row = current_row
