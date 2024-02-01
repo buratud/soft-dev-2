@@ -31,7 +31,7 @@ jobs:
 
       - name: Deploy to Kubernetes
         env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+          KUBECTL_TOKEN: ${{ secrets.KUBECTL_TOKEN }}
           GITHUB_SHA: ${{ github.sha }}
         run: |
           bash deploy.sh
