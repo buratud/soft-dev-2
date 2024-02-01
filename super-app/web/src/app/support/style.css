@@ -1,9 +1,7 @@
-/* styles/globals.css */
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 * {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -38,6 +36,7 @@ body {
   display: flex;
   width: 87%;
   max-width: 1300px;
+  height: 420px;
 }
 
 .left_half,
@@ -64,23 +63,59 @@ body {
   border-radius: 20px;
 }
 
+/* Add these styles to your existing CSS or style.css file */
+
 .type_selection {
   display: flex;
   flex-direction: column;
 }
 
-.type_selection label {
+.type_selection .top,
+.type_selection .bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.checkbox-label {
   display: flex;
   align-items: center;
+}
+
+.checkbox-label input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: #d9d9d9;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: none;
+  margin-right: 5px;
+}
+
+.checkbox-label span {
+  margin-left: 5px;
+}
+
+.checkbox-label input[type="checkbox"]:checked {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}
+
+.type_selection .checkbox-label {
+  flex: 1;
 }
 
 .type_selection input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  width: 20px; 
-  height: 20px; 
-  background-color: #d9d9d9; 
+  width: 20px;
+  height: 20px;
+  background-color: #d9d9d9;
   border: 1px solid #ccc;
   border-radius: 3px;
   cursor: pointer;
@@ -89,18 +124,18 @@ body {
 }
 
 .type_selection input[type="checkbox"]:checked {
-  background-color: #4caf50; 
+  background-color: #4caf50;
   border-color: #4caf50;
 }
 
 textarea {
-  width: 100%;
-  max-width: 100%;
+  width: calc(100% - 24px);
+  max-width: calc(100% - 24px);
   height: 150px;
   padding: 12px;
   margin-bottom: 10px;
   border: 2px solid #1f2021;
-  border-radius: 5px;
+  border-radius: 10px;
   box-sizing: border-box;
   font-size: 16px;
   font-weight: 500;
@@ -111,7 +146,7 @@ button {
   color: #ffffff;
   padding: 10px 15px;
   border: none;
-  border-radius:11px;
+  border-radius: 11px;
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
@@ -124,22 +159,46 @@ button:hover {
 
 .history_container {
   text-align: center;
+  overflow: hidden;
 }
 
 .history_table {
   margin: auto;
   border-collapse: collapse;
   width: 100%;
+  table-layout: fixed; /* Added to fix column width */
 }
 
-.history_table th {
-  background-color: #d9d9d9;
-  padding: 10px;
-  text-align: center;
-}
-
+.history_table th,
 .history_table td {
-  border-bottom: 1px solid #888888; /* Darker grey border color */
-  padding: 10px;
+  flex: 1;
   text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid #888888;
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Display ellipsis for overflowed text */
+}
+
+.history_table tr {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.history_scrollable {
+  max-height: 300px; /* Set your desired height */
+  overflow-x: auto;
+}
+
+.history_table thead {
+  position: sticky;
+  top: 0;
+  background-color: #d9d9d9;
+  z-index: 1;
+}
+
+.history_table tbody {
+  display: block;
 }

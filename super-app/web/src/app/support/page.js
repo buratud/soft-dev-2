@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { MdPendingActions } from "react-icons/md";
@@ -11,8 +11,9 @@ import "./style.css";
 export default function ContactSupport() {
   const [feedbackData, setFeedbackData] = useState("");
   const [selectedType, setSelectedType] = useState("");
-  const [historyData, setHistoryData] = useState([
-  ]); /* wait for real data to show here */
+  const [historyData, setHistoryData] = useState(
+    []
+  ); /* wait for real data to show here */
 
   const getStatusIcon = (status) => {
     switch (status) {
@@ -25,7 +26,7 @@ export default function ContactSupport() {
       default:
         return null;
     }
-  };  
+  };
 
   const getUnsendIcon = (unsend) => {
     switch (unsend) {
@@ -58,15 +59,24 @@ export default function ContactSupport() {
     setHistoryData((prevData) => {
       const updatedData = [...prevData];
       const currentUnsendStatus = updatedData[index].unsend;
-  
+
       if (currentUnsendStatus === "No") {
         updatedData[index].unsend = "Yes";
         updatedData[index].status = "Deleted";
       }
-  
+
       return updatedData;
     });
-  };  
+  };
+
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll to the bottom when historyData changes
+    if (tableRef.current) {
+      tableRef.current.scrollTop = tableRef.current.scrollHeight;
+    }
+  }, [historyData]);
 
   return (
     <div className="contact_container">
@@ -83,27 +93,29 @@ export default function ContactSupport() {
               >
                 Transmission History
               </h2>
-              <div className="history_scrollable">
+              <div className="history_scrollable" ref={tableRef}>
                 <table className="history_table">
                   <thead>
                     <tr>
-                      <th style={{ width: "130px" }}>Types</th>{" "}
-                      <th style={{ width: "190px" }}>Problems</th>{" "}
-                      <th style={{ width: "100px" }}>Status</th>{" "}
-                      <th style={{ width: "100px" }}>Unsend</th>{" "}
+                      <th style={{ width: "100px" }}>Types</th>
+                      <th style={{ width: "170px" }}>Problems</th>
+                      <th style={{ width: "100px" }}>Status</th>
+                      <th style={{ width: "100px" }}>Unsend</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {historyData.slice(-5).map((data, index) => (
+                    {historyData.map((data, index) => (
                       <tr key={index}>
                         <td>{data.type}</td>
-                        <td style={{ width: "150px" }}>{data.problem}</td>{" "}
+                        <td style={{ width: "190px" }}>{data.problem}</td>
                         <td>{getStatusIcon(data.status)}</td>
-                        <td
-                          onClick={() => handleUnsendClick(index)}
-                          style={{ cursor: "pointer" }}
-                        >
-                          {getUnsendIcon(data.unsend)}
+                        <td style={{ width: "100px", textAlign: "center" }}>
+                          <div
+                            onClick={() => handleUnsendClick(index)}
+                            style={{ cursor: "pointer" }}
+                          >
+                            {getUnsendIcon(data.unsend)}
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -119,57 +131,57 @@ export default function ContactSupport() {
                 <h2
                   style={{
                     textAlign: "Left",
-                    fontSize: "20px",
+                    fontSize: "18px",
                   }}
                 >
-                  Select problem type
+                  In what type of DekHor do you have a problem?
                 </h2>
               </div>
               <div className="type_selection">
                 <div className="top">
-                  <label>
+                  <div className="checkbox-label">
                     <input
                       type="checkbox"
                       value="Blogs"
                       checked={selectedType === "Blogs"}
                       onChange={() => setSelectedType("Blogs")}
                     />
-                    DekHor Blogs
-                  </label>
-                  <label>
+                    <span>DekHor Blogs</span>
+                  </div>
+                  <div className="checkbox-label">
                     <input
                       type="checkbox"
                       value="Dorms"
                       checked={selectedType === "Dorms"}
                       onChange={() => setSelectedType("Dorms")}
                     />
-                    DekHor Dorms
-                  </label>
+                    <span>DekHor Dorms</span>
+                  </div>
                 </div>
                 <div className="bottom">
-                  <label>
+                  <div className="checkbox-label">
                     <input
                       type="checkbox"
                       value="Eats"
                       checked={selectedType === "Eats"}
                       onChange={() => setSelectedType("Eats")}
                     />
-                    DekHor Eats
-                  </label>
-                  <label>
+                    <span>DekHor Eats</span>
+                  </div>
+                  <div className="checkbox-label">
                     <input
                       type="checkbox"
                       value="Markets"
                       checked={selectedType === "Markets"}
                       onChange={() => setSelectedType("Markets")}
                     />
-                    DekHor Markets
-                  </label>
+                    <span>DekHor Markets</span>
+                  </div>
                 </div>
               </div>
               <div className="textbox-container" style={{ paddingTop: "20px" }}>
                 <textarea
-                  placeholder="Type your feedback here..."
+                  placeholder="Type your problem here..."
                   value={feedbackData}
                   onChange={(e) => setFeedbackData(e.target.value)}
                 />
