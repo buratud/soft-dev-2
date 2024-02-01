@@ -29,23 +29,9 @@ jobs:
             docker build super-app/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
 
-      - uses: azure/k8s-set-context@v3
-        with:
-          method: service-principal
-          cluster-type: arc
-          cluster-name: ${{ secrets.AZURE_AKS_NAME }}
-          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
-
-      - uses: azure/k8s-deploy@v4
-        with:
-          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
-          name: ${{ secrets.AZURE_AKS_NAME }}
-          action: deploy
-          strategy: basic
-          manifests: |
-              k8s/superapp/web-configmap.yaml
-              k8s/superapp/web.yaml
-              k8s/superapp/web-service.yaml
-              k8s/ingress.yaml
-          images: |
-            ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
+      - name: Deploy to Kubernetes
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          bash deploy.sh
