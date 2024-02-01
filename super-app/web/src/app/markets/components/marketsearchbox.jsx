@@ -42,6 +42,7 @@ export default function MarketSearchBox() {
                     item.name.toLowerCase().includes(searchTerm.toLowerCase())
                 );
                 setResults(filteredResults);
+                console.log('filteredResults : ', filteredResults);
             })
             .catch(err => {
                 console.log(err);
@@ -73,7 +74,7 @@ export default function MarketSearchBox() {
                     </div>
                 )}
                 {!loading && results.map(result => (
-                <Link href={result.url} key={result.id}>
+                <Link href={result.url} key={result.id} style={{ textDecoration: 'none' }}>
                     <div className="search_result_item">
                         <div className="search_result_item_title">
                             {result.name}
