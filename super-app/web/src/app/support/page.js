@@ -14,6 +14,7 @@ export default function ContactSupport() {
   const [historyData, setHistoryData] = useState(
     []
   ); /* wait for real data to show here */
+  const [feedbackSent, setFeedbackSent] = useState(false);
 
   const getStatusIcon = (status) => {
     switch (status) {
@@ -40,7 +41,6 @@ export default function ContactSupport() {
   };
 
   const handleSendFeedback = () => {
-    /* base case */
     if (selectedType && feedbackData) {
       const newFeedback = {
         type: selectedType,
@@ -52,6 +52,14 @@ export default function ContactSupport() {
       setHistoryData((prevData) => [...prevData, newFeedback]);
       setSelectedType("");
       setFeedbackData("");
+
+      // Set feedbackSent to true to trigger the animation
+      setFeedbackSent(true);
+
+      // Reset feedbackSent after a short delay
+      setTimeout(() => {
+        setFeedbackSent(false);
+      }, 1000); // Adjust the delay as needed
     }
   };
 
@@ -106,10 +114,22 @@ export default function ContactSupport() {
                   <tbody>
                     {historyData.map((data, index) => (
                       <tr key={index}>
-                        <td>{data.type}</td>
-                        <td style={{ width: "190px" }}>{data.problem}</td>
-                        <td>{getStatusIcon(data.status)}</td>
-                        <td style={{ width: "100px", textAlign: "center" }}>
+                        <td className={feedbackSent ? "feedback-success" : ""}>
+                          {data.type}
+                        </td>
+                        <td
+                          style={{ width: "190px" }}
+                          className={feedbackSent ? "feedback-success" : ""}
+                        >
+                          {data.problem}
+                        </td>
+                        <td className={feedbackSent ? "feedback-success" : ""}>
+                          {getStatusIcon(data.status)}
+                        </td>
+                        <td
+                          style={{ width: "100px", textAlign: "center" }}
+                          className={feedbackSent ? "feedback-success" : ""}
+                        >
                           <div
                             onClick={() => handleUnsendClick(index)}
                             style={{ cursor: "pointer" }}

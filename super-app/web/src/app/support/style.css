@@ -101,8 +101,8 @@ body {
 }
 
 .checkbox-label input[type="checkbox"]:checked {
-  background-color: #4caf50;
-  border-color: #4caf50;
+  background-color: #292c7b;
+  border-color: #292c7b;
 }
 
 .type_selection .checkbox-label {
@@ -124,8 +124,8 @@ body {
 }
 
 .type_selection input[type="checkbox"]:checked {
-  background-color: #4caf50;
-  border-color: #4caf50;
+  background-color: #292c7b;
+  border-color: #292c7b;
 }
 
 textarea {
@@ -151,10 +151,11 @@ button {
   font-size: 16px;
   font-weight: 500;
   align-self: flex-end;
+  transition: background-color 0.3s ease-in-out; /* Added transition property */
 }
 
 button:hover {
-  background-color: #353535;
+  background-color: #292c7b;
 }
 
 .history_container {
@@ -201,4 +202,21 @@ button:hover {
 
 .history_table tbody {
   display: block;
+}
+
+
+/* Add these styles to your existing CSS or style.css file */
+
+/* Add a new CSS class for the flashing effect */
+.feedback-success {
+  animation: flash 1s ease-in-out;
+}
+
+@keyframes flash {
+  0%, 100% {
+    background-color: inherit; /* Use the original background color */
+  }
+  50% {
+    background-color: #b1ffb4; /* Flash to green color */
+  }
 }
