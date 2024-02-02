@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: superapp-server
+  name: superapp-server{{ include "global.appendTag" . }}
 spec:
   selector:
     matchLabels:
