@@ -34,13 +34,7 @@ jobs:
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
 
       - name: Deploy to Kubernetes with Helm
-        uses: 'deliverybot/helm@v1'
+        uses: 'WyriHaximus/github-action-helm3@v3'
         with:
-          release: 'develop'
-          namespace: 'default'
-          chart: 'helm'
-          helm: 'helm3'
-          values: |
-            revision: ${{ github.sha }}
-        env:
-          KUBECONFIG_FILE: '${{ secrets.KUBE_CONFIG }}'
+          exec: helm upgrade --install develop ./helm/ --set global.revision=${{ github.sha }}
+          kubeconfig: '${{ secrets.KUBE_CONFIG }}'
