@@ -61,6 +61,8 @@ jobs:
     needs: [superapp_web, superapp_server]
     environment: production
     steps:
+      - uses: actions/checkout@v4
+
       - name: Set GIT_REF
         run: source ./env.sh
 
