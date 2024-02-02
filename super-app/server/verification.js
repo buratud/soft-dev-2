@@ -12,17 +12,11 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 app.use(express.json());
 
-  app.put('/verify-otp', async (req, res) => {
+  app.post('/verify-otp', async (req, res) => {
     try {
       const email = req.body.email;
       const otp = req.body.otp;
-      console.log('------');
-      console.log('------');
-      console.log('------');
-      console.log('------');
-      console.log('------');
       console.log(`email : ${email} , otp : ${otp}`);
-      console.log(req);
   
       // Verify the OTP
       const { error } = await supabase.auth.verifyOtp({
