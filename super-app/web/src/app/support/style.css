@@ -1,20 +1,25 @@
+/* Import Poppins font from Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
+/* Apply Poppins font to all elements */
 * {
   font-family: "Poppins", sans-serif;
 }
 
+/* Styling for the body element */
 body {
   background: #f6f6fb;
   font-weight: 600;
 }
 
+/* Styling for the main contact container */
 .contact_container {
   flex-direction: column;
   align-items: center;
   padding-top: 5.5rem;
 }
 
+/* Styling for the contact head */
 .contact_head {
   font-size: 40px;
   font-weight: 700;
@@ -23,11 +28,13 @@ body {
   margin-bottom: 3rem;
 }
 
+/* Styling for the main box container */
 .box_container {
   display: flex;
   justify-content: center;
 }
 
+/* Styling for the contact box */
 .contact_box {
   border-radius: 20px;
   background: #ffffff;
@@ -38,6 +45,7 @@ body {
   height: 420px;
 }
 
+/* Styling for the left and right halves of the contact box */
 .left_half,
 .right_half {
   flex: 1;
@@ -48,6 +56,7 @@ body {
   overflow: hidden;
 }
 
+/* Styling for the feedback container */
 .feedback_container {
   text-align: center;
   margin: 0 auto;
@@ -55,6 +64,7 @@ body {
   flex-direction: column;
 }
 
+/* Styling for the separator line between left and right halves */
 .separator-line {
   border-right: 3px solid #d7d7d7;
   height: 90%;
@@ -62,13 +72,13 @@ body {
   border-radius: 20px;
 }
 
-/* Add these styles to your existing CSS or style.css file */
-
+/* Styling for the type selection container */
 .type_selection {
   display: flex;
   flex-direction: column;
 }
 
+/* Styling for the top and bottom sections of type selection */
 .type_selection .top,
 .type_selection .bottom {
   display: flex;
@@ -76,11 +86,13 @@ body {
   margin-bottom: 10px;
 }
 
+/* Styling for the checkbox label container */
 .checkbox-label {
   display: flex;
   align-items: center;
 }
 
+/* Styling for the checkbox input */
 .checkbox-label input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
@@ -95,19 +107,23 @@ body {
   margin-right: 5px;
 }
 
+/* Styling for the checkbox label text */
 .checkbox-label span {
   margin-left: 5px;
 }
 
+/* Styling for the checked state of the checkbox */
 .checkbox-label input[type="checkbox"]:checked {
   background-color: #292c7b;
   border-color: #292c7b;
 }
 
+/* Styling for the checkbox label within type selection */
 .type_selection .checkbox-label {
   flex: 1;
 }
 
+/* Styling for the checkbox input within type selection */
 .type_selection input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
@@ -122,11 +138,13 @@ body {
   margin-right: 5px;
 }
 
+/* Styling for the checked state of the checkbox within type selection */
 .type_selection input[type="checkbox"]:checked {
   background-color: #292c7b;
   border-color: #292c7b;
 }
 
+/* Styling for the textarea input */
 textarea {
   width: calc(100% - 24px);
   max-width: calc(100% - 24px);
@@ -140,6 +158,7 @@ textarea {
   font-weight: 500;
 }
 
+/* Styling for the special button */
 .special-button {
   background-color: #1f2021;
   color: #ffffff;
@@ -151,14 +170,16 @@ textarea {
   font-weight: 500;
   align-self: flex-end;
   transition: background-color 0.3s ease-in-out;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adjust values as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Hover styling for the special button */
 .special-button:hover {
   background-color: #292c7b;
   animation: pulse 1s ease-in-out infinite;
 }
 
+/* Keyframes for the pulse animation */
 @keyframes pulse {
   0%, 100% {
     transform: scale(1);
@@ -168,18 +189,21 @@ textarea {
   }
 }
 
+/* Styling for the history container */
 .history_container {
   text-align: center;
   overflow: hidden;
 }
 
+/* Styling for the history table */
 .history_table {
   margin: auto;
   border-collapse: collapse;
   width: 100%;
 }
 
-.history_table th{
+/* Styling for the table header cells */
+.history_table th {
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -191,55 +215,67 @@ textarea {
   text-overflow: ellipsis;
 }
 
+/* Styling for the table data cells */
 .history_table td {
   text-align: center;
   border-bottom: 1px solid #888888;
   padding: 8px;
 }
 
-
-.history_table th:first-child, .history_table td:first-child {
-  width: 15%; /* Adjust the width as needed */
+/* Styling for the first column of the table */
+.history_table th:first-child,
+.history_table td:first-child {
+  width: 15%;
 }
 
-.history_table th:nth-child(2), .history_table td:nth-child(2) {
-  width: 55%; /* Adjust the width as needed */
+/* Styling for the second column of the table */
+.history_table th:nth-child(2),
+.history_table td:nth-child(2) {
+  width: 55%;
   max-width: 55%;
 }
 
-.history_table th:nth-child(3), .history_table td:nth-child(3) {
-  /* You can adjust the width or remove it if you want it to auto-size */
-  width: 15%; 
+/* Styling for the third column of the table */
+.history_table th:nth-child(3),
+.history_table td:nth-child(3) {
+  width: 15%;
 }
 
-.history_table th:nth-child(4), .history_table td:nth-child(4) {
-  /* You can adjust the width or remove it if you want it to auto-size */
-  width: 15%; 
+/* Styling for the fourth column of the table */
+.history_table th:nth-child(4),
+.history_table td:nth-child(4) {
+  width: 15%;
 }
 
+/* Styling for the table rows */
 .history_table tr {
   display: flex;
 }
 
+/* Styling for the scrollable history section */
 .history_scrollable {
   max-height: 300px;
   overflow-x: auto;
 }
 
+/* Styling for the sticky table header */
 .history_table thead {
   position: sticky;
   top: 0;
   background-color: #d9d9d9;
 }
 
+/* Styling for the table body */
 .history_table tbody {
   display: block;
 }
 
+/* Styling for the feedback success animation */
 .feedback-success {
   animation: flash 1s ease-in-out;
 }
 
+/* Keyframes for the flash animation */
 @keyframes flash {
   0%, 100% {
     background-color: inherit;
@@ -249,12 +285,12 @@ textarea {
   }
 }
 
-/* Add these styles to your existing CSS or style.css file */
-
+/* Loading icon animation */
 .loading-icon {
   animation: spin 1s infinite linear;
 }
 
+/* Keyframes for the spin animation */
 @keyframes spin {
   from {
     transform: rotate(0deg);

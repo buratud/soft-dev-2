@@ -1,16 +1,16 @@
+// Import necessary dependencies and styles
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
-// import { MdPendingActions } from "react-icons/md";
-// import { RxCrossCircled } from "react-icons/rx";
 import { ImSpinner9 } from "react-icons/im";
 
 import "./style.css";
 import Navbar from "./navbar.js";
 
+// Define the main component
 export default function ContactSupport() {
+  // State variables
   const [feedbackData, setFeedbackData] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [historyData, setHistoryData] = useState([]);
@@ -20,8 +20,8 @@ export default function ContactSupport() {
   const [unsendSuccess, setUnsendSuccess] = useState(false);
   const [error, setError] = useState(null);
 
+  // Fetch data from the API when the component mounts
   useEffect(() => {
-    // Simulate an API call to load data when the component mounts
     setLoading(true);
     fetchDataFromApi()
       .then((data) => {
@@ -35,8 +35,8 @@ export default function ContactSupport() {
       });
   }, []);
 
+  // Handle scrolling and feedback sent state changes
   useEffect(() => {
-    // Scroll to the most bottom of the table after the component re-renders
     const lastRow = document.querySelector(
       ".history_table tbody tr:last-child"
     );
@@ -44,27 +44,15 @@ export default function ContactSupport() {
       lastRow.scrollIntoView({ behavior: "smooth", block: "end" });
     }
 
-    // Reset feedbackSent after a short delay
     if (feedbackSent) {
+      // Reset feedbackSent after 1 second
       setTimeout(() => {
         setFeedbackSent(false);
-      }, 1000); // Adjust the delay as needed
+      }, 1000);
     }
   }, [feedbackData, feedbackSent]);
 
-  // const getStatusIcon = (status) => {
-  //   switch (status) {
-  //     case "Pending":
-  //       return <MdPendingActions size={25} />;
-  //     case "Done":
-  //       return <FaCheckCircle size={25} />;
-  //     case "Deleted":
-  //       return <FaTrash size={25} />;
-  //     default:
-  //       return null;
-  //   }
-  // };
-
+  // Return an appropriate icon based on unsend status
   const getUnsendIcon = (unsend) => {
     switch (unsend) {
       case "Yes":
@@ -76,12 +64,11 @@ export default function ContactSupport() {
     }
   };
 
+  // Simulate fetching data from an API
   const fetchDataFromApi = async () => {
-    // Simulate an API call (replace with actual API call)
     return new Promise((resolve) => {
       setTimeout(() => {
         const data = [
-          // Sample data, replace with actual API response
           {
             type: "Blogs",
             problem: "Issue 1",
@@ -94,39 +81,31 @@ export default function ContactSupport() {
             status: "Unsent",
             unsend: "Yes",
           },
-          // ... more data
         ];
         resolve(data);
       }, 1000);
     });
   };
 
+  // Handle clicking on the unsend button
   const handleUnsendClick = (index) => {
     setHistoryData((prevData) => {
       const updatedData = [...prevData];
       const currentUnsendStatus = updatedData[index].unsend;
-  
+
       if (currentUnsendStatus === "No") {
         setUnsendLoading(true);
-  
-        // Simulate an API call (replace with actual API call)
+
         new Promise((resolve) => setTimeout(resolve, 1000))
           .then(async () => {
-            // Assuming you want to send the designated problem to the server
-            const unsentProblem = updatedData[index];
-  
-            // Simulate sending the data to the server
-            await sendUnsentProblemToServer(unsentProblem);
-  
-            // Update local data
             updatedData[index].unsend = "Yes";
-            updatedData[index].status = "Unsent"; // Set status to "Unsent" on unsend
+            updatedData[index].status = "Unsent";
             setUnsendSuccess(true);
-  
-            // Reset unsendSuccess after a short delay
+
+            // Reset unsendSuccess after 1 second
             setTimeout(() => {
               setUnsendSuccess(false);
-            }, 1000); // Adjust the delay as needed
+            }, 1000);
           })
           .catch((err) => {
             setError("An error occurred. Please try again.");
@@ -135,32 +114,22 @@ export default function ContactSupport() {
             setUnsendLoading(false);
           });
       }
-  
+
       return updatedData;
     });
   };
-  
-  const sendUnsentProblemToServer = async (problemData) => {
-    // Simulate sending the designated problem data to the server
-    console.log("Sending unsent problem to the server:", problemData);
-    // Replace the console.log with your actual API call
-    // For example, you can use fetch or axios to send the data to your server
-    // Simulating an API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-  };
-   
 
+  // Handle sending feedback
   const handleSendFeedback = () => {
     if (selectedType && feedbackData) {
       setLoading(true);
 
-      // Simulate an API call (replace with actual API call)
       new Promise((resolve) => setTimeout(resolve, 1000))
         .then(async () => {
           const newFeedback = {
             type: selectedType,
             problem: feedbackData,
-            status: "Pending", // Set status to "Pending" on submission
+            status: "Pending",
             unsend: "No",
           };
 
@@ -178,16 +147,24 @@ export default function ContactSupport() {
     }
   };
 
+  /* Main JSX structure for the component */
   return (
     <div>
-      {/* Navbar component */}
+      {/* Include the Navbar component */}
       <Navbar />
+      {/* Main container for the contact section */}
       <div className="contact_container">
+        {/* Header for the contact section */}
         <div className="contact_head">Contact Support</div>
+        {/* Container for the main content boxes */}
         <div className="box_container">
+          {/* Main contact box */}
           <div className="contact_box">
+            {/* Left half of the contact box */}
             <div className="left_half">
+              {/* Container for transmission history */}
               <div className="history_container">
+                {/* Heading for transmission history */}
                 <h2
                   style={{
                     textAlign: "center",
@@ -196,13 +173,16 @@ export default function ContactSupport() {
                 >
                   Transmission History
                 </h2>
+                {/* Scrollable history section */}
                 <div className="history_scrollable">
+                  {/* Conditionally render loading indicator or history table */}
                   {loading ? (
                     <div className="loading-indicator">
                       <ImSpinner9 className="loading-icon" size={25} />
                     </div>
                   ) : (
                     <table className="history_table">
+                      {/* Table header */}
                       <thead>
                         <tr>
                           <th style={{ width: "15%" }}>Types</th>
@@ -211,9 +191,12 @@ export default function ContactSupport() {
                           <th style={{ width: "15%" }}>Unsend</th>
                         </tr>
                       </thead>
+                      {/* Table body */}
                       <tbody>
+                        {/* Map through historyData to create rows */}
                         {historyData.map((data, index) => (
                           <tr key={index}>
+                            {/* Conditional class for feedback success */}
                             <td
                               className={
                                 index === historyData.length - 1 && feedbackSent
@@ -223,6 +206,7 @@ export default function ContactSupport() {
                             >
                               {data.type}
                             </td>
+                            {/* Conditional class for feedback success */}
                             <td
                               className={
                                 index === historyData.length - 1 && feedbackSent
@@ -232,6 +216,7 @@ export default function ContactSupport() {
                             >
                               {data.problem}
                             </td>
+                            {/* Conditional class for feedback success */}
                             <td
                               className={
                                 index === historyData.length - 1 && feedbackSent
@@ -241,6 +226,7 @@ export default function ContactSupport() {
                             >
                               {data.status}
                             </td>
+                            {/* Conditional class for feedback success */}
                             <td
                               className={
                                 index === historyData.length - 1 && feedbackSent
@@ -248,6 +234,7 @@ export default function ContactSupport() {
                                   : ""
                               }
                             >
+                              {/* Conditionally render loading icon or unsend icon */}
                               {data.loading ? (
                                 <ImSpinner9
                                   className="loading-icon"
@@ -270,10 +257,15 @@ export default function ContactSupport() {
                 </div>
               </div>
             </div>
+            {/* Separator line between left and right halves */}
             <div className="separator-line"></div>
+            {/* Right half of the contact box */}
             <div className="right_half">
+              {/* Container for feedback section */}
               <div className="feedback_container">
+                {/* Container for feedback section header */}
                 <div className="head_container">
+                  {/* Heading for selecting problem type */}
                   <h2
                     style={{
                       textAlign: "Left",
@@ -283,8 +275,10 @@ export default function ContactSupport() {
                     Select problem type
                   </h2>
                 </div>
+                {/* Container for type selection checkboxes */}
                 <div className="type_selection">
                   <div className="top">
+                    {/* Checkbox for DekHor Blogs */}
                     <div className="checkbox-label">
                       <input
                         type="checkbox"
@@ -294,6 +288,7 @@ export default function ContactSupport() {
                       />
                       <span>DekHor Blogs</span>
                     </div>
+                    {/* Checkbox for DekHor Dorms */}
                     <div className="checkbox-label">
                       <input
                         type="checkbox"
@@ -305,6 +300,7 @@ export default function ContactSupport() {
                     </div>
                   </div>
                   <div className="bottom">
+                    {/* Checkbox for DekHor Eats */}
                     <div className="checkbox-label">
                       <input
                         type="checkbox"
@@ -314,6 +310,7 @@ export default function ContactSupport() {
                       />
                       <span>DekHor Eats</span>
                     </div>
+                    {/* Checkbox for DekHor Markets */}
                     <div className="checkbox-label">
                       <input
                         type="checkbox"
@@ -325,6 +322,7 @@ export default function ContactSupport() {
                     </div>
                   </div>
                 </div>
+                {/* Textarea for feedback input */}
                 <div
                   className="textbox-container"
                   style={{ paddingTop: "20px" }}
@@ -335,24 +333,29 @@ export default function ContactSupport() {
                     onChange={(e) => setFeedbackData(e.target.value)}
                   />
                 </div>
+                {/* Button for sending feedback */}
                 <button
                   className="special-button"
                   style={{ width: "100px" }}
                   onClick={handleSendFeedback}
                   disabled={loading}
                 >
+                  {/* Conditionally render loading icon or "Send" text */}
                   {loading ? (
                     <ImSpinner9 className="loading-icon" size={18} />
                   ) : (
                     "Send"
                   )}
                 </button>
+                {/* Success message for feedback sent */}
                 {feedbackSent && (
                   <div className="success-message">Problem sent!</div>
                 )}
+                {/* Success message for feedback unsent */}
                 {unsendSuccess && (
                   <div className="success-message">Problem unsent!</div>
                 )}
+                {/* Error message display */}
                 {error && <div className="error-message">{error}</div>}
               </div>
             </div>
