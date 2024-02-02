@@ -4,6 +4,7 @@ const cors = require("cors");
 const { decode } = require("base64-arraybuffer");
 const { createClient } = require("@supabase/supabase-js");
 const { supabaseKey, supabaseUrl } = require("./config");
+const { search } = require("./search");
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -15,12 +16,13 @@ const port = process.env.PORT || 5000;
 
 app.post("/search", async (req, res) => {
   const { searchTarget } = req.body;
-  const { data, error } = await supabase.from("Food").select("Food_name", "Price", "URL")
-  
+  const { data, error } = await supabase.from("Food").select("id", "Food_name", "Price", "URL");
+  const result = search(searchTarget, data);
+
   if (error) {
-    res.status(400).json(error)
+    res.status(400).json(error);
   } else {
-    res.status(200).json(data)
+    res.status(200).json(result);
   }
 });
 
