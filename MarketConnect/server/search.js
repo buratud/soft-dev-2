@@ -30,7 +30,7 @@ function wagner_fischer(base, target) {
     return current_row[base_len] // Return edit distance between from base to target
 }
 
-export function search (target, database) {
+exports.search = (target, database) => {
     suggestions = []
     // Get all edit distance for every product in the database
     for (const product of database) {
