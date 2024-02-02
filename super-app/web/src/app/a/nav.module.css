@@ -7,7 +7,6 @@
 
 .leftside {
     display: flex;
-    background-color: aquamarine;
     margin-left: 5vw;
 }
 
@@ -44,7 +43,7 @@
 .dropdownContent {
     position: absolute;
     padding: 24px 0px;
-    margin-top: 26px;
+    margin-top: 1rem;
     width: 244px;
     border-radius: 10px;
     background-color: white;
@@ -78,7 +77,21 @@
     font-size: 10px;
 }
 
+.subdropdown{
+    background: none;
+    border: none;
+}
+
 .rightside {
     margin-top: 20px;
     margin-right: 5vw;
+}
+
+.dropdownContentProfile{
+    position: absolute;
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.25);
 }

@@ -10,7 +10,8 @@ export default function Home() {
     const [isOpen_3, setIsOpen_3] = useState(false);
     const [isOpen_4, setIsOpen_4] = useState(false);
     const [isOpen_Profile, setIsOpen_Profile] = useState(false);
-    const [isOpen_5, setIsOpen_5] = useState(false);
+    const [isOpen_Categories, setIsOpen_Categories] = useState(false);
+    const [isOpen_CategoriesEat, setIsOpen_CategoriesEat] = useState(false);
 
     return (
         <main className={styles.main}>
@@ -30,7 +31,7 @@ export default function Home() {
                             setIsOpen_3(false);
                             setIsOpen_4(false);
                             setIsOpen_Profile(false);
-                            setIsOpen_5(false);
+                            setIsOpen_Categories(false);
                         }}>Blogs
                         {!isOpen_1 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
@@ -39,18 +40,23 @@ export default function Home() {
                             <span>Main</span>
                         </div>
                         <div>
-                            <arrow>▼</arrow><span>Categories</span>
-                            <div className={styles.subdropdownContent}>
-                                <div>
-                                    <span>Cleaning</span>
+                            <button className={styles.subdropdown} onClick={() => setIsOpen_Categories((prev) => !prev)}>
+                                <span>Categories</span>
+                                {!isOpen_Categories ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}
+                            </button>
+                            {isOpen_Categories && (
+                                <div className={styles.subdropdownContent}>
+                                    <div>
+                                        <span>Cleaning</span>
+                                    </div>
+                                    <div>
+                                        <span>Decoration</span>
+                                    </div>
+                                    <div>
+                                        <span>Story's DekHor</span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span>Decoration</span>
-                                </div>
-                                <div>
-                                    <span>Story's DekHor</span>
-                                </div>
-                            </div>
+                            )}
                         </div>
                         <div>
                             <span>Blogging</span>
@@ -98,6 +104,7 @@ export default function Home() {
                             setIsOpen_2(false);
                             setIsOpen_1(false);
                             setIsOpen_Profile(false);
+                            setIsOpen_CategoriesEat(false);
                         }}>Eats
                         {!isOpen_3 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
@@ -105,9 +112,24 @@ export default function Home() {
                         <div>
                             <span>Main</span>
                         </div>
-
                         <div>
-                            <arrow>▼</arrow><span>Categories</span>
+                            <button className={styles.subdropdown} onClick={() => setIsOpen_CategoriesEat((prev) => !prev)}>
+                                <span>Categories</span>
+                                {!isOpen_CategoriesEat ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}
+                            </button>
+                            {isOpen_CategoriesEat && (
+                                <div className={styles.subdropdownContent}>
+                                    <div>
+                                        <span>Foods</span>
+                                    </div>
+                                    <div>
+                                        <span>Desserts</span>
+                                    </div>
+                                    <div>
+                                        <span>Drinks</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                         <div>
                             <span>Add Recipe</span>
@@ -155,7 +177,7 @@ export default function Home() {
                     }}>Pro
                     {!isOpen_Profile ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
-                {isOpen_Profile && <div className={styles.dropdownContent}>
+                {isOpen_Profile && <div className={styles.dropdownContentProfile}>
                     <div>
                         <span>My profile</span>
                     </div>
