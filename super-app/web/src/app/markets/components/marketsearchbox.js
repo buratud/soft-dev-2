@@ -3,7 +3,8 @@ import axios from 'axios';
 import { BsCart4 } from "react-icons/bs";
 import { RiLoader4Line } from "react-icons/ri";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import "./MarketSearchBox.scoped.css";
+import Link from "next/link";
+import "./style.css";
 
 export default function MarketSearchBox() {
     const [search, setSearch] = useState("");
@@ -44,7 +45,7 @@ export default function MarketSearchBox() {
 
     const fetchList = (searchTerm) => {
         console.log('Search: ', searchTerm);
-        axios.post(`https://3sc3ffw5-5000.asse.devtunnels.ms/search`, {     // Development only!
+        axios.post(`https://3sc3ffw5-5000.asse.devtunnels.ms/search`, {
                 searchTerm: searchTerm
             })
             .then(res => {
