@@ -1,3 +1,4 @@
+--TuachuayDekHor--
 create table profiles (
   id uuid references auth.users on delete cascade not null primary key,
   updated_at timestamp with time zone,
