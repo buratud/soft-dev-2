@@ -64,7 +64,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set GIT_REF
-        run: source ./env.sh
+        run: bash ./env.sh >> "$GITHUB_ENV"
 
       - name: Deploy to Kubernetes with Helm
         uses: 'WyriHaximus/github-action-helm3@v3'
