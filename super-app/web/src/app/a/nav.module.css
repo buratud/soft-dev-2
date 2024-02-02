@@ -1,0 +1,84 @@
+.main {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.25);
+}
+
+.leftside {
+    display: flex;
+    background-color: aquamarine;
+    margin-left: 5vw;
+}
+
+.leftside .logo {
+    position: absolute;
+}
+
+.middle {
+    padding: 20px 0px;
+    width: 40vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.dropdown {
+    color: #000;
+    font-family: Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.24px;
+    display: flex;
+    background: none;
+    border: none;
+}
+
+.arrow {
+    margin-top: 12px;
+    margin-left: 4px;
+    font-size: 10px;
+}
+
+.dropdownContent {
+    position: absolute;
+    padding: 24px 0px;
+    margin-top: 26px;
+    width: 244px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.25);
+}
+
+.dropdownContent div {
+    padding: 0.5rem;
+}
+
+.subdropdownContent div {
+    padding: 0.5rem;
+    padding-left: 1.2rem;
+}
+
+
+.dropdownContent span {
+    margin-left: 8px;
+    color: #000;
+    font-family: Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.24px;
+}
+
+.dropdownContent arrow {
+    margin-left: 16px;
+    margin-bottom: 123px;
+    font-size: 10px;
+}
+
+.rightside {
+    margin-top: 20px;
+    margin-right: 5vw;
+}
