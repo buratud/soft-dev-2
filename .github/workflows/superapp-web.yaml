@@ -8,7 +8,7 @@ permissions:
 on:
   push:
     branches:
-      - '**'
+      - "**"
 
 jobs:
   superapp_web:
@@ -23,16 +23,21 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Build and push image
+      - name: Set GIT_REF
+        run: bash ./env.sh >> "$GITHUB_ENV"
+
+      - name: Login to Azure Registry
         uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-      - run: |
-            docker build super-app/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
-
+      - name: Build and push image
+        run: |
+          docker build super-app/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }} --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
+        env:
+          BASE_SUPERAPP_WEB_PATH: ${{ env.BASE_SUPERAPP_WEB_PATH }}
   superapp_server:
     name: Superapp Server
     runs-on: ubuntu-latest
@@ -52,8 +57,8 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
-            docker build super-app/server/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
+          docker build super-app/server/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
 
   deploy:
     name: Deploy
@@ -67,11 +72,9 @@ jobs:
         run: bash ./env.sh >> "$GITHUB_ENV"
 
       - name: Deploy to Kubernetes with Helm
-        uses: 'WyriHaximus/github-action-helm3@v3'
+        uses: "WyriHaximus/github-action-helm3@v3"
         with:
           exec: helm upgrade --install $GIT_REF ./helm/ --set global.revision=${{ github.sha }} --set-string global.GITHUB_REF=$GIT_REF
-          kubeconfig: '${{ secrets.KUBE_CONFIG }}'
+          kubeconfig: "${{ secrets.KUBE_CONFIG }}"
         env:
           GIT_REF: ${{ env.GIT_REF }}
-    
-    
