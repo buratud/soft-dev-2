@@ -10,6 +10,7 @@ const Verify = () => {
   const sendOtp = () => {
     // Implement your axios request here to send and verify OTP
     // Use the 'otp' state to get the entered OTP
+
     alert("Implement sendOtp functionality");
   };
 
@@ -29,6 +30,10 @@ const Verify = () => {
     } else {
       // Clear the input if it's not a digit
       newOtp[index] = "";
+    }
+
+    if (newOtp.every(num => num.trim() !== '')) {
+      sendOtp();
     }
 
     setOtp(newOtp);
