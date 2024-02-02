@@ -33,12 +33,6 @@ jobs:
             docker build super-app/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
 
-      - name: Deploy to Kubernetes with Helm
-        uses: 'WyriHaximus/github-action-helm3@v3'
-        with:
-          exec: helm upgrade --install develop ./helm/ --set global.revision=${{ github.sha }}
-          kubeconfig: '${{ secrets.KUBE_CONFIG }}'
-
   superapp_server:
     name: Superapp Server
     runs-on: ubuntu-latest
@@ -61,8 +55,21 @@ jobs:
             docker build super-app/server/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
 
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: [superapp_web, superapp_server]
+    environment: production
+    steps:
+      - name: Set GIT_REF
+        run: source ./env.sh
+
       - name: Deploy to Kubernetes with Helm
         uses: 'WyriHaximus/github-action-helm3@v3'
         with:
-          exec: helm upgrade --install develop ./helm/ --set global.revision=${{ github.sha }}
+          exec: helm upgrade --install develop ./helm/ --set global.revision=${{ github.sha }} --set global.GITHUB_REF=$GIT_REF
           kubeconfig: '${{ secrets.KUBE_CONFIG }}'
+        env:
+          GIT_REF: $GIT_REF
+    
+    
