@@ -34,7 +34,7 @@ exports.search = (target, database) => {
     suggestions = []
     // Get all edit distance for every product in the database
     for (const product of database) {
-        edit_distance = wagner_fischer(" "+target.toUpperCase(), " "+product.Food_name)
+        edit_distance = wagner_fischer(" "+target, " "+product.Food_name)
         if (edit_distance < 0) {
             continue
         }
@@ -43,6 +43,7 @@ exports.search = (target, database) => {
     // Sort product by edit distance from ascending, and get first 10 product
     suggestions.sort(function(a, b){return a[1]-b[1]})
     suggestions = suggestions.splice(0, 10)
+    console.log(suggestions)
     suggestions.forEach((item, index, arr) => {arr[index] = item[0]})
     
     return suggestions // Return suggested products

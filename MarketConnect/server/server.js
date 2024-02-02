@@ -14,11 +14,25 @@ app.use(express.json({ limit: "50mb" }));
 
 const port = process.env.PORT || 5000;
 
-app.post("/search", async (req, res) => {
-  const { searchTarget } = req.body;
-  const { data, error } = await supabase.from("Food").select("id", "Food_name", "Price", "URL");
-  const result = search(searchTarget, data);
+app.get('/testget', (req, res) => {
+  res.status(200).json({ message: 'Hello from server!' });
+});
 
+
+app.post("/testpost", (req, res) => {
+  const { searchTerm } = req.body;
+  const data = { searchTerm: searchTerm};
+  console.log(data);
+  res.status(200).json(data);
+});
+
+app.post("/search", async (req, res) => {
+  const { searchTerm } = req.body;
+  const { data, error } = await supabase.from("Food").select("id, Food_Name, Price, URL");
+  const result = search(searchTerm, data);
+
+  console.log(result);
+  
   if (error) {
     res.status(400).json(error);
   } else {
