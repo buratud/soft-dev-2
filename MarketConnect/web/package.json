@@ -12,6 +12,7 @@
     "@types/react-dom": "^18.0.11",
     "axios": "^1.5.1",
     "base64-arraybuffer": "^1.0.2",
+    "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "craco-plugin-scoped-css": "^1.1.1",
     "dotenv": "^16.3.1",
@@ -26,9 +27,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"nodemon ../server/server.js\" \"craco start\"",
-    "front": "craco start",
-    "dev": "nodemon server/server.js",
+    "start": "craco start",
+    "dev": "concurrently \"npm start\" \"npm start --prefix ../server/\"",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
@@ -50,7 +50,6 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@supabase/supabase-js": "^2.37.0",
-    "concurrently": "^8.2.2"
+    "@supabase/supabase-js": "^2.37.0"
   }
 }
