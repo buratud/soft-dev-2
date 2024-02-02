@@ -1,4 +1,4 @@
-name: Build and deploy superapp website
+name: Build and deploy
 
 permissions:
   id-token: write
@@ -11,8 +11,8 @@ on:
       - '**'
 
 jobs:
-  build:
-    name: Build and deploy
+  superapp_web:
+    name: Superapp Website
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -32,6 +32,34 @@ jobs:
       - run: |
             docker build super-app/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
+
+      - name: Deploy to Kubernetes with Helm
+        uses: 'WyriHaximus/github-action-helm3@v3'
+        with:
+          exec: helm upgrade --install develop ./helm/ --set global.revision=${{ github.sha }}
+          kubeconfig: '${{ secrets.KUBE_CONFIG }}'
+
+  superapp_server:
+    name: Superapp Server
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1.6.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and push image
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
+            docker build super-app/server/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
 
       - name: Deploy to Kubernetes with Helm
         uses: 'WyriHaximus/github-action-helm3@v3'
