@@ -72,6 +72,6 @@ jobs:
           exec: helm upgrade --install develop ./helm/ --set global.revision=${{ github.sha }} --set global.GITHUB_REF=$GIT_REF
           kubeconfig: '${{ secrets.KUBE_CONFIG }}'
         env:
-          GIT_REF: $GIT_REF
+          GIT_REF: ${{ env.GIT_REF }}
     
     
