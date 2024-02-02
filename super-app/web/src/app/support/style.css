@@ -12,16 +12,15 @@ body {
 .contact_container {
   flex-direction: column;
   align-items: center;
-  padding-top: 150px;
+  padding-top: 5.5rem;
 }
 
 .contact_head {
   font-size: 40px;
-  font-style: normal;
   font-weight: 700;
   color: #000000;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
 }
 
 .box_container {
@@ -141,7 +140,7 @@ textarea {
   font-weight: 500;
 }
 
-button {
+.special-button {
   background-color: #1f2021;
   color: #ffffff;
   padding: 10px 15px;
@@ -151,23 +150,21 @@ button {
   font-size: 16px;
   font-weight: 500;
   align-self: flex-end;
-  transition: background-color 0.3s ease-in-out; /* Added transition property */
+  transition: background-color 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adjust values as needed */
 }
 
-button:hover {
+.special-button:hover {
   background-color: #292c7b;
-  animation: jiggle 0.5s ease-in-out infinite;
+  animation: pulse 1s ease-in-out infinite;
 }
 
-@keyframes jiggle {
+@keyframes pulse {
   0%, 100% {
-    transform: translateX(0);
+    transform: scale(1);
   }
-  20%, 80% {
-    transform: translateX(-2px);
-  }
-  40%, 60% {
-    transform: translateX(2px);
+  50% {
+    transform: scale(1.1);
   }
 }
 
@@ -233,7 +230,6 @@ button:hover {
   position: sticky;
   top: 0;
   background-color: #d9d9d9;
-  z-index: 1;
 }
 
 .history_table tbody {
