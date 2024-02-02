@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import styles from './nav.module.css'
+import { BsBoxArrowLeft } from "react-icons/bs"
 
 export default function Home() {
 
@@ -17,7 +18,9 @@ export default function Home() {
         <main className={styles.main}>
             <div className={styles.leftside}>
                 <div className={styles.logo}>
-                    <Image alt="logo" src="/images/LOGO.png" height={78} width={80} />
+                    <a href="/">
+                        <Image alt="logo" src="/images/LOGO.png" height={70} width={80} />
+                    </a>
                 </div>
             </div>
             <div className={styles.middle} >
@@ -37,7 +40,9 @@ export default function Home() {
 
                     {isOpen_1 && <div className={styles.dropdownContent}>
                         <div>
-                            <span>Main</span>
+                            <span>
+                                <a href="/">Main</a>
+                            </span>
                         </div>
                         <div>
                             <button className={styles.subdropdown} onClick={() => setIsOpen_Categories((prev) => !prev)}>
@@ -47,22 +52,32 @@ export default function Home() {
                             {isOpen_Categories && (
                                 <div className={styles.subdropdownContent}>
                                     <div>
-                                        <span>Cleaning</span>
+                                        <span>
+                                            <a href="/">Cleaning</a>
+                                        </span>
                                     </div>
                                     <div>
-                                        <span>Decoration</span>
+                                        <span>
+                                            <a href="/">Decorations</a>
+                                        </span>
                                     </div>
                                     <div>
-                                        <span>Story's DekHor</span>
+                                        <span>
+                                            <a href="/">Story's DekHor</a>
+                                        </span>
                                     </div>
                                 </div>
                             )}
                         </div>
                         <div>
-                            <span>Blogging</span>
+                            <span>
+                                <a href="/">Blogging</a>
+                            </span>
                         </div>
                         <div>
-                            <span>Blogger</span>
+                            <span>
+                                <a href="/">Blogger</a>
+                            </span>
                         </div>
                     </div>}
                 </div>
@@ -81,13 +96,19 @@ export default function Home() {
 
                     {isOpen_2 && <div className={styles.dropdownContent}>
                         <div>
-                            <span>Main</span>
+                            <span>
+                                <a href="/">Main</a>
+                            </span>
                         </div>
                         <div>
-                            <span>All Dorms</span>
+                            <span>
+                                <a href="/">All Dorms</a>
+                            </span>
                         </div>
                         <div>
-                            <span>Add Dorm</span>
+                            <span>
+                                <a href="/">Add Dorm</a>
+                            </span>
                         </div>
                     </div>}
                 </div>
@@ -110,7 +131,9 @@ export default function Home() {
 
                     {isOpen_3 && <div className={styles.dropdownContent}>
                         <div>
-                            <span>Main</span>
+                            <span>
+                                <a href="/">Main</a>
+                            </span>
                         </div>
                         <div>
                             <button className={styles.subdropdown} onClick={() => setIsOpen_CategoriesEat((prev) => !prev)}>
@@ -120,19 +143,27 @@ export default function Home() {
                             {isOpen_CategoriesEat && (
                                 <div className={styles.subdropdownContent}>
                                     <div>
-                                        <span>Foods</span>
+                                        <span>
+                                            <a href="/">Foods</a>
+                                        </span>
                                     </div>
                                     <div>
-                                        <span>Desserts</span>
+                                        <span>
+                                            <a href="/">Desserts</a>
+                                        </span>
                                     </div>
                                     <div>
-                                        <span>Drinks</span>
+                                        <span>
+                                            <a href="/">Drinks</a>
+                                        </span>
                                     </div>
                                 </div>
                             )}
                         </div>
                         <div>
-                            <span>Add Recipe</span>
+                            <span>
+                                <a href="/">Add Recipe</a>
+                            </span>
                         </div>
                     </div>}
                 </div>
@@ -152,13 +183,19 @@ export default function Home() {
 
                     {isOpen_4 && <div className={styles.dropdownContent}>
                         <div>
-                            <span>Main</span>
+                            <span>
+                                <a href="/">Main</a>
+                            </span>
                         </div>
                         <div>
-                            <span>All Products</span>
+                            <span>
+                                <a href="/">All Products</a>
+                            </span>
                         </div>
                         <div>
-                            <span>Add Product</span>
+                            <span>
+                                <a href="/">Add Product</a>
+                            </span>
                         </div>
                     </div>}
                 </div>
@@ -167,25 +204,33 @@ export default function Home() {
 
             <div className={styles.rightside}>
                 {/* dropdown Profile */}
-                <button className={styles.dropdown}
+                <button
                     onClick={() => {
                         setIsOpen_Profile((prev) => !prev);
                         setIsOpen_4(false);
                         setIsOpen_3(false);
                         setIsOpen_2(false);
                         setIsOpen_1(false);
-                    }}>Pro
-                    {!isOpen_Profile ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
+                    }}>
+                    <div><img alt="Profile" src="/images/PersonCircle.svg" className={styles.ProfileImage} /></div>
+                </button>
 
                 {isOpen_Profile && <div className={styles.dropdownContentProfile}>
                     <div>
-                        <span>My profile</span>
+                        <Image alt="Profile" src="/images/PersonCircle.svg" height={30} width={30} />
+                        <span>
+                            <a href="/">My Profile</a>
+                        </span>
                     </div>
                     <div>
-                        <span>Support</span>
+                        <Image alt="Support" src="/images/support.png" height={30} width={30} />
+                        <span>
+                            <a href="/">Support</a>
+                        </span>
                     </div>
                     <div>
-                        <span>Log out</span>
+                        <BsBoxArrowLeft size={25} className={styles.logout} />
+                        <span className={styles.logout}><a href="/">Log out</a></span>
                     </div>
                 </div>}
             </div>
