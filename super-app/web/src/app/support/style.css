@@ -272,7 +272,13 @@ textarea {
 
 /* Styling for the feedback success animation */
 .feedback-success {
-  animation: flash 1s ease-in-out;
+  animation: flash =2s ease-in-out;
+}
+
+
+/* Styling for the unsend success animation */
+.unsend-success {
+  animation: flashuuu 2s ease-in-out;
 }
 
 /* Keyframes for the flash animation */
@@ -282,6 +288,16 @@ textarea {
   }
   50% {
     background-color: #b1ffb4;
+  }
+}
+
+/* Keyframes for the flashuuu animation */
+@keyframes flashuuu {
+  0%, 100% {
+    background-color: inherit;
+  }
+  50% {
+    background-color: #ffb1b1;
   }
 }
 

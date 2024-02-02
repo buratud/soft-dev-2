@@ -5,6 +5,8 @@ import { FaCheckCircle } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { ImSpinner9 } from "react-icons/im";
 
+import { createClient } from "@supabase/supabase-js";
+
 import "./style.css";
 import Navbar from "./navbar.js";
 
@@ -19,21 +21,40 @@ export default function ContactSupport() {
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [unsendSuccess, setUnsendSuccess] = useState(false);
   const [error, setError] = useState(null);
+  const [unsendClickedIndex, setUnsendClickedIndex] = useState(null);
 
-  // Fetch data from the API when the component mounts
+  // Supabase client
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  // Function to etch data only once when the component mounts.
   useEffect(() => {
-    setLoading(true);
-    fetchDataFromApi()
-      .then((data) => {
-        setHistoryData(data);
-      })
-      .catch((err) => {
-        setError("An error occurred while fetching data. Please try again.");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    fetchDataFromSupabase();
   }, []);
+
+  useEffect(() => {
+    const lastRow = document.querySelector(
+      ".history_table tbody tr:last-child"
+    );
+
+    if (lastRow) {
+      if (feedbackSent) {
+        lastRow.classList.add("feedback-success");
+        setTimeout(() => {
+          lastRow.classList.remove("feedback-success");
+          setFeedbackSent(false);
+        }, 1000);
+      } else if (unsendSuccess && unsendClickedIndex !== null) {
+        lastRow.classList.add("unsend-success");
+        setTimeout(() => {
+          lastRow.classList.remove("unsend-success");
+          setUnsendSuccess(false);
+          setUnsendClickedIndex(null);
+        }, 1000);
+      }
+    }
+  }, [feedbackSent, unsendSuccess, unsendClickedIndex]);
 
   // Handle scrolling and feedback sent state changes
   useEffect(() => {
@@ -52,7 +73,62 @@ export default function ContactSupport() {
     }
   }, [feedbackData, feedbackSent]);
 
-  // Return an appropriate icon based on unsend status
+  // Function to fetch data from Supabase
+  const fetchDataFromSupabase = async () => {
+    try {
+      setLoading(true);
+
+      const { data, error } = await supabase
+        .from("problems")
+        .select("*")
+        .order("date_create");
+
+      if (error) {
+        throw new Error("Failed to fetch data from Supabase");
+      }
+
+      setHistoryData(data);
+    } catch (err) {
+      setError("An error occurred while fetching data. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  // Function to handle unsend button click
+  const handleUnsendClick = async (index) => {
+    const feedbackId = historyData[index].unique_id; // Assuming the primary key column is unique_id
+
+    setUnsendLoading(true);
+
+    try {
+      const { error } = await supabase
+        .from("problems")
+        .update({ status: "Unsent", unsend: "Yes" }, { returning: "minimal" })
+        .eq("unique_id", feedbackId);
+
+      if (error) {
+        throw new Error(
+          "An error occurred while un-sending feedback. Please try again."
+        );
+      }
+
+      // Set the index of the row clicked for unsend
+      setUnsendClickedIndex(index);
+
+      // Refresh data from Supabase
+      await fetchDataFromSupabase();
+    } catch (err) {
+      setError(
+        err.message ||
+          "An error occurred while un-sending feedback. Please try again."
+      );
+    } finally {
+      setUnsendLoading(false);
+    }
+  };
+
   const getUnsendIcon = (unsend) => {
     switch (unsend) {
       case "Yes":
@@ -64,176 +140,114 @@ export default function ContactSupport() {
     }
   };
 
-  // Simulate fetching data from an API
-  const fetchDataFromApi = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const data = [
-          {
-            type: "Blogs",
-            problem: "Issue 1",
-            status: "Pending",
-            unsend: "No",
-          },
-          {
-            type: "Dorms",
-            problem: "Issue 2",
-            status: "Unsent",
-            unsend: "Yes",
-          },
-        ];
-        resolve(data);
-      }, 1000);
-    });
-  };
-
-  // Handle clicking on the unsend button
-  const handleUnsendClick = (index) => {
-    setHistoryData((prevData) => {
-      const updatedData = [...prevData];
-      const currentUnsendStatus = updatedData[index].unsend;
-
-      if (currentUnsendStatus === "No") {
-        setUnsendLoading(true);
-
-        new Promise((resolve) => setTimeout(resolve, 1000))
-          .then(async () => {
-            updatedData[index].unsend = "Yes";
-            updatedData[index].status = "Unsent";
-            setUnsendSuccess(true);
-
-            // Reset unsendSuccess after 1 second
-            setTimeout(() => {
-              setUnsendSuccess(false);
-            }, 1000);
-          })
-          .catch((err) => {
-            setError("An error occurred. Please try again.");
-          })
-          .finally(() => {
-            setUnsendLoading(false);
-          });
-      }
-
-      return updatedData;
-    });
-  };
-
-  // Handle sending feedback
-  const handleSendFeedback = () => {
+  const handleSendProblem = async () => {
     if (selectedType && feedbackData) {
       setLoading(true);
 
-      new Promise((resolve) => setTimeout(resolve, 1000))
-        .then(async () => {
-          const newFeedback = {
-            type: selectedType,
-            problem: feedbackData,
-            status: "Pending",
-            unsend: "No",
-          };
+      const feedbackDataToSend = {
+        user_id: "US5535",
+        email: "me@me.com",
+        type: selectedType,
+        problem: feedbackData,
+        status: "Pending",
+        unsend: "No",
+      };
 
-          setHistoryData((prevData) => [...prevData, newFeedback]);
-          setSelectedType("");
-          setFeedbackData("");
-          setFeedbackSent(true);
-        })
-        .catch((err) => {
-          setError("An error occurred. Please try again.");
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      console.log("Data sent:", feedbackDataToSend);
+
+      try {
+        const { data, error } = await supabase
+          .from("problems")
+          .upsert([feedbackDataToSend], {
+            onConflict: ["unique_id", "date_create"],
+          });
+
+        if (error) {
+          throw new Error(
+            "An error occurred while sending feedback. Please try again."
+          );
+        }
+        setSelectedType('');
+        setFeedbackData('');
+        setFeedbackSent(true);
+  
+        // Refresh data from Supabase
+        await fetchDataFromSupabase();
+      } catch (err) {
+        setError('An error occurred while sending feedback. Please try again.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
-  /* Main JSX structure for the component */
-  return (
-    <div>
-      {/* Include the Navbar component */}
-      <Navbar />
-      {/* Main container for the contact section */}
-      <div className="contact_container">
-        {/* Header for the contact section */}
-        <div className="contact_head">Contact Support</div>
-        {/* Container for the main content boxes */}
-        <div className="box_container">
-          {/* Main contact box */}
-          <div className="contact_box">
-            {/* Left half of the contact box */}
-            <div className="left_half">
-              {/* Container for transmission history */}
-              <div className="history_container">
-                {/* Heading for transmission history */}
-                <h2
-                  style={{
-                    textAlign: "center",
-                    fontSize: "20px",
-                  }}
-                >
-                  Transmission History
-                </h2>
-                {/* Scrollable history section */}
-                <div className="history_scrollable">
-                  {/* Conditionally render loading indicator or history table */}
-                  {loading ? (
-                    <div className="loading-indicator">
-                      <ImSpinner9 className="loading-icon" size={25} />
-                    </div>
-                  ) : (
-                    <table className="history_table">
-                      {/* Table header */}
-                      <thead>
-                        <tr>
-                          <th style={{ width: "15%" }}>Types</th>
-                          <th style={{ width: "55%" }}>Problems</th>
-                          <th style={{ width: "15%" }}>Status</th>
-                          <th style={{ width: "15%" }}>Unsend</th>
-                        </tr>
-                      </thead>
-                      {/* Table body */}
+/* Main JSX structure for the component */
+return (
+  <div>
+    {/* Include the Navbar component */}
+    <Navbar />
+    {/* Main container for the contact section */}
+    <div className="contact_container">
+      {/* Header for the contact section */}
+      <div className="contact_head">Contact Support</div>
+      {/* Container for the main content boxes */}
+      <div className="box_container">
+        {/* Main contact box */}
+        <div className="contact_box">
+          {/* Left half of the contact box */}
+          <div className="left_half">
+            {/* Container for transmission history */}
+            <div className="history_container">
+              {/* Heading for transmission history */}
+              <h2
+                style={{
+                  textAlign: "center",
+                  fontSize: "20px",
+                }}
+              >
+                Transmission History
+              </h2>
+              {/* Scrollable history section */}
+              <div className="history_scrollable">
+                {/* Conditionally render loading indicator or history table */}
+                {loading ? (
+                  <div className="loading-indicator">
+                    <ImSpinner9 className="loading-icon" size={25} />
+                  </div>
+                ) : (
+                  <table className="history_table">
+                    {/* Table header */}
+                    <thead>
+                      <tr>
+                        <th style={{ width: "15%" }}>Types</th>
+                        <th style={{ width: "55%" }}>Problems</th>
+                        <th style={{ width: "15%" }}>Status</th>
+                        <th style={{ width: "15%" }}>Unsend</th>
+                      </tr>
+                    </thead>
+                    {/* Table body */}
                       <tbody>
                         {/* Map through historyData to create rows */}
                         {historyData.map((data, index) => (
-                          <tr key={index}>
+                          <tr
+                            key={index}
+                            className={
+                              index === unsendClickedIndex || unsendSuccess
+                                ? "unsend-success"
+                                : index === historyData.length - 1 &&
+                                  feedbackSent
+                                ? "feedback-success"
+                                : ""
+                            }
+                          >
                             {/* Conditional class for feedback success */}
-                            <td
-                              className={
-                                index === historyData.length - 1 && feedbackSent
-                                  ? "feedback-success"
-                                  : ""
-                              }
-                            >
-                              {data.type}
-                            </td>
+                            <td>{data.type}</td>
                             {/* Conditional class for feedback success */}
-                            <td
-                              className={
-                                index === historyData.length - 1 && feedbackSent
-                                  ? "feedback-success"
-                                  : ""
-                              }
-                            >
-                              {data.problem}
-                            </td>
+                            <td>{data.problem}</td>
                             {/* Conditional class for feedback success */}
-                            <td
-                              className={
-                                index === historyData.length - 1 && feedbackSent
-                                  ? "feedback-success"
-                                  : ""
-                              }
-                            >
-                              {data.status}
-                            </td>
+                            <td>{data.status}</td>
                             {/* Conditional class for feedback success */}
-                            <td
-                              className={
-                                index === historyData.length - 1 && feedbackSent
-                                  ? "feedback-success"
-                                  : ""
-                              }
-                            >
+                            <td>
                               {/* Conditionally render loading icon or unsend icon */}
                               {data.loading ? (
                                 <ImSpinner9
@@ -337,7 +351,7 @@ export default function ContactSupport() {
                 <button
                   className="special-button"
                   style={{ width: "100px" }}
-                  onClick={handleSendFeedback}
+                  onClick={handleSendProblem}
                   disabled={loading}
                 >
                   {/* Conditionally render loading icon or "Send" text */}
