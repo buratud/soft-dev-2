@@ -5,6 +5,7 @@ const { decode } = require("base64-arraybuffer");
 const { createClient } = require("@supabase/supabase-js");
 const { supabaseKey, supabaseUrl } = require("./config");
 
+
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const app = express();
@@ -12,6 +13,17 @@ app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
 const port = process.env.PORT || 5000;
+
+app.get('/testget', (req, res) => {
+  res.status(200).json({ message: 'Hello from server!' });
+});
+
+app.post("/testpost", (req, res) => {
+  const { email, password } = req.body;
+  const data = { email: email, password: password };
+  console.log(data);
+  res.status(200).json(data);
+});
 
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
@@ -236,9 +248,14 @@ app.post("/addproduct", async (req, res) => {
     URL: picture,
     Line: line,
   });
+  console.log("req: " + req);
+  console.log("data: " + data);
   if (error) {
+    console.log("error: " + error);
+    console.log("res1: " + res);
     res.status(400).json(error);
   } else {
+    console.log("res2: " + res);
     res.status(200).json(data);
   }
 });
