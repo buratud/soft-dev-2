@@ -4,6 +4,7 @@ import Image from 'next/image';
 import styles from './register.module.css';
 import Link from 'next/link';
 import axios from 'axios';
+import config from './config';
 
 export default function Home() {
     const initialFormData = {
@@ -43,8 +44,7 @@ export default function Home() {
 
         console.log('Submitted Data:', formData);
 
-        // ทำสิ่งที่คุณต้องการทำหลังจาก Submit ที่นี่
-        axios.post("http://localhost:3300/register",{
+        axios.post(config.API + "/register",{
             email: formData.email,
             username: formData.username,
             password: formData.password,

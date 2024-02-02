@@ -37,13 +37,14 @@ const express = require('express');
 const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
 require("dotenv").config();
-const config = require('./config');
+const config = require('./config.js');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 // const port = process.env.PORT;
+const port = config.PORT;
 const supabaseUrl = "https://nypzyitcvjrnisjdsbpk.supabase.co";
 const supabaseKey = process.env.SUPERAPP_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -67,4 +68,4 @@ app.post("/register", async (req, res) => {
     }
 });
 
-app.listen(process.env.PORT, () => console.log(`Server is running on port ${process.env.PORT}`));
+app.listen(port, () => console.log(`Server is running on port ${port}`));
