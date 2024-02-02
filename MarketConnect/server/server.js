@@ -19,7 +19,7 @@ app.post("/register", async (req, res) => {
     email: email,
     password: password,
   });
-  // console.log(data);
+  console.log(data);
   if (error) {
     res.status(400).json(error);
   } else {
