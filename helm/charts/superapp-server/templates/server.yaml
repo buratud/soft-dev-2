@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superapp-server
+spec:
+  selector:
+    matchLabels:
+      app: superapp-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: superapp-server
+    spec:
+      containers:
+        - name: superapp-server
+          image: softdev2southeastasia.azurecr.io/superapp-server:{{ .Values.global.revision }}
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "0.2"
+            requests:
+              memory: "128Mi"
+              cpu: "0.1"
