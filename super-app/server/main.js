@@ -2,8 +2,10 @@ const express = require('express');
 const { PORT } = require('./config');
 
 const app = express();
+const api = express.Router();
+app.use('/api', api)
 
-app.get('/', (req, res) => {
+api.get('/', (req, res) => {
   res.send('Hello World');
 });
 
