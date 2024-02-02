@@ -69,7 +69,7 @@ jobs:
       - name: Deploy to Kubernetes with Helm
         uses: 'WyriHaximus/github-action-helm3@v3'
         with:
-          exec: helm upgrade --install develop ./helm/ --set global.revision=${{ github.sha }} --set global.GITHUB_REF=$GIT_REF
+          exec: helm upgrade --install $GIT_REF ./helm/ --set global.revision=${{ github.sha }} --set-string global.GITHUB_REF=$GIT_REF
           kubeconfig: '${{ secrets.KUBE_CONFIG }}'
         env:
           GIT_REF: ${{ env.GIT_REF }}
