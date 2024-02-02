@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: superapp-web-service
+  name: superapp-web-service{{ include "global.appendTag" . }}
 spec:
   type: ClusterIP
   selector:
-    app: superapp-web
+    app: superapp-web{{ include "global.appendTag" . }}
   ports:
     - protocol: TCP
       port: 3000

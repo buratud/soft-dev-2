@@ -5,18 +5,24 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: superapp-server
+      app: superapp-server{{ include "global.appendTag" . }}
   replicas: 1
   template:
     metadata:
       labels:
-        app: superapp-server
+        app: superapp-server{{ include "global.appendTag" . }}
     spec:
       containers:
         - name: superapp-server
           image: softdev2southeastasia.azurecr.io/superapp-server:{{ .Values.global.revision }}
           ports:
             - containerPort: 3000
+          env:
+            {{- template "global.env" . }}
+            - name: BASE_WEB_PATH
+              value: {{ include "global.rootPath" . | quote }}
+            - name: BASE_SERVER_PATH
+              value: {{ include "superapp-server.rootPath" . | quote }}
           resources:
             limits:
               memory: "256Mi"
