@@ -70,7 +70,7 @@ jobs:
             });
         env:
           MAIN_URL: ${{ env.MAIN_URL }}
-        if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize')
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
         
       - name: Azure Login
         uses: azure/login@v1.6.1
@@ -147,20 +147,6 @@ jobs:
 
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
-
-      - name: Write pull request comment
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: "Pull request live demo: $MAIN_URL"
-            })
-        env:
-          MAIN_URL: ${{ env.MAIN_URL }}
-        if: github.event_name == 'pull_request' && github.event.action == 'opened'
 
       - name: Deploy to Kubernetes with Helm
         uses: "WyriHaximus/github-action-helm3@v3"
