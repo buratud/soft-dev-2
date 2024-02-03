@@ -31,33 +31,34 @@ const Verify = () => {
     }
   };
 
-
   const handleInputChange = (e, index) => {
     if (loading) return; // Prevent input when loading
-
-    const { value } = e.target;
-    const newOtp = [...otp];
-    
-    if (/^\d$/.test(value)) {
+    const { value, id } = e.target;
+    let newOtp = [...otp];
+    // Handle backspace/delete key for empty field
+    if (value === '' && e.keyCode === 8 && index !== 0) {
+      newOtp[index] = '';
+      newOtp[index - 1] = ''; // Clear the previous field
+      setOtp(newOtp);
+      document.getElementById(`input${index}`).focus(); // Focus the previous field
+    } else if (/^\d$/.test(value)) { // Check if the value is a single digit
       newOtp[index] = value;
       setOtp(newOtp);
-      if (index < 5) {
+      // Move to next field if not the last
+      if (index < otp.length - 1) {
         document.getElementById(`input${index + 2}`).focus();
       }
-
       // If all OTP inputs are filled, add a delay before submitting
       if (newOtp.every((num) => num.trim() !== '')) {
         setTimeout(sendOtp, 100);
       }
-    } else if (value === '') {
+    } else {
+      // Handle case where non-digit character is entered
       newOtp[index] = '';
       setOtp(newOtp);
-      if (index > 0) {
-        document.getElementById(`input${index}`).focus();
-      }
     }
   };
-
+  
   useEffect(() => {
     // Focus the first input when the component mounts
     document.getElementById("input1").focus();
@@ -87,6 +88,7 @@ const Verify = () => {
               maxLength="1"
               value={value}
               onChange={(e) => handleInputChange(e, index)}
+              onKeyDown={(e) => handleInputChange(e, index)}
               autoComplete="off" // Disable autocomplete for security
             />
           ))}

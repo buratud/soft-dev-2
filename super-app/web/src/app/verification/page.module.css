@@ -98,35 +98,36 @@
 }
 
 .overlay {
-    position: fixed; /* Full screen overlay */
+    position: fixed; 
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.433); /* Darker semi-transparent background */
+    background: rgba(4, 4, 4, 0.433); 
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Make sure it's above all other content */
+    z-index: 1000; 
   }
   
 .loading {
-    color: #FFF; /* White color text */
-    font-size: 2em; /* Larger font size */
+    color: #FFF; 
+    font-size: 2em; 
     font-weight: bold;
     text-shadow: 0px 0px 20px rgba(255, 255, 255, 1); /* Strong text shadow for better readability */
     animation: bounce 1.2s ease-in-out infinite;
   }
   
   /* Bouncing text animation */
-  @keyframes bounce {
+@keyframes bounce {
     0%, 100% {
-      transform: translateY(0);
+      transform: translateY(20px);
     }
     50% {
       transform: translateY(-20px);
     }
-  }
+}
+
   
 
 
