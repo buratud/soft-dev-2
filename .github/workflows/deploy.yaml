@@ -57,19 +57,13 @@ jobs:
         run: bash ./env.sh >> "$GITHUB_ENV"
 
       - name: Write pull request comment
-        uses: actions/github-script@v6
+        uses: thollander/actions-comment-pull-request@v2
         with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: "Pull request live demo: $MAIN_URL"
-            })
+          message: "Pull request live demo: $MAIN_URL"
         env:
           MAIN_URL: ${{ env.MAIN_URL }}
-        if: github.event_name == 'pull_request' && github.event.action == 'opened'
-        
+        if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize')
+
       - name: Azure Login
         uses: azure/login@v1.6.1
         with:
