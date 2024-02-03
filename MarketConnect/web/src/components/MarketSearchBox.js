@@ -3,6 +3,7 @@ import axios from 'axios';
 import { BsCart4 } from "react-icons/bs";
 import { RiLoader4Line } from "react-icons/ri";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
+import { baseApiUrl } from "../config";}
 import "./MarketSearchBox.scoped.css";
 
 export default function MarketSearchBox() {
@@ -44,7 +45,7 @@ export default function MarketSearchBox() {
 
     const fetchList = (searchTerm) => {
         console.log('Search: ', searchTerm);
-        // axios.post(`http://localhost:5000/search`, {     // Development only!
+        // axios.post(`${baseApiUrl}/search`, {     // Development only!
         //         searchTerm: searchTerm
         //     })
         axios.get('https://65bb214bb4d53c0665540e31.mockapi.io/api/v1/searchlist')
