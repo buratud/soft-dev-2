@@ -9,7 +9,7 @@ ENV BASE_WEB_PATH=${BASE_DORM_WEB_PATH}
 ARG BASE_DORM_SERVER_PATH
 ENV BASE_SERVER_PATH=${BASE_DORM_SERVER_PATH}
 
-RUN npm install --omit=dev --legacy-peer-deps
+RUN npm install --legacy-peer-deps
 RUN npm run build
 
 FROM nginx:stable-alpine AS serve
