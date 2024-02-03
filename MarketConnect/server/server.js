@@ -30,8 +30,6 @@ app.post("/search", async (req, res) => {
   const { searchTerm } = req.body;
   const { data, error } = await supabase.from("Food").select("id, Food_Name, Price, URL");
   const result = search(searchTerm, data);
-
-  console.log(result);
   
   if (error) {
     res.status(400).json(error);
