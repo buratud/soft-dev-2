@@ -273,12 +273,12 @@ textarea {
 
 /* Styling for the feedback success animation */
 .feedback-success {
-  animation: flash 2s ease-in-out;
+  animation: flash 1.4s ease-in-out;
 }
 
 /* Styling for the unsend success animation */
 .unsend-success {
-  animation: flashuuu 2s ease-in-out;
+  animation: flashuuu 1.4s ease-in-out;
 }
 
 /* Keyframes for the flash animation */

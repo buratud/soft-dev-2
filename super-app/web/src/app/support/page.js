@@ -68,14 +68,14 @@ export default function ContactSupport() {
         setTimeout(() => {
           lastRow.classList.remove("feedback-success");
           setFeedbackSent(false);
-        }, 2000);
+        }, 1400);
       } else if (unsendSuccess && unsendClickedIndex !== null) {
         lastRow.classList.add("unsend-success");
         setTimeout(() => {
           lastRow.classList.remove("unsend-success");
           setUnsendSuccess(false);
           setUnsendClickedIndex(null);
-        }, 2000);
+        }, 1400);
       }
     }
   }, [feedbackSent, unsendSuccess, unsendClickedIndex]);
@@ -93,30 +93,36 @@ export default function ContactSupport() {
       // Reset feedbackSent after 1 second
       setTimeout(() => {
         setFeedbackSent(false);
-      }, 2000);
+      }, 1400);
     }
   }, [feedbackData, feedbackSent]);
 
   // Function to fetch data from Supabase
   const fetchDataFromSupabase = async () => {
     try {
-      setLoading(true); // Set loading status to true during data fetch
+      setLoading(true);
 
-      // Fetch data from Supabase
+      // Assuming have access to the user_id and email
+      const user_id = "US5535";
+      const email = "me@me.com";
+
+      // Fetch data from Supabase with filtering
       const { data, error } = await supabase
         .from("problems")
         .select("*")
+        .eq("user_id", user_id)
+        .eq("email", email)
         .order("date_create");
 
       if (error) {
-        throw new Error("Failed to fetch data from Supabase"); // Throw an error if data fetch fails
+        throw new Error("Failed to fetch data from Supabase");
       }
 
-      setHistoryData(data); // Update the state with fetched data
+      setHistoryData(data);
     } catch (err) {
-      setError("An error occurred while fetching data. Please try again."); // Set error message if an error occurs during data fetch
+      setError("An error occurred while fetching data. Please try again.");
     } finally {
-      setLoading(false); // Set loading status to false after data fetch completion (success or failure)
+      setLoading(false);
     }
   };
 
@@ -162,9 +168,13 @@ export default function ContactSupport() {
     if (selectedType && feedbackData) {
       setLoading(true); // Set loading status to true during feedback submission
 
+      // Assuming have access to the user_id and email
+      const user_id = "US5535";
+      const email = "me@me.com";
+
       const feedbackDataToSend = {
-        user_id: "US5535",
-        email: "me@me.com",
+        user_id: user_id,
+        email: email,
         type: selectedType,
         problem: feedbackData,
         status: "Pending",
