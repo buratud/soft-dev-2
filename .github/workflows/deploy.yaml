@@ -16,6 +16,9 @@ on:
     types:
       - "opened"
       - "synchronize"
+    branches:
+      - "main"
+      - "release"
 
 
 jobs:
