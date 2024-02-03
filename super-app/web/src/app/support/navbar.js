@@ -48,7 +48,7 @@ export default function Home() {
             <div className={styles.dropdownContent}>
               <div>
                 <span>
-                  <a href="/">Main</a>
+                  <a href="/homepage">Main</a>
                 </span>
               </div>
               <div>

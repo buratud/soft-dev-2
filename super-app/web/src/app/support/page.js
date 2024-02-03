@@ -4,37 +4,38 @@ import React, { useState, useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { ImSpinner9 } from "react-icons/im";
-
 import { createClient } from "@supabase/supabase-js";
 
 import "./style.css";
 import Navbar from "./navbar.js";
+import config from "../../../config.js"; // Import config.js
 
 // Define the main component
 export default function ContactSupport() {
+
   // State variables
   const [feedbackData, setFeedbackData] = useState(""); // State for storing feedback input
   const [selectedType, setSelectedType] = useState(""); // State for storing selected problem type
   const [historyData, setHistoryData] = useState([]); // State for storing transmission history data
   const [loading, setLoading] = useState(false); // State for tracking loading status
-  const [unsendLoading, setUnsendLoading] = useState(false); // State for tracking unsend operation loading status
+  const [setUnsendLoading] = useState(false); // State for tracking unsend operation loading status
   const [feedbackSent, setFeedbackSent] = useState(false); // State for tracking feedback sent status
   const [unsendSuccess, setUnsendSuccess] = useState(false); // State for tracking unsend success status
   const [error, setError] = useState(null); // State for storing error messages
   const [unsendClickedIndex, setUnsendClickedIndex] = useState(null); // State for tracking the index of the clicked row for unsend
+  const supabase = createClient(config.SUPABASE_URL, config.SUPABASE_KEY);
 
-  // Supabase client
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL; // URL for Supabase
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY; // API key for Supabase
-  const supabase = createClient(supabaseUrl, supabaseKey); // Create Supabase client instance
+  // dummy user_id and email
+  const user_id = "AA000001";
+  const email = "example@domain.com";
 
   // Function to get unsend icon based on the unsend status
   const getUnsendIcon = (unsend) => {
     switch (unsend) {
       case "Yes":
-        return <FaCheckCircle size={25} />;
+        return <FaCheckCircle size={23} />;
       case "No":
-        return <FaTrash size={25} />;
+        return <FaTrash size={23} />;
       default:
         return null;
     }
@@ -69,7 +70,7 @@ export default function ContactSupport() {
           lastRow.classList.remove("feedback-success");
           setFeedbackSent(false);
         }, 1400);
-      } else if (unsendSuccess && unsendClickedIndex !== null) {
+      } if (unsendSuccess && feedbackSent != true) {
         lastRow.classList.add("unsend-success");
         setTimeout(() => {
           lastRow.classList.remove("unsend-success");
@@ -102,10 +103,6 @@ export default function ContactSupport() {
     try {
       setLoading(true);
 
-      // Assuming have access to the user_id and email
-      const user_id = "US5535";
-      const email = "me@me.com";
-
       // Fetch data from Supabase with filtering
       const { data, error } = await supabase
         .from("problems")
@@ -120,7 +117,7 @@ export default function ContactSupport() {
 
       setHistoryData(data);
     } catch (err) {
-      setError("An error occurred while fetching data. Please try again.");
+      setError("Fetching data failed.");
     } finally {
       setLoading(false);
     }
@@ -146,7 +143,7 @@ export default function ContactSupport() {
 
       if (error) {
         throw new Error(
-          "An error occurred while un-sending feedback. Please try again."
+          "Unsending problem failed."
         ); // Throw an error if unsend operation fails
       }
 
@@ -156,7 +153,7 @@ export default function ContactSupport() {
     } catch (err) {
       setError(
         err.message ||
-          "An error occurred while un-sending feedback. Please try again."
+          "Unsending problem failed."
       ); // Set error message if an error occurs during unsend operation
     } finally {
       setUnsendLoading(false); // Set unsend loading status to false after unsend operation completion (success or failure)
@@ -193,7 +190,7 @@ export default function ContactSupport() {
 
         if (error) {
           throw new Error(
-            "An error occurred while sending feedback. Please try again."
+            "Sending problem failed."
           ); // Throw an error if feedback submission fails
         }
 
@@ -210,7 +207,7 @@ export default function ContactSupport() {
           lastRow.scrollIntoView({ behavior: "instant", block: "end" }); // Scroll to the last row instantly after feedback is sent
         }
       } catch (err) {
-        setError("An error occurred while sending feedback. Please try again."); // Set error message if an error occurs during feedback submission
+        setError("Sending problem failed."); // Set error message if an error occurs during feedback submission
       } finally {
         setLoading(false); // Set loading status to false after feedback submission completion (success or failure)
       }
@@ -248,7 +245,7 @@ export default function ContactSupport() {
                   {/* Conditionally render loading indicator or history table */}
                   {loading ? (
                     <div className="loading-indicator">
-                      <ImSpinner9 className="loading-icon" size={25} />
+                      <ImSpinner9 className="loading-icon" size={23} />
                     </div>
                   ) : (
                     <table className="history_table">
@@ -271,7 +268,7 @@ export default function ContactSupport() {
                               index === unsendClickedIndex || unsendSuccess
                                 ? "unsend-success"
                                 : index === historyData.length - 1 &&
-                                  feedbackSent
+                                feedbackSent
                                 ? "feedback-success"
                                 : ""
                             }
@@ -288,7 +285,7 @@ export default function ContactSupport() {
                               {data.loading ? (
                                 <ImSpinner9
                                   className="loading-icon"
-                                  size={25}
+                                  size={23}
                                 />
                               ) : (
                                 <div
