@@ -16,7 +16,7 @@ spec:
         - name: dorms-web
           image: softdev2southeastasia.azurecr.io/dorms-web:{{ .Values.global.revision }}
           ports:
-            - containerPort: 3000
+            - containerPort: 80
           env:
             {{- template "global.env" . }}
             - name: BASE_WEB_PATH
