@@ -11,6 +11,7 @@ ENV BASE_SERVER_PATH=${BASE_DORM_SERVER_PATH}
 
 RUN npm install --omit=dev --legacy-peer-deps
 RUN npm run build
-EXPOSE 3000
 
-ENTRYPOINT [ "npm", "start" ]
+FROM nginx:stable-alpine AS serve
+
+COPY --from=build /app/build /usr/share/nginx/html
