@@ -28,10 +28,3 @@ spec:
                 secretKeyRef:
                   name: mongodb-credential
                   key: MONGODB_CONNECTION_STRING
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "5m"
-            limits:
-              memory: "256Mi"
-              cpu: "0.01"
