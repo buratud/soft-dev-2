@@ -94,11 +94,14 @@
     align-items: center;
     justify-content: center;
     margin-top: 10px;
+    color: #FF6347;
+    font-family:'Poppins', sans-serif;
+    font-weight: 500;
 }
 
 .not_found_icon {
     font-size: 30px;
-    color: #FF6347; /* Adjust the color to your preference */
+    color: #FF6347;
     margin-bottom: 5px;
 }
 
@@ -111,6 +114,7 @@
     align-items: center;
     padding: 10px;
     margin-right: 10px;
+    margin-left: 10px;
     border-bottom: 1px solid #D09D6B;
     cursor: pointer;
     transition: all 0.1s ease-in-out;
