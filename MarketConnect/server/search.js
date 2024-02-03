@@ -56,5 +56,5 @@ exports.search = (target, database) => {
     suggestions = suggestions.splice(0, 10)
     suggestions.forEach((item, index, arr) => {arr[index] = item[0]})
 
-    return {"response": suggestions, "notFound": notFound} // Return suggested products
+    return {"response": suggestions, "notFound": notFound, "online": true} // Return suggested products
 }
