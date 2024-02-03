@@ -160,8 +160,9 @@ api.post("/new", async (req, res) => {
   }
 });
 
-api.post("/pro", async (req, res) => {
-  const { data, error } = await supabase.from("Promotion").select(" URL");
+
+app.post("/pro", async (req, res) => {
+  const { data, error } = await supabase.from("Promotion").select("URL");
   if (error) {
     res.status(400).json(error);
   } else {
