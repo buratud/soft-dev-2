@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { userContext } from "../App";
+import { BASE_API_URL } from "../config"
 
 
 function Actor(){
@@ -66,7 +67,7 @@ function Navbar(){
     const { user,setUser } = useContext(userContext)
     const [ linklogo ,setLinklogo] = useState("/")
     useEffect(() => {
-        axios("http://localhost:3001/dorm_id",{
+        axios(`${BASE_API_URL}/dorm_id`,{
             params : {
               username : user.username
             }}).then((response) => {

@@ -12,6 +12,9 @@ import Error from "./pages/error";
 import Helppage from "./pages/helppage";
 import axios from "axios";
 import Main from "./pages/main";
+import { BASE_API_URL } from "./config";
+import { BASE_API_URL } from "../config"
+
 const router = createHashRouter([
   {
     path: "/",
@@ -62,7 +65,7 @@ function App() {
   // }, [user])
 
   useEffect(() => {
-    axios.post("http://localhost:3001/auten", {},
+    axios.post(`${BASE_API_URL}/auten`, {},
       {
         headers: {
           Authorization: `Basic ${localStorage.getItem("token")}`

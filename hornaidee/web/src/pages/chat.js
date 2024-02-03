@@ -7,6 +7,7 @@ import "./chat.scoped.css"
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { io } from "socket.io-client";
+import { BASE_API_URL } from "../config"
 
 
 function Chat(){
@@ -19,7 +20,7 @@ function Chat(){
     const [searchFilter, setsearchFilter] = useState("");
     const navi = useNavigate();
     const [textBox , setTextBox] = useState("");
-    const socket = io.connect("http://localhost:3001")
+    const socket = io.connect(`${BASE_API_URL}`)
 
 
 
@@ -50,13 +51,13 @@ function Chat(){
     },[socket])
 
     useEffect(() => {
-        axios.get("http://localhost:3001/chat/"+chanel).then((response) =>{
+        axios.get(`${BASE_API_URL}/chat/${chanel}`).then((response) =>{
         setChatData(response.data);
         }).catch((err) =>{
             console.log(err)
             navi("/error")
         });
-        axios.get("http://localhost:3001/person/"+ student_id).then((response) =>{
+        axios.get(`${BASE_API_URL}/person/${student_id}`).then((response) =>{
                 const person_data = response.data.filter((person) => {
                 const name = person.member1 == student_id ? person.user2:person.user1
                 return name.includes(searchFilter);

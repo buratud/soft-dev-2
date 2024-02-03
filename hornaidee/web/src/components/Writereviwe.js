@@ -7,6 +7,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import { userContext } from "../App";
+import { BASE_API_URL } from "../config"
 function Writereview(props) {
   const {user} = useContext(userContext)
   const user_id = 1
@@ -14,7 +15,7 @@ function Writereview(props) {
   const [star ,setStar] = useState(0)
   const [comment ,setComment] = useState("")
   const sendReview = () => {
-    axios.post("http://localhost:3001/write_review",{
+    axios.post(`${BASE_API_URL}/write_review`,{
       dorm_id:dormID,
       writer_id:user_id,
       star:star,

@@ -19,6 +19,7 @@ import SafetyDetail from "../components/safety_detail";
 import Reviewbox from "../components/reviewbox";
 import Writereview from "../components/Writereviwe";
 import { userContext } from "../App";
+import { BASE_API_URL } from "../config"
 
 
 function Distance(distance){
@@ -44,7 +45,7 @@ function ChatButton(props){
   const {dormData,navi} = props
   const {user} = useContext(userContext)
   const getChanel = () => {
-    axios.get("http://localhost:3001/get_chanel",{
+    axios.get(`${BASE_API_URL}/get_chanel`,{
       params: {
         user1 : user.id,
         user2 : dormData.owner_id
@@ -75,7 +76,7 @@ function Detaildorm() {
   const [ reviews, setReviews ] = useState([]);
   const navi = useNavigate();
   useEffect(() => {
-    const url = 'http://localhost:3001/detail/'+dormID
+    const url = `${BASE_API_URL}/detail/${dormID}`
     axios.get(url).then((response) =>{
     setDormData(response.data);
     console.log(JSON.parse(response.data.url));
@@ -85,7 +86,7 @@ function Detaildorm() {
   },[location]);
 
   useEffect(() => {
-    const url = 'http://localhost:3001/review/'+dormID
+    const url = `${BASE_API_URL}/review/${dormID}`
     axios.get(url).then((response) =>{
     setreviewData(response.data);
     }).catch((err) =>{
@@ -102,7 +103,7 @@ function Detaildorm() {
   },[reviewData]);
 
   // const getChanel = () => {
-  //   axios.get("http://localhost:3001/get_chanel",{
+  //   axios.get(`${BASE_API_URL}/get_chanel`,{
   //     params: {
   //       user1 : 1,
   //       user2 : dormData.owner_id
