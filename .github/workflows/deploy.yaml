@@ -129,14 +129,6 @@ jobs:
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
 
-      - name: Deploy to Kubernetes with Helm
-        uses: "WyriHaximus/github-action-helm3@v3"
-        with:
-          exec: helm upgrade --install $GIT_REF ./helm/ --set global.revision=${{ github.sha }} --set-string global.GITHUB_REF=$GIT_REF
-          kubeconfig: "${{ secrets.KUBE_CONFIG }}"
-        env:
-          GIT_REF: ${{ env.GIT_REF }}
-
       - name: Write pull request comment
         uses: actions/github-script@v6
         with:
@@ -149,4 +141,13 @@ jobs:
             })
         env:
           MAIN_URL: ${{ env.MAIN_URL }}
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+
+      - name: Deploy to Kubernetes with Helm
+        uses: "WyriHaximus/github-action-helm3@v3"
+        with:
+          exec: helm upgrade --install $GIT_REF ./helm/ --set global.revision=${{ github.sha }} --set-string global.GITHUB_REF=$GIT_REF
+          kubeconfig: "${{ secrets.KUBE_CONFIG }}"
+        env:
+          GIT_REF: ${{ env.GIT_REF }}
+
