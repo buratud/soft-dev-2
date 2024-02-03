@@ -13,122 +13,22 @@ import Navbar from "./navbar.js";
 // Define the main component
 export default function ContactSupport() {
   // State variables
-  const [feedbackData, setFeedbackData] = useState("");
-  const [selectedType, setSelectedType] = useState("");
-  const [historyData, setHistoryData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [unsendLoading, setUnsendLoading] = useState(false);
-  const [feedbackSent, setFeedbackSent] = useState(false);
-  const [unsendSuccess, setUnsendSuccess] = useState(false);
-  const [error, setError] = useState(null);
-  const [unsendClickedIndex, setUnsendClickedIndex] = useState(null);
+  const [feedbackData, setFeedbackData] = useState(""); // State for storing feedback input
+  const [selectedType, setSelectedType] = useState(""); // State for storing selected problem type
+  const [historyData, setHistoryData] = useState([]); // State for storing transmission history data
+  const [loading, setLoading] = useState(false); // State for tracking loading status
+  const [unsendLoading, setUnsendLoading] = useState(false); // State for tracking unsend operation loading status
+  const [feedbackSent, setFeedbackSent] = useState(false); // State for tracking feedback sent status
+  const [unsendSuccess, setUnsendSuccess] = useState(false); // State for tracking unsend success status
+  const [error, setError] = useState(null); // State for storing error messages
+  const [unsendClickedIndex, setUnsendClickedIndex] = useState(null); // State for tracking the index of the clicked row for unsend
 
   // Supabase client
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL; // URL for Supabase
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY; // API key for Supabase
+  const supabase = createClient(supabaseUrl, supabaseKey); // Create Supabase client instance
 
-  // Function to etch data only once when the component mounts.
-  useEffect(() => {
-    fetchDataFromSupabase();
-  }, []);
-
-  useEffect(() => {
-    const lastRow = document.querySelector(
-      ".history_table tbody tr:last-child"
-    );
-
-    if (lastRow) {
-      if (feedbackSent) {
-        lastRow.classList.add("feedback-success");
-        setTimeout(() => {
-          lastRow.classList.remove("feedback-success");
-          setFeedbackSent(false);
-        }, 1000);
-      } else if (unsendSuccess && unsendClickedIndex !== null) {
-        lastRow.classList.add("unsend-success");
-        setTimeout(() => {
-          lastRow.classList.remove("unsend-success");
-          setUnsendSuccess(false);
-          setUnsendClickedIndex(null);
-        }, 1000);
-      }
-    }
-  }, [feedbackSent, unsendSuccess, unsendClickedIndex]);
-
-  // Handle scrolling and feedback sent state changes
-  useEffect(() => {
-    const lastRow = document.querySelector(
-      ".history_table tbody tr:last-child"
-    );
-    if (lastRow) {
-      lastRow.scrollIntoView({ behavior: "smooth", block: "end" });
-    }
-
-    if (feedbackSent) {
-      // Reset feedbackSent after 1 second
-      setTimeout(() => {
-        setFeedbackSent(false);
-      }, 1000);
-    }
-  }, [feedbackData, feedbackSent]);
-
-  // Function to fetch data from Supabase
-  const fetchDataFromSupabase = async () => {
-    try {
-      setLoading(true);
-
-      const { data, error } = await supabase
-        .from("problems")
-        .select("*")
-        .order("date_create");
-
-      if (error) {
-        throw new Error("Failed to fetch data from Supabase");
-      }
-
-      setHistoryData(data);
-    } catch (err) {
-      setError("An error occurred while fetching data. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-  // Function to handle unsend button click
-  const handleUnsendClick = async (index) => {
-    const feedbackId = historyData[index].unique_id; // Assuming the primary key column is unique_id
-
-    setUnsendLoading(true);
-
-    try {
-      const { error } = await supabase
-        .from("problems")
-        .update({ status: "Unsent", unsend: "Yes" }, { returning: "minimal" })
-        .eq("unique_id", feedbackId);
-
-      if (error) {
-        throw new Error(
-          "An error occurred while un-sending feedback. Please try again."
-        );
-      }
-
-      // Set the index of the row clicked for unsend
-      setUnsendClickedIndex(index);
-
-      // Refresh data from Supabase
-      await fetchDataFromSupabase();
-    } catch (err) {
-      setError(
-        err.message ||
-          "An error occurred while un-sending feedback. Please try again."
-      );
-    } finally {
-      setUnsendLoading(false);
-    }
-  };
-
+  // Function to get unsend icon based on the unsend status
   const getUnsendIcon = (unsend) => {
     switch (unsend) {
       case "Yes":
@@ -140,9 +40,127 @@ export default function ContactSupport() {
     }
   };
 
+  // Function to fetch data only once when the component mounts.
+  useEffect(() => {
+    fetchDataFromSupabase(); // Initial data fetch
+  }, []);
+
+  // Function to scroll to the last row when historyData changes
+  useEffect(() => {
+    const lastRow = document.querySelector(
+      ".history_table tbody tr:last-child"
+    );
+    if (lastRow) {
+      lastRow.scrollIntoView({ behavior: "instant", block: "end" }); // Scroll to the last row instantly when historyData changes
+    }
+  }, [historyData]);
+
+  // Function to handle visual feedback for success or unsend operations
+  useEffect(() => {
+    const lastRow = document.querySelector(
+      ".history_table tbody tr:last-child"
+    );
+
+    if (lastRow) {
+      // Apply feedback success or unsend success visual effects
+      if (feedbackSent) {
+        lastRow.classList.add("feedback-success");
+        setTimeout(() => {
+          lastRow.classList.remove("feedback-success");
+          setFeedbackSent(false);
+        }, 2000);
+      } else if (unsendSuccess && unsendClickedIndex !== null) {
+        lastRow.classList.add("unsend-success");
+        setTimeout(() => {
+          lastRow.classList.remove("unsend-success");
+          setUnsendSuccess(false);
+          setUnsendClickedIndex(null);
+        }, 2000);
+      }
+    }
+  }, [feedbackSent, unsendSuccess, unsendClickedIndex]);
+
+  // Handle scrolling and feedback sent state changes
+  useEffect(() => {
+    const lastRow = document.querySelector(
+      ".history_table tbody tr:last-child"
+    );
+    if (lastRow) {
+      lastRow.scrollIntoView({ behavior: "instant", block: "end" }); // Scroll to the last row instantly when feedback is sent or unsend success
+    }
+
+    if (feedbackSent) {
+      // Reset feedbackSent after 1 second
+      setTimeout(() => {
+        setFeedbackSent(false);
+      }, 2000);
+    }
+  }, [feedbackData, feedbackSent]);
+
+  // Function to fetch data from Supabase
+  const fetchDataFromSupabase = async () => {
+    try {
+      setLoading(true); // Set loading status to true during data fetch
+
+      // Fetch data from Supabase
+      const { data, error } = await supabase
+        .from("problems")
+        .select("*")
+        .order("date_create");
+
+      if (error) {
+        throw new Error("Failed to fetch data from Supabase"); // Throw an error if data fetch fails
+      }
+
+      setHistoryData(data); // Update the state with fetched data
+    } catch (err) {
+      setError("An error occurred while fetching data. Please try again."); // Set error message if an error occurs during data fetch
+    } finally {
+      setLoading(false); // Set loading status to false after data fetch completion (success or failure)
+    }
+  };
+
+  // Call this function only when needed
+  const refreshData = async () => {
+    await fetchDataFromSupabase(); // Refresh data from Supabase
+  };
+
+  // Function to handle unsend button click
+  const handleUnsendClick = async (index) => {
+    const feedbackId = historyData[index].unique_id; // Get the unique identifier for the selected feedback
+
+    setUnsendLoading(true); // Set unsend loading status to true
+
+    try {
+      // Update the status to "Unsent" and set unsend to "Yes" in the Supabase table for the selected feedback
+      const { error } = await supabase
+        .from("problems")
+        .update({ status: "Unsent", unsend: "Yes" }, { returning: "minimal" })
+        .eq("unique_id", feedbackId);
+
+      if (error) {
+        throw new Error(
+          "An error occurred while un-sending feedback. Please try again."
+        ); // Throw an error if unsend operation fails
+      }
+
+      setUnsendClickedIndex(index); // Set the index of the row clicked for unsend
+
+      await fetchDataFromSupabase(); // Refresh data from Supabase after unsend operation
+    } catch (err) {
+      setError(
+        err.message ||
+          "An error occurred while un-sending feedback. Please try again."
+      ); // Set error message if an error occurs during unsend operation
+    } finally {
+      setUnsendLoading(false); // Set unsend loading status to false after unsend operation completion (success or failure)
+    }
+  };
+
+  // Function to handle sending problem
   const handleSendProblem = async () => {
     if (selectedType && feedbackData) {
-      setLoading(true);
+      setLoading(true); // Set loading status to true during feedback submission
 
       const feedbackDataToSend = {
         user_id: "US5535",
@@ -153,9 +171,10 @@ export default function ContactSupport() {
         unsend: "No",
       };
 
-      console.log("Data sent:", feedbackDataToSend);
+      console.log("Data sent:", feedbackDataToSend); // Log the data being sent for feedback
 
       try {
+        // Upsert the feedback data into the Supabase table, using "unique_id" and "date_create" as conflict resolution criteria
         const { data, error } = await supabase
           .from("problems")
           .upsert([feedbackDataToSend], {
@@ -165,67 +184,74 @@ export default function ContactSupport() {
         if (error) {
           throw new Error(
             "An error occurred while sending feedback. Please try again."
-          );
+          ); // Throw an error if feedback submission fails
         }
-        setSelectedType('');
-        setFeedbackData('');
-        setFeedbackSent(true);
-  
-        // Refresh data from Supabase
-        await fetchDataFromSupabase();
+
+        setHistoryData([...historyData, feedbackDataToSend]); // Manually update the state to avoid additional API call
+
+        setSelectedType(""); // Reset selectedType state
+        setFeedbackData(""); // Reset feedbackData state
+        setFeedbackSent(true); // Set feedbackSent status to true
+
+        const lastRow = document.querySelector(
+          ".history_table tbody tr:last-child"
+        );
+        if (lastRow) {
+          lastRow.scrollIntoView({ behavior: "instant", block: "end" }); // Scroll to the last row instantly after feedback is sent
+        }
       } catch (err) {
-        setError('An error occurred while sending feedback. Please try again.');
+        setError("An error occurred while sending feedback. Please try again."); // Set error message if an error occurs during feedback submission
       } finally {
-        setLoading(false);
+        setLoading(false); // Set loading status to false after feedback submission completion (success or failure)
       }
     }
   };
 
-/* Main JSX structure for the component */
-return (
-  <div>
-    {/* Include the Navbar component */}
-    <Navbar />
-    {/* Main container for the contact section */}
-    <div className="contact_container">
-      {/* Header for the contact section */}
-      <div className="contact_head">Contact Support</div>
-      {/* Container for the main content boxes */}
-      <div className="box_container">
-        {/* Main contact box */}
-        <div className="contact_box">
-          {/* Left half of the contact box */}
-          <div className="left_half">
-            {/* Container for transmission history */}
-            <div className="history_container">
-              {/* Heading for transmission history */}
-              <h2
-                style={{
-                  textAlign: "center",
-                  fontSize: "20px",
-                }}
-              >
-                Transmission History
-              </h2>
-              {/* Scrollable history section */}
-              <div className="history_scrollable">
-                {/* Conditionally render loading indicator or history table */}
-                {loading ? (
-                  <div className="loading-indicator">
-                    <ImSpinner9 className="loading-icon" size={25} />
-                  </div>
-                ) : (
-                  <table className="history_table">
-                    {/* Table header */}
-                    <thead>
-                      <tr>
-                        <th style={{ width: "15%" }}>Types</th>
-                        <th style={{ width: "55%" }}>Problems</th>
-                        <th style={{ width: "15%" }}>Status</th>
-                        <th style={{ width: "15%" }}>Unsend</th>
-                      </tr>
-                    </thead>
-                    {/* Table body */}
+  /* Main JSX structure for the component */
+  return (
+    <div>
+      {/* Include the Navbar component */}
+      <Navbar />
+      {/* Main container for the contact section */}
+      <div className="contact_container">
+        {/* Header for the contact section */}
+        <div className="contact_head">Contact Support</div>
+        {/* Container for the main content boxes */}
+        <div className="box_container">
+          {/* Main contact box */}
+          <div className="contact_box">
+            {/* Left half of the contact box */}
+            <div className="left_half">
+              {/* Container for transmission history */}
+              <div className="history_container">
+                {/* Heading for transmission history */}
+                <h2
+                  style={{
+                    textAlign: "center",
+                    fontSize: "20px",
+                  }}
+                >
+                  Transmission History
+                </h2>
+                {/* Scrollable history section */}
+                <div className="history_scrollable">
+                  {/* Conditionally render loading indicator or history table */}
+                  {loading ? (
+                    <div className="loading-indicator">
+                      <ImSpinner9 className="loading-icon" size={25} />
+                    </div>
+                  ) : (
+                    <table className="history_table">
+                      {/* Table header */}
+                      <thead>
+                        <tr>
+                          <th style={{ width: "15%" }}>Types</th>
+                          <th style={{ width: "55%" }}>Problems</th>
+                          <th style={{ width: "15%" }}>Status</th>
+                          <th style={{ width: "15%" }}>Unsend</th>
+                        </tr>
+                      </thead>
+                      {/* Table body */}
                       <tbody>
                         {/* Map through historyData to create rows */}
                         {historyData.map((data, index) => (

@@ -181,7 +181,8 @@ textarea {
 
 /* Keyframes for the pulse animation */
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -272,9 +273,8 @@ textarea {
 
 /* Styling for the feedback success animation */
 .feedback-success {
-  animation: flash =2s ease-in-out;
+  animation: flash 2s ease-in-out;
 }
-
 
 /* Styling for the unsend success animation */
 .unsend-success {
@@ -283,7 +283,8 @@ textarea {
 
 /* Keyframes for the flash animation */
 @keyframes flash {
-  0%, 100% {
+  0%,
+  100% {
     background-color: inherit;
   }
   50% {
@@ -293,7 +294,8 @@ textarea {
 
 /* Keyframes for the flashuuu animation */
 @keyframes flashuuu {
-  0%, 100% {
+  0%,
+  100% {
     background-color: inherit;
   }
   50% {
