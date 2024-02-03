@@ -38,6 +38,7 @@ jobs:
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
         env:
           BASE_SUPERAPP_WEB_PATH: ${{ env.BASE_SUPERAPP_WEB_PATH }}
+          
   superapp_server:
     name: Superapp Server
     runs-on: ubuntu-latest
@@ -59,6 +60,56 @@ jobs:
       - run: |
           docker build super-app/server/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
+
+  eats_web:
+    name: Superapp Website
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1.6.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set GIT_REF
+        run: bash ./env.sh >> "$GITHUB_ENV"
+
+      - name: Login to Azure Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - name: Build and push image
+        run: |
+          docker build super-app/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }} --build-arg BASE_EATS_WEB_PATH=$BASE_EATS_WEB_PATH
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
+        env:
+          BASE_EATS_WEB_PATH: ${{ env.BASE_EATS_WEB_PATH }}
+
+  eats_server:
+    name: Eats Server
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1.6.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and push image
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
+          docker build super-app/server/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-server:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-server:${{ github.sha }}
 
   deploy:
     name: Deploy

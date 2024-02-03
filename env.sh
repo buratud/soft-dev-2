@@ -12,3 +12,10 @@ then
 else
   echo "BASE_SUPERAPP_WEB_PATH=/$GIT_REF"
 fi
+
+if (GIT_REF == "main")
+then
+  echo 'BASE_EATS_WEB_PATH=/eats'
+else
+  echo "BASE_EATS_WEB_PATH=/$GIT_REF/eats"
+fi
