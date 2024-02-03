@@ -35,8 +35,8 @@ h1{
     border-radius: 1rem;
     border: 1px solid #ccc;
     background-color: #F6F4EB;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 100;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
     font-size: 26px;
     text-align: center;
     text-decoration: none;
@@ -98,7 +98,7 @@ h1{
     border-radius: 1rem;
     border: 1px solid #ccc;
     background-color: #F6F4EB;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 300;
     font-size: 20px;
     text-align: center;
@@ -126,7 +126,7 @@ h1{
     border-radius: 1rem;
     border: 1px solid #ccc;
     background-color: #F6F4EB;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 300;
     font-size: 20px;
     text-align: center;

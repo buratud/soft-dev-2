@@ -15,13 +15,24 @@ app.use(express.json({ limit: "50mb" }));
 
 app.use(BASE_SERVER_PATH, api);
 
+api.get('/testget', (req, res) => {
+  res.status(200).json({ message: 'Hello from server!' });
+});
+
+api.post("/testpost", (req, res) => {
+  const { email, password } = req.body;
+  const data = { email: email, password: password };
+  console.log(data);
+  res.status(200).json(data);
+});
+
 api.post("/register", async (req, res) => {
   const { email, password } = req.body;
   const { data, error } = await supabase.auth.signUp({
     email: email,
     password: password,
   });
-  // console.log(data);
+  console.log(data);
   if (error) {
     res.status(400).json(error);
   } else {
@@ -239,9 +250,14 @@ api.post("/addproduct", async (req, res) => {
     URL: picture,
     Line: line,
   });
+  console.log("req: " + req);
+  console.log("data: " + data);
   if (error) {
+    console.log("error: " + error);
+    console.log("res1: " + res);
     res.status(400).json(error);
   } else {
+    console.log("res2: " + res);
     res.status(200).json(data);
   }
 });

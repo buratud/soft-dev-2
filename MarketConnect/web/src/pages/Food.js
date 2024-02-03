@@ -7,6 +7,7 @@ import "../components/FoodSearchBar.scoped.css";
 import "./Food.scoped.css";
 import { PopChat } from "../components/PopChat";
 import { BASE_API_URL } from "../../config";
+import MarketSearchBox from "../components/MarketSearchBox";
 
 const Food = () => {
   const [foodAll, setFood] = useState([]);
@@ -39,7 +40,10 @@ const Food = () => {
       {/* <PopChat messages={[]} /> */}
       <main>
         <section id="food-box">
-          <FoodSearchBar onSearch={handleSearch} />
+          {/* <FoodSearchBar onSearch={handleSearch} /> */}
+          <div className="food-search">
+            <MarketSearchBox />
+          </div>
           <div className="food-box-grid">
             <FoodItems foodData={filteredFood} />
           </div>
