@@ -68,33 +68,33 @@ jobs:
           docker build super-app/server/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
 
-  eats_web:
-    name: Eats Website
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - uses: actions/checkout@v4
+  # eats_web:
+  #   name: Eats Website
+  #   runs-on: ubuntu-latest
+  #   environment: production
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Azure Login
-        uses: azure/login@v1.6.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #     - name: Azure Login
+  #       uses: azure/login@v1.6.1
+  #       with:
+  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Set GIT_REF
-        run: bash ./env.sh >> "$GITHUB_ENV"
+  #     - name: Set GIT_REF
+  #       run: bash ./env.sh >> "$GITHUB_ENV"
 
-      - name: Login to Azure Registry
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
-      - name: Build and push image
-        run: |
-          docker build hongkrua/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-web:${{ github.sha }} --build-arg BASE_EATS_WEB_PATH=$BASE_EATS_WEB_PATH
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-web:${{ github.sha }}
-        env:
-          BASE_EATS_WEB_PATH: ${{ env.BASE_EATS_WEB_PATH }}
+  #     - name: Login to Azure Registry
+  #       uses: azure/docker-login@v1
+  #       with:
+  #         login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+  #         username: ${{ secrets.REGISTRY_USERNAME }}
+  #         password: ${{ secrets.REGISTRY_PASSWORD }}
+  #     - name: Build and push image
+  #       run: |
+  #         docker build hongkrua/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-web:${{ github.sha }} --build-arg BASE_EATS_WEB_PATH=$BASE_EATS_WEB_PATH
+  #         docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-web:${{ github.sha }}
+  #       env:
+  #         BASE_EATS_WEB_PATH: ${{ env.BASE_EATS_WEB_PATH }}
 
   eats_server:
     name: Eats Server
@@ -121,7 +121,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: [superapp_web, superapp_server, eats_web, eats_server]
+    needs: [superapp_web, superapp_server, eats_server]
     environment: production
     steps:
       - uses: actions/checkout@v4
