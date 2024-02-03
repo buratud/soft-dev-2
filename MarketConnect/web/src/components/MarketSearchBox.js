@@ -3,7 +3,7 @@ import axios from 'axios';
 import { BsCart4 } from "react-icons/bs";
 import { RiLoader4Line } from "react-icons/ri";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import { baseApiUrl } from "../config";}
+import { baseApiUrl } from "../config";
 import "./MarketSearchBox.scoped.css";
 
 export default function MarketSearchBox() {
