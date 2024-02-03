@@ -12,6 +12,7 @@ on:
       - "main"
       - "release"
       - "develop"
+      - "feature/cicd"
   pull_request:
     types:
       - "opened"
