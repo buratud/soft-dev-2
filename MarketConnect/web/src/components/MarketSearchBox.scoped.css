@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
 .searchlist {
-    border: 2px solid #092F88;
-    color: #092F88;
+    border: 2px solid #D09D6B;
+    color: #D09D6B;
     justify-items: auto;
     align-items: center;
     border-radius: 15px;
@@ -18,7 +18,7 @@
 }
 
 .searchlist::-webkit-scrollbar-thumb {
-    background-color: #092F88;
+    background-color: #D09D6B;
 }
 
 .searchbox {
@@ -31,7 +31,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: #092F88;
+    background: #D09D6B;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -61,7 +61,7 @@
     color: #333;
     background: none;
     line-height: normal;
-    border-bottom: 1px solid #092F88;
+    border-bottom: 1px solid #D09D6B;
 }
 
 .textbox_input::placeholder {
@@ -78,7 +78,7 @@
 
 .spinner_icon {
     font-size: 30px;
-    color: #092F88;
+    color: #D09D6B;
     animation: spin 1s linear infinite;
 }
 
@@ -109,28 +109,35 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    border-bottom: 1px solid #092F88;
+    margin-right: 10px;
+    border-bottom: 1px solid #D09D6B;
     cursor: pointer;
     transition: all 0.1s ease-in-out;
 }
 
 .search_result_item:hover {
-    background: #092F88;
+    background: #e2d8ca;
     color: #fff;
     border-radius: 15px;
 }
 
 .search_result_item_title {
+    color: #533f2b;
     font-size: 24px;
     font-weight: 500;
     margin: 0;
     flex-grow: 1;
 }
 
+.search_result_item_price {
+    color: #533f2b;
+    font-size: 20px;
+    padding-right: 10px;
+}
+
 .search_result_item_image {
     height: 10vh;
-    border-radius: 15%;
-    padding-left: 10px;
+    border-radius: 10%;
 }
 
 .search_results {
