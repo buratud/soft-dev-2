@@ -50,12 +50,11 @@ exports.search = (target, database) => {
     // Sort product by edit distance from ascending, and get first 10 product
     suggestions.sort(function(a, b){return a[1]-b[1]})
     // Check if there are no matching product names in the database
-    console.log(suggestions)
     if (suggestions.length == 0) {
         notFound = true
     }
     suggestions = suggestions.splice(0, 10)
     suggestions.forEach((item, index, arr) => {arr[index] = item[0]})
-    
-    return [{"Result": suggestions, "NotFound": notFound}] // Return suggested products
+
+    return {"response": suggestions, "notFound": notFound} // Return suggested products
 }
