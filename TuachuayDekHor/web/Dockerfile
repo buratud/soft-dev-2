@@ -13,7 +13,7 @@ ENV SUPABASE_URL=${BLOG_SUPABASE_URL}
 ARG BLOG_SUPABASE_ANON_KEY
 ENV SUPABASE_ANON_KEY=${BLOG_SUPABASE_ANON_KEY}
 
-RUN npm install --omit=dev
+RUN npm install --omit=dev --legacy-peer-deps
 RUN npm run build
 EXPOSE 3000
 

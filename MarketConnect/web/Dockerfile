@@ -13,7 +13,7 @@ ENV SUPABASE_URL=${MARKET_SUPABASE_URL}
 ARG MARKET_SUPABASE_ANON_KEY
 ENV SUPABASE_ANON_KEY=${MARKET_SUPABASE_ANON_KEY}
 
-RUN npm install --omit=dev
+RUN npm install --omit=dev --legacy-peer-deps
 RUN npm run build
 EXPOSE 3000
 
