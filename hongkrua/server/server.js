@@ -5,9 +5,9 @@ const cors = require("cors");
 const bcrypt = require("bcrypt"); // เพิ่ม bcrypt เพื่อใช้ในการเข้ารหัสรหัสผ่าน
 const app = express();
 const jwt = require("jsonwebtoken");
-const User = require("../lib/user")
-const Recipe = require("../lib/recipe")
-const ingredient = require("../lib/ingredient");
+const User = require("./lib/user")
+const Recipe = require("./lib/recipe")
+const ingredient = require("./lib/ingredient");
 const { MONGODB_CONNECTION_STRING, PORT, BASE_API_URL } = require("./config");
 
 const api = express.Router();
