@@ -1,123 +1,307 @@
-import React, { useState, useRef, useContext } from 'react';
-import "./Nav.scoped.css"
-import { Link,useNavigate } from "react-router-dom";
-import { NavLink } from 'react-router-dom';
-import { AiOutlineMenu, AiOutlineSearch, AiFillCloseSquare} from 'react-icons/ai'
-import DropdownProfile from './DropdownProfile';
-import { BsFillCaretDownFill } from "react-icons/bs";
-import { General } from '../App';
-import e from 'cors';
+import { NavLink } from "react-router-dom";
+import "./Nav.scoped.css";
+import { BsBoxArrowLeft } from "react-icons/bs";
+import { useState } from "react";
 
+const Navbar = () => {
+  const [isOpen_1, setIsOpen_1] = useState(false);
+  const [isOpen_2, setIsOpen_2] = useState(false);
+  const [isOpen_3, setIsOpen_3] = useState(false);
+  const [isOpen_4, setIsOpen_4] = useState(false);
+  const [isOpen_Profile, setIsOpen_Profile] = useState(false);
+  const [isOpen_Categories, setIsOpen_Categories] = useState(false);
+  const [isOpen_CategoriesEat, setIsOpen_CategoriesEat] = useState(false);
+  return (
+    <header className="main">
+      <div className="leftside">
+        <div className="logo">
+          <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/"}>
+            <img alt="logo" src="/LOGO.png" height={70} width={80} />
+          </NavLink>
+        </div>
+      </div>
+      <div className="middle">
+        <div>
+          {/* dropdown 1 */}
+          <button
+            className="dropdown"
+            onClick={() => {
+              setIsOpen_1((prev) => !prev);
+              setIsOpen_2(false);
+              setIsOpen_3(false);
+              setIsOpen_4(false);
+              setIsOpen_Profile(false);
+              setIsOpen_Categories(false);
+            }}
+          >
+            Blogs
+            {!isOpen_1 ? (
+              <span className="arrow">▼</span>
+            ) : (
+              <span className="arrow">▲</span>
+            )}
+          </button>
 
-// Responsive Navbar
-function Navbar(){
-    const {session} = useContext(General);
-
-    // code สำหรับเสิร์ชข้ามหน้า
-    const [searchQuery, setSearchQuery] = useState('');
-    const navigate = useNavigate();
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        if (searchQuery.trim() !== '') {
-          navigate(`/search?query=${searchQuery}`);
-        }
-    };
-    
-    //  Code to toggle Navbar
-    const [active, setActive] = useState('menu_content')
-    const showNav = () => {
-        setActive('menu_content activeMenu')
-    }
-    const removeNav = () => {
-        setActive('menu_content')
-    }
-
-    // Code to show search ไม่เกี่ยวกับข้ามหน้า อันนี้ตอนทำ responsive 
-    const [show, setShow] = useState('search_blog')
-    const showSearch = () => {
-        setShow('search_blog activeSearch')
-    }
-    const removeSearch = () => {
-        setShow('search_blog')
-    }
-
-    const [open, setOpen] = useState(false)
-    const [open2, setOpen2] = useState(false)
-    // ให้คลิกข้างนอกแล้ว Dropdown ก็ถือว่าปิด
-    const dropDownRef = useRef();
-    const dropRef = useRef();
-    const dropDown2Ref = useRef();
-    const drop2Ref = useRef();
-
-    window.addEventListener('click', (e) => {
-        if (e.target !== dropDownRef.current && e.target !== dropRef.current) {
-            setOpen(false);
-        }
-    })
-    
-    window.addEventListener('click', (e) => {
-        if (e.target !== dropDown2Ref.current && e.target !== drop2Ref.current) {
-            setOpen2(false);
-        }
-    }) 
-
-    return (
-        <header className="Navbar">
-            <Link to={"/home"}>
-                <div className="logo">
-                    <img id="logo" src="/DekHor.png" alt="" />
-                </div> 
-            </Link>
-            <div className={show}>
-                <form action="#" className='search-box' onSubmit={handleSearch}>
-                    <input 
-                        type="text"
-                        placeholder='Search...'
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)} 
-                        />
-                    <button type='submit' className='btn_search'>
-                        <AiOutlineSearch className="search-icon" size={25} /> 
-                    </button>
-                </form>
+          {isOpen_1 && (
+            <div className="dropdownContent">
+              <div>
+                <span>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs"}>Main</NavLink>
+                </span>
+              </div>
+              <div>
+                <button
+                  className="subdropdown"
+                  onClick={() => setIsOpen_Categories((prev) => !prev)}
+                >
+                  <span>Categories</span>
+                  {!isOpen_Categories ? (
+                    <span className="arrow">▼</span>
+                  ) : (
+                    <span className="arrow">▲</span>
+                  )}
+                </button>
+                {isOpen_Categories && (
+                  <div className="subdropdownContent">
+                    <div>
+                      <span>
+                        <NavLink to={"/"}>Cleaning</NavLink>
+                      </span>
+                    </div>
+                    <div>
+                      <span>
+                        <NavLink to={"/"}>Decorations</NavLink>
+                      </span>
+                    </div>
+                    <div>
+                      <span>
+                        <NavLink to={"/"} href="/">
+                          Story's DekHor
+                        </NavLink>
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div>
+                <span>
+                  <NavLink to={"/"}>Blogging</NavLink>
+                </span>
+              </div>
+              <div>
+                <span>
+                  <NavLink to={"/"}>Blogger</NavLink>
+                </span>
+              </div>
             </div>
-            <div className={active} >
-                <li>
-                    <a className="navigation" href="/home">Home</a>
-                </li>
-                <li>
-                    <a className="drop" ref={dropRef} onClick={() => setOpen(!open)} href="#">Categories<BsFillCaretDownFill size={10} className='icon' /></a>
-                    {open &&
-                        <div className="Dropdown" ref={dropDownRef}>
-                            <li><a className="navigation2" href="/decoration">Decoration</a></li>
-                            <li><a className="navigation2" href="/cleaning">Cleaning</a></li>
-                            <li><a className="navigation2" href="/cooking">Cooking</a></li>
-                            <li><a className="navigation2" href="/story">Story's DekHor</a></li>
-                        </div>
-                    }
-                </li>
-                <li>
-                    <a className="drop" ref={drop2Ref} onClick={() => setOpen2 (!open2)} href="#">Blog<BsFillCaretDownFill size={10} className='icon' /></a>
-                    {open2 &&
-                        <div className="Dropdown" ref={dropDown2Ref}>
-                            <li><a className="navigation2" href="/writeblog">Blogging</a></li>
-                            <li><a className="navigation2" href="/blogger">Blogger</a></li>
-                        </div>
-                    }
-                </li>
-                <li>
-                    <NavLink className="login_blog">
-                        {session ? <DropdownProfile/> : <Link to={"/login"}><button className='Login_btn'>Log in</button></Link>}
-                    </NavLink>
-                </li>
-                <div className="closeNavBar" onClick={removeNav} >
-                    <AiFillCloseSquare size={25} id='closeicon' />
-                </div>
-            </div>
-            <AiOutlineMenu size={25} id='menu-icon' onClick={showNav} />
+          )}
+        </div>
 
-        </header>
-    );
+        <div>
+          {/* dropdown 2 */}
+          <button
+            className="dropdown"
+            onClick={() => {
+              setIsOpen_2((prev) => !prev);
+              setIsOpen_3(false);
+              setIsOpen_4(false);
+              setIsOpen_1(false);
+              setIsOpen_Profile(false);
+            }}
+          >
+            Dorms
+            {!isOpen_2 ? (
+              <span className="arrow">▼</span>
+            ) : (
+              <span className="arrow">▲</span>
+            )}
+          </button>
+          {isOpen_2 && (
+            <div className="dropdownContent">
+              <div>
+                <span>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms"}>Main</NavLink>
+                </span>
+              </div>
+              <div>
+                <span>
+                  <NavLink to={"/"}>All Dorms</NavLink>
+                </span>
+              </div>
+              <div>
+                <span>
+                  <NavLink to={"/"}>Add Dorm</NavLink>
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div>
+          {/* dropdown 3 */}
+          <button
+            className="dropdown"
+            onClick={() => {
+              setIsOpen_3((prev) => !prev);
+              setIsOpen_4(false);
+              setIsOpen_2(false);
+              setIsOpen_1(false);
+              setIsOpen_Profile(false);
+              setIsOpen_CategoriesEat(false);
+            }}
+          >
+            Eats
+            {!isOpen_3 ? (
+              <span className="arrow">▼</span>
+            ) : (
+              <span className="arrow">▲</span>
+            )}
+          </button>
+
+          {isOpen_3 && (
+            <div className="dropdownContent">
+              <div>
+                <span>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats"}>Main</NavLink>
+                </span>
+              </div>
+              <div>
+                <button
+                  className="subdropdown"
+                  onClick={() => setIsOpen_CategoriesEat((prev) => !prev)}
+                >
+                  <span>Categories</span>
+                  {!isOpen_CategoriesEat ? (
+                    <span className="arrow">▼</span>
+                  ) : (
+                    <span className="arrow">▲</span>
+                  )}
+                </button>
+                {isOpen_CategoriesEat && (
+                  <div className="subdropdownContent">
+                    <div>
+                      <span>
+                        <NavLink to={"/"}>Foods</NavLink>
+                      </span>
+                    </div>
+                    <div>
+                      <span>
+                        <NavLink to={"/"}>Desserts</NavLink>
+                      </span>
+                    </div>
+                    <div>
+                      <span>
+                        <NavLink to={"/"}>Drinks</NavLink>
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div>
+                <span>
+                  <NavLink to={"/"}>Add Recipe</NavLink>
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div>
+          {/* dropdown 4 */}
+          <button
+            className="dropdown"
+            onClick={() => {
+              setIsOpen_4((prev) => !prev);
+              setIsOpen_3(false);
+              setIsOpen_2(false);
+              setIsOpen_1(false);
+              setIsOpen_Profile(false);
+            }}
+          >
+            Markets
+            {!isOpen_4 ? (
+              <span className="arrow">▼</span>
+            ) : (
+              <span className="arrow">▲</span>
+            )}
+          </button>
+
+          {isOpen_4 && (
+            <div className="dropdownContent">
+              <div>
+                <span>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market"}>Main</NavLink>
+                </span>
+              </div>
+              <div>
+                <span>
+                  <NavLink to={"/food"}>All Products</NavLink>
+                </span>
+              </div>
+              <div>
+                <span>
+                  <NavLink to={"/addproduct"}>Add Product</NavLink>
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="rightside">
+        {/* dropdown Profile */}
+        <button
+          onClick={() => {
+            setIsOpen_Profile((prev) => !prev);
+            setIsOpen_4(false);
+            setIsOpen_3(false);
+            setIsOpen_2(false);
+            setIsOpen_1(false);
+          }}
+        >
+          <div>
+            <img
+              alt="Profile"
+              src="/PersonCircle.svg"
+              className="ProfileImage"
+            />
+          </div>
+        </button>
+
+        {isOpen_Profile && (
+          <div className="dropdownContentProfile">
+            <div>
+              <img
+                alt="Profile"
+                src="/PersonCircle.svg"
+                height={30} 
+                width={30}
+              />
+              <span>
+                <NavLink to={"/"}>My Profile</NavLink>
+              </span>
+            </div>
+            <div>
+              <img
+                alt="Support"
+                src="/support.png"
+                height={30} 
+                width={30}
+              />
+              <span>
+                <NavLink to={"/"}>Support</NavLink>
+              </span>
+            </div>
+            <div>
+              <BsBoxArrowLeft size={25} className="logout" />
+              <span className="logout">
+                <NavLink href="/">Log out</NavLink>
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+    </header>
+  );
 };
 export default Navbar;

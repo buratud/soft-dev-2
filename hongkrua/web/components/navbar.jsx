@@ -18,7 +18,7 @@ export default function Navbar() {
         <main className={styles.main}>
             <div className={styles.leftside}>
                 <div className={styles.logo}>
-                    <a href="/">
+                    <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/">
                         <Image alt="logo" src="/images/LOGO.png" height={70} width={80} />
                     </a>
                 </div>
@@ -41,7 +41,7 @@ export default function Navbar() {
                     {isOpen_1 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href="/">Main</a>
+                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs">Main</a>
                             </span>
                         </div>
                         <div>
@@ -97,7 +97,7 @@ export default function Navbar() {
                     {isOpen_2 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href="/">Main</a>
+                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms">Main</a>
                             </span>
                         </div>
                         <div>
@@ -132,7 +132,7 @@ export default function Navbar() {
                     {isOpen_3 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href="/">Main</a>
+                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats">Main</a>
                             </span>
                         </div>
                         <div>
@@ -184,7 +184,7 @@ export default function Navbar() {
                     {isOpen_4 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href="/">Main</a>
+                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market">Main</a>
                             </span>
                         </div>
                         <div>
