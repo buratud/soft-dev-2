@@ -5,11 +5,13 @@ const cors = require("cors");
 const bcrypt = require("bcrypt"); // เพิ่ม bcrypt เพื่อใช้ในการเข้ารหัสรหัสผ่าน
 const app = express();
 const jwt = require("jsonwebtoken");
-const User = require("../lib/user")
-const Recipe = require("../lib/recipe")
-const ingredient = require("../lib/ingredient");
-const { mongoDbConnectionString, port } = require("./config");
+const User = require("./lib/user")
+const Recipe = require("./lib/recipe")
+const ingredient = require("./lib/ingredient");
+const { MONGODB_CONNECTION_STRING, PORT, BASE_API_URL } = require("./config");
 
+const api = express.Router();
+app.use(BASE_API_URL, api);
 
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
@@ -22,7 +24,7 @@ app.use(
 );
 app.use(bodyParser.text({ limit: "200mb" }));
 mongoose.connect(
-  mongoDbConnectionString,
+  MONGODB_CONNECTION_STRING,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -49,7 +51,7 @@ async function loginUser(email, password) {
   }
 }
 
-app.post("/api/register", async (req, res) => {
+api.post("/api/register", async (req, res) => {
   const { username, email, password} = req.body;
 
   if (username && email && password && password === req.body.confirmPassword) {
@@ -67,7 +69,7 @@ app.post("/api/register", async (req, res) => {
   }
 });
 
-app.post("/api/login", async (req, res) => {
+api.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -87,7 +89,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.post("/api/recipes", async (req, res) => {
+api.post("/api/recipes", async (req, res) => {
   console.log(req.body);
   const { title, nation, type, details, steps, selectedImage } = req.body;
 
@@ -109,7 +111,7 @@ app.post("/api/recipes", async (req, res) => {
     res.status(500).json({ error: "การสร้างสูตรอาหาร" });
   }
 });
-app.get("/api/recipes/:id", async (req, res) => {
+api.get("/api/recipes/:id", async (req, res) => {
   const recipeId = req.params.id;
   try {
     const recipes = await Recipe.findOne({ title: recipeId });
@@ -119,7 +121,7 @@ app.get("/api/recipes/:id", async (req, res) => {
     res.status(500).json({ error: "การดึงข้อมูลสูตรอาหาร" });
   }
 });
-app.get("/api/recipes", async (req, res) => {
+api.get("/api/recipes", async (req, res) => {
   try {
     const recipes = await Recipe.find();
     res.json(recipes);
@@ -128,7 +130,7 @@ app.get("/api/recipes", async (req, res) => {
     res.status(500).json({ error: "การดึงข้อมูลสูตรอาหาร" });
   }
 });
-// app.get('/api/ingredients/:id', async (req, res) => {
+// api.get('/api/ingredients/:id', async (req, res) => {
 //   // Replace with logic to fetch ingredients by ID from your database
 //   const ingredientId = req.params.id;
 //   try{
@@ -141,7 +143,7 @@ app.get("/api/recipes", async (req, res) => {
 //   }
 //   // Query your database and send the ingredients as a response
 // });
-app.get("/api/ingredients", async (req, res) => {
+api.get("/api/ingredients", async (req, res) => {
   // Replace with logic to fetch ingredients by ID from your database
   try {
     const ingredientData = await ingredient.findOne();
@@ -153,7 +155,7 @@ app.get("/api/ingredients", async (req, res) => {
   }
   // Query your database and send the ingredients as a response
 });
-app.post("/api/comments", (req, res) => {
+api.post("/api/comments", (req, res) => {
   // Replace with logic to save comments in your database
   const { text, rating } = req.body;
   // Save the comment to your database
@@ -161,6 +163,6 @@ app.post("/api/comments", (req, res) => {
   res.status(201).json({ message: "Comment saved successfully" });
 });
 
-app.listen(port, () =>
-  console.log(`Server is running at http://localhost:${port}`)
+app.listen(PORT, () =>
+  console.log(`Server is running at http://localhost:${PORT}`)
 );

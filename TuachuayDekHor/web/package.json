@@ -37,8 +37,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"craco --openssl-legacy-provider start\" \"nodemon server/server.js\"",
-    "dev": "nodemon server/server.js",
+    "dev": "craco --openssl-legacy-provider start",
     "build": "craco --openssl-legacy-provider build",
     "test": "craco test",
     "eject": "react-scripts eject"
