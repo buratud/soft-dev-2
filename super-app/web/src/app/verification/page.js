@@ -65,6 +65,9 @@ const Verify = () => {
   
   return (
     <div className={styles.container}>
+       <div className={styles.topBar}>
+        <img src="./images/logo.png" alt="Logo" className={styles.logo} />
+      </div>
       {loading && <div className={styles.overlay}>
         <div className={styles.loading}>Loading...</div>
       </div>}
