@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Admin.scoped.css";
-import { baseApiUrl } from "../config";
+import { BASE_API_URL } from "../../config";
 
 function Admin() {
   const [issues, setIssues] = useState([]);
   const getdata = () => {
     axios
-      .post(`${baseApiUrl}/adminsupport`)
+      .post(`${BASE_API_URL}/adminsupport`)
       .then((res) => {
         setIssues(res.data);
       })
@@ -25,7 +25,7 @@ function Admin() {
       // issue.id === id ? { ...issue, status: newStatus } : issue
       {
         if (issue.id === id) {
-          axios.post(`${baseApiUrl}/changestatus`, {
+          axios.post(`${BASE_API_URL}/changestatus`, {
             status: newStatus,
             id: id,
           });

@@ -2,7 +2,6 @@ import { useContext, useState } from "react"
 import Bt1 from "./bt1"
 import axios from "axios"
 import { userContext } from "../App"
-import { baseApiUrl } from "../config"
 
 function Help(){
     const [subject , setSubject] = useState("")
@@ -17,7 +16,7 @@ function Help(){
         }
     }
     const creat_ticket = () => {
-        axios.post(`${baseApiUrl}/creat_ticket`,{
+        axios.post("http://localhost:3001/creat_ticket",{
             subject : subject,
             message : message,
             user_id : user.id
@@ -37,7 +36,7 @@ function Help(){
                         <Bt1 onChange={creat_ticket}>send</Bt1>
                     </div>
                 </div>
-                    <img onClick={onClikehelp} src="/img/help.png" className="w-16 h-16 ml-auto fixed right-6 bottom-4"/>
+                    <img onClick={onClikehelp} src="img/help.png" className="w-16 h-16 ml-auto fixed right-6 bottom-4"/>
             </div>
         )
     }
