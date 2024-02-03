@@ -5,13 +5,13 @@ const cors = require("cors");
 var jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const jwtKey = "krit9354";
 const { Server } = require('socket.io');
 const http = require("http");
-const { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, PORT, WEB_URL } = require("./config");
+const { BASE_SERVER_PATH, JWT_KEY, MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, PORT, WEB_URL } = require("./config");
 app.use(cors());
 app.use(express.json());
-
+const api = express.Router();
+app.use(BASE_SERVER_PATH, api);
 const db = mysql.createConnection({
   user: MYSQL_USER,
   host: MYSQL_HOST,
@@ -117,14 +117,14 @@ server.listen(PORT, () => {
 });
 
 // App (get)
-app.get("/", (req, res) => {
+api.get("/", (req, res) => {
   db.query("SELECT* FROM dorm_detail", (err, result) => {
     res.send(result);
   });
 });
 
 //filter(get)
-app.get("/filter", (req, res) => {
+api.get("/filter", (req, res) => {
   console.log(req.query)
   db.query(`SELECT * FROM dorm_detail 
   WHERE min_price >= ? and max_price <= ?
@@ -140,7 +140,7 @@ app.get("/filter", (req, res) => {
 })
 
 // Dorm Detail (get)
-app.get("/detail/:dormID", (req, res) => {
+api.get("/detail/:dormID", (req, res) => {
   db.query(
     `SELECT* FROM dorm_detail
             JOIN facility ON dorm_detail.dorm_id = facility.dorm_id
@@ -158,7 +158,7 @@ app.get("/detail/:dormID", (req, res) => {
 });
 
 //review (get)
-app.get("/review/:dormID", (req, res) => {
+api.get("/review/:dormID", (req, res) => {
   db.query(`
   SELECT review.*,writer.user_name as writer FROM review 
 join user_data as writer on review.writer_id = writer.id
@@ -176,7 +176,7 @@ WHERE  dorm_id = ?;
 })
 
 //review (post)
-app.post("/write_review", (req, res) => {
+api.post("/write_review", (req, res) => {
   const dorm_id = req.body.dorm_id
   const writer_id = req.body.writer_id
   const star = req.body.star
@@ -193,7 +193,7 @@ app.post("/write_review", (req, res) => {
 })
 
 // Chat (get chat data)
-app.get("/chat/:chanel", (req, res) => {
+api.get("/chat/:chanel", (req, res) => {
   db.query(
     `SELECT chat.*,sender.user_name as sender,receiver.user_name as receiver FROM chat
     join user_data as sender on chat.sender_id = sender.id
@@ -215,7 +215,7 @@ app.get("/chat/:chanel", (req, res) => {
 
 
 // Chat (get person)
-app.get("/person/:user", (req, res) => {
+api.get("/person/:user", (req, res) => {
   db.query(
     `SELECT chanel.*,user1.user_name as user1,user2.user_name as user2,user1.profile as profile1 ,user2.profile as profile2 FROM chanel
     JOIN user_data AS user1 ON chanel.member1 = user1.id
@@ -233,7 +233,7 @@ app.get("/person/:user", (req, res) => {
 });
 
 // Chat (post send message)
-app.post("/send_message", (req, res) => {
+api.post("/send_message", (req, res) => {
   console.log(req.body)
   chanel = req.body.chanel
   sender = req.body.sender_id
@@ -255,7 +255,7 @@ app.post("/send_message", (req, res) => {
 
 
 //Register (post)
-app.post("/creat_user", (req, res) => {
+api.post("/creat_user", (req, res) => {
   const user_name = req.body.user_name;
   const email = req.body.email;
   const password = req.body.password;
@@ -281,7 +281,7 @@ app.post("/creat_user", (req, res) => {
 
 
 //login
-app.post("/login", (req, res) => {
+api.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   console.log(req.query);
@@ -296,7 +296,7 @@ app.post("/login", (req, res) => {
               profile: user[0].profile,
               actor: user[0].actor,
             },
-            jwtKey,
+            JWT_KEY,
             {
               expiresIn: "1h",
             }
@@ -315,10 +315,10 @@ app.post("/login", (req, res) => {
 });
 
 //auten
-app.post("/auten", (req, res) => {
+api.post("/auten", (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   try {
-    const decoded = jwt.verify(token, jwtKey);
+    const decoded = jwt.verify(token, JWT_KEY);
     res.json({ decoded, status: "ok" });
   } catch (err) {
     res.status(400).json({ status: "err", token });
@@ -327,7 +327,7 @@ app.post("/auten", (req, res) => {
 });
 
 //Manage (post) 
-app.put("/update", (req, res) => {
+api.put("/update", (req, res) => {
   _ = req.body.dorm.dorm_id;
   dorm_name = req.body.dorm.dorm_name;
   min = req.body.dorm.min_price;
@@ -383,7 +383,7 @@ app.put("/update", (req, res) => {
 });
 
 //Delete dorm(delete)
-app.delete("/delete/:id", (req, res) => {
+api.delete("/delete/:id", (req, res) => {
   console.log(typeof req.params.id)
   const id = req.params.id;
   db.query(`
@@ -410,7 +410,7 @@ app.delete("/delete/:id", (req, res) => {
 
 
 //Help  ticket(get)
-app.get("/ticket", (req, res) => {
+api.get("/ticket", (req, res) => {
   const user_id = req.query.user_id
   console.log("user_id", typeof user_id)
   var filter = "WHERE user_id = " + user_id + ";"
@@ -428,7 +428,7 @@ app.get("/ticket", (req, res) => {
   });
 });
 //Help message(get)
-app.get("/ticketMessage", (req, res) => {
+api.get("/ticketMessage", (req, res) => {
   console.log(req.query)
   db.query(
     `SELECT ticket_message.*,sender.user_name as sender,receiver.user_name as receiver FROM ticket_message
@@ -450,7 +450,7 @@ app.get("/ticketMessage", (req, res) => {
 });
 
 //Help (update status)
-app.put("/update_ticket_status", (req, res) => {
+api.put("/update_ticket_status", (req, res) => {
   console.log(req.body)
   new_status = req.body.new_status
   ticket_id = req.body.ticket_id
@@ -466,11 +466,11 @@ app.put("/update_ticket_status", (req, res) => {
     })
 });
 
-app.post("/example", (req, res) => {
+api.post("/example", (req, res) => {
   console.log(req.body)
 })
 
-app.get("/get_chanel", (req, res) => {
+api.get("/get_chanel", (req, res) => {
   const person1 = req.query.user1
   const person2 = req.query.user2
   console.log("get chanel")
@@ -500,7 +500,7 @@ app.get("/get_chanel", (req, res) => {
     })
 })
 
-app.get("/profile", (req, res) => {
+api.get("/profile", (req, res) => {
   db.query("SELECT * FROM hornai_d.user_data WHERE id = ?;",
     [req.query.user_id], (err, result) => {
       if (err) {
@@ -512,7 +512,7 @@ app.get("/profile", (req, res) => {
 })
 
 //creat ticket
-app.post("/creat_ticket", (req, res) => {
+api.post("/creat_ticket", (req, res) => {
   const subject = req.body.subject
   const message = req.body.message
   const user_id = req.body.user_id
@@ -523,7 +523,7 @@ app.post("/creat_ticket", (req, res) => {
     });
 })
 
-app.get("/dorm_id", (req, res) => {
+api.get("/dorm_id", (req, res) => {
   db.query(`SELECT dorm_id FROM user_data
   JOIN dorm_detail ON user_data.user_name = dorm_detail.dorm_name
   WHERE user_name = ?;`

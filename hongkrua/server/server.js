@@ -8,10 +8,10 @@ const jwt = require("jsonwebtoken");
 const User = require("./lib/user")
 const Recipe = require("./lib/recipe")
 const ingredient = require("./lib/ingredient");
-const { MONGODB_CONNECTION_STRING, PORT, BASE_API_URL } = require("./config");
+const { MONGODB_CONNECTION_STRING, PORT, BASE_SERVER_PATH } = require("./config");
 
 const api = express.Router();
-app.use(BASE_API_URL, api);
+app.use(BASE_SERVER_PATH, api);
 
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb", extended: true }));

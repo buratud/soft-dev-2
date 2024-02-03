@@ -4,14 +4,17 @@ const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
 require("dotenv").config();
 
-const { supabaseUrl, supabaseKey } = require('./config');
+const { BASE_SERVER_PATH, PORT, SUPABASE_URL, SUPABASE_KEY } = require('./config');
 
 const app = express();
+const api = express.Router();
 
 app.use(cors());
 app.use(express.json());
-const port = process.env.PORT || 5000;
-const supabase = createClient(supabaseUrl, supabaseKey);
+
+app.use(BASE_SERVER_PATH, api);
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 //MySQL Connection
 // const connection = mysql.createConnection({
@@ -32,7 +35,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 ////////////////////////////////////Register/////////////////////////////////////////////////
 
 //signup
-app.post("/signup", async (req, res) => {
+api.post("/signup", async (req, res) => {
     const { email, username, password } = req.body;
     const { data, error } = await supabase.auth.signUp({
         email: email,
@@ -52,7 +55,7 @@ app.post("/signup", async (req, res) => {
     }
 });
 
-app.get("/getprofile/:id", async (req, res) => {
+api.get("/getprofile/:id", async (req, res) => {
     const { id } = req.params
     const { data: { user }, error } = await supabase.auth.admin.getUserById(id)
     if (error) {
@@ -68,7 +71,7 @@ app.get("/getprofile/:id", async (req, res) => {
 
 
 //edit_profile
-app.post("/edit_profile", async (req, res) => {
+api.post("/edit_profile", async (req, res) => {
     const { username, email, id, avatar_url } = req.body;
     const { data: user, error } = await supabase.auth.admin.updateUserById(
         id,
@@ -87,7 +90,7 @@ app.post("/edit_profile", async (req, res) => {
 })
 
 //createpost
-app.post("/creatpost", async (req, res) => {
+api.post("/creatpost", async (req, res) => {
     const { title, content, category, email, id, image_title, image_link } = req.body;
     const { data, error } = await supabase.from("Create_Post").insert({ title: title, content: content, category: category, email: email, id: id, image_title: image_title, image_link: image_link })
     if (error) {
@@ -100,7 +103,7 @@ app.post("/creatpost", async (req, res) => {
 })
 
 //delete
-app.delete("/deletepost", async (req, res) => {
+api.delete("/deletepost", async (req, res) => {
     const { id_post } = req.query;
     const { error } = await supabase.from("Create_Post").delete().eq('id_post', id_post)
     if (error) {
@@ -112,7 +115,7 @@ app.delete("/deletepost", async (req, res) => {
 })
 
 //like_post
-app.post("/likepost", async (req, res) => {
+api.post("/likepost", async (req, res) => {
     const { id_post, id } = req.body;
     const { data, error } = await supabase.from("likes").insert({ id_post: id_post, id: id })
     if (error) {
@@ -125,7 +128,7 @@ app.post("/likepost", async (req, res) => {
 })
 
 //count_like
-app.get("/countlike", async (req, res) => {
+api.get("/countlike", async (req, res) => {
     const { id_post } = req.query;
     const { data, error } = await supabase
         .from("likes")
@@ -141,7 +144,7 @@ app.get("/countlike", async (req, res) => {
 })
 
 //unlike
-app.delete("/unlike", async (req, res) => {
+api.delete("/unlike", async (req, res) => {
     const { id_post, id } = req.query;
     const { error } = await supabase.from("likes").delete().eq('id', id).eq('id_post', id_post)
     if (error) {
@@ -153,7 +156,7 @@ app.delete("/unlike", async (req, res) => {
 })
 
 //comment
-app.post("/commentpost", async (req, res) => {
+api.post("/commentpost", async (req, res) => {
     const { id, id_post, comment } = req.body;
     const { data, error } = await supabase.from("comments").insert({ id: id, id_post: id_post, comment: comment })
     if (error) {
@@ -165,7 +168,7 @@ app.post("/commentpost", async (req, res) => {
 })
 
 //show_comment
-app.get("/showcomment", async (req, res) => {
+api.get("/showcomment", async (req, res) => {
     const { id_post } = req.query
     const { data, error } = await supabase.from("comments").select('user: profiles(username),comment').eq("id_post", id_post)
     if (error) {
@@ -180,7 +183,7 @@ app.get("/showcomment", async (req, res) => {
 
 
 //randompost
-app.post("/randompost", async (req, res) => {
+api.post("/randompost", async (req, res) => {
     const { data, error } = await supabase
         .from('updaterandom') // Replace with your table name
         .select('id_post,title,category,user:profiles!Create_Post_id_fkey(username),image_link')
@@ -197,7 +200,7 @@ app.post("/randompost", async (req, res) => {
 
 
 //show_like
-app.get("/showlike", async (req, res) => {
+api.get("/showlike", async (req, res) => {
     const { id } = req.query;
     const { data, error } = await supabase
         .from('likes')
@@ -212,7 +215,7 @@ app.get("/showlike", async (req, res) => {
 })
 
 //post_to_profile
-app.get("/posttoprofile", async (req, res) => {
+api.get("/posttoprofile", async (req, res) => {
     const { id } = req.query;
     const { data, error } = await supabase.from("Create_Post").select('id_post,title,category,user:profiles!Create_Post_id_fkey(username),image_link').eq("id", id)
     if (error) {
@@ -225,7 +228,7 @@ app.get("/posttoprofile", async (req, res) => {
 })
 
 //post_to_category
-app.get("/posttocategory", async (req, res) => {
+api.get("/posttocategory", async (req, res) => {
     const { category } = req.query;
     const { data, error } = await supabase.from("Create_Post").select('id_post,title,user:profiles!Create_Post_id_fkey(username),image_link').eq("category", category)
     if (error) {
@@ -238,7 +241,7 @@ app.get("/posttocategory", async (req, res) => {
 })
 
 //detailpost
-app.get("/detailpost", async (req, res) => {
+api.get("/detailpost", async (req, res) => {
     const { id_post } = req.query;
     const { data, error } = await supabase.from("Create_Post").select('id,title,name:profiles!Create_Post_id_fkey(username),content,image_link').eq("id_post", id_post)
     if (error) {
@@ -250,7 +253,7 @@ app.get("/detailpost", async (req, res) => {
     }
 })
 //name_profile
-app.get("/nameprofile", async (req, res) => {
+api.get("/nameprofile", async (req, res) => {
     const { id } = req.query;
     const { data, error } = await supabase.from("Create_Post").select('id,user:profiles!Create_Post_id_fkey(username)').eq("id", id);
     if (error) {
@@ -263,7 +266,7 @@ app.get("/nameprofile", async (req, res) => {
 })
 
 //id_to_pic
-app.get("/idtopic", async (req, res) => {
+api.get("/idtopic", async (req, res) => {
     const { id } = req.query;
     const { data, error } = await supabase.from("profiles").select('avatar_url').eq("id", id);
     if (error) {
@@ -276,7 +279,7 @@ app.get("/idtopic", async (req, res) => {
 })
 
 //blogger
-app.post("/blogger", async (req, res) => {
+api.post("/blogger", async (req, res) => {
     const { data, error } = await supabase.from('distinct_id').select('user:profiles(id, username),image: profiles(avatar_url)');
     if (error) {
         console.error(error);
@@ -287,7 +290,7 @@ app.post("/blogger", async (req, res) => {
 });
 
 //search
-app.post("/search", async (req, res) => {
+api.post("/search", async (req, res) => {
     // const {id} = req.query;
     const { data, error } = await supabase.from("Create_Post").select('title,user:profiles!Create_Post_id_fkey(username),category,id_post,image_link')
     if (error) {
@@ -299,7 +302,7 @@ app.post("/search", async (req, res) => {
     }
 })
 //login
-// app.post("/login",async (req,res) => {
+// api.post("/login",async (req,res) => {
 //     const{email,password} = req.body;
 //     const { data, error } = await supabase.auth.signInWithPassword({
 //         email: email,
@@ -328,7 +331,7 @@ app.post("/search", async (req, res) => {
 
 
 //forgot_password
-app.get("/forgot_password", async (req, res) => {
+api.get("/forgot_password", async (req, res) => {
     // const sql = "SELECT * FROM users WHERE email = ?"
     // const email = req.body.email
     // connection.query(sql,[email],(err,data) =>{
@@ -343,7 +346,7 @@ app.get("/forgot_password", async (req, res) => {
 })
 
 //reset_password
-app.patch("/reset_password", async (req, res) => {
+api.patch("/reset_password", async (req, res) => {
     // const sql = "UPDATE users SET password = ? WHERE email = ?"
     // const {email,newpassword,confirmpassword} = req.body;
     // connection.query(sql,[newpassword,email,confirmpassword],(err,data) =>{
@@ -357,7 +360,7 @@ app.patch("/reset_password", async (req, res) => {
     // })
 })
 //profile
-app.get("/profile", async (req, res) => {
+api.get("/profile", async (req, res) => {
     // const sql = "SELECT username, avatar FROM users";
     // connection.query(sql,(err,data) =>{
     //     if (err) {
@@ -371,7 +374,7 @@ app.get("/profile", async (req, res) => {
 ////////////////////////////////////////////writeblog/////////////////////////////////////////////////////////
 
 //cleaning
-app.post("/writeblog/cleaning", async (req, res) => {
+api.post("/writeblog/cleaning", async (req, res) => {
     // const sql1 = "SELECT * FROM users WHERE id = ? ";
     // const sql2 = "INSERT INTO cleaning(id,title_name,image_title,content) VALUES (?, ?, ?, ?)";
     // const {id,title_name,image_title,content} = req.body;
@@ -394,7 +397,7 @@ app.post("/writeblog/cleaning", async (req, res) => {
 })
 
 //decoration
-app.post("/writeblog/decoration", async (req, res) => {
+api.post("/writeblog/decoration", async (req, res) => {
     // const sql1 = "SELECT * FROM users WHERE id = ? ";
     // const sql2 = "INSERT INTO decoration(id,title_name,image_title,content) VALUES (?, ?, ?, ?)";
     // const {id,title_name,image_title,content} = req.body;
@@ -417,7 +420,7 @@ app.post("/writeblog/decoration", async (req, res) => {
 })
 
 //food
-app.post("/writeblog/food", async (req, res) => {
+api.post("/writeblog/food", async (req, res) => {
     // const sql1 = "SELECT * FROM users WHERE id = ? ";
     // const sql2 = "INSERT INTO food(id,title_name,image_title,content) VALUES (?, ?, ?, ?)";
     // const {id,title_name,image_title,content} = req.body;
@@ -440,7 +443,7 @@ app.post("/writeblog/food", async (req, res) => {
 })
 
 //dekhor_story
-app.post("/writeblog/dekhor_story", async (req, res) => {
+api.post("/writeblog/dekhor_story", async (req, res) => {
     // const sql1 = "SELECT * FROM users WHERE id = ? ";
     // const sql2 = "INSERT INTO dekhor_story(id,title_name,image_title,content) VALUES (?, ?, ?, ?)";
     // const {id,title_name,image_title,content} = req.body;
@@ -466,7 +469,7 @@ app.post("/writeblog/dekhor_story", async (req, res) => {
 //////////////////////////////////////edit your blog////////////////////////////////////////////
 
 //cleaning
-app.patch("/writeblog/edited_cleaning", async (req, res) => {
+api.patch("/writeblog/edited_cleaning", async (req, res) => {
     // const sql1 = "SELECT * FROM users WHERE id = ? ";
     // const sql2 = "UPDATE cleaning SET title_name = ? , image_title = ? , content = ? WHERE id_cleaning = ?";
     // const {id,id_cleaning,title_name,image_title,content} = req.body;
@@ -492,7 +495,7 @@ app.patch("/writeblog/edited_cleaning", async (req, res) => {
 })
 
 //decoration
-app.patch("/writeblog/edited_decoration", async (req, res) => {
+api.patch("/writeblog/edited_decoration", async (req, res) => {
     // const sql1 = "SELECT * FROM users WHERE id = ? ";
     // const sql2 = "UPDATE decoration SET title_name = ? , image_title = ? , content = ? WHERE id_decoration = ?";
     // const {id,id_decoration,title_name,image_title,content} = req.body;
@@ -518,7 +521,7 @@ app.patch("/writeblog/edited_decoration", async (req, res) => {
 })
 
 //food
-app.patch("/writeblog/edited_food", async (req, res) => {
+api.patch("/writeblog/edited_food", async (req, res) => {
     // const sql1 = "SELECT * FROM users WHERE id = ? ";
     // const sql2 = "UPDATE food JOIN users ON food.id = users.id SET title_name = ? , image_title = ? , content = ?  WHERE id_food = ?";
     // const {id,id_food,title_name,image_title,content} = req.body;
@@ -545,8 +548,8 @@ app.patch("/writeblog/edited_food", async (req, res) => {
 
 
 //yourblog
-app.get("/")
+api.get("/", (req, res) => {
+    res.send("Hello World");
+});
 
-
-
-app.listen(port, () => console.log(`Server is running on port ${port}`));
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
