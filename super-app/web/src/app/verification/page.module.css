@@ -75,3 +75,39 @@
     flex-direction: column;
     text-align: center;
 }
+
+.overlay {
+    position: fixed; /* Full screen overlay */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.433); /* Darker semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Make sure it's above all other content */
+  }
+  
+.loading {
+    color: #FFF; /* White color text */
+    font-size: 2em; /* Larger font size */
+    font-weight: bold;
+    text-shadow: 0px 0px 20px rgba(255, 255, 255, 1); /* Strong text shadow for better readability */
+    animation: bounce 1.2s ease-in-out infinite;
+  }
+  
+  /* Bouncing text animation */
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  
+
+
+
+

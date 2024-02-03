@@ -5,54 +5,56 @@ import styles from "./page.module.css";
 
 const Verify = () => {
   const router = useRouter();
-  const email  = router.query?.email; // Assuming you pass email as a query parameter
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [loading, setLoading] = useState(false);
 
   const sendOtp = () => {
-    // Implement your axios request here to send and verify OTP
-    // Use the 'otp' state to get the entered OTP
-    alert("Implement sendOtp functionality");
+    // The loading state is now set before the timeout to ensure it shows immediately
+    setLoading(true);
+    
+    // Simulate an OTP send request with a timeout
+    setTimeout(() => {
+      setLoading(false); // Stop loading after the timeout
+      alert("Verify Success"); // Or handle the OTP verification response
+    }, 2000); // 2-second delay to simulate network request
   };
 
   const handlePaste = (e) => {
-    const paste = e.clipboardData.getData('text');
-    const newOtp = [...otp];
-
-    // Loop through each character in the paste string and assign it to the inputs
-    [...paste].forEach((char, index) => {
-      if (index < 6) {
-        newOtp[index] = char;
-      }
-    });
-
-    // Update the state and focus the next input if necessary
+    e.preventDefault();
+    const paste = e.clipboardData.getData('text').slice(0, 6);
+    const newOtp = paste.split('');
     setOtp(newOtp);
-    const nextIndex = paste.length < 6 ? paste.length : 5;
-    document.getElementById(`input${nextIndex + 1}`).focus();
+
+    if (newOtp.length === 6) {
+      // Add a delay before submitting
+      setTimeout(sendOtp, 100);
+    }
   };
 
+
   const handleInputChange = (e, index) => {
+    if (loading) return; // Prevent input when loading
+
     const { value } = e.target;
     const newOtp = [...otp];
-    // Validate the input and move focus to the next input
-    if (/^\d+$/.test(value) && value.length === 1) {
+    
+    if (/^\d$/.test(value)) {
       newOtp[index] = value;
+      setOtp(newOtp);
       if (index < 5) {
         document.getElementById(`input${index + 2}`).focus();
       }
-    } else if (value === "" && index > 0) {
-      // Handle backspace/delete key
-      newOtp[index] = value;
-      document.getElementById(`input${index}`).focus();
-    } else {
-      // Clear the input if it's not a digit
-      newOtp[index] = "";
-    }
-    setOtp(newOtp);
-    
-    // Automatically submit if all inputs are filled
-    if (newOtp.every(num => num.trim() !== '')) {
-      sendOtp();
+
+      // If all OTP inputs are filled, add a delay before submitting
+      if (newOtp.every((num) => num.trim() !== '')) {
+        setTimeout(sendOtp, 100);
+      }
+    } else if (value === '') {
+      newOtp[index] = '';
+      setOtp(newOtp);
+      if (index > 0) {
+        document.getElementById(`input${index}`).focus();
+      }
     }
   };
 
@@ -63,6 +65,9 @@ const Verify = () => {
   
   return (
     <div className={styles.container}>
+      {loading && <div className={styles.overlay}>
+        <div className={styles.loading}>Loading...</div>
+      </div>}
       <div className={styles.section}>
         <div className={styles.title}>
           <img src="./images/sendotp.png" alt="" />
@@ -94,3 +99,4 @@ const Verify = () => {
 };
 
 export default Verify;
+
