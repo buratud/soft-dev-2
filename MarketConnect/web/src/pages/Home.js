@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { PopChat } from "../components/PopChat";
-import { BASE_API_URL } from "../../config";
+import { BASE_API_URL } from "../config";
 
 const Home = () => {
   return (

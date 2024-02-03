@@ -4,7 +4,7 @@ import { PopChat } from "../components/PopChat";
 import axios from "axios";
 import { AuthContext, useSupabase } from "../App";
 import { useContext, useEffect, useState } from "react";
-import { BASE_API_URL } from "../../config";
+import { BASE_API_URL } from "../config";
 
 function readFileDataAsBase64(file) {
   return new Promise((resolve, reject) => {

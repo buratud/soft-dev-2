@@ -5,7 +5,7 @@ import NavBar from "../components/NavBar";
 import { PopChat } from "../components/PopChat";
 import { AuthContext } from "../App";
 import DeleteConfirmPopup from "../components/DeleteConfirmPopup";
-import { BASE_API_URL } from "../../config";
+import { BASE_API_URL } from "../config";
 
 function Support() {
   const { user } = useContext(AuthContext);

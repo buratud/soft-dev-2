@@ -6,7 +6,7 @@ import FoodSearchBar from "../components/FoodSearchBar";
 import "../components/FoodSearchBar.scoped.css";
 import "./Food.scoped.css";
 import { PopChat } from "../components/PopChat";
-import { BASE_API_URL } from "../../config";
+import { BASE_API_URL } from "../config";
 import MarketSearchBox from "../components/MarketSearchBox";
 
 const Food = () => {

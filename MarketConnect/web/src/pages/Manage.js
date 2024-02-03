@@ -6,7 +6,7 @@ import { PopChat } from "../components/PopChat";
 import { AuthContext } from "../App";
 import axios from "axios";
 import DeleteConfirmPopup from "../components/DeleteConfirmPopup";
-import { BASE_API_URL } from "../../config";
+import { BASE_API_URL } from "../config";
 
 const Manage = () => {
   const { user } = useContext(AuthContext);

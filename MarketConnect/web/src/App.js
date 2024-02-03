@@ -21,7 +21,9 @@ import GuardedAdmin from "./components/GuardedAdmin";
 import Admin from "./pages/Admin";
 import Chatpage from "./pages/Chatpage";
 import { createClient } from "@supabase/supabase-js";
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from "../config";
+
+import { SUPABASE_ANON_KEY, SUPABASE_URL } from "./config";
+
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 

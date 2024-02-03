@@ -2,7 +2,7 @@ import { Outlet, Navigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../App";
 import axios from "axios";
-import { BASE_API_URL } from "../../config";
+import { BASE_API_URL } from "../config";
 
 const GuardedAdmin = () => {
   const { user } = useContext(AuthContext);
