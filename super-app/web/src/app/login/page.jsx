@@ -3,6 +3,8 @@ import Image from "next/image"
 import Link from "next/link"
 import styles from "./login.module.css"
 import { useState } from 'react';
+import axios from 'axios';
+import config from './config';
 
 
 export default function Login() {
@@ -28,7 +30,23 @@ export default function Login() {
             alert('Login Invalid. Please make sure you filled both username and password in correctly');
             return;
         }
+        else {
+            axios.post(config.API + "/login",{
+                UsernameorEmail: formData.username,
+                password: formData.password,
+            })
+            .then(res => {
+                alert('go to home page')
+                // navigate("/login");
+            })
+            .catch((err) => {
+                console.error('Error:', err);
+                alert(err.message);
+            })
+        }
     }
+
+   
 
     return (
         <>
