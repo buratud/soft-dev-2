@@ -84,8 +84,8 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - name: Build and push image
         run: |
-          docker build super-app/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }} --build-arg BASE_EATS_WEB_PATH=$BASE_EATS_WEB_PATH
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
+          docker build super-app/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-web:${{ github.sha }} --build-arg BASE_EATS_WEB_PATH=$BASE_EATS_WEB_PATH
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-web:${{ github.sha }}
         env:
           BASE_EATS_WEB_PATH: ${{ env.BASE_EATS_WEB_PATH }}
 
