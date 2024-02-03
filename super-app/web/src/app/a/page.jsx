@@ -19,7 +19,7 @@ export default function Home() {
             <div className={styles.leftside}>
                 <div className={styles.logo}>
                     <a href="/">
-                        <Image alt="logo" src="/images/LOGO.png" height={70} width={80} />
+                        <Image alt="logo" src="/images/logo.png" height={70} width={80} />
                     </a>
                 </div>
             </div>
