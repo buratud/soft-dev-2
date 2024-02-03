@@ -53,8 +53,8 @@ export default function Home() {
             password: formData.password,
         })
         .then(res => {
-            alert('okka')
-            // navigate("/login");
+            // alert('okka')
+            navigate("/verify");
         })
         .catch((err) => {
             // if (err.response && err.response.data && err.response.data.message) {
@@ -72,7 +72,7 @@ export default function Home() {
 
         setFormData(initialFormData);
 
-        router.push('/verify');
+        // router.push('/verify');
     };
 
     return (
