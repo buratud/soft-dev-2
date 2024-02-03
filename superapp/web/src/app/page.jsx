@@ -54,11 +54,17 @@ export default function Home() {
             // navigate("/login");
         })
         .catch((err) => {
-            if (err.response && err.response.status === 500) {
-                alert("Internal Server Error (500). Please don't submit too frequently.");
-            } else {
-                alert(err.message);
-            }
+            // if (err.response && err.response.data && err.response.data.message) {
+            //     alert(err.response.data.message);
+            // } else {
+            //     alert("An error occurred during login.");
+            // }
+            // if (err.response.message === "User already registered") {
+            //     alert("Internal Server Error (500). Please don't submit too frequently.");
+            //     // alert("Internal Server Error (500). Please don't submit too frequently.");
+            // } else {
+                alert(err);
+            // }
         })
 
         setFormData(initialFormData);
