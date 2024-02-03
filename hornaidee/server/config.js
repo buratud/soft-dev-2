@@ -10,4 +10,4 @@ exports.MYSQL_HOST = process.env.MYSQL_HOST;
 exports.MYSQL_USER = process.env.MYSQL_USER;
 exports.MYSQL_PASSWORD = process.env.MYSQL_PASSWORD;
 exports.MYSQL_DATABASE = process.env.MYSQL_DATABASE;
-exports.WEB_URL = process.env.WEB_URL || 'http://localhost:3000';
+exports.WEB_URL = `${BASE_DOMAIN_WITH_PROTOCOL}${BASE_WEB_PATH}` || 'http://localhost:3000';
