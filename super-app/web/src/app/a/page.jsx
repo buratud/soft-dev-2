@@ -1,10 +1,10 @@
 'use client'
 import Image from 'next/image'
 import { useState } from 'react'
-import styles from './navbar.module.css'
+import styles from './nav.module.css'
 import { BsBoxArrowLeft } from "react-icons/bs"
 
-export default function Navbar() {
+export default function Home() {
 
     const [isOpen_1, setIsOpen_1] = useState(false);
     const [isOpen_2, setIsOpen_2] = useState(false);
@@ -18,8 +18,8 @@ export default function Navbar() {
         <main className={styles.main}>
             <div className={styles.leftside}>
                 <div className={styles.logo}>
-                    <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/">
-                        <Image alt="logo" src="/images/LOGO.png" height={70} width={80} />
+                    <a href="/">
+                        <Image alt="logo" src="/images/logo.png" height={70} width={80} />
                     </a>
                 </div>
             </div>
@@ -41,7 +41,7 @@ export default function Navbar() {
                     {isOpen_1 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs">Main</a>
+                                <a href="/">Main</a>
                             </span>
                         </div>
                         <div>
@@ -53,17 +53,17 @@ export default function Navbar() {
                                 <div className={styles.subdropdownContent}>
                                     <div>
                                         <span>
-                                            <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/cleaning">Cleaning</a>
+                                            <a href="/">Cleaning</a>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/decoration">Decorations</a>
+                                            <a href="/">Decorations</a>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/story">Story's DekHor</a>
+                                            <a href="/">Story's DekHor</a>
                                         </span>
                                     </div>
                                 </div>
@@ -71,12 +71,12 @@ export default function Navbar() {
                         </div>
                         <div>
                             <span>
-                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/writeblog">Blogging</a>
+                                <a href="/">Blogging</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/blogger">Blogger</a>
+                                <a href="/">Blogger</a>
                             </span>
                         </div>
                     </div>}
@@ -97,17 +97,17 @@ export default function Navbar() {
                     {isOpen_2 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms">Main</a>
+                                <a href="/">Main</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms">All Dorms</a>
+                                <a href="/">All Dorms</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms">Add Dorm</a>
+                                <a href="/">Add Dorm</a>
                             </span>
                         </div>
                     </div>}
@@ -132,7 +132,7 @@ export default function Navbar() {
                     {isOpen_3 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats">Main</a>
+                                <a href="/">Main</a>
                             </span>
                         </div>
                         <div>
@@ -144,17 +144,17 @@ export default function Navbar() {
                                 <div className={styles.subdropdownContent}>
                                     <div>
                                         <span>
-                                            <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats/foodRecipe">Foods</a>
+                                            <a href="/">Foods</a>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats/dessertRecipe">Desserts</a>
+                                            <a href="/">Desserts</a>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats">Drinks</a>
+                                            <a href="/">Drinks</a>
                                         </span>
                                     </div>
                                 </div>
@@ -162,7 +162,7 @@ export default function Navbar() {
                         </div>
                         <div>
                             <span>
-                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats/addnewmenu">Add Recipe</a>
+                                <a href="/">Add Recipe</a>
                             </span>
                         </div>
                     </div>}
@@ -184,17 +184,17 @@ export default function Navbar() {
                     {isOpen_4 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market">Main</a>
+                                <a href="/">Main</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market/food">All Products</a>
+                                <a href="/">All Products</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market/addproduct">Add Product</a>
+                                <a href="/">Add Product</a>
                             </span>
                         </div>
                     </div>}
@@ -219,18 +219,18 @@ export default function Navbar() {
                     <div>
                         <Image alt="Profile" src="/images/PersonCircle.svg" height={30} width={30} />
                         <span>
-                            <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/">My Profile</a>
+                            <a href="/">My Profile</a>
                         </span>
                     </div>
                     <div>
                         <Image alt="Support" src="/images/support.png" height={30} width={30} />
                         <span>
-                            <a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/">Support</a>
+                            <a href="/">Support</a>
                         </span>
                     </div>
                     <div>
                         <BsBoxArrowLeft size={25} className={styles.logout} />
-                        <span className={styles.logout}><a href="https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/">Log out</a></span>
+                        <span className={styles.logout}><a href="/">Log out</a></span>
                     </div>
                 </div>}
             </div>
