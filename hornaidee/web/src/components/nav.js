@@ -16,7 +16,7 @@ const Navbar = () => {
       <div className="leftside">
         <div className="logo">
           <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/"}>
-            <img alt="logo" src="img/LOGO_DekHor.png" height={70} width={80} />
+            <img alt="logo" src="/LOGO.png" height={70} width={80} />
           </NavLink>
         </div>
       </div>
@@ -65,17 +65,17 @@ const Navbar = () => {
                   <div className="subdropdownContent">
                     <div>
                       <span>
-                        <NavLink to={"/"}>Cleaning</NavLink>
+                        <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/cleaning"}>Cleaning</NavLink>
                       </span>
                     </div>
                     <div>
                       <span>
-                        <NavLink to={"/"}>Decorations</NavLink>
+                        <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/decoration"}>Decorations</NavLink>
                       </span>
                     </div>
                     <div>
                       <span>
-                        <NavLink to={"/"} href="/">
+                        <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/story"}>
                           Story's DekHor
                         </NavLink>
                       </span>
@@ -85,12 +85,12 @@ const Navbar = () => {
               </div>
               <div>
                 <span>
-                  <NavLink to={"/"}>Blogging</NavLink>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/writeblog"}>Blogging</NavLink>
                 </span>
               </div>
               <div>
                 <span>
-                  <NavLink to={"/"}>Blogger</NavLink>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/blogger"}>Blogger</NavLink>
                 </span>
               </div>
             </div>
@@ -125,12 +125,12 @@ const Navbar = () => {
               </div>
               <div>
                 <span>
-                  <NavLink to={"/"}>All Dorms</NavLink>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms"}>All Dorms</NavLink>
                 </span>
               </div>
               <div>
                 <span>
-                  <NavLink to={"/"}>Add Dorm</NavLink>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms"}>Add Dorm</NavLink>
                 </span>
               </div>
             </div>
@@ -181,17 +181,17 @@ const Navbar = () => {
                   <div className="subdropdownContent">
                     <div>
                       <span>
-                        <NavLink to={"/"}>Foods</NavLink>
+                        <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats/foodRecipe"}>Foods</NavLink>
                       </span>
                     </div>
                     <div>
                       <span>
-                        <NavLink to={"/"}>Desserts</NavLink>
+                        <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats/dessertRecipe"}>Desserts</NavLink>
                       </span>
                     </div>
                     <div>
                       <span>
-                        <NavLink to={"/"}>Drinks</NavLink>
+                        <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats"}>Drinks</NavLink>
                       </span>
                     </div>
                   </div>
@@ -199,7 +199,7 @@ const Navbar = () => {
               </div>
               <div>
                 <span>
-                  <NavLink to={"/"}>Add Recipe</NavLink>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats/addnewmenu"}>Add Recipe</NavLink>
                 </span>
               </div>
             </div>
@@ -235,12 +235,12 @@ const Navbar = () => {
               </div>
               <div>
                 <span>
-                  <NavLink to={"/food"}>All Products</NavLink>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market/food"}>All Products</NavLink>
                 </span>
               </div>
               <div>
                 <span>
-                  <NavLink to={"/addproduct"}>Add Product</NavLink>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market/addproduct"}>Add Product</NavLink>
                 </span>
               </div>
             </div>
@@ -262,7 +262,7 @@ const Navbar = () => {
           <div>
             <img
               alt="Profile"
-              src="img/PersonCircle.svg"
+              src="/PersonCircle.svg"
               className="ProfileImage"
             />
           </div>
@@ -273,29 +273,29 @@ const Navbar = () => {
             <div>
               <img
                 alt="Profile"
-                src="img/PersonCircle.svg"
+                src="/PersonCircle.svg"
                 height={30} 
                 width={30}
               />
               <span>
-                <NavLink to={"/"}>My Profile</NavLink>
+                <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/"}>My Profile</NavLink>
               </span>
             </div>
             <div>
               <img
                 alt="Support"
-                src="img/support.png"
+                src="/support.png"
                 height={30} 
                 width={30}
               />
               <span>
-                <NavLink to={"/"}>Support</NavLink>
+                <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/"}>Support</NavLink>
               </span>
             </div>
             <div>
               <BsBoxArrowLeft size={25} className="logout" />
               <span className="logout">
-                <NavLink href="/">Log out</NavLink>
+                <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/"}>Log out</NavLink>
               </span>
             </div>
           </div>
