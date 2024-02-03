@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { userContext } from "../App";
-import { baseApiUrl } from "../config"
 function Login() {
   const [email, setemail] = useState();
   const [password, setpassword] = useState();
@@ -13,13 +12,13 @@ function Login() {
   const { user,setUser,setActor} = useContext(userContext)
   var dorm_id = ""
   const loginuser = () => {
-    axios.post(`${baseApiUrl}/login`, {
+    axios.post("http://localhost:3001/login", {
         email: email,
         password: password,
       })
       .then((response) => {
         localStorage.setItem("token", response.data.token);
-      axios.post(`${baseApiUrl}/auten`,{},
+      axios.post("http://localhost:3001/auten",{},
           {
             headers : {
               Authorization: `Basic ${response.data.token}`
@@ -33,13 +32,13 @@ function Login() {
       });
 
         if (response.data.user[0].actor == "user") {
-          window.location = "/";
+          navi("/", { replace: true });
         }
         if (response.data.user[0].actor == "admin") {
-          window.location = "/";
+          navi("/", { replace: true });
         }
         if (response.data.user[0].actor == "dorm") {
-          axios(`${baseApiUrl}/dorm_id`,{
+          axios("http://localhost:3001/dorm_id",{
             params : {
               username :response.data.user[0].user_name
             }}).then((response) => {
@@ -64,7 +63,7 @@ function Login() {
           <Grid container spacing={8}>
             <Grid item xs={6}>
               <div className="w-96">
-                <img src="./img/logologin.png"></img>
+                <img src="img/logologin.png"/>
               </div>
             </Grid>
             <Grid item xs={6}>

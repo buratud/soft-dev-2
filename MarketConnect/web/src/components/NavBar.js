@@ -12,7 +12,7 @@ const NavBar = () => {
   return (
     <header>
       <NavLink className="logo" to="/home">
-        <img src="/logonav.svg" alt="" />
+        <img src="logonav.svg" alt="" />
       </NavLink>
       <nav className="nav-bar">
         <NavLink className={nav_class} to="/home">

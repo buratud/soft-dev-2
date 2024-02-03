@@ -3,9 +3,8 @@ import Grid from "@mui/material/Grid";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { baseApiUrl } from "../config"
 function Register() {
-  const lo = ["./img/logologin.png"];
+  const lo = ["img/logologin.png"];
   const [images, setimages] = useState([]);
   const [imagesurl, setimagesurl] = useState([]);
   const [username, setname] = useState("");
@@ -13,7 +12,7 @@ function Register() {
   const [password, setpassword] = useState("");
   const navi = useNavigate();
   const adduser = () => {
-    axios.post(`${baseApiUrl}/creat_user`, {
+    axios.post("http://localhost:3001/creat_user", {
       user_name: username,
       email: email,
       password: password,

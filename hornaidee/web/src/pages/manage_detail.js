@@ -13,7 +13,6 @@ import axios from "axios"
 import { dark } from "@mui/material/styles/createPalette"
 import Bt1 from "../components/bt1"
 import Confirm from "../components/confirm"
-import { baseApiUrl } from "../config"
 
 function Manage_detail() {
     const location = useLocation();
@@ -23,7 +22,7 @@ function Manage_detail() {
     const navi = useNavigate();
 
     useEffect(() => {
-        const url = `${baseApiUrl}/detail/`+dormID
+        const url = 'http://localhost:3001/detail/'+dormID
         axios.get(url).then((response) =>{
         setDormData(response.data);
         console.log(response.data);
@@ -35,7 +34,7 @@ function Manage_detail() {
       },[location]);
 
     const updateDorm = () => {
-        axios.put(`${baseApiUrl}/update`, {dorm : dormData})
+        axios.put("http://localhost:3001/update", {dorm : dormData})
         console.log(dormData)
         console.log("send update")
         alert("edit success")
@@ -43,7 +42,7 @@ function Manage_detail() {
 
     const deleteDorm = () => {
         console.log("delete"+dormID)
-        axios.delete(`${baseApiUrl}/delete/`+dormID).then(()=>{
+        axios.delete("http://localhost:3001/delete/"+dormID).then(()=>{
             navi("/login")
         })
     }
