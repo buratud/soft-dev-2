@@ -1,10 +1,12 @@
 'use client'
 import { useState } from 'react';
+import { useRouter } from "next/navigation"; 
 import Image from 'next/image';
 import styles from './register.module.css';
 import Link from 'next/link';
 
 export default function Home() {
+    const router = useRouter();
     const initialFormData = {
         username: '',
         email: '',
@@ -45,10 +47,15 @@ export default function Home() {
         // ทำสิ่งที่คุณต้องการทำหลังจาก Submit ที่นี่
 
         setFormData(initialFormData);
+
+        router.push('/verify');
     };
 
     return (
         <main className={styles.main}>
+            <div className={styles.topBar}>
+                <img src="./images/logo.png" alt="Logo" className={styles.logo} />
+            </div>
             <div className={styles.register_form}>
                 <div className={styles.leftside}>
                     <div className={styles.Intro}>
