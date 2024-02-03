@@ -1,13 +1,13 @@
 .main {
+    position: sticky;
     display: flex;
     width: 100vw;
-    height: 60px;
     z-index: 999;
+    top: 0;
     align-items: center;
     justify-content: space-between;
     background-color: white;
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.25);
-    position: sticky;
 }
 
 .main a {

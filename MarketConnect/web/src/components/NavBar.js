@@ -15,7 +15,7 @@ const NavBar = () => {
     <header className="main">
       <div className="leftside">
         <div className="logo">
-          <NavLink to={"/"}>
+          <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/"}>
             <img alt="logo" src="/LOGO.png" height={70} width={80} />
           </NavLink>
         </div>
@@ -46,7 +46,7 @@ const NavBar = () => {
             <div className="dropdownContent">
               <div>
                 <span>
-                  <NavLink to={"/"}>Main</NavLink>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs"}>Main</NavLink>
                 </span>
               </div>
               <div>
@@ -120,7 +120,7 @@ const NavBar = () => {
             <div className="dropdownContent">
               <div>
                 <span>
-                  <NavLink to={"/"}>Main</NavLink>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms"}>Main</NavLink>
                 </span>
               </div>
               <div>
@@ -162,7 +162,7 @@ const NavBar = () => {
             <div className="dropdownContent">
               <div>
                 <span>
-                  <NavLink to={"/"}>Main</NavLink>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats"}>Main</NavLink>
                 </span>
               </div>
               <div>
@@ -230,17 +230,17 @@ const NavBar = () => {
             <div className="dropdownContent">
               <div>
                 <span>
-                  <NavLink to={"/"}>Main</NavLink>
+                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market"}>Main</NavLink>
                 </span>
               </div>
               <div>
                 <span>
-                  <NavLink to={"/"}>All Products</NavLink>
+                  <NavLink to={"/food"}>All Products</NavLink>
                 </span>
               </div>
               <div>
                 <span>
-                  <NavLink to={"/"}>Add Product</NavLink>
+                  <NavLink to={"/addproduct"}>Add Product</NavLink>
                 </span>
               </div>
             </div>

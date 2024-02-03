@@ -12,7 +12,7 @@ import Error from "./pages/error";
 import Helppage from "./pages/helppage";
 import axios from "axios";
 import Main from "./pages/main";
-import { baseApiUrl } from "../config"
+import { baseApiUrl } from "./config"
 const router = createBrowserRouter([
   {
     path: "/",
