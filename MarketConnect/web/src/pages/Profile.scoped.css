@@ -35,8 +35,8 @@ form{
 }
 
 form label{
-  font-family:'Roboto', sans-serif;
-  font-weight: 300;
+  font-family:'Poppins', sans-serif;
+  font-weight: 500;
   font-size: 1.2rem;
 }
 form input {
@@ -46,8 +46,8 @@ form input {
   border-radius: 0.5rem;
   border: 1px solid #ccc;
   font-size: 1rem;
-  font-family:'Roboto', sans-serif;
-  font-weight: 100;
+  font-family:'Poppins', sans-serif;
+  font-weight: 400;
 }
 
 .button{
@@ -63,7 +63,7 @@ form input {
   padding: 0.6rem;
   border-radius: 0.8rem;
   font-size: 1rem;
-  font-family:'Roboto', sans-serif;
+  font-family:'Poppins', sans-serif;
   font-weight: 400;
   cursor: pointer;
 }
@@ -81,7 +81,7 @@ form input {
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
-  font-family:'Roboto', sans-serif;
+  font-family:'Poppins', sans-serif;
 }
 
 .text-profile-box{
@@ -123,7 +123,7 @@ img{
   padding: 1rem;
   border-radius: 1rem;
   font-size: 1rem;
-  font-family:'Roboto', sans-serif;
+  font-family:'Poppins', sans-serif;
   font-weight: 400;
   cursor: pointer;
 }
@@ -136,8 +136,8 @@ img{
 
 p{
   width: 30%;
-  font-family:'Roboto', sans-serif;
-  font-weight: 200;
+  font-family:'Poppins', sans-serif;
+  font-weight: 400;
   font-size: 1.2rem;
   padding: 1rem;
   border-radius: 1rem;
@@ -188,7 +188,7 @@ p{
 
 
 h3{
-  font-family:'Roboto', sans-serif;
+  font-family:'Poppins', sans-serif;
   font-weight: 500;
   font-size: 1.2rem;
   text-align: center;

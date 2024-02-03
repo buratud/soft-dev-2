@@ -1,5 +1,5 @@
 *{
-    font-family:'Roboto', sans-serif;
+    font-family:'Poppins', sans-serif;
 }
 #chatCon {
     width: 25%;
@@ -70,7 +70,7 @@
     color: rgb(12, 14, 12);
     font-size: 1rem;
     font-weight: 400;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
     
 }
 
@@ -149,8 +149,8 @@
 
 label{
     font-size: 1.2rem;
-    font-weight: 200;
-    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
     color: rgb(173, 179, 173);
     
 }
