@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import styles from './register.module.css';
 import Link from 'next/link';
+import axios from 'axios';
+import config from './config';
 
 export default function Home() {
     const router = useRouter();
@@ -45,6 +47,28 @@ export default function Home() {
         console.log('Submitted Data:', formData);
 
         // ทำสิ่งที่คุณต้องการทำหลังจาก Submit ที่นี่
+        axios.post(config.API + "/register",{
+            email: formData.email,
+            username: formData.username,
+            password: formData.password,
+        })
+        .then(res => {
+            alert('okka')
+            // navigate("/login");
+        })
+        .catch((err) => {
+            // if (err.response && err.response.data && err.response.data.message) {
+            //     alert(err.response.data.message);
+            // } else {
+            //     alert("An error occurred during login.");
+            // }
+            // if (err.response.message === "User already registered") {
+            //     alert("Internal Server Error (500). Please don't submit too frequently.");
+            //     // alert("Internal Server Error (500). Please don't submit too frequently.");
+            // } else {
+                alert(err);
+            // }
+        })
 
         setFormData(initialFormData);
 
