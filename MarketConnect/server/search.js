@@ -6,6 +6,10 @@ function wagner_fischer(base, target) {
     if (target_len < base_len) {
         return -1
     }
+    // Check if first character of base is the same as first character of target
+    if (base.charAt(0) != target.charAt(0)) {
+        return -1
+    }
     // Check if target length is greater than base length, if so slice target so that it have the same length as base.
     if (base_len < target_len) {
         target = target.slice(0, base_len)
@@ -42,6 +46,10 @@ exports.search = (target, database) => {
     }
     // Sort product by edit distance from ascending, and get first 10 product
     suggestions.sort(function(a, b){return a[1]-b[1]})
+    // Check if there are no matching product names in the database
+    if (suggestions[0][1] == target.length) {
+        return []
+    }
     suggestions = suggestions.splice(0, 10)
     suggestions.forEach((item, index, arr) => {arr[index] = item[0]})
     
