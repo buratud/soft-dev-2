@@ -62,7 +62,7 @@ jobs:
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
 
   eats_web:
-    name: Superapp Website
+    name: Eats Website
     runs-on: ubuntu-latest
     environment: production
     steps:
