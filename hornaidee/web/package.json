@@ -1,4 +1,5 @@
 {
+  "homepage": ".",
   "name": "hornai_d",
   "version": "0.1.0",
   "private": true,
@@ -35,7 +36,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"craco start\" \"nodemon server/index.js\""
+    "dev": "concurrently \"craco start\" \"nodemon server/index.js\"",
+    "server": "nodemon server/index.js"
   },
   "eslintConfig": {
     "extends": [
