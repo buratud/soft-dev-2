@@ -12,36 +12,35 @@ import Error from "./pages/error";
 import Helppage from "./pages/helppage";
 import axios from "axios";
 import Main from "./pages/main";
-import { BASE_API_URL } from "./config";
-import { BASE_API_URL } from "../config"
+import { BASE_WEB_PATH, BASE_API_URL } from "./config";
 
 const router = createHashRouter([
   {
-    path: "/",
+    path: `${BASE_WEB_PATH}`,
     element: <Main />,
   },
   {
-    path: "Login",
+    path: `${BASE_WEB_PATH}/Login`,
     element: <Login />,
   },
   {
-    path: "Register",
+    path: `${BASE_WEB_PATH}/Register`,
     element: <Register />,
   },
   {
-    path: "detail/:dormID",
+    path: `${BASE_WEB_PATH}/detail/:dormID`,
     element: <Detaildorm />,
   },
   {
-    path: "chat/:userID/:chanel",
+    path: `${BASE_WEB_PATH}/chat/:userID/:chanel`,
     element: <Chat />,
   },
   {
-    path: "chat/:userID",
+    path: `${BASE_WEB_PATH}/chat/:userID`,
     element: <Chat />,
   },
   {
-    path: "manage/:dormID",
+    path: `${BASE_WEB_PATH}/manage/:dormID`,
     element: <Manage_detail></Manage_detail>,
   },
   {
@@ -49,11 +48,11 @@ const router = createHashRouter([
     element: <Error></Error>,
   },
   {
-    path: "help",
+    path: `${BASE_WEB_PATH}/help`,
     element: <Helppage></Helppage>,
   },
   {
-    path: "help/:ticketID",
+    path: `${BASE_WEB_PATH}/help/:ticketID`,
     element: <Helppage></Helppage>,
   }
 ]);
