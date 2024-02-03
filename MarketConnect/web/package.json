@@ -1,4 +1,5 @@
 {
+  "homepage": ".",
   "name": "locofy-react-project",
   "version": "0.1.0",
   "private": true,
@@ -29,7 +30,6 @@
   },
   "scripts": {
     "start": "craco start",
-    "dev": "concurrently \"npm start\" \"npm start --prefix ../server/\"",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"

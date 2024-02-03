@@ -5,8 +5,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { io } from "socket.io-client";
 import { userContext } from '../App';
-import { baseApiUrl } from "../config"
-
 function Status(porps){
     const {ticketStatus,changeTicketStatus  } = porps
     const { user,setUser } = useContext(userContext)
@@ -75,7 +73,7 @@ function Ticket(props) {
     const open = () => setStatus(!status)
     console.log(ticket.ticket_id,ticket.status)
     useEffect(() => {
-        const url = `${baseApiUrl}/ticketMessage`
+        const url = "http://localhost:3001/ticketMessage"
         axios.get(url,{
             params: {
                 ticket_id : ticket.ticket_id,
@@ -130,7 +128,7 @@ function Ticket(props) {
 
     const changeTicketStatus = (e) =>{
         console.log(e.target.value)
-        axios.put(`${baseApiUrl}/update_ticket_status`,
+        axios.put("http://localhost:3001/update_ticket_status",
         {
             new_status:e.target.value,
             ticket_id:ticket.ticket_id

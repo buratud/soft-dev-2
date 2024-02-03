@@ -1,0 +1,4 @@
+global:
+  topLevelUrl: linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com
+  revision: latest
+  GITHUB_REF: GITHUB_REF # You must replace this with the actual value using --set
