@@ -44,9 +44,10 @@ export default function MarketSearchBox() {
 
     const fetchList = (searchTerm) => {
         console.log('Search: ', searchTerm);
-        axios.post(`https://3sc3ffw5-5000.asse.devtunnels.ms/search`, {     // Development only!
-                searchTerm: searchTerm
-            })
+        // axios.post(`http://localhost:5000/search`, {     // Development only!
+        //         searchTerm: searchTerm
+        //     })
+        axios.get('https://65bb214bb4d53c0665540e31.mockapi.io/api/v1/searchlist')
             .then(res => {
                 // Filter results
                 // const filteredResults = res.data.filter(item =>
@@ -100,10 +101,8 @@ export default function MarketSearchBox() {
                 {!loading && results.map(result => (
                 <a href={result.URL} key={result.id} style={{ textDecoration: 'none' }}>
                     <div className="search_result_item">
-                        <div className="search_result_item_title">
-                            {result.Food_Name}
-                            {result.Price}
-                        </div>
+                        <div className="search_result_item_title">{result.Food_Name}</div>
+                        <div className="search_result_item_price">{result.Price}</div>
                         <div>
                             <img className="search_result_item_image" src={result.URL} alt={result.Food_Name}/>
                         </div>
