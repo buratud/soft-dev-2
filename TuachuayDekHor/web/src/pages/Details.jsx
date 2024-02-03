@@ -14,7 +14,7 @@ import img1 from '../../src/Assets/slide1.png'
 import { FaRegEdit } from "react-icons/fa";
 import Footer from "../component/footer";
 // title,username,content,like,comments
-import { baseApiUrl } from '../config'
+import { BASE_API_URL } from '../config'
 
 const Details = () => {
   const { id } = useParams();
@@ -24,7 +24,7 @@ const Details = () => {
   const [data, setData] = useState([]);
   const [likeyet, setLikeyet] = useState([]);
   useEffect(() => {
-    axios.get(`${baseApiUrl}/detailpost?id_post=` + id)
+    axios.get(`${BASE_API_URL}/detailpost?id_post=` + id)
       .then((res) => {
         setData(res.data[0]);
       })
@@ -38,7 +38,7 @@ const Details = () => {
   const id_user = data.id
   const [pic, setPic] = useState([]);
   useEffect(() => {
-    axios.get(`${baseApiUrl}/idtopic?id=` + id_user)
+    axios.get(`${BASE_API_URL}/idtopic?id=` + id_user)
       .then((res) => {
         setPic(res.data[0]);
         console.log(pic);
@@ -58,7 +58,7 @@ const Details = () => {
 
 
   useEffect(() => {
-    axios.get(`${baseApiUrl}/countlike?id_post=` + id)
+    axios.get(`${BASE_API_URL}/countlike?id_post=` + id)
       .then((res) => {
         setLike(res.data);
       })
@@ -71,7 +71,7 @@ const Details = () => {
   const handleLikeClick = async () => {
     try {
       // ทำการเพิ่มการ "ถูกใจ" ลงฐานข้อมูล
-      await axios.post(`${baseApiUrl}/likepost`, {
+      await axios.post(`${BASE_API_URL}/likepost`, {
         id_post: id,
         id: user?.id,
       })
@@ -81,7 +81,7 @@ const Details = () => {
     } catch (err) {
       await axios.delete(`http://localhost:3300/unlike?id=${user?.id}&id_post=${id}`);
     }
-    axios.get(`${baseApiUrl}/countlike?id_post=` + id)
+    axios.get(`${BASE_API_URL}/countlike?id_post=` + id)
       .then((res) => {
         setLike(res.data);
       })

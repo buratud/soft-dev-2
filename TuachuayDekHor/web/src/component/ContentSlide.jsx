@@ -13,7 +13,7 @@ import img3 from '../../src/Assets/slide3.png'
 import img4 from '../../src/Assets/slide4.png'
 import { General } from '../App';
 import axios from 'axios';
-import { baseApiUrl } from '../config'
+import { BASE_API_URL } from '../config'
 
 
 
@@ -21,7 +21,7 @@ function ContentSlide(props) {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        axios.get(`${baseApiUrl}/posttocategory?category=` + props.name)
+        axios.get(`${BASE_API_URL}/posttocategory?category=` + props.name)
         .then(res => {
             setData(res.data);
             console.log(data)

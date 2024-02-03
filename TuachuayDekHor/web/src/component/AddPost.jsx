@@ -5,7 +5,7 @@ import JoditEditor from 'jodit-react';
 import { General } from '../App';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { BASE_API_URL } from '../config';
 function makeid(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -73,7 +73,7 @@ function AddPost() {
         .getPublicUrl(image_title)
 
 
-        axios.post(`${baseApiUrl}/creatpost`, {
+        axios.post(`${BASE_API_URL}/creatpost`, {
             title: post.title,
             content: post.content,
             category: post.category,
