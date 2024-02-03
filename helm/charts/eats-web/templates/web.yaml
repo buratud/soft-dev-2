@@ -23,10 +23,3 @@ spec:
               value: {{ include "eats-web.rootPath" . | quote }}
             - name: BASE_SERVER_PATH
               value: {{ include "eats-server.rootPath" . | quote }}
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "5m"
-            limits:
-              memory: "256Mi"
-              cpu: "0.01"
