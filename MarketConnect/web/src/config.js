@@ -1,5 +1,6 @@
 const BASE_DOMAIN_WITH_PROTOCOL = process.env.REACT_APP_BASE_DOMAIN_WITH_PROTOCOL;
 const REACT_APP_BASE_SERVER_PATH = process.env.REACT_APP_BASE_SERVER_PATH || '/api/markets';
+export const REACT_APP_PORT = process.env.REACT_APP_PORT || 5000;
 export const REACT_APP_BASE_WEB_PATH = process.env.REACT_APP_BASE_WEB_PATH || '/markets';
 export const REACT_APP_SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
 export const REACT_APP_SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;

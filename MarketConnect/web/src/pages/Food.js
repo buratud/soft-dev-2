@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import FoodSearchBar from "../components/FoodSearchBar";
+// import FoodSearchBar from "../components/FoodSearchBar";
 import "../components/FoodSearchBar.scoped.css";
 import "./Food.scoped.css";
 import { PopChat } from "../components/PopChat";

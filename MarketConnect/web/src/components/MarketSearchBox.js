@@ -52,7 +52,7 @@ export default function MarketSearchBox() {
     }, [search]);
 
     const fetchList = (searchTerm) => {
-        axios.post(`https://3sc3ffw5-5000.asse.devtunnels.ms/search`, {     // Development only!
+        axios.post(`${BASE_API_URL}/search`, {
                 searchTerm: searchTerm
             })
         // axios.get('https://65bb214bb4d53c0665540e31.mockapi.io/api/v1/searchlist')   // Send GET to mock API endpoint
