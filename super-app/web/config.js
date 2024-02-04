@@ -3,3 +3,5 @@ const BASE_SERVER_PATH = process.env.BASE_SERVER_PATH || '/api';
 const BASE_WEB_PATH = process.env.BASE_WEB_PATH || '';
 exports.BASE_WEB_PATH = BASE_WEB_PATH;
 exports.BASE_API_URL = `${BASE_DOMAIN_WITH_PROTOCOL}${BASE_SERVER_PATH}`;
+exports.SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+exports.SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_KEY;
