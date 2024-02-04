@@ -11,6 +11,7 @@ BASE_PATH=$([ "$GIT_REF" == "main" ] && echo "" || echo "/$GIT_REF")
 echo 'BASE_DOMAIN_WITH_PROTOCOL=https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com'
 
 echo "BASE_SUPERAPP_WEB_PATH=/$GIT_REF"
+echo "BASE_SUPERAPP_WEB_PATH=$BASE_PATH/api"
 
 echo "BASE_EATS_WEB_PATH=$BASE_PATH/eats"
 echo "BASE_EATS_SERVER_PATH=$BASE_PATH/api/eats"
