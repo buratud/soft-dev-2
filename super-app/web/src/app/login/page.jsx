@@ -5,7 +5,7 @@ import styles from "./login.module.css"
 import { useState } from 'react';
 import axios from 'axios';
 import config from './config';
-
+import { NEXT_PUBLIC_BASE_WEB_PATH } from "../../../config";
 
 export default function Login() {
 

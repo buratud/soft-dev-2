@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"; 
 import styles from "./page.module.css";
-
+import {NEXT_PUBLIC_BASE_WEB_PATH} from "../../../config";
 const Verify = () => {
   const router = useRouter();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
