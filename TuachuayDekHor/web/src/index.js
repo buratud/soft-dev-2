@@ -12,7 +12,7 @@ const container = document.getElementById("root");
 const root = createRoot(container);
 
 root.render(
-  <BrowserRouter basename={REACT_APP_BASE_WEB_PATH}> 
+  <BrowserRouter> 
     <App />
   </BrowserRouter>
 );

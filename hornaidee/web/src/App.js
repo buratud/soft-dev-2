@@ -55,7 +55,7 @@ const router = createHashRouter([
     path: "/help/:ticketID",
     element: <Helppage></Helppage>,
   }
-], {basename: REACT_APP_BASE_WEB_PATH});
+]);
 
 function App() {
   const [user, setUser] = useState({actor:null})
