@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import styles from './nav.module.css'
 import { BsBoxArrowLeft } from "react-icons/bs"
-
+import { NEXT_PUBLIC_BASE_WEB_PATH } from '../../../config'
 export default function Home() {
 
     const [isOpen_1, setIsOpen_1] = useState(false);
