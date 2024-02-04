@@ -1,8 +1,8 @@
-
+// This implement base on figma maynot operate with actual website
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
 
-// Set the path to the Firefox executable (you may skip this if Firefox is in your system's PATH)
+// Set the path to the Firefox executable 
 const firefoxOptions = new firefox.Options().setBinary('path/to/firefox');
 
 // Create a new instance of the Firefox driver
