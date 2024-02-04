@@ -15,3 +15,4 @@ RUN npm run build
 FROM nginx:stable-alpine AS serve
 
 COPY --from=build /app/build /usr/share/nginx/html
+COPY default.template /etc/nginx/templates/default.template
