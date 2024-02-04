@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import styles from "./nav.module.css";
 import { BsBoxArrowLeft } from "react-icons/bs";
+import { NEXT_PUBLIC_BASE_WEB_PATH } from "../../../config";
 
 export default function Home() {
   const [isOpen_1, setIsOpen_1] = useState(false);
@@ -18,7 +19,7 @@ export default function Home() {
       <div className={styles.leftside}>
         <div className={styles.logo}>
           <a href="/">
-            <Image alt="logo" src="/images/LOGO.png" height={70} width={80} />
+            <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} height={70} width={80} />
           </a>
         </div>
       </div>
@@ -263,7 +264,7 @@ export default function Home() {
           <div>
             <img
               alt="Profile"
-              src="/images/PersonCircle.svg"
+              src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`}
               className={styles.ProfileImage}
             />
           </div>
@@ -274,7 +275,7 @@ export default function Home() {
             <div>
               <Image
                 alt="Profile"
-                src="/images/PersonCircle.svg"
+                src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`}
                 height={30}
                 width={30}
               />
@@ -285,7 +286,7 @@ export default function Home() {
             <div>
               <Image
                 alt="Support"
-                src="/images/support.png"
+                src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`}
                 height={30}
                 width={30}
               />
