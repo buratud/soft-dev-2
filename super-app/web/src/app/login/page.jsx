@@ -37,7 +37,7 @@ export default function Login() {
             })
             .then(res => {
                 alert('go to home page')
-                // navigate("/login");
+                // navigate("/home");
             })
             .catch((err) => {
                 console.error('Error:', err);
@@ -67,7 +67,8 @@ export default function Login() {
                         </div>  
                         <div>| </div>
                         <input  className={styles.Loginblock}
-                                placeholder="Email or Username"
+                                placeholder="Email"
+                                // placeholder="Email or Username"
                                 type="text" 
                                 name="username"
                                 value={formData.username}
