@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Admin.scoped.css";
-import { BASE_API_URL } from "../../config";
+import { BASE_API_URL } from ".././config";
 
 function Admin() {
   const [issues, setIssues] = useState([]);

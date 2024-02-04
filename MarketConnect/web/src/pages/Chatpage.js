@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Chatpage.scoped.css';
 import io from 'socket.io-client';
-import { baseWebUrl } from "../config";
+import { BASE_DOMAIN_WITH_PROTOCOL } from "../config.js";
 
 function Chatpage() {
   const [socket, setSocket] = useState(null);
@@ -16,7 +16,7 @@ function Chatpage() {
 
   useEffect(() => {
     // สร้างการเชื่อมต่อ WebSocket ไปยังเซิร์ฟเวอร์ WebSocket
-    const socket = io(`${baseWebUrl}/chatpage`);
+    const socket = io(`${BASE_DOMAIN_WITH_PROTOCOL}/chatpage`);
     setSocket(socket);
 
     // ตอนถอดเชื่อมต่อ WebSocket

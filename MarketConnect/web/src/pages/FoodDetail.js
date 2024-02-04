@@ -4,7 +4,7 @@ import "./FoodDetail.scoped.css";
 import NavBar from "../components/NavBar";
 import { PopChat } from "../components/PopChat";
 import axios from "axios";
-import { BASE_API_URL } from "../../config";
+import { BASE_API_URL } from ".././config";
 
 const FoodDetail = () => {
   const { foodid } = useParams();

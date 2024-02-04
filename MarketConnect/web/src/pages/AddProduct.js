@@ -5,7 +5,7 @@ import { PopChat } from "../components/PopChat";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AuthContext, useSupabase } from "../App";
-import { BASE_API_URL } from "../../config";
+import { BASE_API_URL } from ".././config";
 
 const AddProduct = () => {
   const { foodid } = useParams();
