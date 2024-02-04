@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link";
 import style from "./page.module.css";
-import { NEXT_PUBLIC_BASE_WEB_URL } from "../config";
+import { NEXT_PUBLIC_BASE_WEB_URL } from "../../../config";
 export default function Home() {
     return (
         
