@@ -8,20 +8,24 @@ const { BASE_SERVER_PATH, SUPABASE_URL, SUPABASE_KEY, PORT } = require("./config
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const app = express();
-const api = express.Router();
+const router = express.Router()
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
 
-app.use(BASE_SERVER_PATH, api);
+router.use(BASE_SERVER_PATH, router);
 
-api.post("/register", async (req, res) => {
+router.get("/test", (req, res) => {
+  res.status(200).json({ message: 'Hello from server!' });
+});
+
+router.post("/register", async (req, res) => {
   const { email, password } = req.body;
   const { data, error } = await supabase.auth.signUp({
     email: email,
     password: password,
   });
-  // console.log(data);
+  console.log(data);
   if (error) {
     res.status(400).json(error);
   } else {
@@ -29,7 +33,7 @@ api.post("/register", async (req, res) => {
   }
 });
 
-api.post("/sendsupport", async (req, res) => {
+router.post("/sendsupport", async (req, res) => {
   const { email, message, status, contact } = req.body;
   const { data, error } = await supabase.from("Support").insert({
     Sender: email,
@@ -44,7 +48,7 @@ api.post("/sendsupport", async (req, res) => {
   }
 });
 
-api.post("/getsupport", async (req, res) => {
+router.post("/getsupport", async (req, res) => {
   const { email } = req.body;
   const { data, error } = await supabase
     .from("Support")
@@ -57,7 +61,7 @@ api.post("/getsupport", async (req, res) => {
   }
 });
 
-api.post("/adminsupport", async (req, res) => {
+router.post("/adminsupport", async (req, res) => {
   const { data, error } = await supabase
     .from("Support")
     .select("Problem,Status,id,Sender,Contact");
@@ -68,7 +72,7 @@ api.post("/adminsupport", async (req, res) => {
   }
 });
 
-api.post("/changestatus", async (req, res) => {
+router.post("/changestatus", async (req, res) => {
   const { status, id } = req.body;
   const { data, error } = await supabase
     .from("Support")
@@ -81,7 +85,7 @@ api.post("/changestatus", async (req, res) => {
   }
 });
 
-api.post("/unsendsupport", async (req, res) => {
+router.post("/unsendsupport", async (req, res) => {
   const { id } = req.body;
   const { data, error } = await supabase
     .from("Support")
@@ -94,7 +98,7 @@ api.post("/unsendsupport", async (req, res) => {
   }
 });
 
-api.post("/fooddetail", async (req, res) => {
+router.post("/fooddetail", async (req, res) => {
   const { foodid } = req.body;
   const { data, error } = await supabase
     .from("Food")
@@ -109,7 +113,7 @@ api.post("/fooddetail", async (req, res) => {
   }
 });
 
-api.post("/food", async (req, res) => {
+router.post("/food", async (req, res) => {
   const { data, error } = await supabase
     .from("Food")
     .select("id, Food_Name, Price,URL");
@@ -120,7 +124,7 @@ api.post("/food", async (req, res) => {
   }
 });
 
-api.post("/getAdmin", async (req, res) => {
+router.post("/getAdmin", async (req, res) => {
   const { user } = req.body;
   const { data, error } = await supabase
     .from("User")
@@ -134,7 +138,7 @@ api.post("/getAdmin", async (req, res) => {
   }
 });
 
-api.post("/yourfood", async (req, res) => {
+router.post("/yourfood", async (req, res) => {
   const { user } = req.body;
   const { data, error } = await supabase
     .from("Food")
@@ -147,7 +151,7 @@ api.post("/yourfood", async (req, res) => {
   }
 });
 
-api.post("/new", async (req, res) => {
+router.post("/new", async (req, res) => {
   const { data, error } = await supabase
     .from("Food")
     .select("id, Food_Name, Price, URL")
@@ -161,7 +165,7 @@ api.post("/new", async (req, res) => {
 });
 
 
-app.post("/pro", async (req, res) => {
+router.post("/pro", async (req, res) => {
   const { data, error } = await supabase.from("Promotion").select("URL");
   if (error) {
     res.status(400).json(error);
@@ -170,7 +174,7 @@ app.post("/pro", async (req, res) => {
   }
 });
 
-api.post("/verify", async (req, res) => {
+router.post("/verify", async (req, res) => {
   const { email, token } = req.body;
   const { data, error } = await supabase.auth.verifyOtp({
     email,
@@ -184,7 +188,7 @@ api.post("/verify", async (req, res) => {
   }
 });
 
-api.post("/save", async (req, res) => {
+router.post("/save", async (req, res) => {
   const img = decode(req.body.img);
   const { firstname, lastname, contact, id } = req.body;
   const { data, error } = await supabase.auth.admin.updateUserById(id, {
@@ -215,7 +219,7 @@ api.post("/save", async (req, res) => {
   }
 });
 
-api.post("/delete", async (req, res) => {
+router.post("/delete", async (req, res) => {
   const { food } = req.body;
   const { data, error } = await supabase
     .from("Food")
@@ -228,7 +232,7 @@ api.post("/delete", async (req, res) => {
   }
 });
 
-api.post("/addproduct", async (req, res) => {
+router.post("/addproduct", async (req, res) => {
   const { name, price, catagory_id, id, description, picture, line } = req.body;
   const { data, error } = await supabase.from("Food").insert({
     Food_Name: name,
@@ -239,14 +243,19 @@ api.post("/addproduct", async (req, res) => {
     URL: picture,
     Line: line,
   });
+  console.log("req: " + req);
+  console.log("data: " + data);
   if (error) {
+    console.log("error: " + error);
+    console.log("res1: " + res);
     res.status(400).json(error);
   } else {
+    console.log("res2: " + res);
     res.status(200).json(data);
   }
 });
 
-api.post("/manageproduct", async (req, res) => {
+router.post("/manageproduct", async (req, res) => {
   const {
     food,
     name,
@@ -276,4 +285,5 @@ api.post("/manageproduct", async (req, res) => {
   }
 });
 
+app.use(router);
 app.listen(PORT, () => console.log(`Express app running on port ${PORT}`));
