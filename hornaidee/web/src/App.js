@@ -5,15 +5,14 @@ import reportWebVitals from "./reportWebVitals";
 import Login from "./pages/Login";
 import Register from "./pages/register";
 import Detaildorm from "./pages/detaidom";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import Chat from "./pages/chat";
 import Manage_detail from "./pages/manage_detail";
 import Error from "./pages/error";
 import Helppage from "./pages/helppage";
 import axios from "axios";
 import Main from "./pages/main";
-import { baseApiUrl } from "../config"
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Main />,
@@ -63,7 +62,7 @@ function App() {
   // }, [user])
 
   useEffect(() => {
-    axios.post(`${baseApiUrl}/auten`, {},
+    axios.post("http://localhost:3001/auten", {},
       {
         headers: {
           Authorization: `Basic ${localStorage.getItem("token")}`

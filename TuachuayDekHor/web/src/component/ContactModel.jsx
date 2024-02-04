@@ -14,7 +14,7 @@ function ContactModal() {
 
   return (
     <>
-      <img src="/mail-outline.svg" alt="" onClick={handleShow} className='mail_edit' />
+      <img src="mail-outline.svg" alt="" onClick={handleShow} className='mail_edit' />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Contact</Modal.Title>

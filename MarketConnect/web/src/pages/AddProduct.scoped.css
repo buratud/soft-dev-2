@@ -31,8 +31,8 @@ form{
 form label{
     width: 80%;
     text-align: left;
-    font-family:'Roboto', sans-serif;
-    font-weight: 300;
+    font-family:'Poppins', sans-serif;
+    font-weight: 500;
     font-size: 1rem;
 }
 
@@ -43,8 +43,8 @@ form input,textarea {
     border-radius: 0.5rem;
     border: 1px solid #ccc;
     font-size: 1rem;
-    font-family:'Roboto', sans-serif;
-    font-weight: 100;
+    font-family:'Poppins', sans-serif;
+    font-weight: 400;
 }
 
 label,input{
@@ -59,7 +59,7 @@ button{
     padding: 0.7rem;
     border-radius: 1rem;
     font-size: 1rem;
-    font-family:'Roboto', sans-serif;
+    font-family:'Poppins', sans-serif;
     font-weight: 400;
     background-color: #F6F4EB;
     color: #000;
@@ -83,14 +83,14 @@ select{
     border-radius: 0.5rem;
     border: 1px solid #ccc;
     font-size: 1rem;
-    font-family:'Roboto', sans-serif;
-    font-weight: 100;
+    font-family:'Poppins', sans-serif;
+    font-weight: 400;
     margin-bottom: 0.5rem;
 }
 
 option{
     font-size: 1rem;
-    font-family:'Roboto', sans-serif;
-    font-weight: 100;
+    font-family:'Poppins', sans-serif;
+    font-weight: 400;
 }
 

@@ -1,4 +1,5 @@
 {
+  "homepage": ".",
   "name": "hornai_d",
   "version": "0.1.0",
   "private": true,
@@ -22,6 +23,7 @@
     "nodemon": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.0.1",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.16.0",
     "react-scripts": "^5.0.1",
@@ -35,7 +37,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"craco start\" \"nodemon server/index.js\""
+    "dev": "concurrently \"craco start\" \"nodemon server/index.js\"",
+    "server": "nodemon server/index.js"
   },
   "eslintConfig": {
     "extends": [

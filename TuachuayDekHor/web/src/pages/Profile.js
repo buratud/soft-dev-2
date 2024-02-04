@@ -62,7 +62,7 @@ const Profile = () => {
               <h2>{data.user_metadata?.username}</h2>
             </div>
             <div className="contact">
-              <img src="/mail-outline.svg" alt="" className='mail_edit' />
+              <img src="mail-outline.svg" alt="" className='mail_edit' />
               <p className="email_User">{data.email}</p>
             </div>
           </div>

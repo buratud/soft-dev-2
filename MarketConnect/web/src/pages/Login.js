@@ -49,7 +49,7 @@ const Login = () => {
               placeholder="Email"
               required
             />
-            <img src="/-icon-person.svg" alt="" />
+            <img src="-icon-person.svg" alt="" />
           </div>
           <div className="input-box">
             <input
@@ -58,7 +58,7 @@ const Login = () => {
               id="password"
               placeholder="Password"
             />
-            <img src="/-icon-lock-locked.svg" alt="" />
+            <img src="-icon-lock-locked.svg" alt="" />
           </div>
         </div>
         <div className="footer">

@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: superapp-server-ingress{{ include "global.appendTag" . }}
+  annotations:
+    cert-manager.io/issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  defaultBackend:
+    service:
+      name: superapp-server-service{{ include "global.appendTag" . }}
+      port:
+        number: 3000
+  tls:
+  - hosts:
+    - {{ .Values.global.topLevelUrl }}
+    secretName: linux-vm-southeastasia-2-tls
+  rules:
+  - host: {{ .Values.global.topLevelUrl }}
+    http:
+      paths:
+      - path: {{ include "superapp-server.rootPath" . }}
+        pathType: Prefix
+        backend:
+          service:
+            name: superapp-server-service{{ include "global.appendTag" . }}
+            port:
+              number: 3000
