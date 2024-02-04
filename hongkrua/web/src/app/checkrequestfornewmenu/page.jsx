@@ -5,7 +5,7 @@ import Navbar from "../../../components/navbar";
 import Footer from "../../../components/footer";
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation";
-import {baseApiUrl} from '../../../config' 
+import {NEXT_PUBLIC_BASE_API_URL} from '../../../config' 
 
 export default function Home() {
   const [foodData, setFoodData] = useState([]);
@@ -14,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`${baseApiUrl}/api/recipes`);
+        const response = await fetch(`${NEXT_PUBLIC_BASE_API_URL}/api/recipes`);
         if (response.ok) {
           const data = await response.json();
           setFoodData(data);
