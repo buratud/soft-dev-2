@@ -18,9 +18,9 @@ import Blogger from './pages/Blogger';
 import Search from './pages/Search';
 import { createClient } from '@supabase/supabase-js';
 import guarderout from './component/guarderout';
-import { BASE_WEB_PATH, SUPABASE_URL, SUPABASE_ANON_KEY } from './config';
+import { REACT_APP_BASE_WEB_PATH, REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_ANON_KEY } from './config';
 
-const supabase = createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const supabase = createClient(REACT_APP_SUPABASE_URL,REACT_APP_SUPABASE_ANON_KEY);
 
 export const General =createContext({});
 
@@ -88,36 +88,36 @@ function App() {
     session: session,
     user: session?.user,
   };
-
+  console.log(REACT_APP_BASE_WEB_PATH)
   return (
     <General.Provider
       value = {value}
     >
-      <Routes>
-        <Route path={`${BASE_WEB_PATH}`} element={<Navigate to ={`${BASE_WEB_PATH}/home`}/>} />
-        <Route path={`${BASE_WEB_PATH}/home`} element={<Home />} />
-        <Route path={`${BASE_WEB_PATH}/login`} element={<Login />} />
-        <Route path={`${BASE_WEB_PATH}/signup`} element={<Signup />} />
-        <Route path={`${BASE_WEB_PATH}/report`} element={<Report />} />
-        <Route path={`${BASE_WEB_PATH}/writeblog`} element={<WriteBlog />} />
-        <Route path={`${BASE_WEB_PATH}/contact`} element={<Contact />}/>
-        <Route path={`${BASE_WEB_PATH}/profile/:userId`} element={<Profile />}/>
-        <Route path={`${BASE_WEB_PATH}/cleaning`} element={<Cleaning />}/>
-        <Route path={`${BASE_WEB_PATH}/cleaning/:id`} element={<Details />}/>
-        <Route path={`${BASE_WEB_PATH}/cooking`} element={<Cooking />}/>
-        <Route path={`${BASE_WEB_PATH}/cooking/:id`} element={<Details />}/>
-        <Route path={`${BASE_WEB_PATH}/decoration`} element={<Decoration />}/>
-        <Route path={`${BASE_WEB_PATH}/decoration/:id`} element={<Details />}/>
-        <Route path={`${BASE_WEB_PATH}/story`} element={<Story />}/>
-        <Route path={`${BASE_WEB_PATH}/story/:id`} element={<Details />}/>
-        <Route path={`${BASE_WEB_PATH}/reportfinish`} element={<Reportfinish />}/>
-        <Route path={`${BASE_WEB_PATH}/contactfinish`} element={<Contactfinish />}/>
-        <Route path={`${BASE_WEB_PATH}/blogger`} element={<Blogger />}/>
-        <Route path={`${BASE_WEB_PATH}/search`} element={<Search />}/>
+      <Routes >
+        <Route path={"/"} element={<Navigate to ={`/home`}/>} />
+        <Route path={"/home"} element={<Home />} />
+        <Route path={"/login"} element={<Login />} />
+        <Route path={"/signup"} element={<Signup />} />
+        <Route path={"/report"} element={<Report />} />
+        <Route path={"/writeblog"} element={<WriteBlog />} />
+        <Route path={"/contact"} element={<Contact />}/>
+        <Route path={"/profile/:userId"} element={<Profile />}/>
+        <Route path={"/cleaning"} element={<Cleaning />}/>
+        <Route path={"/cleaning/:id"} element={<Details />}/>
+        <Route path={"/cooking"} element={<Cooking />}/>
+        <Route path={"/cooking/:id"} element={<Details />}/>
+        <Route path={"/decoration"} element={<Decoration />}/>
+        <Route path={"/decoration/:id"} element={<Details />}/>
+        <Route path={"/story"} element={<Story />}/>
+        <Route path={"/story/:id"} element={<Details />}/>
+        <Route path={"/reportfinish"} element={<Reportfinish />}/>
+        <Route path={"/contactfinish"} element={<Contactfinish />}/>
+        <Route path={"/blogger"} element={<Blogger />}/>
+        <Route path={"/search"} element={<Search />}/>
         {/* <Route element = {<guarderout/>}>
-          <Route path={`${BASE_WEB_PATH}/profile`} element={<Profile />}/>
-          <Route path={`${BASE_WEB_PATH}/writeblog`} element={<WriteBlog />} />
-          <Route path={`${BASE_WEB_PATH}/report`} element={<Report />} />
+          <Route path={"/profile"} element={<Profile />}/>
+          <Route path={"/writeblog"} element={<WriteBlog />} />
+          <Route path={"/report"} element={<Report />} />
         </Route> */}
       </Routes>
     </General.Provider> 

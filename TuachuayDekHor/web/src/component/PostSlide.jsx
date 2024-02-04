@@ -8,7 +8,7 @@ import { BiSolidPencil } from "react-icons/bi";
 import axios from 'axios';
 import CheckDelete from './CheckDelete'
 import { General } from '../App';
-import { BASE_API_URL } from '../config'
+import { REACT_APP_BASE_API_URL } from '../config'
 
 
 function PostSlide(props){
@@ -17,7 +17,7 @@ function PostSlide(props){
     console.log(props.id)
     useEffect(() => {
         if (props.id) {
-            axios.get(`${BASE_API_URL}/posttoprofile?id=` + props.id)
+            axios.get(`${REACT_APP_BASE_API_URL}/posttoprofile?id=` + props.id)
             .then(res => {
                 setData(res.data);
                 console.log(data)

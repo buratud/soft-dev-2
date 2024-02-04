@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import "./Signup.scoped.css"
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {BASE_API_URL} from '../config'
+import {REACT_APP_BASE_API_URL} from '../config'
 
 const Signup=()=> {
     const navigate = useNavigate();
@@ -11,7 +11,7 @@ const Signup=()=> {
         // console.log(event);
         event.preventDefault();
         if (event.target[2].value === event.target[3].value){
-            axios.post(`${BASE_API_URL}/signup`,{
+            axios.post(`${REACT_APP_BASE_API_URL}/signup`,{
                 email: event.target[0].value,
                 username: event.target[1].value,
                 password: event.target[2].value,

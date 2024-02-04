@@ -10,7 +10,7 @@ import { useLocation, Link } from 'react-router-dom'
 import axios from 'axios';
 import Footer from "../component/footer";
 import { Container } from 'reactstrap';
-import { BASE_API_URL } from '../config'
+import { REACT_APP_BASE_API_URL } from '../config'
 
 
 
@@ -18,7 +18,7 @@ function Search() {
     const [data, setData] = useState([]);
     // const { supabase_for_use: supabase, session, user } = useContext(General);
     useEffect(() => {
-        axios.post(`${BASE_API_URL}/search`, {
+        axios.post(`${REACT_APP_BASE_API_URL}/search`, {
 
         })
             .then(res => {

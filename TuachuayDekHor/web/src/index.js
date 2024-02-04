@@ -5,13 +5,14 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import "./global.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { REACT_APP_BASE_WEB_PATH } from "./config";
 
 
 const container = document.getElementById("root");
 const root = createRoot(container);
 
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename={REACT_APP_BASE_WEB_PATH}> 
     <App />
   </BrowserRouter>
 );

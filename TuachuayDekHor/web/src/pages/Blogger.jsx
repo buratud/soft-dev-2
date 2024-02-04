@@ -5,13 +5,13 @@ import img1 from '../../src/Assets/person-circle-outline.svg'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import { General } from '../App';
-import { BASE_API_URL } from '../config'
+import { REACT_APP_BASE_API_URL } from '../config'
 
 function Blogger() {
   const [data, setData] = useState([]);
   const { supabase_for_use: supabase, session, user } = useContext(General);
   useEffect(() => {
-      axios.post(`${BASE_API_URL}/blogger`,{
+      axios.post(`${REACT_APP_BASE_API_URL}/blogger`,{
 
       })
       .then(res => {

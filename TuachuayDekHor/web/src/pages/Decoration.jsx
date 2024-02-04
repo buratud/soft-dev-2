@@ -5,14 +5,14 @@ import { Col, Row, Container } from "reactstrap";
 import ContentSlide from '../component/ContentSlide';
 import { General } from '../App';
 import axios from 'axios';
-import { BASE_API_URL } from '../config'
+import { REACT_APP_BASE_API_URL } from '../config'
 
 function Decoration() {
   // const { supabase_for_use: supabase, session, user } = useContext(General);
   // const [data, setData] = useState([]);
   // // const [title, setTitle] = useState("")
   // useEffect(() => {
-  //     axios.get(`${BASE_API_URL}//posttodecoration?category=` + Decoration)
+  //     axios.get(`${REACT_APP_BASE_API_URL}//posttodecoration?category=` + Decoration)
   //     .then(res => {
   //       console.log(res.data)
   //         setData(res.data);

@@ -4,7 +4,7 @@ import './ContentSlide.scoped.css';
 import img1 from '../../src/Assets/slide1.png';
 import { BiSolidPencil } from 'react-icons/bi';
 import axios from 'axios';
-import { BASE_API_URL } from '../config';
+import { REACT_APP_BASE_API_URL } from '../config';
 
 function Reccommend() {
   const [data, setData] = useState([]); 
@@ -13,7 +13,7 @@ function Reccommend() {
   const limitedData = data.slice(0, countToShow);
 
     useState(()=>{
-        axios.post(`${BASE_API_URL}/randompost`,{
+        axios.post(`${REACT_APP_BASE_API_URL}/randompost`,{
         
         })
         .then((res) => {
