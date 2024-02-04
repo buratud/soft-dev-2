@@ -1,11 +1,11 @@
 'use client'
 import { useState } from 'react';
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import styles from './register.module.css';
 import Link from 'next/link';
 import axios from 'axios';
-import {NEXT_PUBLIC_BASE_API_URL} from '../../config';
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../config';
 
 export default function Home() {
     const router = useRouter();
@@ -47,28 +47,28 @@ export default function Home() {
         console.log('Submitted Data:', formData);
 
         // ทำสิ่งที่คุณต้องการทำหลังจาก Submit ที่นี่
-        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/register`,{
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/register`, {
             email: formData.email,
             username: formData.username,
             password: formData.password,
         })
-        .then(res => {
-            alert('go to verify')
-            // navigate("/verify");
-        })
-        .catch((err) => {
-            // if (err.response && err.response.data && err.response.data.message) {
-            //     alert(err.response.data.message);
-            // } else {
-            //     alert("An error occurred during login.");
-            // }
-            // if (err.response.message === "User already registered") {
-            //     alert("Internal Server Error (500). Please don't submit too frequently.");
-            //     // alert("Internal Server Error (500). Please don't submit too frequently.");
-            // } else {
+            .then(res => {
+                alert('go to verify')
+                // navigate("/verify");
+            })
+            .catch((err) => {
+                // if (err.response && err.response.data && err.response.data.message) {
+                //     alert(err.response.data.message);
+                // } else {
+                //     alert("An error occurred during login.");
+                // }
+                // if (err.response.message === "User already registered") {
+                //     alert("Internal Server Error (500). Please don't submit too frequently.");
+                //     // alert("Internal Server Error (500). Please don't submit too frequently.");
+                // } else {
                 alert(err);
-            // }
-        })
+                // }
+            })
 
         setFormData(initialFormData);
 
@@ -78,7 +78,7 @@ export default function Home() {
     return (
         <main className={styles.main}>
             <div className={styles.topBar}>
-                <img src="./images/logo.png" alt="Logo" className={styles.logo} />
+            <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/LOGO.png`} height={55} width={55} />
             </div>
             <div className={styles.register_form}>
                 <div className={styles.leftside}>
@@ -95,7 +95,7 @@ export default function Home() {
                     </div>
 
                     <div className={styles.pic}>
-                        <Image alt="dekhor1" src="/images/dekhor_1.png" height={412} width={288} />
+                        <Image alt="dekhor1" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/dekhor_1.png`} height={412} width={288} />
                     </div>
                 </div>
 

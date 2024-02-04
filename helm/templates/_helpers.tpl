@@ -11,4 +11,8 @@
 {{- define "global.env"}}
             - name: BASE_DOMAIN_WITH_PROTOCOL
               value: {{ printf "https://%s" .Values.global.topLevelUrl | quote }}
+            - name: NEXT_PUBLIC_BASE_DOMAIN_WITH_PROTOCOL
+              value: {{ printf "https://%s" .Values.global.topLevelUrl | quote }}
+            - name: REACT_APP_DOMAIN_WITH_PROTOCOL
+              value: {{ printf "https://%s" .Values.global.topLevelUrl | quote }}
 {{- end -}}

@@ -3,7 +3,7 @@ server {
     listen  [::]:80;
     server_name _;
 
-    location ${BASE_WEB_PATH} {
+    location ${REACT_APP_BASE_WEB_PATH} {
         alias   /usr/share/nginx/html;
         try_files $uri $uri/ index.html;
     }

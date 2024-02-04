@@ -10,7 +10,7 @@ const container = document.getElementById("root");
 const root = createRoot(container);
 
 root.render(
-  <HashRouter basename={REACT_APP_BASE_WEB_PATH}>
+  <HashRouter basename={"/"}>
     <App />
   </HashRouter>
 );

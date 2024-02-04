@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import styles from './nav.module.css'
 import { BsBoxArrowLeft } from "react-icons/bs"
-
+import { NEXT_PUBLIC_BASE_WEB_PATH } from '../../../config'
 export default function Home() {
 
     const [isOpen_1, setIsOpen_1] = useState(false);
@@ -19,7 +19,7 @@ export default function Home() {
             <div className={styles.leftside}>
                 <div className={styles.logo}>
                     <a href="/">
-                        <Image alt="logo" src="/images/logo.png" height={70} width={80} />
+                        <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} height={70} width={80} />
                     </a>
                 </div>
             </div>
@@ -212,18 +212,18 @@ export default function Home() {
                         setIsOpen_2(false);
                         setIsOpen_1(false);
                     }}>
-                    <div><img alt="Profile" src="/images/PersonCircle.svg" className={styles.ProfileImage} /></div>
+                    <div><img alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} className={styles.ProfileImage} /></div>
                 </button>
 
                 {isOpen_Profile && <div className={styles.dropdownContentProfile}>
                     <div>
-                        <Image alt="Profile" src="/images/PersonCircle.svg" height={30} width={30} />
+                        <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
                         <span>
                             <a href="/">My Profile</a>
                         </span>
                     </div>
                     <div>
-                        <Image alt="Support" src="/images/support.png" height={30} width={30} />
+                        <Image alt="Support" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`} height={30} width={30} />
                         <span>
                             <a href="/">Support</a>
                         </span>
