@@ -2,17 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import FoodSearchBar from "../components/FoodSearchBar";
+// import FoodSearchBar from "../components/FoodSearchBar";
 import "../components/FoodSearchBar.scoped.css";
 import "./Food.scoped.css";
 import { PopChat } from "../components/PopChat";
-import { baseApiUrl } from "../config";
+import { BASE_API_URL } from ".././config";
+import MarketSearchBox from "../components/MarketSearchBox";
 
 const Food = () => {
   const [foodAll, setFood] = useState([]);
   useEffect(() => {
     axios
-      .post(`${baseApiUrl}/food`)
+      .post(`${BASE_API_URL}/food`)
       .then((res) => {
         setFood(res.data);
       })
@@ -39,7 +40,10 @@ const Food = () => {
       {/* <PopChat messages={[]} /> */}
       <main>
         <section id="food-box">
-          <FoodSearchBar onSearch={handleSearch} />
+          {/* <FoodSearchBar onSearch={handleSearch} /> */}
+          <div className="food-search">
+            <MarketSearchBox />
+          </div>
           <div className="food-box-grid">
             <FoodItems foodData={filteredFood} />
           </div>

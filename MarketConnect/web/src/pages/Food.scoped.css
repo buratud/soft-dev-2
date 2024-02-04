@@ -4,6 +4,10 @@
     background-color: #F6F4EB;
 }
 
+.food-search {
+    width: 70%;
+}
+
 #food-box{
     background-color: #F6F4EB;
     display: flex;
@@ -16,7 +20,7 @@
 }
 
 h1{
-    font-family:'Roboto', sans-serif;
+    font-family:'Poppins', sans-serif;
     font-weight: 500;
     font-size: 30px;
     text-transform: uppercase;
@@ -52,15 +56,15 @@ h1{
 
 .food-item-name{
     font-size: 1.2rem;
-    font-family:'Roboto', sans-serif;
-    font-weight: 300;
+    font-family:'Poppins', sans-serif;
+    font-weight: 400;
     margin-top: 0.5rem;
 }
 
 .food-item-price{
     font-size: 1.1rem;
-    font-family:'Roboto', sans-serif;
-    font-weight: 300;
+    font-family:'Poppins', sans-serif;
+    font-weight: 400;
     margin-top: 0.5rem;
     margin-bottom: 1rem;
 
