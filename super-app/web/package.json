@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "axios": "^1.6.7",
+    "@supabase/supabase-js": "^2.39.3",
+    "dotenv": "^16.4.1",
     "next": "14.1.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-icons": "^5.0.1".
+    "axios": "^1.6.7"
   },
   "devDependencies": {
     "eslint": "^8",
