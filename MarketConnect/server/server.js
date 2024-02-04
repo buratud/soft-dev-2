@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const { decode } = require("base64-arraybuffer");
 const { createClient } = require("@supabase/supabase-js");
+const { supabaseKey, supabaseUrl } = require("./config");
+const { search } = require("./search");
 const { BASE_SERVER_PATH, SUPABASE_URL, SUPABASE_KEY, PORT } = require("./config");
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -12,6 +14,29 @@ const router = express.Router()
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
+router.get('/testget', (req, res) => {
+  res.status(200).json({ message: 'Hello from server!' });
+});
+
+router.post("/testpost", (req, res) => {
+  const { searchTerm } = req.body;
+  const data = { searchTerm: searchTerm};
+  console.log(data);
+  res.status(200).json(data);
+});
+
+router.post("/search", async (req, res) => {
+  const { searchTerm } = req.body;
+  const { data, error } = await supabase.from("Food").select("id, Food_Name, Price, URL");
+  const result = search(searchTerm, data);
+  // console.log(result)
+  
+  if (error) {
+    res.status(400).json(error);
+  } else {
+    res.status(200).json(result);
+  }
+});
 
 router.use(BASE_SERVER_PATH, router);
 
