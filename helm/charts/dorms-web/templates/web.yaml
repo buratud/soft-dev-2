@@ -19,7 +19,7 @@ spec:
             - containerPort: 80
           env:
             {{- template "global.env" . }}
-            - name: BASE_WEB_PATH
+            - name: REACT_APP_BASE_WEB_PATH
               value: {{ include "dorms-web.rootPath" . | quote }}
-            - name: BASE_SERVER_PATH
+            - name: REACT_APP_BASE_SERVER_PATH
               value: {{ include "dorms-server.rootPath" . | quote }}
