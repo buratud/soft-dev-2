@@ -53,8 +53,8 @@ export default function Home() {
             password: formData.password,
         })
         .then(res => {
-            // alert('okka')
-            navigate("/verify");
+            alert('go to verify')
+            // navigate("/verify");
         })
         .catch((err) => {
             // if (err.response && err.response.data && err.response.data.message) {
