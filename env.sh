@@ -8,16 +8,21 @@ echo "GIT_REF=$GIT_REF"
 
 BASE_PATH=$([ "$GIT_REF" == "main" ] && echo "" || echo "/$GIT_REF")
 
-if [ $GIT_REF == "main" ]; then
-  echo 'BASE_SUPERAPP_WEB_PATH=""'
-else
-  echo "BASE_SUPERAPP_WEB_PATH=/$GIT_REF"
-fi
+echo 'BASE_DOMAIN_WITH_PROTOCOL=https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com'
 
-if [ $GIT_REF == "main" ]; then
-  echo 'BASE_EATS_WEB_PATH=/eats'
-else
-  echo "BASE_EATS_WEB_PATH=/$GIT_REF/eats"
-fi
+echo "BASE_SUPERAPP_WEB_PATH=/$GIT_REF"
+echo "BASE_SUPERAPP_WEB_PATH=$BASE_PATH/api"
+
+echo "BASE_EATS_WEB_PATH=$BASE_PATH/eats"
+echo "BASE_EATS_SERVER_PATH=$BASE_PATH/api/eats"
+
+echo "BASE_DORM_WEB_PATH=$BASE_PATH/dorms"
+echo "BASE_DORM_SERVER_PATH=$BASE_PATH/api/dorms"
+
+echo "BASE_BLOG_WEB_PATH=$BASE_PATH/blogs"
+echo "BASE_BLOG_SERVER_PATH=$BASE_PATH/api/blogs"
+
+echo "BASE_MARKET_WEB_PATH=$BASE_PATH/markets"
+echo "BASE_MARKET_SERVER_PATH=$BASE_PATH/api/markets"
 
 echo "MAIN_URL=https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com$BASE_PATH"

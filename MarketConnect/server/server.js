@@ -14,18 +14,21 @@ const router = express.Router()
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
-router.get('/testget', (req, res) => {
+
+app.use(BASE_SERVER_PATH, api);
+
+api.get('/testget', (req, res) => {
   res.status(200).json({ message: 'Hello from server!' });
 });
 
-router.post("/testpost", (req, res) => {
+api.post("/testpost", (req, res) => {
   const { searchTerm } = req.body;
   const data = { searchTerm: searchTerm};
   console.log(data);
   res.status(200).json(data);
 });
 
-router.post("/search", async (req, res) => {
+api.post("/search", async (req, res) => {
   const { searchTerm } = req.body;
   const { data, error } = await supabase.from("Food").select("id, Food_Name, Price, URL");
   const result = search(searchTerm, data);
@@ -38,13 +41,11 @@ router.post("/search", async (req, res) => {
   }
 });
 
-router.use(BASE_SERVER_PATH, router);
-
-router.get("/test", (req, res) => {
+api.get("/test", (req, res) => {
   res.status(200).json({ message: 'Hello from server!' });
 });
 
-router.post("/register", async (req, res) => {
+api.post("/register", async (req, res) => {
   const { email, password } = req.body;
   const { data, error } = await supabase.auth.signUp({
     email: email,

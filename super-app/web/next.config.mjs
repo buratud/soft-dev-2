@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
-import { BASE_WEB_PATH } from './config.js';
+import { NEXT_PUBLIC_BASE_WEB_PATH } from './config.js';
 const nextConfig = {
-    basePath: BASE_WEB_PATH,
+    basePath: NEXT_PUBLIC_BASE_WEB_PATH,
 };
 
 export default nextConfig;

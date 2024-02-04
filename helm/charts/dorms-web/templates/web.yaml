@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dorms-web{{ include "global.appendTag" . }}
+spec:
+  selector:
+    matchLabels:
+      app: dorms-web{{ include "global.appendTag" . }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dorms-web{{ include "global.appendTag" . }}
+    spec:
+      containers:
+        - name: dorms-web
+          image: softdev2southeastasia.azurecr.io/dorms-web:{{ .Values.global.revision }}
+          ports:
+            - containerPort: 80
+          env:
+            {{- template "global.env" . }}
+            - name: BASE_WEB_PATH
+              value: {{ include "dorms-web.rootPath" . | quote }}
+            - name: BASE_SERVER_PATH
+              value: {{ include "dorms-server.rootPath" . | quote }}

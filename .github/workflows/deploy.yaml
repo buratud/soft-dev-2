@@ -46,10 +46,14 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - name: Build and push image
         run: |
-          docker build super-app/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }} --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH
+          docker build super-app/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }} --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg SUPERAPP_SUPABASE_URL=$SUPERAPP_SUPABASE_URL --build-arg SUPERAPP_SUPABASE_ANON_KEY=$SUPERAPP_SUPABASE_ANON_KEY
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
         env:
+          BASE_DOMAIN_WITH_PROTOCOL: ${{ env.BASE_DOMAIN_WITH_PROTOCOL }}
           BASE_SUPERAPP_WEB_PATH: ${{ env.BASE_SUPERAPP_WEB_PATH }}
+          BASE_SUPERAPP_SERVER_PATH: ${{ env.BASE_SUPERAPP_SERVER_PATH }}
+          SUPERAPP_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPERAPP_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
 
   superapp_server:
     name: Superapp Server
@@ -114,10 +118,12 @@ jobs:
   #         password: ${{ secrets.REGISTRY_PASSWORD }}
   #     - name: Build and push image
   #       run: |
-  #         docker build hongkrua/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-web:${{ github.sha }} --build-arg BASE_EATS_WEB_PATH=$BASE_EATS_WEB_PATH
+  #         docker build hongkrua/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-web:${{ github.sha }} --build-arg BASE_EATS_WEB_PATH=$BASE_EATS_WEB_PATH BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL BASE_EATS_SERVER_PATH=$BASE_EATS_SERVER_PATH
   #         docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-web:${{ github.sha }}
   #       env:
   #         BASE_EATS_WEB_PATH: ${{ env.BASE_EATS_WEB_PATH }}
+  #         BASE_EATS_SERVER_PATH: ${{ env.BASE_EATS_SERVER_PATH }}
+  #         BASE_DOMAIN_WITH_PROTOCOL: ${{ env.BASE_DOMAIN_WITH_PROTOCOL }}
 
   eats_server:
     name: Eats Server
@@ -216,10 +222,104 @@ jobs:
           docker build TuachuayDekHor/server/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/blogs-server:${{ github.sha }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/blogs-server:${{ github.sha }}
 
+  dorms_web:
+    name: Dorms Website
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1.6.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set GIT_REF
+        run: bash ./env.sh >> "$GITHUB_ENV"
+
+      - name: Login to Azure Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - name: Build and push image
+        run: |
+          docker build hornaidee/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/dorms-web:${{ github.sha }} --build-arg BASE_DORM_WEB_PATH=$BASE_DORM_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_DORM_SERVER_PATH=$BASE_DORM_SERVER_PATH
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/dorms-web:${{ github.sha }}
+        env:
+          BASE_DORM_WEB_PATH: ${{ env.BASE_DORM_WEB_PATH }}
+          BASE_DOMAIN_WITH_PROTOCOL: ${{ env.BASE_DOMAIN_WITH_PROTOCOL }}
+          BASE_DORM_SERVER_PATH: ${{ env.BASE_DORM_SERVER_PATH }}
+
+  blogs_web:
+    name: Blogs Website
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1.6.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set GIT_REF
+        run: bash ./env.sh >> "$GITHUB_ENV"
+
+      - name: Login to Azure Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - name: Build and push image
+        run: |
+          docker build TuachuayDekHor/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/blogs-web:${{ github.sha }} --build-arg BASE_BLOG_WEB_PATH=$BASE_BLOG_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_BLOG_SERVER_PATH=$BASE_BLOG_SERVER_PATH --build-arg BLOG_SUPABASE_URL=$BLOG_SUPABASE_URL --build-arg BLOG_SUPABASE_ANON_KEY=$BLOG_SUPABASE_ANON_KEY
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/blogs-web:${{ github.sha }}
+        env:
+          BASE_BLOG_WEB_PATH: ${{ env.BASE_BLOG_WEB_PATH }}
+          BASE_DOMAIN_WITH_PROTOCOL: ${{ env.BASE_DOMAIN_WITH_PROTOCOL }}
+          BASE_BLOG_SERVER_PATH: ${{ env.BASE_BLOG_SERVER_PATH }}
+          BLOG_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          BLOG_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
+  markets_web:
+    name: Markets Website
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1.6.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set GIT_REF
+        run: bash ./env.sh >> "$GITHUB_ENV"
+
+      - name: Login to Azure Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - name: Build and push image
+        run: |
+          docker build MarketConnect/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }} --build-arg BASE_MARKET_WEB_PATH=$BASE_MARKET_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_MARKET_SERVER_PATH=$BASE_MARKET_SERVER_PATH --build-arg MARKET_SUPABASE_URL=$MARKET_SUPABASE_URL --build-arg MARKET_SUPABASE_ANON_KEY=$MARKET_SUPABASE_ANON_KEY
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }}
+        env:
+          BASE_MARKET_WEB_PATH: ${{ env.BASE_MARKET_WEB_PATH }}
+          BASE_DOMAIN_WITH_PROTOCOL: ${{ env.BASE_DOMAIN_WITH_PROTOCOL }}
+          BASE_MARKET_SERVER_PATH: ${{ env.BASE_MARKET_SERVER_PATH }}
+          MARKET_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          MARKET_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: [superapp_web, superapp_server, eats_server, market_server, dorms_server, blogs_server]
+    needs: [superapp_web, superapp_server, eats_server, market_server, dorms_server, blogs_server, dorms_web, blogs_web, markets_web]
     environment: production
     steps:
       - uses: actions/checkout@v4

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import styles from './register.module.css';
 import Link from 'next/link';
 import axios from 'axios';
-import config from './config';
+import {NEXT_PUBLIC_BASE_API_URL} from '../../config';
 
 export default function Home() {
     const router = useRouter();
@@ -47,7 +47,7 @@ export default function Home() {
         console.log('Submitted Data:', formData);
 
         // ทำสิ่งที่คุณต้องการทำหลังจาก Submit ที่นี่
-        axios.post(config.API + "/register",{
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/register`,{
             email: formData.email,
             username: formData.username,
             password: formData.password,

@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import "./nav.scoped.css";
 import { BsBoxArrowLeft } from "react-icons/bs";
 import { useState } from "react";
+import { REACT_APP_BASE_API_URL } from "../config"
 
 const Navbar = () => {
   const [isOpen_1, setIsOpen_1] = useState(false);
@@ -15,7 +16,7 @@ const Navbar = () => {
     <header className="main">
       <div className="leftside">
         <div className="logo">
-          <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/"}>
+          <NavLink to={`${REACT_APP_BASE_API_URL}/`}>
             <img alt="logo" src="/LOGO.png" height={70} width={80} />
           </NavLink>
         </div>
@@ -46,7 +47,7 @@ const Navbar = () => {
             <div className="dropdownContent">
               <div>
                 <span>
-                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs"}>Main</NavLink>
+                  <NavLink to={`${REACT_APP_BASE_API_URL}/blogs`}>Main</NavLink>
                 </span>
               </div>
               <div>
@@ -65,17 +66,17 @@ const Navbar = () => {
                   <div className="subdropdownContent">
                     <div>
                       <span>
-                        <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/cleaning"}>Cleaning</NavLink>
+                        <NavLink to={`${REACT_APP_BASE_API_URL}/blogs/cleaning`}>Cleaning</NavLink>
                       </span>
                     </div>
                     <div>
                       <span>
-                        <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/decoration"}>Decorations</NavLink>
+                        <NavLink to={`${REACT_APP_BASE_API_URL}/blogs/decoration`}>Decorations</NavLink>
                       </span>
                     </div>
                     <div>
                       <span>
-                        <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/story"}>
+                        <NavLink to={`${REACT_APP_BASE_API_URL}/blogs/story`}>
                           Story's DekHor
                         </NavLink>
                       </span>
@@ -85,12 +86,12 @@ const Navbar = () => {
               </div>
               <div>
                 <span>
-                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/writeblog"}>Blogging</NavLink>
+                  <NavLink to={`${REACT_APP_BASE_API_URL}/blogs/writeblog`}>Blogging</NavLink>
                 </span>
               </div>
               <div>
                 <span>
-                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs/blogger"}>Blogger</NavLink>
+                  <NavLink to={`${REACT_APP_BASE_API_URL}/blogs/blogger`}>Blogger</NavLink>
                 </span>
               </div>
             </div>
@@ -120,17 +121,17 @@ const Navbar = () => {
             <div className="dropdownContent">
               <div>
                 <span>
-                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms"}>Main</NavLink>
+                  <NavLink to={`${REACT_APP_BASE_API_URL}/dorms`}>Main</NavLink>
                 </span>
               </div>
               <div>
                 <span>
-                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms"}>All Dorms</NavLink>
+                  <NavLink to={`${REACT_APP_BASE_API_URL}/dorms`}>All Dorms</NavLink>
                 </span>
               </div>
               <div>
                 <span>
-                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms"}>Add Dorm</NavLink>
+                  <NavLink to={`${REACT_APP_BASE_API_URL}/dorms`}>Add Dorm</NavLink>
                 </span>
               </div>
             </div>
@@ -162,7 +163,7 @@ const Navbar = () => {
             <div className="dropdownContent">
               <div>
                 <span>
-                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats"}>Main</NavLink>
+                  <NavLink to={`${REACT_APP_BASE_API_URL}/eats`}>Main</NavLink>
                 </span>
               </div>
               <div>
@@ -181,17 +182,17 @@ const Navbar = () => {
                   <div className="subdropdownContent">
                     <div>
                       <span>
-                        <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats/foodRecipe"}>Foods</NavLink>
+                        <NavLink to={`${REACT_APP_BASE_API_URL}/eats/foodRecipe`}>Foods</NavLink>
                       </span>
                     </div>
                     <div>
                       <span>
-                        <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats/dessertRecipe"}>Desserts</NavLink>
+                        <NavLink to={`${REACT_APP_BASE_API_URL}/eats/dessertRecipe`}>Desserts</NavLink>
                       </span>
                     </div>
                     <div>
                       <span>
-                        <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats"}>Drinks</NavLink>
+                        <NavLink to={`${REACT_APP_BASE_API_URL}/eats`}>Drinks</NavLink>
                       </span>
                     </div>
                   </div>
@@ -199,7 +200,7 @@ const Navbar = () => {
               </div>
               <div>
                 <span>
-                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats/addnewmenu"}>Add Recipe</NavLink>
+                  <NavLink to={`${REACT_APP_BASE_API_URL}/eats/addnewmenu`}>Add Recipe</NavLink>
                 </span>
               </div>
             </div>
@@ -230,17 +231,17 @@ const Navbar = () => {
             <div className="dropdownContent">
               <div>
                 <span>
-                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market"}>Main</NavLink>
+                  <NavLink to={`${REACT_APP_BASE_API_URL}/market`}>Main</NavLink>
                 </span>
               </div>
               <div>
                 <span>
-                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market/food"}>All Products</NavLink>
+                  <NavLink to={`${REACT_APP_BASE_API_URL}/market/food`}>All Products</NavLink>
                 </span>
               </div>
               <div>
                 <span>
-                  <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market/addproduct"}>Add Product</NavLink>
+                  <NavLink to={`${REACT_APP_BASE_API_URL}/market/addproduct`}>Add Product</NavLink>
                 </span>
               </div>
             </div>
@@ -278,7 +279,7 @@ const Navbar = () => {
                 width={30}
               />
               <span>
-                <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/"}>My Profile</NavLink>
+                <NavLink to={`${REACT_APP_BASE_API_URL}/`}>My Profile</NavLink>
               </span>
             </div>
             <div>
@@ -289,13 +290,13 @@ const Navbar = () => {
                 width={30}
               />
               <span>
-                <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/"}>Support</NavLink>
+                <NavLink to={`${REACT_APP_BASE_API_URL}/`}>Support</NavLink>
               </span>
             </div>
             <div>
               <BsBoxArrowLeft size={25} className="logout" />
               <span className="logout">
-                <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/"}>Log out</NavLink>
+                <NavLink to={`${REACT_APP_BASE_API_URL}/`}>Log out</NavLink>
               </span>
             </div>
           </div>
