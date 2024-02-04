@@ -4,8 +4,11 @@
   "description": "",
   "main": "main.js",
   "scripts": {
+    "verification": "node verification.js",
     "start": "node main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "log": "nodemon login.js",
+    "reg": "nodemon register.js",
+    "test": "nodemon test.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,10 +20,5 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.3"
-  },
-  "scripts": {
-    "log": "nodemon login.js",
-    "reg": "nodemon register.js",
-    "test": "nodemon test.js"
   }
 }
