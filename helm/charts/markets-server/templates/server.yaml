@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: markets-server{{ include "global.appendTag" . }}
+spec:
+  selector:
+    matchLabels:
+      app: markets-server{{ include "global.appendTag" . }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: markets-server{{ include "global.appendTag" . }}
+    spec:
+      containers:
+        - name: markets-server
+          image: softdev2southeastasia.azurecr.io/markets-server:{{ .Values.global.revision }}
+          ports:
+            - containerPort: 5000
+          env:
+            {{- template "global.env" . }}
+            - name: BASE_WEB_PATH
+              value: {{ include "markets-web.rootPath" . | quote }}
+            - name: BASE_SERVER_PATH
+              value: {{ include "markets-server.rootPath" . | quote }}
+            - name: SUPABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-credential
+                  key: SUPABASE_URL
+            - name: SUPABASE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-credential
+                  key: SUPABASE_KEY
+

@@ -2,7 +2,7 @@ import { Outlet, Navigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../App";
 import axios from "axios";
-import { baseApiUrl } from "../config";
+import { BASE_API_URL } from ".././config";
 
 const GuardedAdmin = () => {
   const { user } = useContext(AuthContext);
@@ -10,7 +10,7 @@ const GuardedAdmin = () => {
   useEffect(() => {
     if (user != undefined)
       axios
-        .post(`${baseApiUrl}/getAdmin`, {
+        .post(`${BASE_API_URL}/getAdmin`, {
           user: user?.id,
         })
         .then((res) => {

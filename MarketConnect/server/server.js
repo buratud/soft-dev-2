@@ -3,23 +3,29 @@ const express = require("express");
 const cors = require("cors");
 const { decode } = require("base64-arraybuffer");
 const { createClient } = require("@supabase/supabase-js");
-const { supabaseKey, supabaseUrl } = require("./config");
+const { BASE_SERVER_PATH, SUPABASE_URL, SUPABASE_KEY, PORT } = require("./config");
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const app = express();
+const router = express.Router()
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
-const port = process.env.PORT || 5000;
 
-app.post("/register", async (req, res) => {
+router.use(BASE_SERVER_PATH, router);
+
+router.get("/test", (req, res) => {
+  res.status(200).json({ message: 'Hello from server!' });
+});
+
+router.post("/register", async (req, res) => {
   const { email, password } = req.body;
   const { data, error } = await supabase.auth.signUp({
     email: email,
     password: password,
   });
-  // console.log(data);
+  console.log(data);
   if (error) {
     res.status(400).json(error);
   } else {
@@ -27,7 +33,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/sendsupport", async (req, res) => {
+router.post("/sendsupport", async (req, res) => {
   const { email, message, status, contact } = req.body;
   const { data, error } = await supabase.from("Support").insert({
     Sender: email,
@@ -42,7 +48,7 @@ app.post("/sendsupport", async (req, res) => {
   }
 });
 
-app.post("/getsupport", async (req, res) => {
+router.post("/getsupport", async (req, res) => {
   const { email } = req.body;
   const { data, error } = await supabase
     .from("Support")
@@ -55,7 +61,7 @@ app.post("/getsupport", async (req, res) => {
   }
 });
 
-app.post("/adminsupport", async (req, res) => {
+router.post("/adminsupport", async (req, res) => {
   const { data, error } = await supabase
     .from("Support")
     .select("Problem,Status,id,Sender,Contact");
@@ -66,7 +72,7 @@ app.post("/adminsupport", async (req, res) => {
   }
 });
 
-app.post("/changestatus", async (req, res) => {
+router.post("/changestatus", async (req, res) => {
   const { status, id } = req.body;
   const { data, error } = await supabase
     .from("Support")
@@ -79,7 +85,7 @@ app.post("/changestatus", async (req, res) => {
   }
 });
 
-app.post("/unsendsupport", async (req, res) => {
+router.post("/unsendsupport", async (req, res) => {
   const { id } = req.body;
   const { data, error } = await supabase
     .from("Support")
@@ -92,7 +98,7 @@ app.post("/unsendsupport", async (req, res) => {
   }
 });
 
-app.post("/fooddetail", async (req, res) => {
+router.post("/fooddetail", async (req, res) => {
   const { foodid } = req.body;
   const { data, error } = await supabase
     .from("Food")
@@ -107,7 +113,7 @@ app.post("/fooddetail", async (req, res) => {
   }
 });
 
-app.post("/food", async (req, res) => {
+router.post("/food", async (req, res) => {
   const { data, error } = await supabase
     .from("Food")
     .select("id, Food_Name, Price,URL");
@@ -118,7 +124,7 @@ app.post("/food", async (req, res) => {
   }
 });
 
-app.post("/getAdmin", async (req, res) => {
+router.post("/getAdmin", async (req, res) => {
   const { user } = req.body;
   const { data, error } = await supabase
     .from("User")
@@ -132,7 +138,7 @@ app.post("/getAdmin", async (req, res) => {
   }
 });
 
-app.post("/yourfood", async (req, res) => {
+router.post("/yourfood", async (req, res) => {
   const { user } = req.body;
   const { data, error } = await supabase
     .from("Food")
@@ -145,7 +151,7 @@ app.post("/yourfood", async (req, res) => {
   }
 });
 
-app.post("/new", async (req, res) => {
+router.post("/new", async (req, res) => {
   const { data, error } = await supabase
     .from("Food")
     .select("id, Food_Name, Price, URL")
@@ -158,8 +164,9 @@ app.post("/new", async (req, res) => {
   }
 });
 
-app.post("/pro", async (req, res) => {
-  const { data, error } = await supabase.from("Promotion").select(" URL");
+
+router.post("/pro", async (req, res) => {
+  const { data, error } = await supabase.from("Promotion").select("URL");
   if (error) {
     res.status(400).json(error);
   } else {
@@ -167,7 +174,7 @@ app.post("/pro", async (req, res) => {
   }
 });
 
-app.post("/verify", async (req, res) => {
+router.post("/verify", async (req, res) => {
   const { email, token } = req.body;
   const { data, error } = await supabase.auth.verifyOtp({
     email,
@@ -181,7 +188,7 @@ app.post("/verify", async (req, res) => {
   }
 });
 
-app.post("/save", async (req, res) => {
+router.post("/save", async (req, res) => {
   const img = decode(req.body.img);
   const { firstname, lastname, contact, id } = req.body;
   const { data, error } = await supabase.auth.admin.updateUserById(id, {
@@ -212,7 +219,7 @@ app.post("/save", async (req, res) => {
   }
 });
 
-app.post("/delete", async (req, res) => {
+router.post("/delete", async (req, res) => {
   const { food } = req.body;
   const { data, error } = await supabase
     .from("Food")
@@ -225,7 +232,7 @@ app.post("/delete", async (req, res) => {
   }
 });
 
-app.post("/addproduct", async (req, res) => {
+router.post("/addproduct", async (req, res) => {
   const { name, price, catagory_id, id, description, picture, line } = req.body;
   const { data, error } = await supabase.from("Food").insert({
     Food_Name: name,
@@ -236,14 +243,19 @@ app.post("/addproduct", async (req, res) => {
     URL: picture,
     Line: line,
   });
+  console.log("req: " + req);
+  console.log("data: " + data);
   if (error) {
+    console.log("error: " + error);
+    console.log("res1: " + res);
     res.status(400).json(error);
   } else {
+    console.log("res2: " + res);
     res.status(200).json(data);
   }
 });
 
-app.post("/manageproduct", async (req, res) => {
+router.post("/manageproduct", async (req, res) => {
   const {
     food,
     name,
@@ -273,4 +285,5 @@ app.post("/manageproduct", async (req, res) => {
   }
 });
 
-app.listen(port, () => console.log(`Express app running on port ${port}`));
+app.use(router);
+app.listen(PORT, () => console.log(`Express app running on port ${PORT}`));
