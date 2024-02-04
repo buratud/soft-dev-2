@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { io } from "socket.io-client";
 import { userContext } from '../App';
-import { BASE_API_URL } from "../config"
+import { REACT_APP_BASE_API_URL } from "../config"
 function Status(porps){
     const {ticketStatus,changeTicketStatus  } = porps
     const { user,setUser } = useContext(userContext)
@@ -63,7 +63,7 @@ function Message(props) {
 
 function Ticket(props) {
     const { user,setUser } = useContext(userContext)
-    const socket = io.connect(`${BASE_API_URL}`)
+    const socket = io.connect(`${REACT_APP_BASE_API_URL}`)
     const navi = useNavigate()
     const {ticket} = props
     const [ status , setStatus ] = useState(false)
@@ -74,7 +74,7 @@ function Ticket(props) {
     const open = () => setStatus(!status)
     console.log(ticket.ticket_id,ticket.status)
     useEffect(() => {
-        const url = `${BASE_API_URL}/ticketMessage`
+        const url = `${REACT_APP_BASE_API_URL}/ticketMessage`
         axios.get(url,{
             params: {
                 ticket_id : ticket.ticket_id,
@@ -129,7 +129,7 @@ function Ticket(props) {
 
     const changeTicketStatus = (e) =>{
         console.log(e.target.value)
-        axios.put(`${BASE_API_URL}/update_ticket_status`,
+        axios.put(`${REACT_APP_BASE_API_URL}/update_ticket_status`,
         {
             new_status:e.target.value,
             ticket_id:ticket.ticket_id

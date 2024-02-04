@@ -10,7 +10,7 @@ import Ticket from "../components/ticket";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { userContext } from "../App";
-import { BASE_API_URL } from "../config"
+import { REACT_APP_BASE_API_URL } from "../config"
 
 
 function Helppage() {
@@ -30,7 +30,7 @@ function Helppage() {
   const navi = useNavigate();
   useEffect(() => {
     console.log("user id :"+user)
-    const url = `${BASE_API_URL}/ticket`
+    const url = `${REACT_APP_BASE_API_URL}/ticket`
     axios.get(url,{
       params : {
         user_id : user?.id

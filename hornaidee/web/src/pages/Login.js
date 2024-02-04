@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { userContext } from "../App";
-import { BASE_API_URL } from "../config"
+import { REACT_APP_BASE_API_URL } from "../config"
 function Login() {
   const [email, setemail] = useState();
   const [password, setpassword] = useState();
@@ -13,13 +13,13 @@ function Login() {
   const { user,setUser,setActor} = useContext(userContext)
   var dorm_id = ""
   const loginuser = () => {
-    axios.post(`${BASE_API_URL}/login`, {
+    axios.post(`${REACT_APP_BASE_API_URL}/login`, {
         email: email,
         password: password,
       })
       .then((response) => {
         localStorage.setItem("token", response.data.token);
-      axios.post(`${BASE_API_URL}/auten`,{},
+      axios.post(`${REACT_APP_BASE_API_URL}/auten`,{},
           {
             headers : {
               Authorization: `Basic ${response.data.token}`
@@ -39,7 +39,7 @@ function Login() {
           navi("/", { replace: true });
         }
         if (response.data.user[0].actor == "dorm") {
-          axios(`${BASE_API_URL}/dorm_id`,{
+          axios(`${REACT_APP_BASE_API_URL}/dorm_id`,{
             params : {
               username :response.data.user[0].user_name
             }}).then((response) => {

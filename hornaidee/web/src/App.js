@@ -12,35 +12,35 @@ import Error from "./pages/error";
 import Helppage from "./pages/helppage";
 import axios from "axios";
 import Main from "./pages/main";
-import { BASE_WEB_PATH, BASE_API_URL } from "./config";
+import { REACT_APP_BASE_API_URL, REACT_APP_BASE_WEB_PATH } from "./config";
 
 const router = createHashRouter([
   {
-    path: `${BASE_WEB_PATH}`,
+    path: "/",
     element: <Main />,
   },
   {
-    path: `${BASE_WEB_PATH}/Login`,
+    path: "/Login",
     element: <Login />,
   },
   {
-    path: `${BASE_WEB_PATH}/Register`,
+    path: "/Register",
     element: <Register />,
   },
   {
-    path: `${BASE_WEB_PATH}/detail/:dormID`,
+    path: "/detail/:dormID",
     element: <Detaildorm />,
   },
   {
-    path: `${BASE_WEB_PATH}/chat/:userID/:chanel`,
+    path: "/chat/:userID/:chanel",
     element: <Chat />,
   },
   {
-    path: `${BASE_WEB_PATH}/chat/:userID`,
+    path: "/chat/:userID",
     element: <Chat />,
   },
   {
-    path: `${BASE_WEB_PATH}/manage/:dormID`,
+    path: "/manage/:dormID",
     element: <Manage_detail></Manage_detail>,
   },
   {
@@ -48,14 +48,14 @@ const router = createHashRouter([
     element: <Error></Error>,
   },
   {
-    path: `${BASE_WEB_PATH}/help`,
+    path: "/help",
     element: <Helppage></Helppage>,
   },
   {
-    path: `${BASE_WEB_PATH}/help/:ticketID`,
+    path: "/help/:ticketID",
     element: <Helppage></Helppage>,
   }
-]);
+], {basename: REACT_APP_BASE_WEB_PATH});
 
 function App() {
   const [user, setUser] = useState({actor:null})
@@ -64,7 +64,7 @@ function App() {
   // }, [user])
 
   useEffect(() => {
-    axios.post(`${BASE_API_URL}/auten`, {},
+    axios.post(`${REACT_APP_BASE_API_URL}/auten`, {},
       {
         headers: {
           Authorization: `Basic ${localStorage.getItem("token")}`
@@ -81,7 +81,7 @@ function App() {
 
   return (
     <userContext.Provider value={{user: user, setUser: setUser}}>
-      <RouterProvider router={router} />
+      <RouterProvider router={router}  />
     </userContext.Provider>
   );
 }

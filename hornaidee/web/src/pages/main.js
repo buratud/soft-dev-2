@@ -13,7 +13,7 @@ import Footer from "../components/footer";
 import { Link, useSearchParams } from "react-router-dom";
 import { Slider, TextField } from "@mui/material";
 import { userContext } from "../App";
-import { BASE_API_URL } from "../config"
+import { REACT_APP_BASE_API_URL } from "../config"
 
 function Main() {
   const [dormlist, setdormlist] = useState([]);
@@ -32,7 +32,7 @@ function Main() {
   const { user,setUser } = useContext(userContext)
 
   useEffect(() => {
-    const url = `${BASE_API_URL}`;
+    const url = `${REACT_APP_BASE_API_URL}`;
     axios
       .get(url)
       .then((response) => {
@@ -63,7 +63,7 @@ function Main() {
 
   const ClickFilter = () => {
     const searchParams = new URLSearchParams(filter);
-    axios.get(`${BASE_API_URL}/filter/?${searchParams.toString()}`)
+    axios.get(`${REACT_APP_BASE_API_URL}/filter/?${searchParams.toString()}`)
     .then((response) => {
       setdormlist(response.data);
     })

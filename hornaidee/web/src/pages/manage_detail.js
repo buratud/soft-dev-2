@@ -13,7 +13,7 @@ import axios from "axios"
 import { dark } from "@mui/material/styles/createPalette"
 import Bt1 from "../components/bt1"
 import Confirm from "../components/confirm"
-import { BASE_API_URL } from "../config"
+import { REACT_APP_BASE_API_URL } from "../config"
 
 function Manage_detail() {
     const location = useLocation();
@@ -23,7 +23,7 @@ function Manage_detail() {
     const navi = useNavigate();
 
     useEffect(() => {
-        const url = `${BASE_API_URL}/detail/${dormID}`
+        const url = `${REACT_APP_BASE_API_URL}/detail/${dormID}`
         axios.get(url).then((response) =>{
         setDormData(response.data);
         console.log(response.data);
@@ -35,7 +35,7 @@ function Manage_detail() {
       },[location]);
 
     const updateDorm = () => {
-        axios.put(`${BASE_API_URL}/update`, {dorm : dormData})
+        axios.put(`${REACT_APP_BASE_API_URL}/update`, {dorm : dormData})
         console.log(dormData)
         console.log("send update")
         alert("edit success")
@@ -43,7 +43,7 @@ function Manage_detail() {
 
     const deleteDorm = () => {
         console.log("delete"+dormID)
-        axios.delete(`${BASE_API_URL}/delete/${dormID}`).then(()=>{
+        axios.delete(`${REACT_APP_BASE_API_URL}/delete/${dormID}`).then(()=>{
             navi("/login")
         })
     }
