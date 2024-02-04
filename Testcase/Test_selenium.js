@@ -1,4 +1,4 @@
-// This implement base on figma maynot operate with actual website
+// This implement base on figma maynot operate with actual website.
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
 
