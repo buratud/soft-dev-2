@@ -4,7 +4,7 @@ import { PopChat } from "../components/PopChat";
 import axios from "axios";
 import { AuthContext, useSupabase } from "../App";
 import { useContext, useEffect, useState } from "react";
-import { BASE_API_URL } from "../config";
+import { REACT_APP_BASE_API_URL } from "../config";
 
 function readFileDataAsBase64(file) {
   return new Promise((resolve, reject) => {
@@ -44,7 +44,7 @@ const EditProfile = (props) => {
     setLoading(true);
     if (event.target[3].files[0] !== undefined)
       axios
-        .post(`${BASE_API_URL}/save`, {
+        .post(`${REACT_APP_BASE_API_URL}/save`, {
           firstname: event.target[0].value,
           lastname: event.target[1].value,
           contact: event.target[2].value,
@@ -63,7 +63,7 @@ const EditProfile = (props) => {
         });
     else
       axios
-        .post(`${BASE_API_URL}/save`, {
+        .post(`${REACT_APP_BASE_API_URL}/save`, {
           firstname: event.target[0].value,
           lastname: event.target[1].value,
           contact: event.target[2].value,

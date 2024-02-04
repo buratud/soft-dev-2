@@ -1,5 +1,4 @@
 {
-  "homepage": ".",
   "name": "locofy-react-project",
   "version": "0.1.0",
   "private": true,
@@ -57,5 +56,6 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@supabase/supabase-js": "^2.37.0"
-  }
+  },
+  "homepage": "http://localhost:3000"
 }
