@@ -19,7 +19,7 @@ spec:
             - containerPort: 3000
           env:
             {{- template "global.env" . }}
-            - name: BASE_WEB_PATH
+            - name: NEXT_PUBLIC_BASE_WEB_PATH
               value: {{ include "global.rootPath" . | quote }}
-            - name: BASE_SERVER_PATH
+            - name: NEXT_PUBLIC_BASE_SERVER_PATH
               value: {{ include "superapp-server.rootPath" . | quote }}

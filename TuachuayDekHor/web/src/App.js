@@ -18,9 +18,9 @@ import Blogger from './pages/Blogger';
 import Search from './pages/Search';
 import { createClient } from '@supabase/supabase-js';
 import guarderout from './component/guarderout';
-import { supabaseKey, supabaseUrl } from './config';
+import { REACT_APP_BASE_WEB_PATH, REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_ANON_KEY } from './config';
 
-const supabase = createClient(supabaseUrl,supabaseKey);
+const supabase = createClient(REACT_APP_SUPABASE_URL,REACT_APP_SUPABASE_ANON_KEY);
 
 export const General =createContext({});
 
@@ -88,36 +88,36 @@ function App() {
     session: session,
     user: session?.user,
   };
-
+  console.log(REACT_APP_BASE_WEB_PATH)
   return (
     <General.Provider
       value = {value}
     >
-      <Routes>
-        <Route path="/" element={<Navigate to ='/home'/>} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/report" element={<Report />} />
-        <Route path="/writeblog" element={<WriteBlog />} />
-        <Route path="/contact" element={<Contact />}/>
-        <Route path="/profile/:userId" element={<Profile />}/>
-        <Route path="/cleaning" element={<Cleaning />}/>
-        <Route path="/cleaning/:id" element={<Details />}/>
-        <Route path="/cooking" element={<Cooking />}/>
-        <Route path="/cooking/:id" element={<Details />}/>
-        <Route path="/decoration" element={<Decoration />}/>
-        <Route path="/decoration/:id" element={<Details />}/>
-        <Route path="/story" element={<Story />}/>
-        <Route path="/story/:id" element={<Details />}/>
-        <Route path="/reportfinish" element={<Reportfinish />}/>
-        <Route path="/contactfinish" element={<Contactfinish />}/>
-        <Route path="/blogger" element={<Blogger />}/>
-        <Route path="/search" element={<Search />}/>
+      <Routes >
+        <Route path={"/"} element={<Navigate to ={`/home`}/>} />
+        <Route path={"/home"} element={<Home />} />
+        <Route path={"/login"} element={<Login />} />
+        <Route path={"/signup"} element={<Signup />} />
+        <Route path={"/report"} element={<Report />} />
+        <Route path={"/writeblog"} element={<WriteBlog />} />
+        <Route path={"/contact"} element={<Contact />}/>
+        <Route path={"/profile/:userId"} element={<Profile />}/>
+        <Route path={"/cleaning"} element={<Cleaning />}/>
+        <Route path={"/cleaning/:id"} element={<Details />}/>
+        <Route path={"/cooking"} element={<Cooking />}/>
+        <Route path={"/cooking/:id"} element={<Details />}/>
+        <Route path={"/decoration"} element={<Decoration />}/>
+        <Route path={"/decoration/:id"} element={<Details />}/>
+        <Route path={"/story"} element={<Story />}/>
+        <Route path={"/story/:id"} element={<Details />}/>
+        <Route path={"/reportfinish"} element={<Reportfinish />}/>
+        <Route path={"/contactfinish"} element={<Contactfinish />}/>
+        <Route path={"/blogger"} element={<Blogger />}/>
+        <Route path={"/search"} element={<Search />}/>
         {/* <Route element = {<guarderout/>}>
-          <Route path="/profile" element={<Profile />}/>
-          <Route path="/writeblog" element={<WriteBlog />} />
-          <Route path="/report" element={<Report />} />
+          <Route path={"/profile"} element={<Profile />}/>
+          <Route path={"/writeblog"} element={<WriteBlog />} />
+          <Route path={"/report"} element={<Report />} />
         </Route> */}
       </Routes>
     </General.Provider> 

@@ -37,6 +37,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "start": "craco --openssl-legacy-provider start",
     "dev": "craco --openssl-legacy-provider start",
     "build": "craco --openssl-legacy-provider build",
     "test": "craco test",
@@ -61,5 +62,6 @@
     "concurrently": "^8.2.1",
     "dotenv": "^16.3.1",
     "tailwindcss": "^3.3.3"
-  }
+  },
+  "homepage": "http://localhost:3000"
 }

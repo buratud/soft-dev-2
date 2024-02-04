@@ -13,7 +13,7 @@ const supabaseUrl = "https://nypzyitcvjrnisjdsbpk.supabase.co";
 const supabaseKey = process.env.SUPERAPP_KEY;
 const supabase = createClient(supabaseUrl,supabaseKey);
 
-app.get("/login", async (req,res) => {
+app.post("/login", async (req,res) => {
     const {UsernameorEmail,password} = req.body;
     const { data, error } = await supabase.auth.signInWithPassword({
         email: UsernameorEmail,
@@ -24,7 +24,7 @@ app.get("/login", async (req,res) => {
         res.status(400).json({ error: error.message });
     }
     else{
-        res.status(200).json(data, "User logined successfully");
+        res.status(200).json({data, message : "User logined successfully"});
     }
 });
 

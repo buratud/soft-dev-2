@@ -8,7 +8,7 @@ import { createClient } from "@supabase/supabase-js";
 
 import "./style.css";
 import Navbar from "./navbar.js";
-import config from "../../../config.js"; // Import config.js
+import {NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY} from "../../../config.js"; // Import config.js
 
 // Define the main component
 export default function ContactSupport() {
@@ -23,7 +23,7 @@ export default function ContactSupport() {
   const [unsendSuccess, setUnsendSuccess] = useState(false); // State for tracking unsend success status
   const [error, setError] = useState(null); // State for storing error messages
   const [unsendClickedIndex, setUnsendClickedIndex] = useState(null); // State for tracking the index of the clicked row for unsend
-  const supabase = createClient(config.SUPABASE_URL, config.SUPABASE_ANON_KEY);
+  const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
   // dummy user_id and email
   const user_id = "AA000001";

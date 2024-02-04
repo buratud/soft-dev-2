@@ -1,5 +1,6 @@
-// export const baseApiUrl = 'https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/api/dekhor';
-export const baseApiUrl = 'http://localhost:5000/api/dekhor';
-export const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
-export const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
-
+const REACT_APP_BASE_DOMAIN_WITH_PROTOCOL = process.env.REACT_APP_BASE_DOMAIN_WITH_PROTOCOL;
+const REACT_APP_BASE_SERVER_PATH = process.env.REACT_APP_BASE_SERVER_PATH || '/api/blogs';
+export const REACT_APP_BASE_WEB_PATH = process.env.REACT_APP_BASE_WEB_PATH || '/blogs';
+export const REACT_APP_BASE_API_URL = `${REACT_APP_BASE_DOMAIN_WITH_PROTOCOL}${REACT_APP_BASE_SERVER_PATH}`;
+export const REACT_APP_SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
+export const REACT_APP_SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
