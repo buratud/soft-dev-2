@@ -18,7 +18,7 @@ export default function ContactSupport() {
   const [selectedType, setSelectedType] = useState(""); // State for storing selected problem type
   const [historyData, setHistoryData] = useState([]); // State for storing transmission history data
   const [loading, setLoading] = useState(false); // State for tracking loading status
-  const [setUnsendLoading] = useState(false); // State for tracking unsend operation loading status
+  const [setUnsend, setUnsendLoading] = useState(false); // State for tracking unsend operation loading status
   const [feedbackSent, setFeedbackSent] = useState(false); // State for tracking feedback sent status
   const [unsendSuccess, setUnsendSuccess] = useState(false); // State for tracking unsend success status
   const [error, setError] = useState(null); // State for storing error messages
@@ -164,10 +164,6 @@ export default function ContactSupport() {
   const handleSendProblem = async () => {
     if (selectedType && feedbackData) {
       setLoading(true); // Set loading status to true during feedback submission
-
-      // Assuming have access to the user_id and email
-      const user_id = "US5535";
-      const email = "me@me.com";
 
       const feedbackDataToSend = {
         user_id: user_id,
