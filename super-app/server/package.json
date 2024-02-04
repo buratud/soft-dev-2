@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
-  "scripts": {
-    "start": "node main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -19,6 +15,7 @@
     "nodemon": "^3.0.3"
   },
   "scripts": {
+    "start": "node main.js",
     "log": "nodemon login.js",
     "reg": "nodemon register.js",
     "test": "nodemon test.js"
