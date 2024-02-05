@@ -101,23 +101,23 @@ function App() {
             }}
         >
             <Routes>
-                <Route path={`${REACT_APP_BASE_WEB_PATH}`} element={<Login />} />
-                <Route path={`${REACT_APP_BASE_WEB_PATH}/home`} element={<Home />} />
-                <Route path={`${REACT_APP_BASE_WEB_PATH}/register`} element={<Register />} />
-                <Route path={`${REACT_APP_BASE_WEB_PATH}/login`} element={<Login />} />
-                <Route path={`${REACT_APP_BASE_WEB_PATH}/food`} element={<Food />} />
-                <Route path={`${REACT_APP_BASE_WEB_PATH}/fooddetail`} element={<FoodDetail />} />
-                <Route path={`${REACT_APP_BASE_WEB_PATH}/fooddetail/:foodid`} element={<FoodDetail />} />
-                <Route path={`${REACT_APP_BASE_WEB_PATH}/verify`} element={<Verify />} />
+                <Route path={"/"} element={<Login />} />
+                <Route path={"/home"} element={<Home />} />
+                <Route path={"/register"} element={<Register />} />
+                <Route path={"/login"} element={<Login />} />
+                <Route path={"/food"} element={<Food />} />
+                <Route path={"/fooddetail"} element={<FoodDetail />} />
+                <Route path={"/fooddetail/:foodid"} element={<FoodDetail />} />
+                <Route path={"/verify"} element={<Verify />} />
                 <Route element={<GuardedRoute />}>
-                    <Route path={`${REACT_APP_BASE_WEB_PATH}/addproduct`} element={<AddProduct />} />
-                    <Route path={`${REACT_APP_BASE_WEB_PATH}/addproduct/:foodid`} element={<AddProduct />} />
-                    <Route path={`${REACT_APP_BASE_WEB_PATH}/support`} element={<Support />} />
-                    <Route path={`${REACT_APP_BASE_WEB_PATH}/profile`} element={<Profile />} />
-                    <Route path={`${REACT_APP_BASE_WEB_PATH}/manage`} element={<Manage />} />
+                    <Route path={"/addproduct"} element={<AddProduct />} />
+                    <Route path={"/addproduct/:foodid"} element={<AddProduct />} />
+                    <Route path={"/support"} element={<Support />} />
+                    <Route path={"/profile"} element={<Profile />} />
+                    <Route path={"/manage"} element={<Manage />} />
                 </Route>
                 <Route element={<GuardedAdmin />}>
-                    <Route path={`${REACT_APP_BASE_WEB_PATH}/admin`} element={<Admin />} />
+                    <Route path={"/admin"} element={<Admin />} />
                 </Route>
             </Routes>
         </AuthContext.Provider>

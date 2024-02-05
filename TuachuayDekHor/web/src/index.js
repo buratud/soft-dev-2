@@ -10,7 +10,7 @@ import { REACT_APP_BASE_WEB_PATH } from "./config";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
-
+console.log(REACT_APP_BASE_WEB_PATH);
 root.render(
   <BrowserRouter basename={REACT_APP_BASE_WEB_PATH}> 
     <App />
