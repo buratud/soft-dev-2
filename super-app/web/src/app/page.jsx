@@ -1,19 +1,16 @@
 'use client'
+import Image from "next/image"
+import Link from "next/link"
+import styles from "./login.module.css"
 import { useState } from 'react';
-import { useRouter } from "next/navigation";
-import Image from 'next/image';
-import styles from './register.module.css';
-import Link from 'next/link';
 import axios from 'axios';
-import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../config';
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from "../../config";
 
-export default function Home() {
-    const router = useRouter();
+export default function Login() {
+
     const initialFormData = {
         username: '',
-        email: '',
         password: '',
-        reenterPassword: '',
     };
 
     const [formData, setFormData] = useState(initialFormData);
@@ -28,130 +25,78 @@ export default function Home() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!formData.username || !formData.email || !formData.password || !formData.reenterPassword) {
-            alert('Please fill in all fields.');
+        if (!formData.username || !formData.password) {
+            alert('Login Invalid. Please make sure you filled both username and password in correctly');
             return;
         }
-
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(formData.email)) {
-            alert('Please enter a valid email address.');
-            return;
-        }
-
-        if (formData.password != formData.reenterPassword) {
-            alert('Please enter the same password.');
-            return;
-        }
-
-        console.log('Submitted Data:', formData);
-
-        // ทำสิ่งที่คุณต้องการทำหลังจาก Submit ที่นี่
-        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/register`, {
-            email: formData.email,
-            username: formData.username,
-            password: formData.password,
-        })
+        else {
+            axios.post(NEXT_PUBLIC_BASE_API_URL + "/login",{
+                UsernameorEmail: formData.username,
+                password: formData.password,
+            })
             .then(res => {
-                alert('go to verify')
-                // navigate("/verify");
+                navigate("/home");
             })
             .catch((err) => {
-                // if (err.response && err.response.data && err.response.data.message) {
-                //     alert(err.response.data.message);
-                // } else {
-                //     alert("An error occurred during login.");
-                // }
-                // if (err.response.message === "User already registered") {
-                //     alert("Internal Server Error (500). Please don't submit too frequently.");
-                //     // alert("Internal Server Error (500). Please don't submit too frequently.");
-                // } else {
-                alert(err);
-                // }
+                console.error('Error:', err);
+                alert(err.message);
             })
+        }
+    }
 
-        setFormData(initialFormData);
-
-        // router.push('/verify');
-    };
+   
 
     return (
-        <main className={styles.main}>
-            <div className={styles.topBar}>
-            <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/LOGO.png`} height={55} width={55} />
-            </div>
-            <div className={styles.register_form}>
-                <div className={styles.leftside}>
-                    <div className={styles.Intro}>
-                        <div className={styles.Intro_1}>
-                            <head1>Get Started with</head1>  <br />
-                            <head2>DekHor ID</head2>
-                        </div>
-                        <div className={styles.Intro_2}>
-                            One account for everything. <br />
-                            Blogs, Dorms, Eats, Markets <br />
-                            We’ve got you covered!
-                        </div>
-                    </div>
+        <>
+            <title>DekHor | Login or Signup</title>
 
-                    <div className={styles.pic}>
-                        <Image alt="dekhor1" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/dekhor_1.png`} height={412} width={288} />
-                    </div>
+            <div className={styles.Loginnavbar}>
+                <div className={styles.navimage}>
+                    <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/Dekhorlogo.png`} width={85} height={85} alt="logo"/>
                 </div>
-
-                <div className={styles.rightside}>
-                    <div className={styles.form}>
-                        <div className={styles.block}>
-                            <div>Username</div>
-                            <input
-                                type="text"
+            </div>
+            <div className={styles.Logincontainer}>
+                <div className={styles.Loginframe}>
+                    <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/Dekhorlogo.png`} width={150} height={150} alt="logo"/>
+                    <h1 className={styles.Loginfont}>Sign In with DekHor ID</h1>
+                    <div className={styles.Loginform}>
+                        <div className={styles.inputicon}>
+                            <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/usericon.png`} width={16} height={18} alt="user"/> 
+                        </div>  
+                        <div>| </div>
+                        <input  className={styles.Loginblock}
+                                placeholder="Email"
+                                // placeholder="Email or Username"
+                                type="text" 
                                 name="username"
                                 value={formData.username}
                                 onChange={handleInputChange}
                                 required
                             />
-                        </div>
-                        <div className={styles.block}>
-                            <div>Email</div>
-                            <input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                required
-                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                                title="Please enter a valid email address."
-                            />
-                        </div>
-                        <div className={styles.block}>
-                            <div>Password</div>
-                            <input
+                    </div>
+                    <div className={styles.Loginform}>
+                        <div className={styles.inputicon}>
+                            <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/pwicon.png`} width={16} height={15} alt="pw"/> 
+                        </div> 
+                        <div>| </div>
+                        <input  className={styles.Loginblock}
+                                placeholder="Password"
                                 type="password"
                                 name="password"
                                 value={formData.password}
                                 onChange={handleInputChange}
                                 required
                             />
-                        </div>
-                        <div className={styles.block}>
-                            <div>Re-enter Password</div>
-                            <input
-                                type="password"
-                                name="reenterPassword"
-                                value={formData.reenterPassword}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <button onClick={handleSubmit}>Register</button>
                     </div>
-                    <account>
-                        <span>
-                            Already have an account? <Link href="/">Sign In.</Link>
-                        </span>
-                    </account>
+                    <button onClick={handleSubmit} className={styles.Loginbutton}>Login</button>
                 </div>
-            </div>
-        </main>
-    );
+                <div className={styles.signuplabel}>
+                    <label>Don't have an account?</label>
+                    <div>
+                        <Link href="/register" className={styles.signuplink}>Sign Up.</Link>  
+                    </div>
+                </div>
+            </div>    
+        </>
+    ) 
 }
