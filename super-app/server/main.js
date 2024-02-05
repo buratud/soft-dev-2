@@ -11,7 +11,6 @@ app.use(express.json());
 const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = "https://nypzyitcvjrnisjdsbpk.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55cHp5aXRjdmpybmlzamRzYnBrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwNjcxNjcxNiwiZXhwIjoyMDIyMjkyNzE2fQ.vgaabgGFddkMQCXraluX7tFizR3CfLtXKjemIPQ-Lgo";
 const supabase = createClient(supabaseUrl,supabaseKey);
 
 api.get('/', (req, res) => {
