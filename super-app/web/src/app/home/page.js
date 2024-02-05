@@ -29,7 +29,7 @@ export default function Home() {
                         <p className={style.subtitle_portal}>DekHor Dorms</p>
                     </div>
                 </Link>
-                <Link style={{textDecoration:'none'}} href={`${NEXT_PUBLIC_BASE_WEB_URL}/market`}>
+                <Link style={{textDecoration:'none'}} href={`${NEXT_PUBLIC_BASE_WEB_URL}/markets`}>
                     <div className={style.portal}>
                         <div className={style.icon}><img className={style.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhormarket_portal.png`}/></div>
                         <p className={style.subtitle_portal}>DekHor Markets</p>
