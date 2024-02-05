@@ -20,7 +20,7 @@ export default function Home() {
         <main className={styles.main}>
             <div className={styles.leftside}>
                 <div className={styles.logo}>
-                    <a href="/develop/homepage">
+                    <a href="/develop/home">
                         <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} height={70} width={80} />
                     </a>
                 </div>
