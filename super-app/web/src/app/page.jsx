@@ -4,7 +4,7 @@ import Link from "next/link"
 import styles from "./login.module.css"
 import { useState } from 'react';
 import axios from 'axios';
-import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from "../../config";
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_SERVER_PATH, NEXT_PUBLIC_BASE_WEB_PATH } from "../../config";
 
 export default function Login() {
 
@@ -30,7 +30,7 @@ export default function Login() {
             return;
         }
         else {
-            axios.post(NEXT_PUBLIC_BASE_API_URL + "/login",{
+            axios.post(NEXT_PUBLIC_BASE_SERVER_PATH + "/login",{
                 UsernameorEmail: formData.username,
                 password: formData.password,
             })
