@@ -16,11 +16,17 @@ const driver = new Builder()
 // Navigate to web develop/register
 (async function User_can_open_web_site_and_register() {
   try {
-    //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
-    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop/register');
+    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
+    //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop/register');
     console.log('Successfully opened Dekhor in Firefox.');
-    // Wait until the title of the page becomes "home"
+    // Wait until the title of the page becomes "home"  
+    await driver.wait(until.titleIs('DekHor | Login or Signup'), 1000);
+    await delay(5000);
+    await driver.findElement(By.tagName('a')).click();
+    console.log('User click singup');
+
     await driver.wait(until.titleIs('Create Next App'), 1000);
+    console.log('Successfully opened Dekhor register page.');
     await driver.findElement(By.name('username')).sendKeys('YourUsername');
     await driver.findElement(By.name('email')).sendKeys('you@example.com');
     await driver.findElement(By.name('password')).sendKeys('YourPassword');
