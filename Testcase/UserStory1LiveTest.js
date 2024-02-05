@@ -13,10 +13,11 @@ const driver = new Builder()
   .setFirefoxOptions(firefoxOptions)
   .build();
 
-// Navigate to web
+// Navigate to web develop/register
 (async function User_can_open_web_site_and_register() {
   try {
-    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
+    //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
+    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop/register');
     console.log('Successfully opened Dekhor in Firefox.');
     // Wait until the title of the page becomes "home"
     await driver.wait(until.titleIs('Create Next App'), 1000);
