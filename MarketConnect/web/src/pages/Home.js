@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import { PopChat } from "../components/PopChat";
 import { baseApiUrl } from "../config";
 
 const Home = () => {
@@ -29,7 +28,6 @@ const Home = () => {
             <Random />
           </div>
         </section>
-        {/* <PopChat messages={[]} /> */}
       </main>
     </div>
   );
@@ -37,24 +35,56 @@ const Home = () => {
 
 const PromotionItems = () => {
   const [profood, setProFood] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   useEffect(() => {
-    axios
-      .post(`${baseApiUrl}/pro`)
-      .then((res) => {
+    const fetchProFood = async () => {
+      try {
+        const res = await axios.post(`${baseApiUrl}/pro`);
         setProFood(res.data);
-      })
-      .catch((err) => {
+      } catch (err) {
         alert(err);
-      });
+      }
+    };
+    fetchProFood();
   }, []);
-  return profood.map((item) => {
-    return (
-      <div className="promotion-item">
-        <img src={item.URL} alt="" />
-      </div>
-    );
-  });
+
+  useEffect(() => {
+    // Auto change image
+    const timer = setTimeout(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === profood.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 3000); // 3 seconds
+    return () => clearTimeout(timer);
+  }, [currentIndex, profood.length]);
+
+    // Go to previous image
+    const goToPrevious = () => {
+    setCurrentIndex(currentIndex === 0 ? profood.length - 1 : currentIndex - 1);
+  };
+
+    // Go to next image
+    const goToNext = () => {
+    setCurrentIndex(currentIndex === profood.length - 1 ? 0 : currentIndex + 1);
+  };
+
+  // If there are no promotion items, return null
+  if (!profood.length) return null;
+
+  return (
+    <div className="promotion-carousel">
+      <button onClick={goToPrevious} className="carousel-button prev-button">
+        &#10094;
+      </button>
+      <img src={profood[currentIndex].URL} alt="" className="carousel-image" />
+      <button onClick={goToNext} className="carousel-button next-button">
+        &#10095;
+      </button>
+    </div>
+  );
 };
+
 
 const NewArrivals = () => {
   const [food, setFood] = useState([]);
