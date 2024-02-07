@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Verify.scoped.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { REACT_APP_BASE_API_URL } from "../config";
+import { baseApiUrl } from "../config";
 
 function Verify() {
   const { state } = useLocation();
@@ -11,7 +11,7 @@ function Verify() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const sendOtp = () => {
     axios
-      .post(`${REACT_APP_BASE_API_URL}/verify`, {
+      .post(`${baseApiUrl}/verify`, {
         email: email,
         token: otp.join(""),
       })

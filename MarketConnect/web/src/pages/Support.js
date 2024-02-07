@@ -5,7 +5,7 @@ import NavBar from "../components/NavBar";
 import { PopChat } from "../components/PopChat";
 import { AuthContext } from "../App";
 import DeleteConfirmPopup from "../components/DeleteConfirmPopup";
-import { REACT_APP_BASE_API_URL } from "../config";
+import { baseApiUrl } from "../config";
 
 function Support() {
   const { user } = useContext(AuthContext);
@@ -17,7 +17,7 @@ function Support() {
   };
   const getdata = () => {
     axios
-      .post(`${REACT_APP_BASE_API_URL}/getsupport`, {
+      .post(`${baseApiUrl}/getsupport`, {
         email: user?.email,
       })
       .then((res) => {
@@ -43,7 +43,7 @@ function Support() {
   const handleSubmit = () => {
     // สร้างประวัติใหม่โดยเพิ่มข้อมูล issue และ status "Not Finish" ลงใน state
     axios
-      .post(`${REACT_APP_BASE_API_URL}/sendsupport`, {
+      .post(`${baseApiUrl}/sendsupport`, {
         email: user?.email,
         contact: user?.user_metadata?.contact,
         message: issue,
@@ -59,7 +59,7 @@ function Support() {
   const handleUnsend = (event) => {
     event.preventDefault();
     axios
-      .post(`${REACT_APP_BASE_API_URL}/unsendsupport`, {
+      .post(`${baseApiUrl}/unsendsupport`, {
         id: supportDel,
       })
       .then((res) => {

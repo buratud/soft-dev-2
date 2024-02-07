@@ -5,7 +5,7 @@ import { PopChat } from "../components/PopChat";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AuthContext, useSupabase } from "../App";
-import { REACT_APP_BASE_API_URL } from "../config";
+import { baseApiUrl } from "../config";
 
 const AddProduct = () => {
   const { foodid } = useParams();
@@ -20,7 +20,7 @@ const AddProduct = () => {
     const cata = event.target[2].value;
     if (foodid === undefined) {
       axios
-        .post(`${REACT_APP_BASE_API_URL}/addproduct`, {
+        .post(`${baseApiUrl}/addproduct`, {
           name: event.target[0].value,
           price: event.target[1].value,
           catagory_id: cata,
@@ -38,7 +38,7 @@ const AddProduct = () => {
         });
     } else {
       axios
-        .post(`${REACT_APP_BASE_API_URL}/manageproduct`, {
+        .post(`${baseApiUrl}/manageproduct`, {
           name: event.target[0].value,
           price: event.target[1].value,
           catagory_id: cata,
@@ -85,7 +85,7 @@ const AddProduct = () => {
   if (foodid !== undefined)
     useEffect(() => {
       axios
-        .post(`${REACT_APP_BASE_API_URL}/fooddetail`, {
+        .post(`${baseApiUrl}/fooddetail`, {
           foodid: foodid,
         })
         .then(({ data }) => {

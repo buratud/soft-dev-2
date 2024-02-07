@@ -6,7 +6,7 @@ import { PopChat } from "../components/PopChat";
 import { AuthContext } from "../App";
 import axios from "axios";
 import DeleteConfirmPopup from "../components/DeleteConfirmPopup";
-import { REACT_APP_BASE_API_URL } from "../config";
+import { baseApiUrl } from "../config";
 
 const Manage = () => {
   const { user } = useContext(AuthContext);
@@ -15,7 +15,7 @@ const Manage = () => {
     setShowPopup(false);
     event.preventDefault();
     axios
-      .post(`${REACT_APP_BASE_API_URL}/delete`, {
+      .post(`${baseApiUrl}/delete`, {
         food: idfood,
       })
       .then((res) => {
@@ -44,7 +44,7 @@ const Manage = () => {
     useEffect(() => {
       if (user != undefined)
         axios
-          .post(`${REACT_APP_BASE_API_URL}/yourfood`, {
+          .post(`${baseApiUrl}/yourfood`, {
             user: user?.id,
           })
           .then((res) => {

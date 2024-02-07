@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { PopChat } from "../components/PopChat";
-import { REACT_APP_BASE_API_URL } from "../config";
+import { baseApiUrl } from "../config";
 
 const Home = () => {
   return (
@@ -39,7 +39,7 @@ const PromotionItems = () => {
   const [profood, setProFood] = useState([]);
   useEffect(() => {
     axios
-      .post(`${REACT_APP_BASE_API_URL}/pro`)
+      .post(`${baseApiUrl}/pro`)
       .then((res) => {
         setProFood(res.data);
       })
@@ -60,7 +60,7 @@ const NewArrivals = () => {
   const [food, setFood] = useState([]);
   useEffect(() => {
     axios
-      .post(`${REACT_APP_BASE_API_URL}/new`)
+      .post(`${baseApiUrl}/new`)
       .then((res) => {
         setFood(res.data);
       })
@@ -84,7 +84,7 @@ const Random = () => {
 
   useEffect(() => {
     axios
-      .post(`${REACT_APP_BASE_API_URL}/food`)
+      .post(`${baseApiUrl}/food`)
       .then((res) => {
         const food = res.data;
         const randomFood = [];
