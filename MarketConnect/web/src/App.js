@@ -12,7 +12,7 @@ import Home from "./pages/Home";
 import Support from "./pages/Support";
 import Profile from "./pages/Profile";
 import Food from "./pages/Food";
-import FoodDetail from "./pages/FoodDetail";
+import FoodDetail from "./pages/ProductDetail";
 import AddProduct from "./pages/AddProduct";
 import Verify from "./pages/Verify";
 import Manage from "./pages/Manage";
