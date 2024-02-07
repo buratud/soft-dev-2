@@ -1,15 +1,15 @@
+'use clinet'
 import styles from "./CardProducts.module.css";
+import Link from 'next/link';
 
 const CardProducts = (props) => {
-    const {img} = props;
+    const { img, route } = props;
 
     return (
-        <div className={styles.content}>
-            <div className={styles.singleDest}>
-                <div className={styles.dastImage}>
-                    <img src={img} alt="" />
-                </div>
-            </div>
+        <div>
+            <Link href={`/dessertRecipe/${route}`} >
+                    <img src={img} alt="" className={styles.card} />
+            </Link>
         </div>
     );
 };

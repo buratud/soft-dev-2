@@ -115,6 +115,14 @@
     width: 100%;
 }
 
+.mainMarkettest{
+    padding: 6rem 6rem;
+}
+.slider {
+    font-family: sans-serif;
+    text-align: center;
+  }
+
 .ReccommendedProducts{
     width: 100%;
     min-height: 100%;
