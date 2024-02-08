@@ -57,28 +57,28 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div style={{ marginTop: "150px", justifyContent: "space-around", width: '100%', height: '100px', display: 'flex' }}>
-                <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms'>
-                    <div className={styles.portal}>
-                        <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhordorm_portal.png" /></div>
-                        <p className={styles.subtitle_portal}>DekHor Dorms</p>
-                    </div>
-                </Link>
-                <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market'>
-                    <div className={styles.portal}>
-                        <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhormarket_portal.png" /></div>
-                        <p className={styles.subtitle_portal}>DekHor Markets</p>
-                    </div>
-                </Link>
-                <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs'>
-                    <div className={styles.portal}>
-                        <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhorblog_portal.png" /></div>
-                        <p className={styles.subtitle_portal}>DekHor Blogs</p>
-                    </div>
-                </Link>
-                
+
+        <div className={styles.portalwrap}>
+          <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms'>
+            <div className={styles.portal}>
+              <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhordorm_portal.png" /></div>
+              <p className={styles.subtitle_portal}>DekHor Dorms</p>
             </div>
-      
+          </Link>
+          <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market'>
+            <div className={styles.portal}>
+              <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhormarket_portal.png" /></div>
+              <p className={styles.subtitle_portal}>DekHor Markets</p>
+            </div>
+          </Link>
+          <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs'>
+            <div className={styles.portal}>
+              <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhorblog_portal.png" /></div>
+              <p className={styles.subtitle_portal}>DekHor Blogs</p>
+            </div>
+          </Link>
+        </div>
+
       <div className={styles.container}>
         {/* dekhor blog */}
         <div>
@@ -168,18 +168,19 @@ export default function Home() {
               </div>
             </div>
           </div>
+
           <div className={styles.ReccommendedProducts}>
             {/* slider (poohsit) */}
             <div className={styles.ReccommendedBlogs_text}>
               Recommended Products
-              {/* CARD SLIDER */}
-              <div className={styles.slider}>
-                <Carousel responsive={responsive}>
-                  {CardList.slice(0, 6).map((card) => (
-                    <div><CardProducts img={card.img} route={card.route} /></div>
-                  ))}
-                </Carousel>
-              </div>
+            </div>
+            {/* CARD SLIDER */}
+            <div className={styles.slider}>
+              <Carousel responsive={responsive}>
+                {CardList.slice(0, 6).map((card) => (
+                  <div><CardProducts img={card.img} route={card.route} /></div>
+                ))}
+              </Carousel>
             </div>
           </div>
         </div>

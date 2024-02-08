@@ -1,10 +1,10 @@
-.bg_page{
+.bg_page {
     background-color: #F6F6FB;
     width: 100%;
     height: auto;
 }
 
-.navbar{
+.navbar {
     height: 73px;
     background-color: white;
     display: flex;
@@ -18,7 +18,54 @@
     height: 127px;
 }
 
-.portal{
+
+.icon {
+    background-color: #1F2021;
+    border-radius: 50%;
+    width: 127px;
+    height: 127px;
+}
+
+.search_bar_area {
+    height: 188px;
+    box-shadow: 0px 4px 19.1px -5px rgba(7, 46, 104, 0.36);
+    border-radius: 45px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.search_bar_input {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    background: #D9D9D9;
+    border: 0;
+    color: #1F2021;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding-left: 90px;
+}
+
+.search_bar {
+    width: 943px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+}
+
+.portalwrap{
+    justify-Content: space-around;
+    width: 80%;
+    height: 100px;
+    display: flex;
+    margin: 150px auto;
+}
+
+.portal {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,58 +84,22 @@
     line-height: normal;
 }
 
-.icon{
-    background-color: #1F2021;
-    border-radius: 50%;
-    width: 127px;
-    height: 127px;
+
+.container {
+    width: 80vw;
+    margin: auto;
 }
 
-.search_bar_area{
-    height: 188px;
-    box-shadow: 0px 4px 19.1px -5px rgba(7, 46, 104, 0.36);
-    border-radius: 45px;
-    align-items: center;
-    justify-content: center;
+.title {
     display: flex;
-}
 
-.search_bar_input{
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-    background: #D9D9D9;
-    border: 0;
-    color: #1F2021;
-    font-family: Poppins;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    padding-left: 90px;
-}
-
-.search_bar{
-    width: 943px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-}
-
-.container{
-    
-}
-
-.title{
-    display: flex;
-    margin-left: 160px;
     align-items: end;
     height: 42px;
     margin-bottom: 35px;
     margin-top: 100px;
 }
 
-.dekhor_title{
+.dekhor_title {
     color: #000;
     font-family: Poppins;
     font-size: 42px;
@@ -96,11 +107,11 @@
     font-weight: 700;
     line-height: normal;
     letter-spacing: 0.42px;
-    margin:0;
+    margin: 0;
     margin-right: 10px;
 }
 
-.blog_title{
+.blog_title {
     color: #F56E17;
     font-family: Poppins;
     font-size: 42px;
@@ -108,25 +119,25 @@
     font-weight: 700;
     line-height: normal;
     letter-spacing: 0.42px;
-    margin:0;
+    margin: 0;
     margin-right: 30px;
 }
 
-.blog_poster{
+.blog_poster {
     width: 1127px;
     height: 368px;
     border-radius: 50px;
     background: #FFF;
     box-shadow: 0px 4px 13.3px -4px rgba(0, 0, 0, 0.25);
-    margin-right : auto;
-    margin-left : auto;
+    margin-right: auto;
+    margin-left: auto;
     display: flex;
     align-items: center;
     justify-content: space-around;
     margin-bottom: 40px;
 }
 
-.poster_button_blog{
+.poster_button_blog {
     width: 156px;
     height: 53px;
     border-radius: 18px;
@@ -143,7 +154,7 @@
     align-items: center;
 }
 
-.poster_button_discover{
+.poster_button_discover {
     width: 230px;
     height: 53px;
     border-radius: 18px;
@@ -161,18 +172,18 @@
     margin-left: auto;
 }
 
-.poster_info_blog h1{
+.poster_info_blog h1 {
     color: #000;
     font-family: "Paytone One";
     font-size: 42px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin:0;
+    margin: 0;
     margin-bottom: 35px;
 }
 
-.poster_info_blog p:nth-child(2){
+.poster_info_blog p:nth-child(2) {
     font-family: Poppins;
     font-size: 20px;
     font-style: normal;
@@ -181,35 +192,36 @@
     margin: 0;
     margin-bottom: 55px;
 }
-.poster_info_market h1{
+
+.poster_info_market h1 {
     color: #000;
     font-family: "Paytone One";
     font-size: 42px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin:0;
+    margin: 0;
     margin-bottom: 110px;
 }
 
-.ReccommendedBlogs{
+.ReccommendedBlogs {
     width: 100%;
     min-height: 100%;
     padding-left: 5rem;
     padding-right: 5rem;
     align-items: center;
+    text-align: center;
+
 }
 
-.poster_button_blog{
-    width: 156px;
-    height: 53px;
-    border-radius: 18px;
-    background: #000;
-    color: #FFF;
+.ReccommendedBlogs_text {
+    color: #000;
     text-align: center;
-    font-size: 1.5rem;
-    padding-bottom: 1rem;
-
+    font-family: Poppins;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
 }
 
 .mainBlogs {
@@ -225,7 +237,7 @@
     font-family: Poppins;
 }
 
-.mainMarket{
+.mainMarket {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-content: space-between;
@@ -237,50 +249,20 @@
     width: 100%;
 }
 
-.mainMarkettest{
+.mainMarkettest {
     padding: 6rem 6rem;
 }
+
 .slider {
     font-family: sans-serif;
     text-align: center;
-  }
+}
 
-.ReccommendedProducts{
+.ReccommendedProducts {
     width: 100%;
     min-height: 100%;
-    padding-left: 5rem;
-    padding-right: 5rem;
+    
     align-items: center;
     margin-left: auto;
-}
-
-.poster_info_blog h1{
-    color: #000;
-    font-family: "Paytone One";
-    font-size: 42px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    margin:0;
-    margin-bottom: 35px;
-}
-
-.poster_info_blog p:nth-child(2){
-    font-family: Poppins;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    margin: 0;
-    margin-bottom: 55px;
-}
-.poster_info_market h1{
-    color: #000;
-    font-family: "Paytone One";
-    font-size: 42px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    margin:0;
-    margin-bottom: 110px;
+    text-align: center;
 }
