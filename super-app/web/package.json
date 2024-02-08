@@ -16,7 +16,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.0.1",
-    "react-slick": "^0.30.1"
+    "react-multi-carousel": "^2.8.4"
   },
   "devDependencies": {
     "eslint": "^8",
