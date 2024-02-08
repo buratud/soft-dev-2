@@ -31,11 +31,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Azure Login
-        uses: azure/login@v1.6.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
 
@@ -81,11 +76,6 @@ jobs:
           MAIN_URL: ${{ env.MAIN_URL }}
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
         
-      - name: Azure Login
-        uses: azure/login@v1.6.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       - name: Build and push image
         uses: azure/docker-login@v1
         with:
@@ -105,11 +95,6 @@ jobs:
 
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
-        
-      - name: Azure Login
-        uses: azure/login@v1.6.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Build and push image
         uses: azure/docker-login@v1
@@ -130,11 +115,6 @@ jobs:
 
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
-        
-      - name: Azure Login
-        uses: azure/login@v1.6.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Build and push image
         uses: azure/docker-login@v1
@@ -156,11 +136,6 @@ jobs:
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
         
-      - name: Azure Login
-        uses: azure/login@v1.6.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       - name: Build and push image
         uses: azure/docker-login@v1
         with:
@@ -177,11 +152,6 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v4
-
-      - name: Azure Login
-        uses: azure/login@v1.6.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
@@ -207,11 +177,6 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v4
-
-      - name: Azure Login
-        uses: azure/login@v1.6.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
@@ -239,11 +204,6 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v4
-
-      - name: Azure Login
-        uses: azure/login@v1.6.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
