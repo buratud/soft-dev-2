@@ -22,7 +22,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div style={{ marginTop: "150px", justifyContent: "space-around", width: '100%', height: '100vh', display: 'flex' }}>
+            <div style={{ marginTop: "150px", justifyContent: "space-around", width: '100%', height: '100px', display: 'flex' }}>
                 <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms'>
                     <div className={style.portal}>
                         <div className={style.icon}><img className={style.bg_portal} src="image/dekhordorm_portal.png" /></div>
@@ -41,19 +41,29 @@ export default function Home() {
                         <p className={style.subtitle_portal}>DekHor Blogs</p>
                     </div>
                 </Link>
-                <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/eats'>
-                    <div className={style.portal}>
-                        <div className={style.icon}><img className={style.bg_portal} src="image/dekhoreat_portal.png" /></div>
-                        <p className={style.subtitle_portal}>DekHor Eats</p>
-                    </div>
-                </Link>
+                
             </div>
 
             {/* dekhor blog */}
             <div>
-                
-                <div>
+                <div className={style.title}>
+                    <p className={style.dekhor_title}>Dekhor</p>
+                    <p className={style.blog_title}>Blog</p>
+                    <div style={{ width: '1124px', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
+                </div>
+                <div className={style.blog_poster}>
                     {/* bloging(krit) */}
+                    <div className={style.poster_info_blog}>
+                        <h1>Start Your Blog Today!</h1>
+                        <p>Share tips and tricks from your DekHor experience!</p>
+                        <Link href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs' style={{ textDecoration: 'none' }}>
+                            <div className={style.poster_button_blog}>
+                                <p style={{ marginRight: '10px' }}>Blogging</p>
+                                <img src="image/arrow_right.png" style={{ width: '29px', height: '21px' }} />
+                            </div>
+                        </Link>
+                    </div>
+                    <img src="image/poster_img.png" />
                 </div>
 
                 <div>
@@ -61,27 +71,64 @@ export default function Home() {
                 </div>
             </div>
 
-        
+
             {/* dekhor dorm */}
             <div>
+                <div className={style.title}>
+                    <p className={style.dekhor_title}>Dekhor</p>
+                    <p className={style.blog_title}>Dorms</p>
+                    <div style={{ width: '1124px', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
+                </div>
+                <div className={style.blog_poster}>
+                    <img src="image/poster_img.png" />
+                    <div className={style.poster_info_blog}>
+                        <h1>Find Your Dorms in Your Way!</h1>
+                        <p>Friendly Interfacebr <br />
+                            Verified Reviews <br />
+                            Affordable Prices
+                        </p>
+                        <Link href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms' style={{ textDecoration: 'none' }}>
+                            <div className={style.poster_button_discover}>
+                                <p style={{ marginRight: '10px' }}>Discover More</p>
+                                <img src="image/arrow_right.png" style={{ width: '29px', height: '21px' }} />
+                            </div>
+                        </Link>
+                    </div>
+                </div>
 
             </div>
 
 
             {/* dekhor market */}
             <div>
-                    <div>
-                        {/* discover (krit) */}
+                <div className={style.title}>
+                    <p className={style.dekhor_title}>Dekhor</p>
+                    <p className={style.blog_title}>Markets</p>
+                    <div style={{ width: '1124px', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
+                </div>
+                <div className={style.blog_poster}>
+                    {/* discover (krit) */}
+                    <img src="image/poster_img.png" />
+                    <div className={style.poster_info_market}>
+                        <h1>Find the stuffs you need
+                            <br />with Dekhor Markets!</h1>
+                        <Link href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market' style={{ textDecoration: 'none'}}>
+                            <div className={style.poster_button_discover}>
+                                <p style={{ marginRight: '10px' }}>Discover More</p>
+                                <img src="image/arrow_right.png" style={{ width: '29px', height: '21px' }} />
+                            </div>
+                        </Link>
                     </div>
-                    <div>
-                        {/* slider (poohsit) */}
-                    </div>
+                </div>
+                <div>
+                    {/* slider (poohsit) */}
+                </div>
             </div>
 
             <footer>
                 {/* footer ( petch )(component) */}
             </footer>
-            
+
         </div>
     )
 }
