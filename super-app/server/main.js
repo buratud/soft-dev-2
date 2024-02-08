@@ -73,7 +73,7 @@ api.put('/verify-otp', async (req, res) => {
 
   } catch (error) {
     if(error.message.includes('invalid') || error.message.includes('expired')){
-      res.status(500).json({ error: 'OTP has invalid or expired' });
+      res.status(200).json({ error: 'OTP has invalid or expired' });
     }else{
     console.log(error);
     res.status(500).json({ error: 'An error occurred while verifying OTP' });

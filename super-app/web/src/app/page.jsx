@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import styles from "./login.module.css"
 import { useState } from 'react';
-import { useRouter } from "next/navigation"; 
+import { redirect, useRouter } from "next/navigation"; 
 import axios from 'axios';
 import {NEXT_PUBLIC_BASE_API_URL} from "../../config";
 
@@ -38,7 +38,7 @@ export default function Login() {
                 password: formData.password,
             })
             .then(res => {
-                router.push('/home');
+                router.push(`/home`);
             })
             .catch((err) => {
                 alert(err.response.data.message);
