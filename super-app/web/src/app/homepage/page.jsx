@@ -139,6 +139,8 @@ export default function Home() {
                 title={card.title}
                 Blogger={card.Blogger}
                 Categories={card.Categories}
+                // ใช้ route แทน id ไปก่อน
+                id={card.route}
               />
             ))}
           </main>

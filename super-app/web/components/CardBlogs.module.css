@@ -1,6 +1,10 @@
+.link_blog{
+    text-decoration: none;
+}
 .content{
     height: 100%;
     width: 100%;
+    text-decoration: none;
 }
 
 .main_content{
