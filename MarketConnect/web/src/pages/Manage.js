@@ -7,6 +7,7 @@ import { AuthContext } from "../App";
 import axios from "axios";
 import DeleteConfirmPopup from "../components/DeleteConfirmPopup";
 import { baseApiUrl } from "../config";
+import { FiEdit, FiTrash } from "react-icons/fi";
 
 const Manage = () => {
   const { user } = useContext(AuthContext);
@@ -41,8 +42,10 @@ const Manage = () => {
 
   const Edit_Item = () => {
     const [Food, setFood] = useState([]);
+    const [columns, setColumns] = useState(3); // Initially set to 3 columns
+
     useEffect(() => {
-      if (user != undefined)
+      if (user != undefined) {
         axios
           .post(`${baseApiUrl}/yourfood`, {
             user: user?.id,
@@ -53,55 +56,87 @@ const Manage = () => {
           .catch((err) => {
             alert(err);
           });
+      }
     }, [Change]);
-    if (!Food) return;
-    return Food.map((item) => {
-      return (
-        <form onSubmit={(e) => openPopup(e, item?.id)} className="edit-box">
-          <div className="edit-box-left" key={item?.id}>
-            <img src={item?.URL} alt="" />
-          </div>
-          <div className="edit-box-right">
-            <Link
-              className="edit-product"
-              key={item.id}
-              to={"/addproduct/" + item.id}
-            >
-              Edit
-              <img src="editicon.png" alt="" />
-            </Link>
-            <button type="submit" className="delete-product">
-              Delete
-              <img src="deleteicon.png" alt="" />
-            </button>
-          </div>
-        </form>
-      );
-    });
+
+    useEffect(() => {
+      const handleResize = () => {
+        const width = window.innerWidth;
+        if (width <= 768) {
+          setColumns(1);
+        } else if (width <= 1024) {
+          setColumns(2);
+        } else {
+          setColumns(3);
+        }
+      };
+
+      handleResize(); // Call once initially
+      window.addEventListener("resize", handleResize); // Add event listener for resize
+
+      return () => {
+        window.removeEventListener("resize", handleResize); // Clean up event listener
+      };
+    }, []); // Empty dependency array to run only once on mount
+
+    if (!Food) return null;
+
+    return (
+      <div className="edit-container">
+        <table className="edit-table">
+          <tbody>
+            {Array.from({ length: Math.ceil(Food.length / columns) }).map(
+              (_, rowIndex) => (
+                <tr key={rowIndex}>
+                  {Array.from({ length: columns }).map((_, colIndex) => {
+                    const index = rowIndex * columns + colIndex;
+                    const foodItem = Food[index];
+                    return (
+                      <td key={colIndex}>
+                        {foodItem && (
+                          <form
+                            onSubmit={(e) => openPopup(e, foodItem.id)}
+                            className="edit-box"
+                          >
+                            <div className="edit-box-left">
+                              <img src={foodItem.URL} alt="" />
+                            </div>
+                            <div className="edit-box-right">
+                              <h2>{foodItem.Food_Name}</h2>
+                              <Link
+                                className="edit-product"
+                                key={foodItem.id}
+                                to={"/addproduct/" + foodItem.id}
+                              >
+                                <FiEdit />
+                              </Link>
+                              <button type="submit" className="delete-product">
+                                <FiTrash />
+                              </button>
+                            </div>
+                          </form>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
+      </div>
+    );
   };
+
   return (
     <div className="container">
       <NavBar />
-      {/* <PopChat messages={[]} /> */}
       <h1>Manage</h1>
       <div className="add-box">
         <Link to="/addproduct" className="add-product">
           Add Product
         </Link>
       </div>
-      {/* <form onSubmit={openPopup} className="edit-box">
-        <div className="edit-box-left">Edit Product1</div>
-        <div className="edit-box-right">
-          <Link to="/editproduct" className="edit-product">
-            Edit
-            <img src="editicon.png" alt="" />
-          </Link>
-          <button type="submit" className="delete-product">
-            Delete
-            <img src="deleteicon.png" alt="" />
-          </button>
-        </div>
-      </form> */}
       <Edit_Item />
       {showPopup && (
         <DeleteConfirmPopup onCancel={closePopup} onDelete={handleDelete} />
