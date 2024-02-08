@@ -97,8 +97,10 @@ api.post('/recommended-blog', async (req, res) => {
         .select('blog_id,title,category,body,blogger,date,cover_img')
         .in('blog_id', [randomNum1, randomNum2, randomNum3]);
         if (error) {
+          console.log('000000000000')
           res.status(500).json(error);
         } else {
+          console.log(data)
           res.status(200).json(data);
         }
     }

@@ -6,8 +6,28 @@ import CardList from "./data.js";
 import CardProducts from "../../../components/CardProduct";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import axios from 'axios';
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../../config';
+import { useState } from "react";
 
 export default function Home() {
+  const [data, setData] = useState([]);
+  useState(()=>{
+    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-blog`, {
+    // axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-blog`, {
+    })
+    .then(res => {
+        console.log(res)
+        setData(res.data);
+        console(data)
+    })
+    .catch((err) => {
+        console.log(err)
+        // alert(err.response.data.message);
+    })
+
+    },[])
+
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -133,14 +153,15 @@ export default function Home() {
           <div className={styles.ReccommendedBlogs_text}>Recommended Blogs</div>
           <main className={styles.mainBlogs}>
             {/* Back-end ทำการเพิ่มข้อมูลตรงนี้ CardList_Blogs เป็น Reccommend แบบ Random*/}
-            {CardList.slice(0, 3).map((card) => (
+            {data.slice(0, 3).map((card,index) => (
               <CardBlogs
-                img={card.img}
+                key={index}
+                img={card.cover_img}
                 title={card.title}
-                Blogger={card.Blogger}
-                Categories={card.Categories}
+                Blogger={card.blogger}
+                Categories={card.category}
                 // ใช้ route แทน id ไปก่อน
-                id={card.route}
+                id={card.blog_id}
               />
             ))}
           </main>

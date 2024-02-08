@@ -1,12 +1,22 @@
 'use clinet'
 import styles from "./CardBlogs.module.css";
 import Link from 'next/link';
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../config';
 
 const CardBlogs = (props) => {
     const { img, title, Blogger, Categories,id } = props;
 
+    // axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-blog`, {
+    // })
+    // .then(res => {
+    //     console.log(res)
+    // })
+    // .catch((err) => {
+    //     alert(err.response.data.message);
+    // })
+
     return (
-        <Link href={`/blogdetails/${id}`} className={styles.link_blog}>
+        <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/${Categories}/${id}`} className={styles.link_blog}>
             <div className={styles.content}>
                 <div className={styles.main_content}>
 
