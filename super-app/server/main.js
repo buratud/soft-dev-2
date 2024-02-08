@@ -3,6 +3,8 @@ const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 const { PORT } = require('./config');
 const { BASE_SERVER_PATH } = require('./config');
+const cors = require('cors');
+
 const app = express();
 const api = express.Router();
 
@@ -10,6 +12,7 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+app.use(cors());
 app.use(express.json());
 app.use(BASE_SERVER_PATH, api)
 
@@ -17,7 +20,7 @@ api.get('/', (req, res) => {
   res.send(JSON.stringify(req));
 });
 
-app.put("/login", async (req,res) => {
+api.put("/login", async (req,res) => {
   const {UsernameorEmail,password} = req.body;
   const { data, error } = await supabase.auth.signInWithPassword({
       email: UsernameorEmail,
@@ -33,7 +36,7 @@ app.put("/login", async (req,res) => {
   }
 });
 
-app.post("/register", async (req, res) => {
+api.post("/register", async (req, res) => {
   const {  email, username, password } = req.body;
   const { data, error } = await supabase.auth.signUp({
       email: email,
