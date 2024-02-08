@@ -25,7 +25,7 @@ app.put("/login", async (req,res) => {
   });
 
   if (error){
-      res.status(400).json();
+      res.status(400).json(error);
       // res.status(400).json({ error: error.message });
   }
   else{
@@ -46,7 +46,7 @@ app.post("/register", async (req, res) => {
   });
 
   if (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json(error);
   } else {
       res.status(200).json({ message: "User go to verify page" });
   }

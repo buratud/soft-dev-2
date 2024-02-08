@@ -4,7 +4,7 @@ import Link from "next/link"
 import styles from "./login.module.css"
 import { useState } from 'react';
 import axios from 'axios';
-import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_SERVER_PATH, NEXT_PUBLIC_BASE_WEB_PATH } from "../../config";
+
 
 export default function Login() {
 
@@ -29,48 +29,21 @@ export default function Login() {
             alert('Login Invalid. Please make sure you filled both username and password in correctly');
             return;
         }
-
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(formData.email)) {
-            alert('Please enter a valid email address.');
-            return;
+        else {
+            axios.post(`${NEXT_PUBLIC_BASE_API_URL}/login`,{
+                UsernameorEmail: formData.username,
+                password: formData.password,
+            })
+            .then(res => {
+                navigate("/home");
+            })
+            .catch((err) => {
+                alert(err.response.data.message);
+            })
         }
+    }
 
-        if (formData.password != formData.reenterPassword) {
-            alert('Please enter the same password.');
-            return;
-        }
-
-        console.log('Submitted Data:', formData);
-
-        // ทำสิ่งที่คุณต้องการทำหลังจาก Submit ที่นี่
-        axios.post(config.API + "/register",{
-            email: formData.email,
-            username: formData.username,
-            password: formData.password,
-        })
-        .then(res => {
-            // alert('okka')
-            navigate(`/verification?email=${formData.email}`);
-        })
-        .catch((err) => {
-            // if (err.response && err.response.data && err.response.data.message) {
-            //     alert(err.response.data.message);
-            // } else {
-            //     alert("An error occurred during login.");
-            // }
-            // if (err.response.message === "User already registered") {
-            //     alert("Internal Server Error (500). Please don't submit too frequently.");
-            //     // alert("Internal Server Error (500). Please don't submit too frequently.");
-            // } else {
-                alert(err);
-            // }
-        })
-
-        setFormData(initialFormData);
-
-        // router.push('/verify');
-    };
+   
 
     return (
         <>
@@ -78,16 +51,16 @@ export default function Login() {
 
             <div className={styles.Loginnavbar}>
                 <div className={styles.navimage}>
-                    <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/Dekhorlogo.png`} width={85} height={85} alt="logo"/>
+                    <Image src="/Dekhorlogo.png" width={85} height={85} alt="logo"/>
                 </div>
             </div>
             <div className={styles.Logincontainer}>
                 <div className={styles.Loginframe}>
-                    <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/Dekhorlogo.png`} width={150} height={150} alt="logo"/>
+                    <Image src="/Dekhorlogo.png" width={150} height={150} alt="logo"/>
                     <h1 className={styles.Loginfont}>Sign In with DekHor ID</h1>
                     <div className={styles.Loginform}>
                         <div className={styles.inputicon}>
-                            <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/usericon.png`} width={16} height={18} alt="user"/> 
+                            <Image src="/usericon.png" width={16} height={18} alt="user"/> 
                         </div>  
                         <div>| </div>
                         <input  className={styles.Loginblock}
@@ -102,7 +75,7 @@ export default function Login() {
                     </div>
                     <div className={styles.Loginform}>
                         <div className={styles.inputicon}>
-                            <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/pwicon.png`} width={16} height={15} alt="pw"/> 
+                            <Image src="/pwicon.png" width={16} height={15} alt="pw"/> 
                         </div> 
                         <div>| </div>
                         <input  className={styles.Loginblock}
