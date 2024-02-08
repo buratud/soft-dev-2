@@ -10,56 +10,44 @@ import { baseApiUrl } from "../config";
 const AddProduct = () => {
   const { foodid } = useParams();
   const [file, setFile] = useState("");
-  const [food, setFood] = useState({});
+  const [food, setFood] = useState({
+    Food_Name: "",
+    Price: "",
+    Catagory_Id: "",
+    Description: "",
+    Line: "",
+  });
   const [isUploading, setIsUploading] = useState(false);
   const supabase = useSupabase();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+
   const handleAddProduct = (event) => {
     event.preventDefault();
-    const cata = event.target[2].value;
-    if (foodid === undefined) {
-      axios
-        .post(`${baseApiUrl}/addproduct`, {
-          name: event.target[0].value,
-          price: event.target[1].value,
-          catagory_id: cata,
-          id: user.id,
-          description: event.target[5].value,
-          picture: file,
-          line: event.target[4].value,
-        })
-        .then((res) => {
-          alert("Add food success.");
-          navigate("/manage");
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    } else {
-      axios
-        .post(`${baseApiUrl}/manageproduct`, {
-          name: event.target[0].value,
-          price: event.target[1].value,
-          catagory_id: cata,
-          id: user.id,
-          description: event.target[5].value,
-          picture: file,
-          line: event.target[4].value,
-          food: foodid,
-        })
-        .then((res) => {
-          alert("Manage food success.");
-          navigate("/manage");
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    }
+    const formData = new FormData(event.target);
+    formData.append("picture", file); // Append file to form data
+    const cata = formData.get("category");
+    const requestData = Object.fromEntries(formData);
+    requestData.id = user.id;
+
+    const url =
+      foodid === undefined
+        ? `${baseApiUrl}/addproduct`
+        : `${baseApiUrl}/manageproduct`;
+    axios
+      .post(url, requestData)
+      .then((res) => {
+        alert(
+          foodid === undefined ? "Add food success." : "Manage food success."
+        );
+        navigate("/manage");
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   const upload_File = async (event) => {
-    // console.log(event.target.files[0]);
     if (event.target.files[0] !== undefined) {
       setIsUploading(true);
       const filename = Math.random()
@@ -75,75 +63,108 @@ const AddProduct = () => {
         setIsUploading(false);
         return alert(error);
       }
-      const { data } = supabase.storage
+      const { data } = await supabase.storage
         .from("Picture_Food")
         .getPublicUrl(filename + ".png");
       setFile(data.publicUrl);
       setIsUploading(false);
-    }
-  };
-  if (foodid !== undefined)
-    useEffect(() => {
+  
+      // Display image preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById("image-preview").src = e.target.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    } document.getElementById("image-preview").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png?20200912122019";
+  };  
+
+  useEffect(() => {
+    if (foodid !== undefined) {
       axios
-        .post(`${baseApiUrl}/fooddetail`, {
-          foodid: foodid,
-        })
+        .post(`${baseApiUrl}/fooddetail`, { foodid })
         .then(({ data }) => {
           setFood(data[0]);
           setFile(data[0].URL);
-          console.log(file);
         })
         .catch((err) => {
           alert(err);
         });
-    }, []);
+    }
+  }, [foodid]);
 
   const changeCatagory = (e) => {
     setFood({ ...food, Catagory_Id: e.target.value });
   };
 
   return (
-    <div className="container">
+    <div onSubmit={handleAddProduct} className="container">
       <NavBar />
-      {/* <PopChat messages={[]} /> */}
-      <h1>Product</h1>
-      <form onSubmit={handleAddProduct} className="form-box">
-        <label htmlFor="productname">Food Name</label>
-        <input type="text" defaultValue={food?.Food_Name ?? ""} />
-        <label htmlFor="productprice">Price</label>
-        <input type="text" defaultValue={food?.Price ?? ""} />
-        <label htmlFor="category">Category</label>
-        <select
-          name="category"
-          id="category"
-          select
-          property="status"
-          value={food?.Catagory_Id ?? "1"}
-          onChange={changeCatagory}
-          styleClass="form-control"
-        >
-          <option value="1">Thai-Food</option>
-          <option value="2">Japan-Food</option>
-          <option value="3">Korean-Food</option>
-          <option value="4">Italian-Food</option>
-          <option value="5">Drinks</option>
-          <option value="6">Sweets and Desserts</option>
-        </select>
-        <label htmlFor="productimage">Image</label>
-        <input onChange={upload_File} type="file" />
-        <label htmlFor="productprice">Line</label>
-        <input type="text" defaultValue={food?.Line ?? ""} />
-        <label htmlFor="productdescription">Description</label>
-        <textarea
-          name=""
-          id=""
-          cols="70"
-          rows="7"
-          defaultValue={food?.Description ?? ""}
-        />
-        <button disabled={isUploading} type="submit" className="send-button">
-          Done
-        </button>
+      <h1>Add/Edit your product</h1>
+      <form>
+        <div className="box">
+          <div className="form-box-left">
+            {/*image uploader*/}
+            <input onChange={upload_File} type="file" />
+            <img
+              id="image-preview"
+              src=""
+              alt="Preview"
+              style={{ maxWidth: "200px", maxHeight: "200px" }}
+            />
+          </div>
+          <div className="form-box-right">
+            <label htmlFor="productname">Food Name</label>
+            <input
+              type="text"
+              name="name"
+              value={food.Food_Name}
+              onChange={(e) => setFood({ ...food, Food_Name: e.target.value })}
+            />
+            <label htmlFor="productprice">Price</label>
+            <input
+              type="text"
+              name="price"
+              value={food.Price}
+              onChange={(e) => setFood({ ...food, Price: e.target.value })}
+            />
+            <label htmlFor="category">Category</label>
+            <select
+              name="category"
+              value={food.Catagory_Id}
+              onChange={changeCatagory}
+            >
+              <option value="1">Thai-Food</option>
+              <option value="2">Japan-Food</option>
+              <option value="3">Korean-Food</option>
+              <option value="4">Italian-Food</option>
+              <option value="5">Drinks</option>
+              <option value="6">Sweets and Desserts</option>
+            </select>
+            <label htmlFor="line">Line</label>
+            <input
+              type="text"
+              name="line"
+              value={food.Line}
+              onChange={(e) => setFood({ ...food, Line: e.target.value })}
+            />
+          </div>
+        </div>
+        <div className="description">
+          <textarea
+            name="description"
+            placeholder="Enter your description here..."
+            className="center-textarea"
+            cols="100"
+            rows="7"
+            value={food.Description}
+            onChange={(e) => setFood({ ...food, Description: e.target.value })}
+          />
+        </div>
+        <div className="send-button">
+          <button disabled={isUploading} type="submit" className="send-button">
+            Done
+          </button>
+        </div>
       </form>
     </div>
   );
