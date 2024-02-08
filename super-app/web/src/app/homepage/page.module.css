@@ -200,7 +200,12 @@
     align-items: center;
 }
 
-.ReccommendedBlogs_text{
+.poster_button_blog{
+    width: 156px;
+    height: 53px;
+    border-radius: 18px;
+    background: #000;
+    color: #FFF;
     text-align: center;
     font-size: 1.5rem;
     padding-bottom: 1rem;
@@ -246,4 +251,36 @@
     padding-left: 5rem;
     padding-right: 5rem;
     align-items: center;
+    margin-left: auto;
+}
+
+.poster_info_blog h1{
+    color: #000;
+    font-family: "Paytone One";
+    font-size: 42px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin:0;
+    margin-bottom: 35px;
+}
+
+.poster_info_blog p:nth-child(2){
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin: 0;
+    margin-bottom: 55px;
+}
+.poster_info_market h1{
+    color: #000;
+    font-family: "Paytone One";
+    font-size: 42px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin:0;
+    margin-bottom: 110px;
 }
