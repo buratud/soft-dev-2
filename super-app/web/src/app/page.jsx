@@ -29,22 +29,48 @@ export default function Login() {
             alert('Login Invalid. Please make sure you filled both username and password in correctly');
             return;
         }
-        else {
-            axios.post(NEXT_PUBLIC_BASE_SERVER_PATH + "/login",{
-                UsernameorEmail: formData.username,
-                password: formData.password,
-            })
-            .then(res => {
-                navigate("/home");
-            })
-            .catch((err) => {
-                console.error('Error:', err);
-                alert(err.message);
-            })
-        }
-    }
 
-   
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(formData.email)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+
+        if (formData.password != formData.reenterPassword) {
+            alert('Please enter the same password.');
+            return;
+        }
+
+        console.log('Submitted Data:', formData);
+
+        // ทำสิ่งที่คุณต้องการทำหลังจาก Submit ที่นี่
+        axios.post(config.API + "/register",{
+            email: formData.email,
+            username: formData.username,
+            password: formData.password,
+        })
+        .then(res => {
+            // alert('okka')
+            navigate(`/verification?email=${formData.email}`);
+        })
+        .catch((err) => {
+            // if (err.response && err.response.data && err.response.data.message) {
+            //     alert(err.response.data.message);
+            // } else {
+            //     alert("An error occurred during login.");
+            // }
+            // if (err.response.message === "User already registered") {
+            //     alert("Internal Server Error (500). Please don't submit too frequently.");
+            //     // alert("Internal Server Error (500). Please don't submit too frequently.");
+            // } else {
+                alert(err);
+            // }
+        })
+
+        setFormData(initialFormData);
+
+        // router.push('/verify');
+    };
 
     return (
         <>

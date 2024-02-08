@@ -1,17 +1,17 @@
 const express = require('express');
-const cors = require('cors');
-//const { PORT } = require('./config');
-const PORT = process.env.PORT || 3000;
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
+const { PORT } = require('./config');
 const { BASE_SERVER_PATH } = require('./config');
 const app = express();
-require("dotenv").config();
 const api = express.Router();
-app.use(BASE_SERVER_PATH, api)
-app.use(express.json());
-const { createClient } = require('@supabase/supabase-js');
 
-const supabaseUrl = "https://nypzyitcvjrnisjdsbpk.supabase.co";
-const supabase = createClient(supabaseUrl,supabaseKey);
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY;
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+app.use(express.json());
+app.use(BASE_SERVER_PATH, api)
 
 api.get('/', (req, res) => {
   res.send(JSON.stringify(req));
@@ -52,11 +52,10 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.put('/verify-otp', async (req, res) => {
+api.put('/verify-otp', async (req, res) => {
   try {
     const {email,otp} = req.body;
   
-    // Verify the OTP
     const { error } = await supabase.auth.verifyOtp({
       email,
       token: otp,
@@ -70,7 +69,12 @@ app.put('/verify-otp', async (req, res) => {
     res.status(200).json({ message: 'OTP verified successfully' });
 
   } catch (error) {
-    res.status(500).json({ error: 'OTP has expired or is invalid ' });
+    if(error.message.includes('invalid') || error.message.includes('expired')){
+      res.status(500).json({ error: 'OTP has invalid or expired' });
+    }else{
+    console.log(error);
+    res.status(500).json({ error: 'An error occurred while verifying OTP' });
+    }
   }
 });
 
