@@ -96,58 +96,6 @@ jobs:
           docker build super-app/server/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
 
-  # eats_web:
-  #   name: Eats Website
-  #   runs-on: ubuntu-latest
-  #   environment: production
-  #   steps:
-  #     - uses: actions/checkout@v4
-
-  #     - name: Azure Login
-  #       uses: azure/login@v1.6.1
-  #       with:
-  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-  #     - name: Set GIT_REF
-  #       run: bash ./env.sh >> "$GITHUB_ENV"
-
-  #     - name: Login to Azure Registry
-  #       uses: azure/docker-login@v1
-  #       with:
-  #         login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-  #         username: ${{ secrets.REGISTRY_USERNAME }}
-  #         password: ${{ secrets.REGISTRY_PASSWORD }}
-  #     - name: Build and push image
-  #       run: |
-  #         docker build hongkrua/web/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-web:${{ github.sha }} --build-arg BASE_EATS_WEB_PATH=$BASE_EATS_WEB_PATH BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL BASE_EATS_SERVER_PATH=$BASE_EATS_SERVER_PATH
-  #         docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-web:${{ github.sha }}
-  #       env:
-  #         BASE_EATS_WEB_PATH: ${{ env.BASE_EATS_WEB_PATH }}
-  #         BASE_EATS_SERVER_PATH: ${{ env.BASE_EATS_SERVER_PATH }}
-  #         BASE_DOMAIN_WITH_PROTOCOL: ${{ env.BASE_DOMAIN_WITH_PROTOCOL }}
-
-  eats_server:
-    name: Eats Server
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Azure Login
-        uses: azure/login@v1.6.1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Build and push image
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
-      - run: |
-          docker build hongkrua/server/ -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-server:${{ github.sha }}
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/eats-server:${{ github.sha }}
-
   market_server:
     name: Market Server
     runs-on: ubuntu-latest
