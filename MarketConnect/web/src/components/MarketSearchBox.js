@@ -3,7 +3,7 @@ import axios from 'axios';
 import { BsCart4 } from "react-icons/bs";
 import { RiLoader4Line } from "react-icons/ri";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import { BASE_API_URL, BASE_DOMAIN_WITH_PROTOCOL } from "../config";
+import { REACT_APP_BASE_API_URL } from "../config";
 import "./MarketSearchBox.scoped.css";
 
 export default function MarketSearchBox() {
@@ -52,7 +52,7 @@ export default function MarketSearchBox() {
     }, [search]);
 
     const fetchList = (searchTerm) => {
-        axios.post(`${BASE_API_URL}/search`, {
+        axios.post(`${REACT_APP_BASE_API_URL}/search`, {
                 searchTerm: searchTerm
             })
         // axios.get('https://65bb214bb4d53c0665540e31.mockapi.io/api/v1/searchlist')   // Send GET to mock API endpoint
@@ -137,7 +137,7 @@ export default function MarketSearchBox() {
                     </div>
                 )}
                 {!loading && results.response.map(result => (
-                <a href={`${BASE_DOMAIN_WITH_PROTOCOL}/fooddetail/${result.id}`} key={result.id} style={{ textDecoration: 'none' }}>
+                <a href={`${REACT_APP_BASE_API_URL}/fooddetail/${result.id}`} key={result.id} style={{ textDecoration: 'none' }}>
                     <div className="search_result_item">
                         <div className="search_result_item_title">{result.Food_Name}</div>
                         <div className="search_result_item_price">{result.Price} ฿</div>

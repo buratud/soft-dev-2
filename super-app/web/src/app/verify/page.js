@@ -2,14 +2,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"; 
 import styles from "./page.module.css";
-import axios from "axios";
-
+import {NEXT_PUBLIC_BASE_WEB_PATH} from "../../../config";
 const Verify = () => {
   const router = useRouter();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
-  const urlParams = new URLSearchParams(window.location.search);
-  const email = urlParams.get('email');
 
   const sendOtp = () => {
     // The loading state is now set before the timeout to ensure it shows immediately
@@ -18,27 +15,8 @@ const Verify = () => {
     // Simulate an OTP send request with a timeout
     setTimeout(() => {
       setLoading(false); // Stop loading after the timeout
-      //alert("Verify Success"); // Or handle the OTP verification response
+      alert("Verify Success"); // Or handle the OTP verification response
     }, 2000); // 2-second delay to simulate network request
-    
-    axios.put('/api/verify-otp',
-    { 
-      email: email, 
-      otp: otp.join("") 
-    })
-    .then((res) =>{
-      const {message , error } = res.data;
-      if(error){
-        alert(error);
-      }
-      else{
-        alert(message);
-        redirect('/login');
-      }
-    })
-    .catch((error) =>{
-      console.log(error);
-    })
   };
 
   const handlePaste = (e) => {
@@ -89,14 +67,14 @@ const Verify = () => {
   return (
     <div className={styles.container}>
        <div className={styles.topBar}>
-        <img src="./images/logo.png" alt="Logo" className={styles.logo} />
+        <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} alt="Logo" className={styles.logo} />
       </div>
       {loading && <div className={styles.overlay}>
         <div className={styles.loading}>Loading...</div>
       </div>}
       <div className={styles.section}>
         <div className={styles.title}>
-          <img src="./images/sendotp.png" alt="" />
+          <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/sendotp.png`} alt="" />
           <div>Verification Code</div>
         </div>
         <div className={styles.describ}>We have sent a verification code to your Email</div>

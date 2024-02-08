@@ -3,7 +3,7 @@ import Navbar from "../../../components/navbar";
 import Footer from "../../../components/footer";
 import React, { useState, useRef } from "react";
 import { nation } from "./nation";
-import {baseApiUrl} from '../../../config'
+import {NEXT_PUBLIC_BASE_API_URL} from '../../../config'
 
 export default function Home() {
     const [stepList, setStepList] = useState([{ step: "", image1: null, image2: null, image1Base64: "", image2Base64: "" }]);
@@ -101,7 +101,7 @@ export default function Home() {
                 steps: newStepList,
             };
             console.log(JSON.stringify(newRecipe ))
-            const response = await fetch(`${baseApiUrl}/api/recipes`, {
+            const response = await fetch(`${NEXT_PUBLIC_BASE_API_URL}/api/recipes`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
