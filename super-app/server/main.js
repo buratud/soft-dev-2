@@ -4,7 +4,6 @@ require('dotenv').config();
 const { PORT } = require('./config');
 const { BASE_SERVER_PATH } = require('./config');
 const app = express();
-require("dotenv").config();
 const api = express.Router();
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
@@ -13,11 +12,6 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 app.use(express.json());
 app.use(BASE_SERVER_PATH, api)
-app.use(express.json());
-const { createClient } = require('@supabase/supabase-js');
-
-const supabaseUrl = "https://nypzyitcvjrnisjdsbpk.supabase.co";
-const supabase = createClient(supabaseUrl,supabaseKey);
 
 api.get('/', (req, res) => {
   res.send(JSON.stringify(req));
