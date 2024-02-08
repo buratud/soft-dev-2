@@ -17,7 +17,7 @@ api.get('/', (req, res) => {
   res.send(JSON.stringify(req));
 });
 
-app.put("/login", async (req,res) => {
+api.put("/login", async (req,res) => {
   const {UsernameorEmail,password} = req.body;
   const { data, error } = await supabase.auth.signInWithPassword({
       email: UsernameorEmail,
@@ -33,7 +33,7 @@ app.put("/login", async (req,res) => {
   }
 });
 
-app.post("/register", async (req, res) => {
+api.post("/register", async (req, res) => {
   const {  email, username, password } = req.body;
   const { data, error } = await supabase.auth.signUp({
       email: email,
