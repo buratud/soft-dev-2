@@ -1,11 +1,11 @@
 .container {
     max-width: 100vw;
     min-height: 100vh;
-    background-color: #F6F4EB;
+    background-color: #F6F6FB;
 }
 
 #promotions-box {
-    height: calc(100vh - 20rem);
+    height: calc(100vh - 15rem);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -84,64 +84,84 @@ img.carousel-image {
 
 
 #new-box {
-    height: calc(100vh - 25rem);
-    background-color: #F6F4EB;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
     padding-top: 2.5rem;
-}
-
-.new-box-scroll {
-    width: 80%;
-    height: 70%;
-    display: flex;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    background-color: inherit;
-    border-radius: 1rem;
-
-}
-
-.new-item {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    margin: 1rem 0.5rem;
-    background-color: #efece2;
-    border-radius: 1rem;
-    box-shadow: 0 0 0.5rem 0.25rem rgba(0, 0, 0, 0.25);
-    padding: 10px;
+    width: 100%;
+}
+
+.new-arrivals-container {
+    display: flex;
+    justify-content: center; 
+    gap: 1rem; 
+    margin-bottom: 3rem;
+}
+
+.new-arrival-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
     text-decoration: none;
-    color: #12263a;
-    background-color: #fff4c9;
+    flex: 0 1 calc(25% - 2rem);
+    margin: 1rem; 
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-.new-item img {
-    height: 65%;
-    border-radius: 1rem ;
-    aspect-ratio: 16/9;
+.card-image-container {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
 }
 
-.new-item-name {
-    font-size: 1.3rem;
-    font-family:'Poppins', sans-serif;
-    font-weight: 400;
-    margin-top: 0.5rem;
+.card-image-container img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    object-fit: fill; 
 }
 
-.new-item-price {
+.card-content {
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-title {
     font-size: 1.2rem;
-    font-family:'Poppins', sans-serif;
-    font-weight: 400;
-    margin-top: 0.5rem;
+    font-weight: bold;
+    font-family: poppins, sans-serif;
+    color: #333333;
+    margin-bottom: 0.5rem;
+}
+
+.card-price {
+    font-size: 1.1rem;
+    font-family: poppins, sans-serif;
+    color: #333333;
+    margin-bottom: 0.5rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .new-arrival-card {
+    flex: 0 1 calc(50% - 2rem); 
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .new-arrival-card {
+    flex: 0 1 calc(100% - 2rem); 
+  }
 }
 
 #rec-box{
     min-height: 93vh;
-    background-color: #F6F4EB;
+    background-color: #F6F6FB;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -214,3 +234,6 @@ img.carousel-image {
 ::-webkit-scrollbar-thumb:active{
     background: linear-gradient(left, #22ADD4, #1E98BA);
 }
+
+
+  

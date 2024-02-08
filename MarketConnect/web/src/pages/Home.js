@@ -18,9 +18,7 @@ const Home = () => {
         </section>
         <section id="new-box">
           <h1>NEW ARRIVALS</h1>
-          <div className="new-box-scroll">
             <NewArrivals />
-          </div>
         </section>
         <section id="rec-box">
           <h1>RANDOM FOOD</h1>
@@ -92,21 +90,28 @@ const NewArrivals = () => {
     axios
       .post(`${baseApiUrl}/new`)
       .then((res) => {
+        console.log('Response data:', res.data);
         setFood(res.data);
       })
       .catch((err) => {
         alert(err);
       });
   }, []);
-  return food.map((item) => {
-    return (
-      <Link className="new-item" key={item.id} to={"/fooddetail/" + item.id}>
-        <img src={item.URL} alt="" />
-        <div className="new-item-name">{item.Food_Name}</div>
-        <div className="new-item-price">{item.Price?.toFixed(2)} ฿</div>
-      </Link>
-    );
-  });
+  return (
+    <div className="new-arrivals-container">
+      {food.map((item) => (
+        <Link className="new-arrival-card" key={item.id} to={"/fooddetail/" + item.id}>
+          <div className="card-image-container">
+            <img src={item.URL} alt={item.Food_Name} />
+          </div>
+          <div className="card-content">
+            <div className="card-title">{item.Food_Name}</div>
+            <div className="card-price">{item.Price? item.Price.toFixed(2) : '0.00'} ฿</div>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
 };
 
 const Random = () => {
@@ -132,15 +137,13 @@ const Random = () => {
 
   if (ranFood[0] == undefined) return;
 
-  return ranFood.map((item) => {
-    return (
-      <Link className="rec-item" key={item?.id} to={"/fooddetail/" + item?.id}>
-        <img src={item?.URL} alt="" />
-        <div className="rec-item-name">{item?.Food_Name}</div>
-        <div className="rec-item-price">{item?.Price.toFixed(2)} ฿</div>
-      </Link>
-    );
-  });
+  return ranFood.map((item, index) => (
+    <Link className="rec-item" key={index} to={"/fooddetail/" + item.id}>
+      <img src={item.URL} alt={item.Food_Name || "Food item"} />
+      <div className="rec-item-name">{item.Food_Name}</div>
+      <div className="rec-item-price">{Number(item.Price).toFixed(2)} ฿</div>
+    </Link>
+  ));
 };
 
 export default Home;
