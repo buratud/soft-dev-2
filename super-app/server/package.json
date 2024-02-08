@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "main": "node main.js",
+    "main": "main.js",
     "verification": "node verification.js",
     "start": "node main.js",
     "log": "nodemon login.js",
