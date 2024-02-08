@@ -46,7 +46,7 @@ app.use(express.json());
 // const port = process.env.PORT;
 const port = config.PORT;
 const supabaseUrl = "https://nypzyitcvjrnisjdsbpk.supabase.co";
-const supabaseKey = process.env.SUPERAPP_KEY;
+const supabaseKey = process.env.SUPERBASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 app.post("/register", async (req, res) => {

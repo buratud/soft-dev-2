@@ -54,7 +54,7 @@ export default function Home() {
         })
         .then(res => {
             // alert('okka')
-            navigate("/verify");
+            navigate(`/verification?email=${formData.email}`);
         })
         .catch((err) => {
             // if (err.response && err.response.data && err.response.data.message) {
