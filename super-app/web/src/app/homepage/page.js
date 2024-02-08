@@ -1,6 +1,7 @@
 'use client'
 import Link from "next/link";
 import style from "./page.module.css";
+import Footer from "../../../components/footer/Footer";
 
 export default function Home() {
     return (
@@ -47,6 +48,9 @@ export default function Home() {
                         <p className={style.subtitle_portal}>DekHor Eats</p>
                     </div>
                 </Link>
+            </div>
+            <div>
+                <Footer/>
             </div>
         </div>
     )
