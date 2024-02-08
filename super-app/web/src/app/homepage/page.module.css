@@ -1,7 +1,7 @@
 .bg_page{
     background-color: #F6F6FB;
-    width: 100vw;
-    height: 100vh; 
+    width: 100%;
+    height: auto;
 }
 
 .navbar{
@@ -75,10 +75,13 @@
     align-items: center;
 }
 
+.container{
+    
+}
+
 .title{
-    margin-left: 150px;
     display: flex;
-    justify-content: end;
+    margin-left: 160px;
     align-items: end;
     height: 42px;
     margin-bottom: 35px;
@@ -120,6 +123,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    margin-bottom: 40px;
 }
 
 .poster_button_blog{
@@ -153,6 +157,99 @@
     line-height: normal;
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin-left: auto;
+}
+
+.poster_info_blog h1{
+    color: #000;
+    font-family: "Paytone One";
+    font-size: 42px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin:0;
+    margin-bottom: 35px;
+}
+
+.poster_info_blog p:nth-child(2){
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin: 0;
+    margin-bottom: 55px;
+}
+.poster_info_market h1{
+    color: #000;
+    font-family: "Paytone One";
+    font-size: 42px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin:0;
+    margin-bottom: 110px;
+}
+
+.ReccommendedBlogs{
+    width: 100%;
+    min-height: 100%;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    align-items: center;
+}
+
+.poster_button_blog{
+    width: 156px;
+    height: 53px;
+    border-radius: 18px;
+    background: #000;
+    color: #FFF;
+    text-align: center;
+    font-size: 1.5rem;
+    padding-bottom: 1rem;
+
+}
+
+.mainBlogs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 6rem;
+    padding-right: 6rem;
+    padding-left: 6rem;
+    min-height: 100%;
+    width: 100%;
+    font-family: Poppins;
+}
+
+.mainMarket{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 6rem;
+    padding-right: 6rem;
+    padding-left: 6rem;
+    min-height: 100%;
+    width: 100%;
+}
+
+.mainMarkettest{
+    padding: 6rem 6rem;
+}
+.slider {
+    font-family: sans-serif;
+    text-align: center;
+  }
+
+.ReccommendedProducts{
+    width: 100%;
+    min-height: 100%;
+    padding-left: 5rem;
+    padding-right: 5rem;
     align-items: center;
     margin-left: auto;
 }
