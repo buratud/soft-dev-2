@@ -88,9 +88,23 @@ api.post('/recommended-blog', async (req, res) => {
     if (err) {
       res.status(500).json(err);
     } else {
-      const randomNum1 = Math.floor(Math.random() * maximum[0].blog_id) + 1;
-      const randomNum2 = Math.floor(Math.random() * maximum[0].blog_id) + 1;
-      const randomNum3 = Math.floor(Math.random() * maximum[0].blog_id) + 1;
+      let randomNum1, randomNum2, randomNum3
+      if (maximum[0].blog_id < 3){
+        randomNum1 = Math.floor(Math.random() * maximum[0].blog_id) + 1;
+        randomNum2 = Math.floor(Math.random() * maximum[0].blog_id) + 1;
+        randomNum3 = Math.floor(Math.random() * maximum[0].blog_id) + 1;
+      } else {
+        const getRandomNumber = (max, exclude) => {
+        let randomNum;
+        do {
+          randomNum = Math.floor(Math.random() * max) + 1;
+        } while (exclude.includes(randomNum));
+          return randomNum;
+        };
+        randomNum1 = getRandomNumber(maximum[0].blog_id, []);
+        randomNum2 = getRandomNumber(maximum[0].blog_id, [randomNum1]);
+        randomNum3 = getRandomNumber(maximum[0].blog_id, [randomNum1, randomNum2]);      
+      }
 
       const { data, error } = await supabase
         .from('blog')
