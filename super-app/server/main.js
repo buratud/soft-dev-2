@@ -17,7 +17,7 @@ api.get('/', (req, res) => {
   res.send(JSON.stringify(req));
 });
 
-app.put("/login", async (req,res) => {
+api.put("/login", async (req,res) => {
   const {UsernameorEmail,password} = req.body;
   const { data, error } = await supabase.auth.signInWithPassword({
       email: UsernameorEmail,
@@ -25,15 +25,14 @@ app.put("/login", async (req,res) => {
   });
 
   if (error){
-      res.status(400).json(error);
-      // res.status(400).json({ error: error.message });
+      res.status(500).json(error);
   }
   else{
       res.status(200).json({data, message : "User logined successfully"});
   }
 });
 
-app.post("/register", async (req, res) => {
+api.post("/register", async (req, res) => {
   const {  email, username, password } = req.body;
   const { data, error } = await supabase.auth.signUp({
       email: email,
@@ -76,6 +75,33 @@ api.put('/verify-otp', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while verifying OTP' });
     }
   }
+});
+
+//-----------------------------superapp home page-----------------------------------
+
+api.post('/recommended-blog', async (req, res) => {
+  const { data: maximum, error: err } = await supabase
+    .from('blog')
+    .select('blog_id')
+    .order('blog_id', { ascending: false })
+    .limit(1);
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      const randomNum1 = Math.floor(Math.random() * maximum[0].blog_id) + 1;
+      const randomNum2 = Math.floor(Math.random() * maximum[0].blog_id) + 1;
+      const randomNum3 = Math.floor(Math.random() * maximum[0].blog_id) + 1;
+
+      const { data, error } = await supabase
+        .from('blog')
+        .select('blog_id,title,category,body,blogger,date,cover_img')
+        .in('blog_id', [randomNum1, randomNum2, randomNum3]);
+        if (error) {
+          res.status(500).json(error);
+        } else {
+          res.status(200).json(data);
+        }
+    }
 });
 
 app.listen(PORT, () => {
