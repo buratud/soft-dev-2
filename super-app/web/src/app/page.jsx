@@ -3,7 +3,9 @@ import Image from "next/image"
 import Link from "next/link"
 import styles from "./login.module.css"
 import { useState } from 'react';
+import { redirect, useRouter } from "next/navigation"; 
 import axios from 'axios';
+import {NEXT_PUBLIC_BASE_API_URL} from "../../config";
 
 
 export default function Login() {
@@ -14,6 +16,7 @@ export default function Login() {
     };
 
     const [formData, setFormData] = useState(initialFormData);
+    const router = useRouter();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -30,12 +33,12 @@ export default function Login() {
             return;
         }
         else {
-            axios.post(`${NEXT_PUBLIC_BASE_API_URL}/login`,{
+            axios.put(`${NEXT_PUBLIC_BASE_API_URL}/login`,{
                 UsernameorEmail: formData.username,
                 password: formData.password,
             })
             .then(res => {
-                navigate("/home");
+                router.push(`/home`);
             })
             .catch((err) => {
                 alert(err.response.data.message);
