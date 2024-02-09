@@ -4,12 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "main": "main.js",
-    "verification": "node verification.js",
-    "start": "node main.js",
-    "log": "nodemon login.js",
-    "reg": "nodemon register.js",
-    "test": "nodemon test.js"
+    "main": "node main.js",
+    "start": "node main.js"
   },
   "author": "",
   "license": "ISC",

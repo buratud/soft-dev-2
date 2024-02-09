@@ -6,8 +6,26 @@ import CardList from "./data.js";
 import CardProducts from "../../../components/CardProduct";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import axios from 'axios';
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../../config';
+import { useState } from 'react';
 
 export default function Home() {
+  const [data, setData] = useState([]);
+  useState(()=>{
+      axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-blog`, {
+      })
+      .then(res => {
+          console.log(res)
+          setData(res.data);
+          console(data)
+      })
+      .catch((err) => {
+          console.log(err)
+      })
+  
+      },[])
+
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -57,28 +75,28 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div style={{ marginTop: "150px", justifyContent: "space-around", width: '100%', height: '100px', display: 'flex' }}>
-                <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms'>
-                    <div className={styles.portal}>
-                        <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhordorm_portal.png" /></div>
-                        <p className={styles.subtitle_portal}>DekHor Dorms</p>
-                    </div>
-                </Link>
-                <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market'>
-                    <div className={styles.portal}>
-                        <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhormarket_portal.png" /></div>
-                        <p className={styles.subtitle_portal}>DekHor Markets</p>
-                    </div>
-                </Link>
-                <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs'>
-                    <div className={styles.portal}>
-                        <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhorblog_portal.png" /></div>
-                        <p className={styles.subtitle_portal}>DekHor Blogs</p>
-                    </div>
-                </Link>
-                
+
+        <div className={styles.portalwrap}>
+          <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/dorms'>
+            <div className={styles.portal}>
+              <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhordorm_portal.png" /></div>
+              <p className={styles.subtitle_portal}>DekHor Dorms</p>
             </div>
-      
+          </Link>
+          <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/market'>
+            <div className={styles.portal}>
+              <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhormarket_portal.png" /></div>
+              <p className={styles.subtitle_portal}>DekHor Markets</p>
+            </div>
+          </Link>
+          <Link style={{ textDecoration: 'none' }} href='https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/blogs'>
+            <div className={styles.portal}>
+              <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhorblog_portal.png" /></div>
+              <p className={styles.subtitle_portal}>DekHor Blogs</p>
+            </div>
+          </Link>
+        </div>
+
       <div className={styles.container}>
         {/* dekhor blog */}
         <div>
@@ -108,15 +126,16 @@ export default function Home() {
             <div className={styles.ReccommendedBlogs_text}>Recommended Blogs</div>
             <main className={styles.mainBlogs}>
               {/* Back-end ทำการเพิ่มข้อมูลตรงนี้ CardList_Blogs เป็น Reccommend แบบ Random*/}
-              {CardList.slice(0, 3).map((card) => (
-                <CardBlogs
-                  img={card.img}
-                  title={card.title}
-                  Blogger={card.Blogger}
-                  Categories={card.Categories}
-                  // ใช้ route แทน id ไปก่อน
-                  id={card.route}
-                />
+              {data.slice(0, 3).map((card,index) => (
+              <CardBlogs
+                key={index}
+                img={card.cover_img}
+                title={card.title}
+                Blogger={card.blogger}
+                Categories={card.category}
+                // ใช้ route แทน id ไปก่อน
+                id={card.blog_id}
+              />
               ))}
             </main>
           </div>
@@ -168,18 +187,19 @@ export default function Home() {
               </div>
             </div>
           </div>
+
           <div className={styles.ReccommendedProducts}>
             {/* slider (poohsit) */}
             <div className={styles.ReccommendedBlogs_text}>
               Recommended Products
-              {/* CARD SLIDER */}
-              <div className={styles.slider}>
-                <Carousel responsive={responsive}>
-                  {CardList.slice(0, 6).map((card) => (
-                    <div><CardProducts img={card.img} route={card.route} /></div>
-                  ))}
-                </Carousel>
-              </div>
+            </div>
+            {/* CARD SLIDER */}
+            <div className={styles.slider}>
+              <Carousel responsive={responsive}>
+                {CardList.slice(0, 6).map((card) => (
+                  <div><CardProducts img={card.img} route={card.route} /></div>
+                ))}
+              </Carousel>
             </div>
           </div>
         </div>
