@@ -19,11 +19,10 @@ import Manage from "./pages/ManageProduct";
 import GuardedRoute from "./components/GuardedRoute";
 import GuardedAdmin from "./components/GuardedAdmin";
 import Admin from "./pages/Admin";
-import Chatpage from "./pages/Chatpage";
 import { createClient } from "@supabase/supabase-js";
-import { supabaseKey, supabaseUrl } from "./config";
+import { REACT_APP_SUPABASE_ANON_KEY, REACT_APP_SUPABASE_URL } from "./config";
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_ANON_KEY);
 
 export const useSupabase = () => {
   return supabase;

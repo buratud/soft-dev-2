@@ -5,14 +5,14 @@ import "./ProductDetail.scoped.css";
 import NavBar from "../components/NavBar";
 import { PopChat } from "../components/PopChat";
 import axios from "axios";
-import { baseApiUrl } from "../config";
+import { REACT_APP_BASE_API_URL } from "../config";
 
 const FoodDetail = () => {
   const { foodid } = useParams();
   const [food, setFood] = useState({});
   useEffect(() => {
     axios
-      .post(`${baseApiUrl}/fooddetail`, {
+      .post(`${REACT_APP_BASE_API_URL}/fooddetail`, {
         foodid: foodid,
       })
       .then(({ data }) => {
