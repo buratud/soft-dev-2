@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import "./FoodDetail.scoped.css";
+import { FaUser, FaPhone, FaLine } from "react-icons/fa"; // Importing required icons
+import "./ProductDetail.scoped.css";
 import NavBar from "../components/NavBar";
 import { PopChat } from "../components/PopChat";
 import axios from "axios";
@@ -40,35 +41,35 @@ const FoodDetail = () => {
             </div>
           </div>
           {/* card right */}
+          <div className="prodinfo-container">
           <div className="product-content">
             <h2 className="product-title">
               <p>{food?.Food_Name ?? "-"}</p>
             </h2>
             <div className="product-price">
               <p className="last-price">
-                Price :{" "}{" "}{food?.Price ?? "-"} ฿
+                {" "}{" "}{food?.Price ?? "-"} ฿
               </p>
             </div>
-            <div className="product-detail">
-              <h2>About Food: </h2>
-              <p>{food?.Description ?? "-"}</p>
-              <ul>
-                <li>
-                  Category: <p>{food?.Catagory?.catagory_name ?? "-"}</p>
-                </li>
-                <li>
-                  Name:{" "}
-                  <p>
-                    {food?.User?.firstname ?? "-"} {food?.User?.lastname ?? "-"}
-                  </p>
-                </li>
-                <li>
-                  Contact: <p>{food?.User?.contact ?? "-"}</p>
-                </li>
-                <li>
-                  Line: <p>{food?.Line ?? "-"}</p>
-                </li>
-              </ul>
+            <hr className="separator-line-top"/>
+              <div className="product-detail">
+                <h2>Contact the seller: </h2>
+                <ul>
+                  <li>
+                    <FaUser /> <p> {food?.User?.firstname ?? "-"} {food?.User?.lastname ?? "-"}</p>
+                  </li>
+                  <li>
+                    <FaPhone /> <p> {food?.User?.contact ?? "-"}</p>
+                  </li>
+                  <li>
+                    <FaLine /> <p> {food?.Line ?? "-"}</p>
+                  </li>
+                </ul>
+                <hr className="separator-line-bottom"/> {/* Separator line */}
+                <h2 className="product-info-header-color">Product Info</h2>
+                <ct>Category: {food?.Catagory?.catagory_name ?? "-"}</ct>
+                <de>{food?.Description ?? "-"}</de>
+              </div>
             </div>
           </div>
         </div>

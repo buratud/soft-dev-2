@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./AddProduct.scoped.css";
 import NavBar from "../components/NavBar";
-import { PopChat } from "../components/PopChat";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AuthContext, useSupabase } from "../App";
@@ -17,12 +16,12 @@ const AddProduct = () => {
   const { user } = useContext(AuthContext);
   const handleAddProduct = (event) => {
     event.preventDefault();
-    const cata = event.target[2].value;
+    const cata = event.target[3].value;
     if (foodid === undefined) {
       axios
         .post(`${REACT_APP_BASE_API_URL}/addproduct`, {
-          name: event.target[0].value,
-          price: event.target[1].value,
+          name: event.target[1].value,
+          price: event.target[2].value,
           catagory_id: cata,
           id: user.id,
           description: event.target[5].value,
@@ -39,8 +38,8 @@ const AddProduct = () => {
     } else {
       axios
         .post(`${REACT_APP_BASE_API_URL}/manageproduct`, {
-          name: event.target[0].value,
-          price: event.target[1].value,
+          name: event.target[1].value,
+          price: event.target[2].value,
           catagory_id: cata,
           id: user.id,
           description: event.target[5].value,
@@ -80,8 +79,16 @@ const AddProduct = () => {
         .getPublicUrl(filename + ".png");
       setFile(data.publicUrl);
       setIsUploading(false);
-    }
-  };
+  
+      // Display image preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById("image-preview").src = e.target.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    } document.getElementById("image-preview").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png?20200912122019";
+  };  
+
   if (foodid !== undefined)
     useEffect(() => {
       axios
@@ -103,47 +110,62 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="container">
+    <div onSubmit={handleAddProduct} className="container">
       <NavBar />
-      {/* <PopChat messages={[]} /> */}
-      <h1>Product</h1>
-      <form onSubmit={handleAddProduct} className="form-box">
-        <label htmlFor="productname">Food Name</label>
-        <input type="text" defaultValue={food?.Food_Name ?? ""} />
-        <label htmlFor="productprice">Price</label>
-        <input type="text" defaultValue={food?.Price ?? ""} />
-        <label htmlFor="category">Category</label>
-        <select
-          name="category"
-          id="category"
-          select
-          property="status"
-          value={food?.Catagory_Id ?? "1"}
-          onChange={changeCatagory}
-          styleClass="form-control"
-        >
-          <option value="1">Thai-Food</option>
-          <option value="2">Japan-Food</option>
-          <option value="3">Korean-Food</option>
-          <option value="4">Italian-Food</option>
-          <option value="5">Drinks</option>
-          <option value="6">Sweets and Desserts</option>
-        </select>
-        <label htmlFor="productimage">Image</label>
-        <input onChange={upload_File} type="file" />
-        <label htmlFor="productprice">Line</label>
-        <input type="text" defaultValue={food?.Line ?? ""} />
-        <label htmlFor="productdescription">Description</label>
-        <textarea
-          name=""
-          id=""
-          cols="70"
-          rows="7"
-          defaultValue={food?.Description ?? ""}
-        />
-        <button disabled={isUploading} type="submit" className="send-button">
-          Done
-        </button>
+      <h1>Add/Edit your product</h1>
+      <form>
+        <div className="box">
+          <div className="form-box-left">
+            {/*image uploader*/}
+            <input onChange={upload_File} type="file" />
+            <img
+              id="image-preview"
+              src=""
+              alt="Preview"
+              style={{ maxWidth: "200px", maxHeight: "200px" }}
+            />
+          </div>
+          <div className="form-box-right">
+            <label htmlFor="productname">Food Name</label>
+            <input type="text" defaultValue={food?.Food_Name ?? ""} />
+            <label htmlFor="productprice">Price</label>
+            <input type="text" defaultValue={food?.Price ?? ""} />
+            <label htmlFor="category">Category</label>
+            <select
+              name="category"
+              id="category"
+              select
+              property="status"
+              value={food?.Catagory_Id ?? "1"}
+              onChange={changeCatagory}
+              styleClass="form-control"
+            >
+              <option value="1">Thai-Food</option>
+              <option value="2">Japan-Food</option>
+              <option value="3">Korean-Food</option>
+              <option value="4">Italian-Food</option>
+              <option value="5">Drinks</option>
+              <option value="6">Sweets and Desserts</option>
+            </select>
+            <label htmlFor="line">Line</label>
+            <input type="text" defaultValue={food?.Line ?? ""} />
+          </div>
+        </div>
+        <div className="description">
+          <textarea
+            name="description"
+            placeholder="Enter your description here..."
+            className="center-textarea"
+            cols="100"
+            rows="7"
+            defaultValue={food?.Description ?? ""}
+          />
+        </div>
+        <div className="send-button">
+          <button disabled={isUploading} type="submit" className="send-button">
+            Done
+          </button>
+        </div>
       </form>
     </div>
   );
