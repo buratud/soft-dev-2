@@ -46,7 +46,6 @@ export default function Home() {
 
         console.log('Submitted Data:', formData);
 
-        // ทำสิ่งที่คุณต้องการทำหลังจาก Submit ที่นี่
         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/register`, {
             email: formData.email,
             username: formData.username,
@@ -56,17 +55,7 @@ export default function Home() {
                 navigate("/verify");
             })
             .catch((err) => {
-                // if (err.response && err.response.data && err.response.data.message) {
-                //     alert(err.response.data.message);
-                // } else {
-                //     alert("An error occurred during login.");
-                // }
-                // if (err.response.message === "User already registered") {
-                //     alert("Internal Server Error (500). Please don't submit too frequently.");
-                //     // alert("Internal Server Error (500). Please don't submit too frequently.");
-                // } else {
-                alert(err);
-                // }
+                alert(err.response.data.message);
             })
 
         setFormData(initialFormData);

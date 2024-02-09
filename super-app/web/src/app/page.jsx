@@ -4,7 +4,7 @@ import Link from "next/link"
 import styles from "./login.module.css"
 import { useState } from 'react';
 import axios from 'axios';
-import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from "../../config";
+
 
 export default function Login() {
 
@@ -30,7 +30,7 @@ export default function Login() {
             return;
         }
         else {
-            axios.post(NEXT_PUBLIC_BASE_API_URL + "/login",{
+            axios.post(`${NEXT_PUBLIC_BASE_API_URL}/login`,{
                 UsernameorEmail: formData.username,
                 password: formData.password,
             })
@@ -38,8 +38,7 @@ export default function Login() {
                 navigate("/home");
             })
             .catch((err) => {
-                console.error('Error:', err);
-                alert(err.message);
+                alert(err.response.data.message);
             })
         }
     }
@@ -52,16 +51,16 @@ export default function Login() {
 
             <div className={styles.Loginnavbar}>
                 <div className={styles.navimage}>
-                    <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/Dekhorlogo.png`} width={85} height={85} alt="logo"/>
+                    <Image src="/Dekhorlogo.png" width={85} height={85} alt="logo"/>
                 </div>
             </div>
             <div className={styles.Logincontainer}>
                 <div className={styles.Loginframe}>
-                    <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/Dekhorlogo.png`} width={150} height={150} alt="logo"/>
+                    <Image src="/Dekhorlogo.png" width={150} height={150} alt="logo"/>
                     <h1 className={styles.Loginfont}>Sign In with DekHor ID</h1>
                     <div className={styles.Loginform}>
                         <div className={styles.inputicon}>
-                            <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/usericon.png`} width={16} height={18} alt="user"/> 
+                            <Image src="/usericon.png" width={16} height={18} alt="user"/> 
                         </div>  
                         <div>| </div>
                         <input  className={styles.Loginblock}
@@ -76,7 +75,7 @@ export default function Login() {
                     </div>
                     <div className={styles.Loginform}>
                         <div className={styles.inputicon}>
-                            <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/pwicon.png`} width={16} height={15} alt="pw"/> 
+                            <Image src="/pwicon.png" width={16} height={15} alt="pw"/> 
                         </div> 
                         <div>| </div>
                         <input  className={styles.Loginblock}
