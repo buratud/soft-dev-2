@@ -109,9 +109,11 @@ const Manage = () => {
                                 to={"/addproduct/" + foodItem.id}
                               >
                                 <FiEdit />
+                                <span>Edit</span>
                               </Link>
                               <button type="submit" className="delete-product">
                                 <FiTrash />
+                                <span>Delete</span>
                               </button>
                             </div>
                           </form>

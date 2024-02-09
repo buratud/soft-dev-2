@@ -15,7 +15,7 @@
 
 h1{
     text-align: center;
-    padding-top: 3rem;
+    padding-top: 4rem;
     padding-bottom: 2rem;
     color: #092f88;
     font-weight: 600;
@@ -44,14 +44,12 @@ h1{
 }
 
 .add-product:hover{
-    background-color: #00821e;
-    transition: 0.5s;
-    transform: scale(1.1); 
+    background-color: #00821e; 
 }
 
 .edit-table td {
-    width: 33.33%; /* Set equal width for each table cell */
-    padding: 10px; /* Add padding for spacing */
+    width: 1/3; /* Set equal width for each table cell */
+    padding: 2rem; /* Add padding for spacing */
   }
 
   .edit-table {
@@ -85,13 +83,6 @@ h1{
 .edit-box-left img {
     width: 110%; /* Set a fixed width for the image */
     height: auto; /* Allow the height to adjust proportionally */
-}
-
-  
-.edit-box-left:hover{
-    background-color: #ccc;
-    transition: 0.5s;
-    transform: scale(1.1); 
 }
 
 .edit-box-right{
@@ -148,18 +139,60 @@ h1{
 }
 
 .edit-product:hover{
-    background-color: #3249ba;
-    transition: 0.5s;
-    transform: scale(1.1); 
+    background-color: #3249ba; 
 }
 
 .delete-product:hover{
     background-color: #f14242;
-    transition: 0.5s;
-    transform: scale(1.1); 
 }
+
+/* For all buttons */
+.edit-product,
+.delete-product,
+.add-product {
+  transition: all 0.3s ease; /* Apply transition for smooth effect */
+}
+
+.edit-product:hover,
+.delete-product:hover,
+.add-product:hover {
+  transform: scale(1.1); /* Scale the button by 10% on hover */
+}
+
 
 .delete-product img{
     width: 2rem;
     margin-left: 1rem;
 }
+
+span {
+    margin-left: 0.7rem;
+  }
+
+  /* For screens smaller than 768px */
+@media screen and (max-width: 1017px) {
+    .edit-table td {
+      width: 100%; /* Set full width for each table cell */
+      display: block; /* Display each cell as a block */
+      margin-bottom: 20px; /* Add margin between items */
+    }
+  }
+  
+  /* For screens between 768px and 1024px */
+  @media screen and (min-width: 1017px) and (max-width: 1517px) {
+    .edit-table td {
+      width: 50%; /* Set half width for each table cell */
+      display: inline-block; /* Display each cell as an inline-block */
+      margin-bottom: 20px; /* Add margin between items */
+    }
+  }
+  
+  /* For screens larger than 1024px */
+  @media screen and (min-width: 1517px) {
+    .edit-table td {
+      width: 33.33%; /* Set one-third width for each table cell */
+      display: table-cell; /* Display each cell as a table-cell */
+      vertical-align: top; /* Align cells to the top */
+    }
+  }
+  
