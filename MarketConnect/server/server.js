@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
-const port = process.env.PORT || 5200;
+const port = process.env.PORT || 5000;
 
 app.get('/testget', (req, res) => {
   res.status(200).json({ message: 'Hello from server!' });
@@ -27,7 +27,7 @@ app.post("/testpost", (req, res) => {
 
 app.post("/search", async (req, res) => {
   const { searchTerm } = req.body;
-  const { data, error } = await supabase.from("Food").select("id, Food_Name, Price, URL");
+  const { data, error } = await supabase.from("MarketConnect_Food").select("id, Food_Name, Price, URL");
   const result = search(searchTerm, data);
   // console.log(result)
   
@@ -54,7 +54,7 @@ app.post("/register", async (req, res) => {
 
 app.post("/sendsupport", async (req, res) => {
   const { email, message, status, contact } = req.body;
-  const { data, error } = await supabase.from("Support").insert({
+  const { data, error } = await supabase.from("MarketConnect_Support").insert({
     Sender: email,
     Status: status,
     Problem: message,
@@ -70,7 +70,7 @@ app.post("/sendsupport", async (req, res) => {
 app.post("/getsupport", async (req, res) => {
   const { email } = req.body;
   const { data, error } = await supabase
-    .from("Support")
+    .from("MarketConnect_Support")
     .select("Problem,Status,id")
     .eq("Sender", email);
   if (error) {
@@ -82,7 +82,7 @@ app.post("/getsupport", async (req, res) => {
 
 app.post("/adminsupport", async (req, res) => {
   const { data, error } = await supabase
-    .from("Support")
+    .from("MarketConnect_Support")
     .select("Problem,Status,id,Sender,Contact");
   if (error) {
     res.status(400).json(error);
@@ -94,7 +94,7 @@ app.post("/adminsupport", async (req, res) => {
 app.post("/changestatus", async (req, res) => {
   const { status, id } = req.body;
   const { data, error } = await supabase
-    .from("Support")
+    .from("MarketConnect_Support")
     .update({ Status: status })
     .eq("id", id);
   if (error) {
@@ -107,7 +107,7 @@ app.post("/changestatus", async (req, res) => {
 app.post("/unsendsupport", async (req, res) => {
   const { id } = req.body;
   const { data, error } = await supabase
-    .from("Support")
+    .from("MarketConnect_Support")
     .delete()
     .eq("id", id);
   if (error) {
@@ -120,7 +120,7 @@ app.post("/unsendsupport", async (req, res) => {
 app.post("/fooddetail", async (req, res) => {
   const { foodid } = req.body;
   const { data, error } = await supabase
-    .from("Food")
+    .from("MarketConnect_Food")
     .select(
       "Food_Name, Price, Description, URL,Line,Catagory_Id, User(firstname,lastname,contact), Catagory(catagory_name)"
     )
@@ -134,7 +134,7 @@ app.post("/fooddetail", async (req, res) => {
 
 app.post("/food", async (req, res) => {
   const { data, error } = await supabase
-    .from("Food")
+    .from("MarketConnect_Food")
     .select("id, Food_Name, Price,URL");
   if (error) {
     res.status(400).json(error);
@@ -160,7 +160,7 @@ app.post("/getAdmin", async (req, res) => {
 app.post("/yourfood", async (req, res) => {
   const { user } = req.body;
   const { data, error } = await supabase
-    .from("Food")
+    .from("MarketConnect_Food")
     .select("id, Food_Name, Price, URL")
     .eq("Shopkeeper_Id", user);
   if (error) {
@@ -172,7 +172,7 @@ app.post("/yourfood", async (req, res) => {
 
 app.post("/new", async (req, res) => {
   const { data, error } = await supabase
-    .from("Food")
+    .from("MarketConnect_Food")
     .select("id, Food_Name, Price, URL")
     .order("created_at", { ascending: false })
     .limit(4);
@@ -184,7 +184,7 @@ app.post("/new", async (req, res) => {
 });
 
 app.post("/pro", async (req, res) => {
-  const { data, error } = await supabase.from("Promotion").select(" URL");
+  const { data, error } = await supabase.from("MarketConnect_Promotion").select(" URL");
   if (error) {
     res.status(400).json(error);
   } else {
@@ -240,7 +240,7 @@ app.post("/save", async (req, res) => {
 app.post("/delete", async (req, res) => {
   const { food } = req.body;
   const { data, error } = await supabase
-    .from("Food")
+    .from("MarketConnect_Food")
     .delete()
     .eq("id", food);
   if (error) {
@@ -252,7 +252,7 @@ app.post("/delete", async (req, res) => {
 
 app.post("/addproduct", async (req, res) => {
   const { name, price, catagory_id, id, description, picture, line } = req.body;
-  const { data, error } = await supabase.from("Food").insert({
+  const { data, error } = await supabase.from("MarketConnect_Food").insert({
     Food_Name: name,
     Catagory_Id: catagory_id,
     Price: price,
@@ -285,7 +285,7 @@ app.post("/manageproduct", async (req, res) => {
     line,
   } = req.body;
   const { data, error } = await supabase
-    .from("Food")
+    .from("MarketConnect_Food")
     .update({
       Food_Name: name,
       Catagory_Id: catagory_id,

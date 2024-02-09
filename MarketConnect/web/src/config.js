@@ -5,7 +5,7 @@ export const REACT_APP_BASE_WEB_PATH = process.env.REACT_APP_BASE_WEB_PATH || '/
 export const REACT_APP_SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
 export const REACT_APP_SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
 export const REACT_APP_BASE_WEB_URL = `${BASE_DOMAIN_WITH_PROTOCOL}${REACT_APP_BASE_WEB_PATH}`;
-export const REACT_APP_BASE_API_URL = `${BASE_DOMAIN_WITH_PROTOCOL}${REACT_APP_BASE_SERVER_PATH}`;
+export const REACT_APP_BASE_API_URL = 'http://localhost:5000';//`${BASE_DOMAIN_WITH_PROTOCOL}${REACT_APP_BASE_SERVER_PATH}`;
 
 //อันเก่าโว้ย
 // export const baseApiUrl = 'http://localhost:5200';
