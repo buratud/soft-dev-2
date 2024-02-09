@@ -15,7 +15,7 @@ import Food from "./pages/Food";
 import FoodDetail from "./pages/ProductDetail";
 import AddProduct from "./pages/AddProduct";
 import Verify from "./pages/Verify";
-import Manage from "./pages/Manage";
+import Manage from "./pages/ManageProduct";
 import GuardedRoute from "./components/GuardedRoute";
 import GuardedAdmin from "./components/GuardedAdmin";
 import Admin from "./pages/Admin";

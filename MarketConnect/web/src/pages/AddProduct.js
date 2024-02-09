@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./AddProduct.scoped.css";
 import NavBar from "../components/NavBar";
-import { PopChat } from "../components/PopChat";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AuthContext, useSupabase } from "../App";
@@ -10,44 +9,56 @@ import { baseApiUrl } from "../config";
 const AddProduct = () => {
   const { foodid } = useParams();
   const [file, setFile] = useState("");
-  const [food, setFood] = useState({
-    Food_Name: "",
-    Price: "",
-    Catagory_Id: "",
-    Description: "",
-    Line: "",
-  });
+  const [food, setFood] = useState({});
   const [isUploading, setIsUploading] = useState(false);
   const supabase = useSupabase();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-
   const handleAddProduct = (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    formData.append("picture", file); // Append file to form data
-    const cata = formData.get("category");
-    const requestData = Object.fromEntries(formData);
-    requestData.id = user.id;
-
-    const url =
-      foodid === undefined
-        ? `${baseApiUrl}/addproduct`
-        : `${baseApiUrl}/manageproduct`;
-    axios
-      .post(url, requestData)
-      .then((res) => {
-        alert(
-          foodid === undefined ? "Add food success." : "Manage food success."
-        );
-        navigate("/manage");
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    const cata = event.target[3].value;
+    if (foodid === undefined) {
+      axios
+        .post(`${baseApiUrl}/addproduct`, {
+          name: event.target[1].value,
+          price: event.target[2].value,
+          catagory_id: cata,
+          id: user.id,
+          description: event.target[5].value,
+          picture: file,
+          line: event.target[4].value,
+        })
+        .then((res) => {
+          alert("Add food success.");
+          navigate("/manage");
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    } else {
+      axios
+        .post(`${baseApiUrl}/manageproduct`, {
+          name: event.target[1].value,
+          price: event.target[2].value,
+          catagory_id: cata,
+          id: user.id,
+          description: event.target[5].value,
+          picture: file,
+          line: event.target[4].value,
+          food: foodid,
+        })
+        .then((res) => {
+          alert("Manage food success.");
+          navigate("/manage");
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
   };
 
   const upload_File = async (event) => {
+    // console.log(event.target.files[0]);
     if (event.target.files[0] !== undefined) {
       setIsUploading(true);
       const filename = Math.random()
@@ -63,7 +74,7 @@ const AddProduct = () => {
         setIsUploading(false);
         return alert(error);
       }
-      const { data } = await supabase.storage
+      const { data } = supabase.storage
         .from("Picture_Food")
         .getPublicUrl(filename + ".png");
       setFile(data.publicUrl);
@@ -78,19 +89,21 @@ const AddProduct = () => {
     } document.getElementById("image-preview").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png?20200912122019";
   };  
 
-  useEffect(() => {
-    if (foodid !== undefined) {
+  if (foodid !== undefined)
+    useEffect(() => {
       axios
-        .post(`${baseApiUrl}/fooddetail`, { foodid })
+        .post(`${baseApiUrl}/fooddetail`, {
+          foodid: foodid,
+        })
         .then(({ data }) => {
           setFood(data[0]);
           setFile(data[0].URL);
+          console.log(file);
         })
         .catch((err) => {
           alert(err);
         });
-    }
-  }, [foodid]);
+    }, []);
 
   const changeCatagory = (e) => {
     setFood({ ...food, Catagory_Id: e.target.value });
@@ -114,24 +127,18 @@ const AddProduct = () => {
           </div>
           <div className="form-box-right">
             <label htmlFor="productname">Food Name</label>
-            <input
-              type="text"
-              name="name"
-              value={food.Food_Name}
-              onChange={(e) => setFood({ ...food, Food_Name: e.target.value })}
-            />
+            <input type="text" defaultValue={food?.Food_Name ?? ""} />
             <label htmlFor="productprice">Price</label>
-            <input
-              type="text"
-              name="price"
-              value={food.Price}
-              onChange={(e) => setFood({ ...food, Price: e.target.value })}
-            />
+            <input type="text" defaultValue={food?.Price ?? ""} />
             <label htmlFor="category">Category</label>
             <select
               name="category"
-              value={food.Catagory_Id}
+              id="category"
+              select
+              property="status"
+              value={food?.Catagory_Id ?? "1"}
               onChange={changeCatagory}
+              styleClass="form-control"
             >
               <option value="1">Thai-Food</option>
               <option value="2">Japan-Food</option>
@@ -141,12 +148,7 @@ const AddProduct = () => {
               <option value="6">Sweets and Desserts</option>
             </select>
             <label htmlFor="line">Line</label>
-            <input
-              type="text"
-              name="line"
-              value={food.Line}
-              onChange={(e) => setFood({ ...food, Line: e.target.value })}
-            />
+            <input type="text" defaultValue={food?.Line ?? ""} />
           </div>
         </div>
         <div className="description">
@@ -156,8 +158,7 @@ const AddProduct = () => {
             className="center-textarea"
             cols="100"
             rows="7"
-            value={food.Description}
-            onChange={(e) => setFood({ ...food, Description: e.target.value })}
+            defaultValue={food?.Description ?? ""}
           />
         </div>
         <div className="send-button">

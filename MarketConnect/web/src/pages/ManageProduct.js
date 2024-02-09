@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./Manage.scoped.css";
+import "./ManageProduct.scoped.css";
 import NavBar from "../components/NavBar";
 import { PopChat } from "../components/PopChat";
 import { AuthContext } from "../App";
@@ -131,7 +131,7 @@ const Manage = () => {
   return (
     <div className="container">
       <NavBar />
-      <h1>Manage</h1>
+      <h1>Manage your product</h1>
       <div className="add-box">
         <Link to="/addproduct" className="add-product">
           Add Product

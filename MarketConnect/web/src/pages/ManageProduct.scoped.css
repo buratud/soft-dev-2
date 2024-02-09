@@ -15,7 +15,7 @@
 
 h1{
     text-align: center;
-    padding-top: 4rem;
+    padding-top: 3rem;
     padding-bottom: 2rem;
     color: #092f88;
     font-weight: 600;
@@ -31,7 +31,8 @@ h1{
 
 .add-product{
     padding: 1rem;
-    margin: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
     border-radius: 1rem;
     background-color: #006016;
     font-family: 'Poppins', sans-serif;
