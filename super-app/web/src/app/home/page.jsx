@@ -31,14 +31,14 @@ export default function Home() {
       axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-blog`, {
       })
       .then(res => {
-          console.log(res)
           setData(res.data)
+          console.log('this',res.data)
       })
       .catch((err) => {
           console.log(err)
       })
   
-      },[])
+  },[])
 
   const responsive = {
     superLargeDesktop: {
