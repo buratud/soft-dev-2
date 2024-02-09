@@ -17,8 +17,7 @@ export default function Home() {
       })
       .then(res => {
           console.log(res)
-          setData(res.data);
-          console(data)
+          setData(res.data)
       })
       .catch((err) => {
           console.log(err)
@@ -131,7 +130,7 @@ export default function Home() {
                 key={index}
                 img={card.cover_img}
                 title={card.title}
-                Blogger={card.blogger}
+                Blogger={card.blogger.username}
                 Categories={card.category}
                 // ใช้ route แทน id ไปก่อน
                 id={card.blog_id}
