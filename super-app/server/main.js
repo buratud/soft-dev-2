@@ -94,6 +94,32 @@ api.post('/recommended-blog', async (req, res) => {
   }
 })
 
+api.post('/recommended-product', async (req,res) => {
+  try {
+    const { data, error } = await supabase.from('product').select('*');
+    const MaxRecommended = req.body.MaxRecommended || 3;
+
+    if (error) {
+      throw error;
+    }else{
+      const randomProduct = (Count) => {
+        let newData = [];
+        for(let i=0; i < Count ; i++){
+          let randomNumber = Math.floor(Math.random() * data.length);
+          newData[i] = data[randomNumber];
+          data.splice(randomNumber,1);
+        }
+        return newData;
+      }
+      res.status(200).json(randomProduct(MaxRecommended));
+    }
+
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });

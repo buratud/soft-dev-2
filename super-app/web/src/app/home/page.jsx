@@ -11,6 +11,21 @@ import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../../co
 import { useState } from 'react';
 
 export default function Home() {
+  const [RecDataProduct, setRecDataProduct] = useState([]);
+  useState(()=>{
+    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-product`, {
+      "MaxRecommended":3
+    })
+    .then(res => {
+      //console.log(res)
+      setRecDataProduct(res.data);
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  },[])
+
   const [data, setData] = useState([]);
   useState(()=>{
       axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-blog`, {
@@ -195,8 +210,8 @@ export default function Home() {
             {/* CARD SLIDER */}
             <div className={styles.slider}>
               <Carousel responsive={responsive}>
-                {CardList.slice(0, 6).map((card) => (
-                  <div><CardProducts img={card.img} route={card.route} /></div>
+                {RecDataProduct.slice(0, 6).map((card) => (
+                  <div><CardProducts img={card.product_image} route={card.product_id} /></div>
                 ))}
               </Carousel>
             </div>
