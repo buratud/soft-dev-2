@@ -25,6 +25,21 @@ export default function Home() {
       console.log(err)
     })
   },[])
+
+  const [data, setData] = useState([]);
+  useState(()=>{
+      axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-blog`, {
+      })
+      .then(res => {
+          console.log(res)
+          setData(res.data)
+      })
+      .catch((err) => {
+          console.log(err)
+      })
+  
+      },[])
+
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -125,15 +140,16 @@ export default function Home() {
             <div className={styles.ReccommendedBlogs_text}>Recommended Blogs</div>
             <main className={styles.mainBlogs}>
               {/* Back-end ทำการเพิ่มข้อมูลตรงนี้ CardList_Blogs เป็น Reccommend แบบ Random*/}
-              {CardList.slice(0, 3).map((card) => (
-                <CardBlogs
-                  img={card.img}
-                  title={card.title}
-                  Blogger={card.Blogger}
-                  Categories={card.Categories}
-                  // ใช้ route แทน id ไปก่อน
-                  id={card.route}
-                />
+              {data.slice(0, 3).map((card,index) => (
+              <CardBlogs
+                key={index}
+                img={card.cover_img}
+                title={card.title}
+                Blogger={card.blogger.username}
+                Categories={card.category}
+                // ใช้ route แทน id ไปก่อน
+                id={card.blog_id}
+              />
               ))}
             </main>
           </div>

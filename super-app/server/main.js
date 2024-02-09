@@ -28,8 +28,7 @@ api.put("/login", async (req,res) => {
   });
 
   if (error){
-      res.status(400).json(error);
-      // res.status(400).json({ error: error.message });
+      res.status(500).json(error);
   }
   else{
       res.status(200).json({data, message : "User logined successfully"});
@@ -81,6 +80,20 @@ api.put('/verify-otp', async (req, res) => {
   }
 });
 
+//-----------------------------superapp home page-----------------------------------
+
+api.post('/recommended-blog', async (req, res) => {
+  const { data, error } = await supabase
+  .from('randomblog') 
+  .select('blog_id,title,category,body,blogger,date,cover_img')
+  // .limit(3);
+  if (error) {
+      res.status(200).json(error);
+  } else {
+      res.status(200).json(data);
+  }
+})
+
 api.post('/recommended-product', async (req,res) => {
   try {
     const { data, error } = await supabase.from('product').select('*');
@@ -105,6 +118,7 @@ api.post('/recommended-product', async (req,res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
