@@ -8,25 +8,23 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import axios from 'axios';
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../../config';
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function Home() {
   const [data, setData] = useState([]);
   useState(()=>{
-    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-blog`, {
-    // axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-blog`, {
-    })
-    .then(res => {
-        console.log(res)
-        setData(res.data);
-        console(data)
-    })
-    .catch((err) => {
-        console.log(err)
-        // alert(err.response.data.message);
-    })
-
-    },[])
+      axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-blog`, {
+      })
+      .then(res => {
+          console.log(res)
+          setData(res.data);
+          console(data)
+      })
+      .catch((err) => {
+          console.log(err)
+      })
+  
+      },[])
 
   const responsive = {
     superLargeDesktop: {
