@@ -6,8 +6,25 @@ import CardList from "./data.js";
 import CardProducts from "../../../components/CardProduct";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import axios from 'axios';
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../../config';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+  const [RecDataProduct, setRecDataProduct] = useState([]);
+  useState(()=>{
+    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-product`, {
+      "MaxRecommended":3
+    })
+    .then(res => {
+      //console.log(res)
+      setRecDataProduct(res.data);
+      console.log(RecDataProduct);
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  },[])
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.

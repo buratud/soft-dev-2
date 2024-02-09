@@ -84,7 +84,7 @@ api.put('/verify-otp', async (req, res) => {
 api.post('/recommended-product', async (req,res) => {
   try {
     const { data, error } = await supabase.from('product').select('*');
-    const MaxRecommended = 3;
+    const MaxRecommended = req.body.MaxRecommended || 3;
 
     if (error) {
       throw error;
