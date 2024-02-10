@@ -61,7 +61,6 @@ api.put("/register", async (req, res) => {
   if (errors) {
       res.status(200).json(errors);
   } else {
-    console.log('okkkkk',users.length, username) 
     if (users.length === 0) {
       const { data, error } = await supabase.auth.signUp({
           email: email,
@@ -76,7 +75,6 @@ api.put("/register", async (req, res) => {
       if (error) {
           res.status(200).json(error);
       } else {
-          console.log('ddf;',username,email,data.user.id)
           const { insert_username, err } = await supabase
           .from('users')
           .upsert([
@@ -95,21 +93,6 @@ api.put("/register", async (req, res) => {
     }
   }
 });
-
-api.put("/test", async (req, res) => {
-    const { insert_username, err } = await supabase
-    .from('users')
-    .upsert([
-      { id: '65221676-9f04-43de-8d49-8f21d4829185', username: '27csc54' , email: 'dfdsdf'},
-    ], { onConflict: ['username'] })
-    .select()
-
-    if (err) {
-        res.status(200).json(err);
-    } else {
-        res.status(200).json({ message: "User go to verify page" });
-    }
-})
 
 api.put('/verify-otp', async (req, res) => {
   try {
