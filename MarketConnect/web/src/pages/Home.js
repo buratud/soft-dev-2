@@ -21,10 +21,7 @@ const Home = () => {
             <NewArrivals />
         </section>
         <section id="rec-box">
-          <h1>RANDOM FOOD</h1>
-          <div className="rec-box-grid">
             <Random />
-          </div>
         </section>
       </main>
     </div>
@@ -83,7 +80,6 @@ const PromotionItems = () => {
   );
 };
 
-
 const NewArrivals = () => {
   const [food, setFood] = useState([]);
   useEffect(() => {
@@ -117,33 +113,47 @@ const NewArrivals = () => {
 const Random = () => {
   const [ranFood, setRanFood] = useState([]);
 
+  // Function to fetch random food items
+  const fetchRandomFood = async () => {
+    try {
+      const res = await axios.post(`${baseApiUrl}/food`);
+      const food = res.data;
+      const randomFood = [];
+      for (let i = 0; i < 8; i++) {
+        var randomIndex = Math.floor(Math.random() * food.length);
+        randomFood.push(food[randomIndex]);
+        food.splice(randomIndex, 1); 
+      }
+      setRanFood(randomFood);
+    } catch (err) {
+      console.error(err);
+      alert('An error occurred while fetching food items');
+    }
+  };
+
   useEffect(() => {
-    axios
-      .post(`${baseApiUrl}/food`)
-      .then((res) => {
-        const food = res.data;
-        const randomFood = [];
-        for (let i = 0; i < 6; i++) {
-          var random = Math.floor(Math.random() * food.length);
-          randomFood[i] = food[random];
-          food.splice(random, 1);
-        }
-        setRanFood(randomFood);
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    fetchRandomFood();
   }, []);
 
-  if (ranFood[0] == undefined) return;
+  if (!ranFood.length) return null;
 
-  return ranFood.map((item, index) => (
-    <Link className="rec-item" key={index} to={"/fooddetail/" + item.id}>
-      <img src={item.URL} alt={item.Food_Name || "Food item"} />
-      <div className="rec-item-name">{item.Food_Name}</div>
-      <div className="rec-item-price">{Number(item.Price).toFixed(2)} ฿</div>
-    </Link>
-  ));
+  return (
+    <>
+      <div className="title-with-button">
+        <h1>RANDOM FOOD</h1>
+        <button onClick={fetchRandomFood} className="refresh-button">Refresh</button>
+      </div>
+      <div className="rec-box-grid">
+        {ranFood.map((item, index) => (
+          <Link className="rec-item" key={index} to={`/fooddetail/${item.id}`}>
+            <img src={item.URL} alt={item.Food_Name || 'Food item'} />
+            <div className="rec-item-name">{item.Food_Name}</div>
+            <div className="rec-item-price">{Number(item.Price).toFixed(2)} ฿</div>
+          </Link>
+        ))}
+      </div>
+    </>
+  );
 };
 
 export default Home;
