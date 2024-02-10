@@ -7,7 +7,7 @@ const DeleteConfirmPopup = ({ onCancel, onDelete }) => {
       <div className="popup">
         <p>Confirm Delete?</p>
         <div className="popup-buttons">
-          <button className="cancel-button" onClick={onCancel}>Cancle</button>
+          <button className="cancel-button" onClick={onCancel}>Cancel</button>
           <button className="delete-button" onClick={onDelete}>Delete</button>
         </div>
       </div>
