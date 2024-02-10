@@ -47,7 +47,6 @@
     color: white;
     padding-left: 1rem;
     padding-right: 1rem;
-    /* scale: 1.2rem; */
     transition: .3s ease;
     
 }
@@ -137,7 +136,6 @@
 .rightside button{
     background: none;
     border: solid 3px white;
-    box-shadow: 0px 0px 5px 0px rgba(64, 64, 64, 0.25);
     border-radius: 35px;
     overflow: hidden;
     align-items: center;
