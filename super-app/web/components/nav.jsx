@@ -45,7 +45,7 @@ export default function NavBar() {
                     {isOpen_1 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href={`/blogs`}>Main</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs`}>Main</a>
                             </span>
                         </div>
                         <div>
