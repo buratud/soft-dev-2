@@ -123,7 +123,7 @@ export default function Home() {
               <div className={styles.poster_info_blog}>
                 <h1>Start Your Blog Today!</h1>
                 <p>Share tips and tricks from your DekHor experience!</p>
-                <Link href={`/blogs/writeblog`} style={{ textDecoration: 'none' }}>
+                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/writeblog`} style={{ textDecoration: 'none' }}>
                   <div className={styles.poster_button_blog}>
                     <p style={{ marginRight: '10px' }}>Blogging</p>
                     <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/arrow_right.png`} style={{ width: '29px', height: '21px' }} />
@@ -167,7 +167,7 @@ export default function Home() {
                 Verified Reviews <br />
                 Affordable Prices
               </p>
-              <Link href={`/dorms`} style={{ textDecoration: 'none' }}>
+              <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`} style={{ textDecoration: 'none' }}>
                 <div className={styles.poster_button_discover}>
                   <p style={{ marginRight: '10px' }}>Discover More</p>
                   <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/arrow_right.png`} style={{ width: '29px', height: '21px' }} />

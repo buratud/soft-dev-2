@@ -62,7 +62,7 @@ export default function NavBar() {
                                     </div>
                                     <div>
                                         <span>
-                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/decoration`}>Decorations</a>
+                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/decorations`}>Decorations</a>
                                         </span>
                                     </div>
                                     <div>
@@ -144,7 +144,7 @@ export default function NavBar() {
                         </div>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets/addproduct`}>Add Product</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>Add Product</a>
                             </span>
                         </div>
                     </div>}
