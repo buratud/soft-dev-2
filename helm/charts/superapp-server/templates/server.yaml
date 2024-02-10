@@ -23,3 +23,14 @@ spec:
               value: {{ include "global.rootPath" . | quote }}
             - name: BASE_SERVER_PATH
               value: {{ include "superapp-server.rootPath" . | quote }}
+            - name: SUPABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-credential
+                  key: SUPABASE_URL
+            - name: SUPABASE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-credential
+                  key: SUPABASE_KEY
+
