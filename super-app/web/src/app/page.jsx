@@ -9,6 +9,7 @@ import "react-multi-carousel/lib/styles.css";
 import axios from 'axios';
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../config';
 import { useState } from 'react';
+import NavBar from "../../components/nav";
 
 export default function Home() {
   const [RecDataProduct, setRecDataProduct] = useState([]);
@@ -61,10 +62,11 @@ export default function Home() {
   };
   return (
     <div className={styles.bg_page}>
-      <div className={styles.navbar}>
+      <NavBar/>
+      {/* <div className={styles.navbar}>
         <img style={{ marginLeft: "53px" }} src="image/DekHor-icon.png" />
         <img style={{ marginRight: "53px" }} src="image/user-icon.png" />
-      </div>
+      </div> */}
       <div className={styles.place_holder}>
         <img style={{ width: "100%" }} src="image/place_holder.png" />
       </div>

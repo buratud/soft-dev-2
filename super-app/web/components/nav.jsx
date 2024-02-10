@@ -2,29 +2,29 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import styles from './nav.module.css'
-import { BsBoxArrowLeft } from "react-icons/bs"
 import { NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
-export default function Home() {
+
+export default function NavBar() {
 
     const [isOpen_1, setIsOpen_1] = useState(false);
     const [isOpen_2, setIsOpen_2] = useState(false);
     const [isOpen_3, setIsOpen_3] = useState(false);
-    const [isOpen_4, setIsOpen_4] = useState(false);
     const [isOpen_Profile, setIsOpen_Profile] = useState(false);
     const [isOpen_Categories, setIsOpen_Categories] = useState(false);
-    const [isOpen_CategoriesEat, setIsOpen_CategoriesEat] = useState(false);
+
+    const isLoggedIn = false;
+    
 
     return (
         <main className={styles.main}>
             <div className={styles.leftside}>
                 <div className={styles.logo}>
-                    <a href="/">
-                        <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} height={70} width={80} />
+                    <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}`}>
+                        <Image alt="logo" src="/images/logo.png" height={70} width={80} />
                     </a>
                 </div>
             </div>
             <div className={styles.middle} >
-
 
                 <div>{/* dropdown 1 */}
                     <button className={styles.dropdown}
@@ -32,16 +32,18 @@ export default function Home() {
                             setIsOpen_1((prev) => !prev);
                             setIsOpen_2(false);
                             setIsOpen_3(false);
-                            setIsOpen_4(false);
                             setIsOpen_Profile(false);
                             setIsOpen_Categories(false);
-                        }}>Blogs
+                        }}>
+                        <div className={styles.dropdown_text}>
+                            Blogs
+                        </div>
                         {!isOpen_1 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
                     {isOpen_1 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href="/">Main</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs`}>Main</a>
                             </span>
                         </div>
                         <div>
@@ -53,17 +55,17 @@ export default function Home() {
                                 <div className={styles.subdropdownContent}>
                                     <div>
                                         <span>
-                                            <a href="/">Cleaning</a>
+                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/cleaning`}>Cleaning</a>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <a href="/">Decorations</a>
+                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/decorations`}>Decorations</a>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <a href="/">Story's DekHor</a>
+                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/story`}>Story's DekHor</a>
                                         </span>
                                     </div>
                                 </div>
@@ -71,130 +73,76 @@ export default function Home() {
                         </div>
                         <div>
                             <span>
-                                <a href="/">Blogging</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/writeblog`}>Blogging</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href="/">Blogger</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/blogger`}>Blogger</a>
                             </span>
                         </div>
                     </div>}
                 </div>
-
 
                 <div> {/* dropdown 2 */}
                     <button className={styles.dropdown}
                         onClick={() => {
                             setIsOpen_2((prev) => !prev);
                             setIsOpen_3(false);
-                            setIsOpen_4(false);
                             setIsOpen_1(false);
                             setIsOpen_Profile(false);
-                        }}>Dorms
+                        }}>
+                        <div className={styles.dropdown_text}>
+                            Dorms
+                        </div>
                         {!isOpen_2 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
                     {isOpen_2 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href="/">Main</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>Main</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href="/">All Dorms</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>All Dorms</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href="/">Add Dorm</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>Add Dorm</a>
                             </span>
                         </div>
                     </div>}
                 </div>
-
-
-
-
 
                 <div>{/* dropdown 3 */}
                     <button className={styles.dropdown}
                         onClick={() => {
                             setIsOpen_3((prev) => !prev);
-                            setIsOpen_4(false);
                             setIsOpen_2(false);
                             setIsOpen_1(false);
                             setIsOpen_Profile(false);
-                            setIsOpen_CategoriesEat(false);
-                        }}>Eats
+                        }}>
+                        <div className={styles.dropdown_text}>
+                            Markets
+                        </div>
                         {!isOpen_3 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
                     {isOpen_3 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href="/">Main</a>
-                            </span>
-                        </div>
-                        <div>
-                            <button className={styles.subdropdown} onClick={() => setIsOpen_CategoriesEat((prev) => !prev)}>
-                                <span>Categories</span>
-                                {!isOpen_CategoriesEat ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}
-                            </button>
-                            {isOpen_CategoriesEat && (
-                                <div className={styles.subdropdownContent}>
-                                    <div>
-                                        <span>
-                                            <a href="/">Foods</a>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span>
-                                            <a href="/">Desserts</a>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span>
-                                            <a href="/">Drinks</a>
-                                        </span>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                        <div>
-                            <span>
-                                <a href="/">Add Recipe</a>
-                            </span>
-                        </div>
-                    </div>}
-                </div>
-
-
-
-                <div>{/* dropdown 4 */}
-                    <button className={styles.dropdown}
-                        onClick={() => {
-                            setIsOpen_4((prev) => !prev);
-                            setIsOpen_3(false);
-                            setIsOpen_2(false);
-                            setIsOpen_1(false);
-                            setIsOpen_Profile(false);
-                        }}>Markets
-                        {!isOpen_4 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
-
-                    {isOpen_4 && <div className={styles.dropdownContent}>
-                        <div>
-                            <span>
-                                <a href="/">Main</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>Main</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href="/">All Products</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>All Products</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href="/">Add Product</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>Add Product</a>
                             </span>
                         </div>
                     </div>}
@@ -203,34 +151,51 @@ export default function Home() {
             </div>
 
             <div className={styles.rightside}>
-                {/* dropdown Profile */}
-                <button
-                    onClick={() => {
-                        setIsOpen_Profile((prev) => !prev);
-                        setIsOpen_4(false);
-                        setIsOpen_3(false);
-                        setIsOpen_2(false);
-                        setIsOpen_1(false);
-                    }}>
-                    <div><img alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} className={styles.ProfileImage} /></div>
-                </button>
+                {isLoggedIn ? (
+                    <button
+                        onClick={() => {
+                            setIsOpen_Profile((prev) => !prev);
+                            setIsOpen_3(false);
+                            setIsOpen_2(false);
+                            setIsOpen_1(false);
+                        }}>
+                        <div><img alt="Profile" src="/images/PersonCircle.svg" className={styles.ProfileImage} /></div>
+                    </button>
+                ) : (
+                    <>
+                        <div className={styles.btn}>
+                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/register`}>
+                                <button className={styles.signup_btn} >
+                                    Sign up
+                                </button>
+                            </a>
+                        </div>
+                        <div>
+                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/login`}>
+                                <button className={styles.login_btn} >
+                                    Login
+                                </button>
+                            </a>
+                        </div>
+                    </>
+                )}
 
                 {isOpen_Profile && <div className={styles.dropdownContentProfile}>
                     <div>
-                        <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
+                        <Image alt="Profile" src="/images/PersonCircle.svg" height={30} width={30} />
                         <span>
-                            <a href="/">My Profile</a>
+                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/profile`}>My Profile</a>
                         </span>
                     </div>
                     <div>
-                        <Image alt="Support" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`} height={30} width={30} />
+                        <Image alt="Support" src="/images/support.png" height={30} width={30} />
                         <span>
-                            <a href="/">Support</a>
+                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/support`}>Support</a>
                         </span>
                     </div>
                     <div>
-                        <BsBoxArrowLeft size={25} className={styles.logout} />
-                        <span className={styles.logout}><a href="/">Log out</a></span>
+                        <Image alt="logout" src="/images/BoxArrowLeft.svg" height={30} width={30} className={styles.logout} />
+                        <span className={styles.logout}><a href={`${NEXT_PUBLIC_BASE_WEB_PATH}`}>Log out</a></span>
                     </div>
                 </div>}
             </div>
