@@ -1,11 +1,2 @@
-const BASE_DOMAIN_WITH_PROTOCOL = process.env.BASE_DOMAIN_WITH_PROTOCOL;
-const BASE_SERVER_PATH = process.env.BASE_SERVER_PATH || '/api/markets';
-// const BASE_SERVER_PATH = process.env.REACT_APP_BASE_SERVER_PATH || 'http://localhost:5000'; // Use for local development only
-const BASE_WEB_PATH = process.env.BASE_WEB_PATH || '/markets';
-exports.PORT = process.env.PORT || 5000;
-exports.BASE_API_URL = BASE_SERVER_PATH;
-exports.SUPABASE_KEY = process.env.SUPABASE_KEY;
-exports.SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
-exports.SUPABASE_URL = process.env.SUPABASE_URL;
-exports.BASE_SERVER_PATH = BASE_SERVER_PATH;
-exports.BASE_DOMAIN_WITH_PROTOCOL = BASE_DOMAIN_WITH_PROTOCOL;
+module.exports.supabaseUrl = process.env.SUPABASE_URL;
+module.exports.supabaseKey = process.env.SUPABASE_KEY;

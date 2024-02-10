@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { REACT_APP_BASE_API_URL } from "../config";
 
 const GetTable = () => {
   return (
@@ -14,7 +13,7 @@ const DataShow = () => {
   var [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get(`${REACT_APP_BASE_API_URL}`).then((res) => {
+    axios.get("http://localhost:3200").then((res) => {
       console.log(res);
       setData(res);
     });

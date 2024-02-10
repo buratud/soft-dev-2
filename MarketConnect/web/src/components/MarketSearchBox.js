@@ -3,7 +3,7 @@ import axios from 'axios';
 import { BsCart4 } from "react-icons/bs";
 import { RiLoader4Line } from "react-icons/ri";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
-import { REACT_APP_BASE_API_URL } from "../config";
+import { REACT_APP_BASE_API_URL, REACT_APP_BASE_WEB_URL } from "../config";
 import "./MarketSearchBox.scoped.css";
 
 export default function MarketSearchBox() {
@@ -137,7 +137,7 @@ export default function MarketSearchBox() {
                     </div>
                 )}
                 {!loading && results.response.map(result => (
-                <a href={`${REACT_APP_BASE_API_URL}/fooddetail/${result.id}`} key={result.id} style={{ textDecoration: 'none' }}>
+                <a href={`${REACT_APP_BASE_WEB_URL}/fooddetail/${result.id}`} key={result.id} style={{ textDecoration: 'none' }}>
                     <div className="search_result_item">
                         <div className="search_result_item_title">{result.Food_Name}</div>
                         <div className="search_result_item_price">{result.Price} ฿</div>

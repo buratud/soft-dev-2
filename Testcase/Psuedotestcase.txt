@@ -1,1 +1,2 @@
 Psuedotastcase for class pacipitation , Actual test case is set when Front-end / Back-end Framework is design and test tool is selected
+Wait for backend foundation then can test
