@@ -38,7 +38,7 @@ export default function Login() {
                 password: formData.password,
             })
             .then(res => {
-                router.push(`/home`);
+                router.push(`/`);
             })
             .catch((err) => {
                 alert(err.response.data.message);

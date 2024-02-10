@@ -31,7 +31,9 @@ api.put("/login", async (req,res) => {
       res.status(500).json(error);
   }
   else{
-      res.status(200).json({data, message : "User logined successfully"});
+    const User = await supabase.auth.getUser();
+    await supabase.auth.setSession({data: {session: User}});
+    res.status(200).json({data, message : "User logined successfully"});
   }
 });
 
@@ -50,6 +52,8 @@ api.post("/register", async (req, res) => {
   if (error) {
       res.status(500).json(error);
   } else {
+      const User = await supabase.auth.getUser();
+      await supabase.auth.setSession({data: {session: User}});
       res.status(200).json({ message: "User go to verify page" });
   }
 });
@@ -57,7 +61,6 @@ api.post("/register", async (req, res) => {
 api.put('/verify-otp', async (req, res) => {
   try {
     const {email,otp} = req.body;
-  
     const { error } = await supabase.auth.verifyOtp({
       email,
       token: otp,
@@ -102,6 +105,9 @@ api.post('/recommended-product', async (req,res) => {
   try {
     const { data, error } = await supabase.from('product').select('*');
     const MaxRecommended = req.body.MaxRecommended || 3;
+
+    const {data: {session}} = await supabase.auth.getSession();
+    const user = session.user;
 
     if (error) {
       throw error;
