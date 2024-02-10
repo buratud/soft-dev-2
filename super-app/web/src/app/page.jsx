@@ -143,7 +143,7 @@ export default function Home() {
                 key={index}
                 img={card.cover_img}
                 title={card.title}
-                Blogger={card.blogger.username}
+                Blogger={card.blogger}
                 Categories={card.category}
                 // ใช้ route แทน id ไปก่อน
                 id={card.blog_id}
