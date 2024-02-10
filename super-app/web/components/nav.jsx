@@ -57,17 +57,17 @@ export default function NavBar() {
                                 <div className={styles.subdropdownContent}>
                                     <div>
                                         <span>
-                                            <a href={`/blogs/cleaning`}>Cleaning</a>
+                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/cleaning`}>Cleaning</a>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <a href={`/blogs/decoration`}>Decorations</a>
+                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/decoration`}>Decorations</a>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <a href={`/blogs/story`}>Story's DekHor</a>
+                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/story`}>Story's DekHor</a>
                                         </span>
                                     </div>
                                 </div>
@@ -75,12 +75,12 @@ export default function NavBar() {
                         </div>
                         <div>
                             <span>
-                                <a href={`/blogs/writeblog`}>Blogging</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/writeblog`}>Blogging</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`/blogs/blogger`}>Blogger</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/blogger`}>Blogger</a>
                             </span>
                         </div>
                     </div>}
@@ -102,17 +102,17 @@ export default function NavBar() {
                     {isOpen_2 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href={`/dorms`}>Main</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>Main</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`/dorms`}>All Dorms</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>All Dorms</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`/dorms`}>Add Dorm</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>Add Dorm</a>
                             </span>
                         </div>
                     </div>}
@@ -134,17 +134,17 @@ export default function NavBar() {
                     {isOpen_3 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href={`/markets`}>Main</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>Main</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`/markets`}>All Products</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>All Products</a>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`/markets/addproduct`}>Add Product</a>
+                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets/addproduct`}>Add Product</a>
                             </span>
                         </div>
                     </div>}
@@ -166,14 +166,14 @@ export default function NavBar() {
                 ) : (
                     <>
                         <div className={styles.btn}>
-                            <a href={`/register`}>
+                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/register`}>
                                 <button className={styles.signup_btn} >
                                     Sign up
                                 </button>
                             </a>
                         </div>
                         <div>
-                            <a href={`/login`}>
+                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/login`}>
                                 <button className={styles.login_btn} >
                                     Login
                                 </button>
@@ -186,13 +186,13 @@ export default function NavBar() {
                     <div>
                         <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
                         <span>
-                            <a href={`/profile`}>My Profile</a>
+                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/profile`}>My Profile</a>
                         </span>
                     </div>
                     <div>
                         <Image alt="Support" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`} height={30} width={30} />
                         <span>
-                            <a href={`/support`}>Support</a>
+                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/support`}>Support</a>
                         </span>
                     </div>
                     <div>
