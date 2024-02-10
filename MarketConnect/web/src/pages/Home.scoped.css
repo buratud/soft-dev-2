@@ -171,12 +171,8 @@ img.carousel-image {
     align-items: center;
     width: 100%;
     padding: 0 1rem;
+    margin-bottom: 0.2rem;
 }
-
-.title-with-button h1 {
-    padding-left: 7rem;
-}
-
 .rec-box-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
@@ -218,24 +214,16 @@ img.carousel-image {
 }
 
 .refresh-button {
-    background-color: #4CAF50;
-    color: white; 
-    padding: 10px 20px;
+    margin-top: 10px;
+    width: 5%;
+    color: black; 
+    background-color: #F6F6FB;
     border: none;
-    border-radius: 10px;
     cursor: pointer;
-    font-size: 1rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s;
+    font-size: 2rem;
     font-family: poppins, sans-serif;  
-    margin-left: 2rem; 
-    margin-top: 0.5rem;
 }
-  
-.refresh-button:hover {
-    background-color: #45a049;
-    transition: background-color 0.3s;
-}
+
 ::-webkit-scrollbar {
     width: 12px;
     height: 12px;

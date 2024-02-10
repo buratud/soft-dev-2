@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { baseApiUrl } from "../config";
+import { IoReloadOutline } from "react-icons/io5";
 
 const Home = () => {
   return (
@@ -141,7 +142,7 @@ const Random = () => {
     <>
       <div className="title-with-button">
         <h1>RANDOM FOOD</h1>
-        <button onClick={fetchRandomFood} className="refresh-button">Refresh</button>
+        <IoReloadOutline onClick={fetchRandomFood} className="refresh-button"/>
       </div>
       <div className="rec-box-grid">
         {ranFood.map((item, index) => (
