@@ -6,6 +6,8 @@ import { NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
 
 export default function NavBar() {
 
+    // NavBar ยังไม่ได้เชื่อม
+
     const [isOpen_1, setIsOpen_1] = useState(false);
     const [isOpen_2, setIsOpen_2] = useState(false);
     const [isOpen_3, setIsOpen_3] = useState(false);
