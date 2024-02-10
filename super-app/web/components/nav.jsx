@@ -22,7 +22,7 @@ export default function NavBar() {
             <div className={styles.leftside}>
                 <div className={styles.logo}>
                     <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}`}>
-                        <Image alt="logo" src="/images/logo.png" height={70} width={80} />
+                        <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} height={70} width={80} />
                     </a>
                 </div>
             </div>
@@ -161,7 +161,7 @@ export default function NavBar() {
                             setIsOpen_2(false);
                             setIsOpen_1(false);
                         }}>
-                        <div><img alt="Profile" src="/images/PersonCircle.svg" className={styles.ProfileImage} /></div>
+                        <div><img alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`}  className={styles.ProfileImage} /></div>
                     </button>
                 ) : (
                     <>
@@ -184,19 +184,19 @@ export default function NavBar() {
 
                 {isOpen_Profile && <div className={styles.dropdownContentProfile}>
                     <div>
-                        <Image alt="Profile" src="/images/PersonCircle.svg" height={30} width={30} />
+                        <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
                         <span>
                             <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/profile`}>My Profile</a>
                         </span>
                     </div>
                     <div>
-                        <Image alt="Support" src="/images/support.png" height={30} width={30} />
+                        <Image alt="Support" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`} height={30} width={30} />
                         <span>
                             <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/support`}>Support</a>
                         </span>
                     </div>
                     <div>
-                        <Image alt="logout" src="/images/BoxArrowLeft.svg" height={30} width={30} className={styles.logout} />
+                        <Image alt="logout" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/BoxArrowLeft.svg`} height={30} width={30} className={styles.logout} />
                         <span className={styles.logout}><a href={`${NEXT_PUBLIC_BASE_WEB_PATH}`}>Log out</a></span>
                     </div>
                 </div>}

@@ -63,12 +63,8 @@ export default function Home() {
   return (
     <div className={styles.bg_page}>
       <NavBar/>
-      {/* <div className={styles.navbar}>
-        <img style={{ marginLeft: "53px" }} src="image/DekHor-icon.png" />
-        <img style={{ marginRight: "53px" }} src="image/user-icon.png" />
-      </div> */}
       <div className={styles.place_holder}>
-        <img style={{ width: "100%" }} src="image/place_holder.png" />
+        <img style={{ width: "100%" }} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/place_holder.png`} />
       </div>
       <div className={styles.search_bar_area}>
         <div className={styles.search_bar}>
@@ -78,7 +74,7 @@ export default function Home() {
             placeholder="Search..."
           ></input>
           <div style={{ position: "absolute", display: "flex" }}>
-            <img style={{ marginLeft: "21px" }} src="image/search-icon.png" />
+            <img style={{ marginLeft: "21px" }} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/search-icon.png`} />
             <div
               style={{
                 width: "2px",
@@ -95,19 +91,19 @@ export default function Home() {
         <div className={styles.portalwrap}>
           <Link style={{ textDecoration: 'none' }} href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>
             <div className={styles.portal}>
-              <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhordorm_portal.png" /></div>
+              <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhordorm_portal.png`} /></div>
               <p className={styles.subtitle_portal}>DekHor Dorms</p>
             </div>
           </Link>
           <Link style={{ textDecoration: 'none' }} href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>
             <div className={styles.portal}>
-              <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhormarket_portal.png" /></div>
+              <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhormarket_portal.png`} /></div>
               <p className={styles.subtitle_portal}>DekHor Markets</p>
             </div>
           </Link>
           <Link style={{ textDecoration: 'none' }} href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs`}>
             <div className={styles.portal}>
-              <div className={styles.icon}><img className={styles.bg_portal} src="image/dekhorblog_portal.png" /></div>
+              <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhorblog_portal.png`} /></div>
               <p className={styles.subtitle_portal}>DekHor Blogs</p>
             </div>
           </Link>
@@ -130,11 +126,11 @@ export default function Home() {
                 <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/writeblog`} style={{ textDecoration: 'none' }}>
                   <div className={styles.poster_button_blog}>
                     <p style={{ marginRight: '10px' }}>Blogging</p>
-                    <img src="image/arrow_right.png" style={{ width: '29px', height: '21px' }} />
+                    <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/arrow_right.png`} style={{ width: '29px', height: '21px' }} />
                   </div>
                 </Link>
               </div>
-              <img src="image/poster_img.png" />
+              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
             </div>
           </div>
           <div className={styles.ReccommendedBlogs}>
@@ -164,7 +160,7 @@ export default function Home() {
             <div style={{ width: '80vw', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
           </div>
           <div className={styles.blog_poster}>
-            <img src="image/poster_img.png" />
+            <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`}/>
             <div className={styles.poster_info_blog}>
               <h1>Find Your Dorms in Your Way!</h1>
               <p>Friendly Interfacebr <br />
@@ -174,7 +170,7 @@ export default function Home() {
               <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`} style={{ textDecoration: 'none' }}>
                 <div className={styles.poster_button_discover}>
                   <p style={{ marginRight: '10px' }}>Discover More</p>
-                  <img src="image/arrow_right.png" style={{ width: '29px', height: '21px' }} />
+                  <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/arrow_right.png`} style={{ width: '29px', height: '21px' }} />
                 </div>
               </Link>
             </div>
@@ -190,14 +186,14 @@ export default function Home() {
             </div>
             <div className={styles.blog_poster}>
               {/* discover (krit) */}
-              <img src="image/poster_img.png" />
+              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
               <div className={styles.poster_info_market}>
                 <h1>Find the stuffs you need
                   <br />with Dekhor Markets!</h1>
                 <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`} style={{ textDecoration: 'none' }}>
                   <div className={styles.poster_button_discover}>
                     <p style={{ marginRight: '10px' }}>Discover More</p>
-                    <img src="image/arrow_right.png" style={{ width: '29px', height: '21px' }} />
+                    <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/arrow_right.png`} style={{ width: '29px', height: '21px' }} />
                   </div>
                 </Link>
               </div>
