@@ -4,6 +4,8 @@ import { useRouter,useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 import axios from 'axios';
 import {NEXT_PUBLIC_BASE_WEB_PATH,NEXT_PUBLIC_BASE_API_URL} from "../../../config";
+import { Suspense } from 'react';
+
 const Verify = () => {
   const router = useRouter();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -120,5 +122,10 @@ const Verify = () => {
   );
 };
 
-export default Verify;
-
+export default function VerifyPage() {
+  return (
+    <Suspense>
+      <Verify />
+    </Suspense>
+  )
+}
