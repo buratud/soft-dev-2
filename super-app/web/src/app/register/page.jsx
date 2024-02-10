@@ -135,7 +135,7 @@ export default function Home() {
                     </div>
                     <account>
                         <span>
-                            Already have an account? <Link href="/">Sign In.</Link>
+                            Already have an account? <Link href="/login">Sign In.</Link>
                         </span>
                     </account>
                 </div>
