@@ -5,7 +5,7 @@ import styles from "./login.module.css"
 import { useState } from 'react';
 import { redirect, useRouter } from "next/navigation"; 
 import axios from 'axios';
-import {NEXT_PUBLIC_BASE_API_URL} from "../../../config.js";
+import {NEXT_PUBLIC_BASE_WEB_PATH} from "../../../config.js";
 
 
 export default function Login() {
