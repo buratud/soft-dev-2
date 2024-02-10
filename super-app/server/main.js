@@ -22,12 +22,27 @@ api.get('/', (req, res) => {
 
 api.put("/login", async (req,res) => {
   const {UsernameorEmail,password} = req.body;
+
+  let for_login
+
+  let { data: users, errors } = await supabase
+  .from('users')
+  .select("*")
+  .eq('username', UsernameorEmail) 
+
+  if (users.length === 0) {
+      for_login = UsernameorEmail
+  }
+  else {
+      for_login = users[0].email
+  }
+
   const { data, error } = await supabase.auth.signInWithPassword({
-      email: UsernameorEmail,
+      email: for_login,
       password: password,
   });
 
-  if (error){
+  if (errors){
       res.status(500).json(error);
   }
   else{
@@ -35,24 +50,66 @@ api.put("/login", async (req,res) => {
   }
 });
 
-api.post("/register", async (req, res) => {
+api.put("/register", async (req, res) => {
   const {  email, username, password } = req.body;
-  const { data, error } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-      options: {
-          data: {
-              username: username,
+
+  let { data: users, errors } = await supabase
+  .from('users')
+  .select("*")
+  .eq('username', username) 
+
+  if (errors) {
+      res.status(200).json(errors);
+  } else {
+    console.log('okkkkk',users.length, username) 
+    if (users.length === 0) {
+      const { data, error } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+              data: {
+                  username: username,
+              }
+          }
+      });
+
+      if (error) {
+          res.status(200).json(error);
+      } else {
+          console.log('ddf;',username,email,data.user.id)
+          const { insert_username, err } = await supabase
+          .from('users')
+          .upsert([
+            { id: data.user.id, username: username , email: email},
+          ], { onConflict: ['email'] })
+          .select()
+
+          if (err) {
+              res.status(200).json(err);
+          } else {
+              res.status(200).json({ message: "User go to verify page" });
           }
       }
-  });
-
-  if (error) {
-      res.status(500).json(error);
-  } else {
-      res.status(200).json({ message: "User go to verify page" });
+    } else {
+      res.status(200).json({message : 'This username already used'});
+    }
   }
 });
+
+api.put("/test", async (req, res) => {
+    const { insert_username, err } = await supabase
+    .from('users')
+    .upsert([
+      { id: '65221676-9f04-43de-8d49-8f21d4829185', username: '27csc54' , email: 'dfdsdf'},
+    ], { onConflict: ['username'] })
+    .select()
+
+    if (err) {
+        res.status(200).json(err);
+    } else {
+        res.status(200).json({ message: "User go to verify page" });
+    }
+})
 
 api.put('/verify-otp', async (req, res) => {
   try {

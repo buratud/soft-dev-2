@@ -5,7 +5,7 @@ import styles from "./login.module.css"
 import { useState } from 'react';
 import { redirect, useRouter } from "next/navigation"; 
 import axios from 'axios';
-import {NEXT_PUBLIC_BASE_API_URL} from "../../../config.js";
+import {NEXT_PUBLIC_BASE_API_URL,NEXT_PUBLIC_BASE_WEB_URL} from "../../../config.js";
 
 
 export default function Login() {
@@ -38,7 +38,7 @@ export default function Login() {
                 password: formData.password,
             })
             .then(res => {
-                router.push(`/home`);
+                router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
             })
             .catch((err) => {
                 alert(err.response.data.message);
@@ -67,8 +67,8 @@ export default function Login() {
                         </div>  
                         <div>| </div>
                         <input  className={styles.Loginblock}
-                                placeholder="Email"
-                                // placeholder="Email or Username"
+                                // placeholder="Email"
+                                placeholder="Email or Username"
                                 type="text" 
                                 name="username"
                                 value={formData.username}
