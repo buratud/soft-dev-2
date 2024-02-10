@@ -95,7 +95,7 @@ export default function Login() {
                 <div className={styles.signuplabel}>
                     <label>Don't have an account?</label>
                     <div>
-                        <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/register`} className={styles.signuplink}>Sign Up.</Link>  
+                        <Link href={`/register`} className={styles.signuplink}>Sign Up.</Link>  
                     </div>
                 </div>
             </div>    
