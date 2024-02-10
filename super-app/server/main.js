@@ -83,76 +83,46 @@ api.put('/verify-otp', async (req, res) => {
 //-----------------------------superapp home page-----------------------------------
 
 api.post('/recommended-blog', async (req, res) => {
-  const { data, error } = await supabase
-  .from('randomblog') 
-  .select('blog_id,title,category,body,blogger,date,cover_img')
-  // .limit(3);
-  if (error) {
-      res.status(200).json(error);
-  } else {
-      res.status(200).json(data);
+  try {
+    const { data, error } = await supabase
+    .from('randomblog') 
+    .select('blog_id,title,category,body,blogger,date,cover_img')
+    // .limit(3);
+    if (error) {
+        throw error;
+    } else {
+        res.status(200).json(data);
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 })
 
+api.post('/recommended-product', async (req,res) => {
+  try {
+    const { data, error } = await supabase.from('product').select('*');
+    const MaxRecommended = req.body.MaxRecommended || 3;
 
+    if (error) {
+      throw error;
+    }else{
+      const randomProduct = (Count) => {
+        let newData = [];
+        for(let i=0; i < Count ; i++){
+          let randomNumber = Math.floor(Math.random() * data.length);
+          newData[i] = data[randomNumber];
+          data.splice(randomNumber,1);
+        }
+        return newData;
+      }
+      res.status(200).json(randomProduct(MaxRecommended));
+    }
 
-// api.post('/find_blog_id', async (req, res) => {
-//   const { data: maximum, error: err } = await supabase
-//     .from('blog')
-//     .select('blog_id')
-//     .order('blog_id', { ascending: false })
-//     .limit(1);
-//     if (err) {
-//       res.status(500).json(err);
-//       return;
-//     } else {
-//       res.status(200).json(maximum);
-//     }
-// });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
-// api.post('/recommended-blog', async (req, res) => {
-//   let { maximum } = req.body;
-//   console.log('aaaaa',maximum.data.length)
-//   let randomNum1, randomNum2, randomNum3
-//   // if (maximum.data.length === 0) {
-//   //   randomNum1 = 1;
-//   //   randomNum2 = 2;
-//   //   randomNum3 = 3;
-//   // } else {
-//     console.log(maximum.data)
-//     if (maximum.data[0].blog_id < 3){
-//       console.log('thiss')
-//       randomNum1 = Math.floor(Math.random() * maximum.data[0].blog_id) + 1;
-//       randomNum2 = Math.floor(Math.random() * maximum.data[0].blog_id) + 1;
-//       randomNum3 = Math.floor(Math.random() * maximum.data[0].blog_id) + 1;
-//     } else {
-//       const getRandomNumber = (max, exclude) => {
-//       let randomNum;
-//       do {
-//         randomNum = Math.floor(Math.random() * max) + 1;
-//       } while (exclude.includes(randomNum));
-//         return randomNum;
-//       };
-//       randomNum1 = getRandomNumber(maximum.data[0].blog_id, []);
-//       randomNum2 = getRandomNumber(maximum.data[0].blog_id, [randomNum1]);
-//       randomNum3 = getRandomNumber(maximum.data[0].blog_id, [randomNum1, randomNum2]);      
-//       }
-//   // }
-//   console.log(randomNum1,randomNum2,randomNum3)
-
-//   const { data, error } = await supabase
-//     .from('blog')
-//     // .select('blog_id,title,category,body,blogger:users(username).username as blogger,date,cover_img')
-//     .select('blog_id,title,category,body,blogger,date,cover_img')
-//     .in('blog_id', [randomNum1, randomNum2, randomNum3]);
-//     if (error) {
-//       console.log(error)
-//       res.status(500).json(error);
-//     } else {
-//       // console.log('blogger=',data)
-//       res.status(200).json(data);
-//     }
-// });
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);

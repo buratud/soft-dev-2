@@ -42,10 +42,10 @@ const Verify = () => {
     const newOtp = paste.split('');
     setOtp(newOtp);
 
-    if (newOtp.length === 6) {
+    /*if (otp.length === 6) {
       // Add a delay before submitting
-      setTimeout(sendOtp, 100);
-    }
+      setTimeout(sendOtp, 10);
+    }*/
   };
 
   const handleInputChange = (e, index) => {
@@ -66,9 +66,9 @@ const Verify = () => {
         document.getElementById(`input${index + 2}`).focus();
       }
       // If all OTP inputs are filled, add a delay before submitting
-      if (newOtp.every((num) => num.trim() !== '')) {
-        setTimeout(sendOtp, 100);
-      }
+      /*if (otp.every((num) => num.trim() !== '')) {
+        setTimeout(sendOtp, 10);
+      }*/
     } else {
       // Handle case where non-digit character is entered
       newOtp[index] = '';
