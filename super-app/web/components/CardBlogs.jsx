@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../config';
 
 const CardBlogs = (props) => {
-    const { img, title, Blogger, Categories,id } = props;
+    const { img, title, Blogger, Categories, id } = props;
     return (
         <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/${Categories}/${id}`} className={styles.link_blog}>
             <div className={styles.content}>
@@ -16,9 +16,7 @@ const CardBlogs = (props) => {
                         </div>
                         <div className={styles.destFooter}>
                             <div className={styles.destText}>
-                                <h4>
-                                    {title}
-                                </h4>
+                                {title}
                             </div>
                             <div className={styles.userwrite}>
                                 By
