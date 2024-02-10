@@ -1,0 +1,23 @@
+.main {
+    display: flex;
+    width: 100vw;
+    height: 70px;
+    top: 0;
+    left: 0;
+    z-index: 8;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+    position: sticky;
+}
+
+.main a {
+   text-decoration: none;
+   color: #000;
+}
+
+.leftside {
+    display: flex;
+    margin-left: 5vw;
+}
