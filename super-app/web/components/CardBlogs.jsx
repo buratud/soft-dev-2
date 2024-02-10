@@ -12,7 +12,7 @@ const CardBlogs = (props) => {
 
                     <div className={styles.singleDest}>
                         <div className={styles.dastImage}>
-                            <img src={img} alt="" />
+                            <img src={img} alt="" className={styles.Imagecover} />
                         </div>
                         <div className={styles.destFooter}>
                             <div className={styles.destText}>

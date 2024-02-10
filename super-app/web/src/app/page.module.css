@@ -230,8 +230,7 @@
     justify-content: space-between;
     align-items: center;
     padding-bottom: 6rem;
-    padding-right: 6rem;
-    padding-left: 6rem;
+    margin: auto;
     min-height: 100%;
     width: 100%;
     font-family: Poppins;
@@ -254,6 +253,7 @@
 }
 
 .slider {
+    margin: auto;
     font-family: sans-serif;
     text-align: center;
 }
@@ -261,7 +261,6 @@
 .ReccommendedProducts {
     width: 100%;
     min-height: 100%;
-    
     align-items: center;
     margin-left: auto;
     text-align: center;
