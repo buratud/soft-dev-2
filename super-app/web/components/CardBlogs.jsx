@@ -1,7 +1,7 @@
 'use clinet'
 import styles from "./CardBlogs.module.css";
 import Link from 'next/link';
-import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../config';
+import {NEXT_PUBLIC_BASE_WEB_PATH } from '../config';
 
 const CardBlogs = (props) => {
     const { img, title, Blogger, Categories, id } = props;
