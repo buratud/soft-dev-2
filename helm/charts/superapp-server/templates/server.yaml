@@ -16,7 +16,7 @@ spec:
         - name: superapp-server
           image: softdev2southeastasia.azurecr.io/superapp-server:{{ .Values.global.revision }}
           ports:
-            - containerPort: 3000
+            - containerPort: 5000
           env:
             {{- template "global.env" . }}
             - name: BASE_WEB_PATH
