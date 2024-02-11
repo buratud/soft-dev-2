@@ -3,16 +3,40 @@ const express = require("express");
 const cors = require("cors");
 const { decode } = require("base64-arraybuffer");
 const { createClient } = require("@supabase/supabase-js");
+const { supabaseKey, supabaseUrl } = require("./config");
+const { search } = require("./search");
 
-const supabaseUrl = "https://ooitkismzzkxarjmwdeb.supabase.co";
-const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
-const port = 3200;
+const port = process.env.PORT || 5200;
+
+app.get('/testget', (req, res) => {
+  res.status(200).json({ message: 'Hello from server!' });
+});
+
+app.post("/testpost", (req, res) => {
+  const { email, password } = req.body;
+  const data = { email: email, password: password };
+  console.log(data);
+  res.status(200).json(data);
+});
+
+app.post("/search", async (req, res) => {
+  const { searchTerm } = req.body;
+  const { data, error } = await supabase.from("Food").select("id, Food_Name, Price, URL");
+  const result = search(searchTerm, data);
+  // console.log(result)
+  
+  if (error) {
+    res.status(400).json(error);
+  } else {
+    res.status(200).json(result);
+  }
+});
 
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
@@ -20,7 +44,7 @@ app.post("/register", async (req, res) => {
     email: email,
     password: password,
   });
-  // console.log(data);
+  console.log(data);
   if (error) {
     res.status(400).json(error);
   } else {
@@ -237,9 +261,14 @@ app.post("/addproduct", async (req, res) => {
     URL: picture,
     Line: line,
   });
+  console.log("req: " + req);
+  console.log("data: " + data);
   if (error) {
+    console.log("error: " + error);
+    console.log("res1: " + res);
     res.status(400).json(error);
   } else {
+    console.log("res2: " + res);
     res.status(200).json(data);
   }
 });

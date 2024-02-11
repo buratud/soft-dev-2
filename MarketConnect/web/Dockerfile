@@ -1,0 +1,26 @@
+FROM node:20.11.0-alpine AS build
+
+WORKDIR /app
+
+ARG BASE_DOMAIN_WITH_PROTOCOL
+ENV REACT_APP_BASE_DOMAIN_WITH_PROTOCOL=${BASE_DOMAIN_WITH_PROTOCOL}
+ARG BASE_MARKET_WEB_PATH
+ENV REACT_APP_BASE_WEB_PATH=${BASE_MARKET_WEB_PATH}
+ARG BASE_MARKET_SERVER_PATH
+ENV REACT_APP_BASE_SERVER_PATH=${BASE_MARKET_SERVER_PATH}
+ARG MARKET_SUPABASE_URL
+ENV REACT_APP_SUPABASE_URL=${MARKET_SUPABASE_URL}
+ARG MARKET_SUPABASE_ANON_KEY
+ENV REACT_APP_SUPABASE_ANON_KEY=${MARKET_SUPABASE_ANON_KEY}
+
+# Separating the copy of package.json can save time on rebuilding the image if the package.json file is not changed
+COPY package.json .
+RUN npm install --omit=dev --legacy-peer-deps
+COPY . .
+RUN sed -i "s|http://localhost:3000|${BASE_DOMAIN_WITH_PROTOCOL}${BASE_MARKET_WEB_PATH}|g" package.json
+RUN npm run build
+
+FROM nginx:stable-alpine AS serve
+
+COPY --from=build /app/build /usr/share/nginx/html
+COPY default.template /etc/nginx/templates/default.conf.template

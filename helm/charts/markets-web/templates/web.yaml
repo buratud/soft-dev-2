@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: markets-web{{ include "global.appendTag" . }}
+spec:
+  selector:
+    matchLabels:
+      app: markets-web{{ include "global.appendTag" . }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: markets-web{{ include "global.appendTag" . }}
+    spec:
+      containers:
+        - name: markets-web
+          image: softdev2southeastasia.azurecr.io/markets-web:{{ .Values.global.revision }}
+          ports:
+            - containerPort: 80
+          env:
+            {{- template "global.env" . }}
+            - name: REACT_APP_BASE_WEB_PATH
+              value: {{ include "markets-web.rootPath" . | quote }}
+            - name: REACT_APP_BASE_SERVER_PATH
+              value: {{ include "markets-server.rootPath" . | quote }}
