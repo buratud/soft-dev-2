@@ -122,7 +122,7 @@ app.post("/fooddetail", async (req, res) => {
   const { data, error } = await supabase
     .from("MarketConnect_Food")
     .select(
-      "Food_Name, Price, Description, URL,Line,Catagory_Id, User(firstname,lastname,contact), MarketConnect_Category(catagory_name)"
+      "Food_Name, Price, Description, URL,Line,Catagory_Id, users(firstname,lastname,contact), MarketConnect_Category(catagory_name)"
     )
     .eq("id", foodid);
   if (error) {
