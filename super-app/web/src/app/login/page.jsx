@@ -5,7 +5,7 @@ import styles from "./login.module.css"
 import { useState } from 'react';
 import { redirect, useRouter } from "next/navigation"; 
 import axios from 'axios';
-import {NEXT_PUBLIC_BASE_WEB_PATH} from "../../../config.js";
+import {NEXT_PUBLIC_BASE_API_URL,NEXT_PUBLIC_BASE_WEB_URL,NEXT_PUBLIC_BASE_WEB_PATH} from "../../../config.js";
 
 
 export default function Login() {
@@ -27,6 +27,7 @@ export default function Login() {
     };
 
     const handleSubmit = (e) => {
+        console.log(NEXT_PUBLIC_BASE_API_URL)
         e.preventDefault();
         if (!formData.username || !formData.password) {
             alert('Login Invalid. Please make sure you filled both username and password in correctly');
@@ -38,7 +39,8 @@ export default function Login() {
                 password: formData.password,
             })
             .then(res => {
-                router.push(`{${NEXT_PUBLIC_BASE_WEB_PATH}`);
+                router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
+                // router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
             })
             .catch((err) => {
                 alert(err.response.data.message);
@@ -67,8 +69,8 @@ export default function Login() {
                         </div>  
                         <div>| </div>
                         <input  className={styles.Loginblock}
-                                placeholder="Email"
-                                // placeholder="Email or Username"
+                                // placeholder="Email"
+                                placeholder="Email or Username"
                                 type="text" 
                                 name="username"
                                 value={formData.username}

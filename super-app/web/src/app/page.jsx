@@ -89,19 +89,19 @@ export default function Home() {
       </div>
 
         <div className={styles.portalwrap}>
-          <Link style={{ textDecoration: 'none' }} href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>
+          <Link style={{ textDecoration: 'none' }} href={`/dorms`}>
             <div className={styles.portal}>
               <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhordorm_portal.png`} /></div>
               <p className={styles.subtitle_portal}>DekHor Dorms</p>
             </div>
           </Link>
-          <Link style={{ textDecoration: 'none' }} href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>
+          <Link style={{ textDecoration: 'none' }} href={`/markets`}>
             <div className={styles.portal}>
               <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhormarket_portal.png`} /></div>
               <p className={styles.subtitle_portal}>DekHor Markets</p>
             </div>
           </Link>
-          <Link style={{ textDecoration: 'none' }} href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs`}>
+          <Link style={{ textDecoration: 'none' }} href={`/blogs`}>
             <div className={styles.portal}>
               <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhorblog_portal.png`} /></div>
               <p className={styles.subtitle_portal}>DekHor Blogs</p>
@@ -123,7 +123,7 @@ export default function Home() {
               <div className={styles.poster_info_blog}>
                 <h1>Start Your Blog Today!</h1>
                 <p>Share tips and tricks from your DekHor experience!</p>
-                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/writeblog`} style={{ textDecoration: 'none' }}>
+                <Link href={`/blogs/writeblog`} style={{ textDecoration: 'none' }}>
                   <div className={styles.poster_button_blog}>
                     <p style={{ marginRight: '10px' }}>Blogging</p>
                     <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/arrow_right.png`} style={{ width: '29px', height: '21px' }} />
@@ -143,7 +143,7 @@ export default function Home() {
                 key={index}
                 img={card.cover_img}
                 title={card.title}
-                Blogger={card.blogger.username}
+                Blogger={card.blogger}
                 Categories={card.category}
                 // ใช้ route แทน id ไปก่อน
                 id={card.blog_id}
@@ -167,7 +167,7 @@ export default function Home() {
                 Verified Reviews <br />
                 Affordable Prices
               </p>
-              <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`} style={{ textDecoration: 'none' }}>
+              <Link href={`/dorms`} style={{ textDecoration: 'none' }}>
                 <div className={styles.poster_button_discover}>
                   <p style={{ marginRight: '10px' }}>Discover More</p>
                   <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/arrow_right.png`} style={{ width: '29px', height: '21px' }} />
@@ -190,7 +190,7 @@ export default function Home() {
               <div className={styles.poster_info_market}>
                 <h1>Find the stuffs you need
                   <br />with Dekhor Markets!</h1>
-                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`} style={{ textDecoration: 'none' }}>
+                <Link href={`/markets`} style={{ textDecoration: 'none' }}>
                   <div className={styles.poster_button_discover}>
                     <p style={{ marginRight: '10px' }}>Discover More</p>
                     <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/arrow_right.png`} style={{ width: '29px', height: '21px' }} />
