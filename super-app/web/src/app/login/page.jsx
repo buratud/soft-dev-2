@@ -27,6 +27,7 @@ export default function Login() {
     };
 
     const handleSubmit = (e) => {
+        console.log(NEXT_PUBLIC_BASE_API_URL)
         e.preventDefault();
         if (!formData.username || !formData.password) {
             alert('Login Invalid. Please make sure you filled both username and password in correctly');
@@ -39,6 +40,7 @@ export default function Login() {
             })
             .then(res => {
                 router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
+                // router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
             })
             .catch((err) => {
                 alert(err.response.data.message);
