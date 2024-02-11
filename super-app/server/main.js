@@ -45,7 +45,7 @@ api.put("/login", async (req,res) => {
   }
   else{
       if (data.user === null) {
-          res.status(500).json({message : "Incorrect username, email or password"});
+          res.status(400).json({message : "Incorrect username, email or password"});
       } else {
           res.status(200).json({data, message : "User logined successfully"});
       }
@@ -91,7 +91,7 @@ api.put("/register", async (req, res) => {
           }
       }
     } else {
-      res.status(500).json({message : 'This username already used'});
+      res.status(400).json({message : 'This username already used'});
     }
   }
 });
