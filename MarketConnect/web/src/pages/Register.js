@@ -52,7 +52,7 @@ const Register = () => {
               placeholder="Email"
               required
             />
-            <img src="-icon-person.svg" alt="" />
+            <img src="/-icon-person.svg" alt="" />
           </div>
           <div className="input-box">
             <input
@@ -61,7 +61,7 @@ const Register = () => {
               id="password"
               placeholder="Password"
             />
-            <img src="-icon-lock-locked.svg" alt="" />
+            <img src="/-icon-lock-locked.svg" alt="" />
           </div>
           <div className="input-box">
             <input
@@ -70,7 +70,7 @@ const Register = () => {
               id="confirm-password"
               placeholder="Confirm Password"
             />
-            <img src="-icon-lock-locked.svg" alt="" />
+            <img src="/-icon-lock-locked.svg" alt="" />
           </div>
         </div>
         <button disabled={isLoading} type="submit">

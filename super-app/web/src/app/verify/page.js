@@ -1,22 +1,41 @@
 'use client'
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; 
+import { useRouter,useSearchParams } from "next/navigation"; 
 import styles from "./page.module.css";
-import {NEXT_PUBLIC_BASE_WEB_PATH} from "../../../config";
+import axios from 'axios';
+import {NEXT_PUBLIC_BASE_WEB_PATH,NEXT_PUBLIC_BASE_API_URL} from "../../../config";
+import { Suspense } from 'react';
+
 const Verify = () => {
   const router = useRouter();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
 
   const sendOtp = () => {
     // The loading state is now set before the timeout to ensure it shows immediately
     setLoading(true);
-    
-    // Simulate an OTP send request with a timeout
-    setTimeout(() => {
-      setLoading(false); // Stop loading after the timeout
-      alert("Verify Success"); // Or handle the OTP verification response
-    }, 2000); // 2-second delay to simulate network request
+
+    axios.put(`${NEXT_PUBLIC_BASE_API_URL}/verify-otp`,
+    { 
+      email: email, 
+      otp: otp.join("") 
+    })
+    .then((res) =>{
+      const {message , error } = res.data;
+      setLoading(false);
+      if(error){
+        alert(error);
+      }
+      else{
+        alert(message);
+        router.push('/');
+      }
+    })
+    .catch((error) =>{
+      console.log(error);
+    })
   };
 
   const handlePaste = (e) => {
@@ -25,10 +44,10 @@ const Verify = () => {
     const newOtp = paste.split('');
     setOtp(newOtp);
 
-    if (newOtp.length === 6) {
+    /*if (otp.length === 6) {
       // Add a delay before submitting
-      setTimeout(sendOtp, 100);
-    }
+      setTimeout(sendOtp, 10);
+    }*/
   };
 
   const handleInputChange = (e, index) => {
@@ -49,9 +68,9 @@ const Verify = () => {
         document.getElementById(`input${index + 2}`).focus();
       }
       // If all OTP inputs are filled, add a delay before submitting
-      if (newOtp.every((num) => num.trim() !== '')) {
-        setTimeout(sendOtp, 100);
-      }
+      /*if (otp.every((num) => num.trim() !== '')) {
+        setTimeout(sendOtp, 10);
+      }*/
     } else {
       // Handle case where non-digit character is entered
       newOtp[index] = '';
@@ -103,5 +122,10 @@ const Verify = () => {
   );
 };
 
-export default Verify;
-
+export default function VerifyPage() {
+  return (
+    <Suspense>
+      <Verify />
+    </Suspense>
+  )
+}

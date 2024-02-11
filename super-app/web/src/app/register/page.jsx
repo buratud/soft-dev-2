@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react';
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import Image from 'next/image';
 import styles from './register.module.css';
 import Link from 'next/link';
@@ -46,28 +46,17 @@ export default function Home() {
 
         console.log('Submitted Data:', formData);
 
-        // ทำสิ่งที่คุณต้องการทำหลังจาก Submit ที่นี่
-        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/register`, {
+        axios.put(`${NEXT_PUBLIC_BASE_API_URL}/register`, {
             email: formData.email,
             username: formData.username,
             password: formData.password,
         })
-            .then(res => {
-                navigate("/verify");
-            })
-            .catch((err) => {
-                // if (err.response && err.response.data && err.response.data.message) {
-                //     alert(err.response.data.message);
-                // } else {
-                //     alert("An error occurred during login.");
-                // }
-                // if (err.response.message === "User already registered") {
-                //     alert("Internal Server Error (500). Please don't submit too frequently.");
-                //     // alert("Internal Server Error (500). Please don't submit too frequently.");
-                // } else {
-                alert(err);
-                // }
-            })
+        .then(res => {
+            router.push(`/verify?email=${formData.email}`)
+        })
+        .catch((err) => {
+            alert(err.response.data.message);
+        })
 
         setFormData(initialFormData);
 
@@ -146,7 +135,7 @@ export default function Home() {
                     </div>
                     <account>
                         <span>
-                            Already have an account? <Link href="/">Sign In.</Link>
+                            Already have an account? <Link href="/login">Sign In.</Link>
                         </span>
                     </account>
                 </div>
