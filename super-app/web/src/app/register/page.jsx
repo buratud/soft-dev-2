@@ -45,8 +45,8 @@ export default function Home() {
         }
 
         console.log('Submitted Data:', formData);
-
-        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/register`, {
+        console.log(NEXT_PUBLIC_BASE_API_URL);
+        axios.put(`${NEXT_PUBLIC_BASE_API_URL}/register`, {
             email: formData.email,
             username: formData.username,
             password: formData.password,

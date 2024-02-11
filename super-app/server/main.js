@@ -59,7 +59,7 @@ api.put("/register", async (req, res) => {
   .eq('username', username) 
 
   if (errors) {
-      res.status(200).json(errors);
+      res.status(500).json(errors);
   } else {
     if (users.length === 0) {
       const { data, error } = await supabase.auth.signUp({
@@ -73,7 +73,7 @@ api.put("/register", async (req, res) => {
       });
 
       if (error) {
-          res.status(200).json(error);
+          res.status(500).json(error);
       } else {
           const { insert_username, err } = await supabase
           .from('users')
@@ -83,13 +83,13 @@ api.put("/register", async (req, res) => {
           .select()
 
           if (err) {
-              res.status(200).json(err);
+              res.status(500).json(err);
           } else {
               res.status(200).json({ message: "User go to verify page" });
           }
       }
     } else {
-      res.status(200).json({message : 'This username already used'});
+      res.status(500).json({message : 'This username already used'});
     }
   }
 });
