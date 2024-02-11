@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react';
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import Image from 'next/image';
 import styles from './register.module.css';
 import Link from 'next/link';
@@ -46,17 +46,17 @@ export default function Home() {
 
         console.log('Submitted Data:', formData);
 
-        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/register`, {
+        axios.put(`${NEXT_PUBLIC_BASE_API_URL}/register`, {
             email: formData.email,
             username: formData.username,
             password: formData.password,
         })
-            .then(res => {
-                navigate("/verify");
-            })
-            .catch((err) => {
-                alert(err.response.data.message);
-            })
+        .then(res => {
+            router.push(`/verify?email=${formData.email}`)
+        })
+        .catch((err) => {
+            alert(err.response.data.message);
+        })
 
         setFormData(initialFormData);
 
@@ -135,7 +135,7 @@ export default function Home() {
                     </div>
                     <account>
                         <span>
-                            Already have an account? <Link href="/">Sign In.</Link>
+                            Already have an account? <Link href="/login">Sign In.</Link>
                         </span>
                     </account>
                 </div>
