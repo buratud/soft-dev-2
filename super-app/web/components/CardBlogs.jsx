@@ -1,11 +1,12 @@
 'use clinet'
 import styles from "./CardBlogs.module.css";
 import Link from 'next/link';
+import { NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
 
 const CardBlogs = (props) => {
     const { img, title, Blogger, Categories, id } = props;
     return (
-        <Link href={`/blogs/${Categories}/${id}`} className={styles.link_blog}>
+        <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/${Categories}/${id}`} className={styles.link_blog}>
             <div className={styles.content}>
                 <div className={styles.main_content}>
 
