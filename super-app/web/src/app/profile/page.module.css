@@ -1,0 +1,119 @@
+.profile_page{
+    background-color:#F6F6FB ;
+    width: 100%;
+    height: 100%;
+}
+
+.container{
+    margin-left: 70px;
+    margin-right: 70px;
+}
+
+.profile{
+    font-family: Poppins;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding: 10px;
+    margin: auto;
+    display: flex;
+    background-color: black;
+    color: white;
+    width: 260px;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    margin-top: 80px;
+    margin-bottom: 20px;
+}
+
+.user{
+    display: flex;
+    margin-bottom: 80px;
+}
+
+.user_img{
+    width: 350px;
+    height: 350px;
+    border-radius: 355px;
+    border: 10px solid #FFFBF2;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-right: 40px;
+}
+
+.user_info{
+    padding-top: 100px;
+}
+
+.username{
+    font-family: Poppins;
+    font-size: 42px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 30px;
+}
+
+
+.edit_profile_button{
+ text-decoration: none;
+ display: flex;
+ align-items: center;
+ width: 160px;
+}
+
+.edit_profile_img{
+    position: absolute;
+    display: flex;
+    margin-left: 15px;
+  }
+  
+.edit_profile{
+    text-decoration: none;
+    width: 160px;
+    height: 43px;
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    background-color: black;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    padding-left: 45px;
+}
+
+.line{
+    width: 894px;
+    height: 2px;
+    background-color: rgba(196, 184, 184, 0.51);;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.dropdown{
+    width: 294px;
+height: 43px;
+border-radius: 18px;
+background: #000;
+color: #FFF;
+font-family: Poppins;
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+padding-left: 10px;
+}
+
+.data{
+    width: 100%;
+    height: 1000px;
+    background-color: white;
+    margin-bottom: 70px;
+    border-radius: 50px;    
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
