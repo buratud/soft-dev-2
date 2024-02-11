@@ -2,14 +2,12 @@ const express = require('express');
 const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 const { PORT } = require('./config');
-const { BASE_SERVER_PATH } = require('./config');
+const { BASE_SERVER_PATH, SUPABASE_URL, SUPABASE_KEY } = require('./config');
 const cors = require('cors');
 
 const app = express();
 const api = express.Router();
 
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 app.use(cors());
