@@ -11,7 +11,7 @@ export default function TopBar() {
         <main className={styles.main}>
             <div className={styles.leftside}>
                 <div className={styles.logo}>
-                    <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}`}>
+                    <a href={`/`}>
                         <Image alt="logo" src="/images/logo.png" height={70} width={80} />
                     </a>
                 </div>

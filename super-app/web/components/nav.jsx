@@ -2,7 +2,6 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import styles from './nav.module.css'
-import { NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
 import Link from 'next/link'
 
 export default function NavBar() {
@@ -22,7 +21,7 @@ export default function NavBar() {
         <main className={styles.main}>
             <div className={styles.leftside}>
                 <div className={styles.logo}>
-                    <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}`}>
+                    <Link href={`/`}>
                         <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} height={70} width={80} />
                     </Link>
                 </div>
@@ -46,7 +45,7 @@ export default function NavBar() {
                     {isOpen_1 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs`}>Main</Link>
+                                <Link href={`/blogs`}>Main</Link>
                             </span>
                         </div>
                         <div>
@@ -58,17 +57,17 @@ export default function NavBar() {
                                 <div className={styles.subdropdownContent}>
                                     <div>
                                         <span>
-                                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/cleaning`}>Cleaning</Link>
+                                            <Link href={`/blogs/cleaning`}>Cleaning</Link>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/decoration`}>Decorations</Link>
+                                            <Link href={`/blogs/decoration`}>Decorations</Link>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/story`}>Story's DekHor</Link>
+                                            <Link href={`/blogs/story`}>Story's DekHor</Link>
                                         </span>
                                     </div>
                                 </div>
@@ -76,12 +75,12 @@ export default function NavBar() {
                         </div>
                         <div>
                             <span>
-                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/writeblog`}>Blogging</Link>
+                                <Link href={`/blogs/writeblog`}>Blogging</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/blogger`}>Blogger</Link>
+                                <Link href={`/blogs/blogger`}>Blogger</Link>
                             </span>
                         </div>
                     </div>}
@@ -103,17 +102,17 @@ export default function NavBar() {
                     {isOpen_2 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>Main</Link>
+                                <Link href={`/dorms`}>Main</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>All Dorms</Link>
+                                <Link href={`/dorms`}>All Dorms</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>Add Dorm</Link>
+                                <Link href={`/dorms`}>Add Dorm</Link>
                             </span>
                         </div>
                     </div>}
@@ -135,17 +134,17 @@ export default function NavBar() {
                     {isOpen_3 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>Main</Link>
+                                <Link href={`/markets`}>Main</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets/food`}>All Products</Link>
+                                <Link href={`/markets/food`}>All Products</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets/addproduct`}>Add Product</Link>
+                                <Link href={`/markets/addproduct`}>Add Product</Link>
                             </span>
                         </div>
                     </div>}
@@ -167,14 +166,14 @@ export default function NavBar() {
                 ) : (
                     <>
                         <div className={styles.btn}>
-                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/register`}>
+                            <Link href={`/register`}>
                                 <button className={styles.signup_btn} >
                                     Sign up
                                 </button>
                             </Link>
                         </div>
                         <div>
-                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/login`}>
+                            <Link href={`/login`}>
                                 <button className={styles.login_btn} >
                                     Login
                                 </button>
@@ -187,18 +186,18 @@ export default function NavBar() {
                     <div>
                         <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
                         <span>
-                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/profile`}>My Profile</Link>
+                            <Link href={`/profile`}>My Profile</Link>
                         </span>
                     </div>
                     <div>
                         <Image alt="Support" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`} height={30} width={30} />
                         <span>
-                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/support`}>Support</Link>
+                            <Link href={`/support`}>Support</Link>
                         </span>
                     </div>
                     <div>
                         <Image alt="logout" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/BoxArrowLeft.svg`} height={30} width={30} className={styles.logout} />
-                        <span className={styles.logout}><Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}`}>Log out</Link></span>
+                        <span className={styles.logout}><Link href={`/`}>Log out</Link></span>
                     </div>
                 </div>}
             </div>
