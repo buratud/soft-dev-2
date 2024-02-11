@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import styles from './nav.module.css'
 import { NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
+import Link from 'next/link'
 
 export default function NavBar() {
 
@@ -21,9 +22,9 @@ export default function NavBar() {
         <main className={styles.main}>
             <div className={styles.leftside}>
                 <div className={styles.logo}>
-                    <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}`}>
+                    <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}`}>
                         <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} height={70} width={80} />
-                    </a>
+                    </Link>
                 </div>
             </div>
             <div className={styles.middle} >
@@ -45,7 +46,7 @@ export default function NavBar() {
                     {isOpen_1 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs`}>Main</a>
+                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs`}>Main</Link>
                             </span>
                         </div>
                         <div>
@@ -57,17 +58,17 @@ export default function NavBar() {
                                 <div className={styles.subdropdownContent}>
                                     <div>
                                         <span>
-                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/cleaning`}>Cleaning</a>
+                                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/cleaning`}>Cleaning</Link>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/decorations`}>Decorations</a>
+                                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/decoration`}>Decorations</Link>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/story`}>Story's DekHor</a>
+                                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/story`}>Story's DekHor</Link>
                                         </span>
                                     </div>
                                 </div>
@@ -75,12 +76,12 @@ export default function NavBar() {
                         </div>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/writeblog`}>Blogging</a>
+                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/writeblog`}>Blogging</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/blogger`}>Blogger</a>
+                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/blogger`}>Blogger</Link>
                             </span>
                         </div>
                     </div>}
@@ -102,17 +103,17 @@ export default function NavBar() {
                     {isOpen_2 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>Main</a>
+                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>Main</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>All Dorms</a>
+                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>All Dorms</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>Add Dorm</a>
+                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>Add Dorm</Link>
                             </span>
                         </div>
                     </div>}
@@ -134,17 +135,17 @@ export default function NavBar() {
                     {isOpen_3 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>Main</a>
+                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>Main</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>All Products</a>
+                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets/food`}>All Products</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>Add Product</a>
+                                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets/addproduct`}>Add Product</Link>
                             </span>
                         </div>
                     </div>}
@@ -166,18 +167,18 @@ export default function NavBar() {
                 ) : (
                     <>
                         <div className={styles.btn}>
-                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/register`}>
+                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/register`}>
                                 <button className={styles.signup_btn} >
                                     Sign up
                                 </button>
-                            </a>
+                            </Link>
                         </div>
                         <div>
-                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/login`}>
+                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/login`}>
                                 <button className={styles.login_btn} >
                                     Login
                                 </button>
-                            </a>
+                            </Link>
                         </div>
                     </>
                 )}
@@ -186,18 +187,18 @@ export default function NavBar() {
                     <div>
                         <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
                         <span>
-                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/profile`}>My Profile</a>
+                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/profile`}>My Profile</Link>
                         </span>
                     </div>
                     <div>
                         <Image alt="Support" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`} height={30} width={30} />
                         <span>
-                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/support`}>Support</a>
+                            <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/support`}>Support</Link>
                         </span>
                     </div>
                     <div>
                         <Image alt="logout" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/BoxArrowLeft.svg`} height={30} width={30} className={styles.logout} />
-                        <span className={styles.logout}><a href={`${NEXT_PUBLIC_BASE_WEB_PATH}`}>Log out</a></span>
+                        <span className={styles.logout}><Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}`}>Log out</Link></span>
                     </div>
                 </div>}
             </div>
