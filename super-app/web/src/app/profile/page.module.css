@@ -82,7 +82,7 @@
     font-weight: 500;
     line-height: normal;
     background-color: black;
-    border-radius: 18px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     padding-left: 45px;
@@ -92,7 +92,6 @@
     width: 894px;
     height: 2px;
     background-color: rgba(196, 184, 184, 0.51);
-    ;
     margin-bottom: 30px;
     margin-top: 30px;
 }
@@ -100,7 +99,7 @@
 .dropdown {
     width: 294px;
     height: 43px;
-    border-radius: 18px;
+    border-radius: 10px;
     background: #000;
     color: #FFF;
     font-family: Poppins;
