@@ -129,3 +129,78 @@
     padding: 10px;
     
 }
+
+.blogs_btn{
+    padding: 1rem;
+    margin-left: 1rem;
+    display: flex;
+}
+
+.img_likes{
+    width: 30px;
+    height: 30px;
+    margin-right: 0.5rem;
+}
+
+.like_btn{
+    display: flex;
+    border-radius: 35px;
+    border: none;
+    background: #C10206;
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-align: center;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+.like_btn:hover{
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.74);
+    scale: 1.1;
+    transition: .3s ease;
+}
+
+
+.yourblogs_btn{
+    display: flex;
+    border-radius: 35px;
+    border: none;
+    background: #000;
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-align: center;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    cursor: pointer;
+}
+
+.yourblogs_btn:hover{
+    box-shadow: 0 2px 8px 2px rgba(210, 210, 210, 0.74);
+    scale: 1.1;
+    transition: .3s ease;
+}
+
+.notactive_btn{
+    background-color: #D9D9D9;
+    scale: 0.9;
+}
+
+.active_btn{
+    scale: 1.1;
+}
