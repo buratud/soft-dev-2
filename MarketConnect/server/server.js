@@ -57,7 +57,7 @@ api.post("/register", async (req, res) => {
 
 api.post("/sendsupport", async (req, res) => {
   const { email, message, status, contact } = req.body;
-  const { data, error } = await supabase.from("Support").insert({
+  const { data, error } = await supabase.from("MarketConnect_Support").insert({
     Sender: email,
     Status: status,
     Problem: message,
@@ -73,7 +73,7 @@ api.post("/sendsupport", async (req, res) => {
 api.post("/getsupport", async (req, res) => {
   const { email } = req.body;
   const { data, error } = await supabase
-    .from("Support")
+    .from("MarketConnect_Support")
     .select("Problem,Status,id")
     .eq("Sender", email);
   if (error) {
@@ -85,7 +85,7 @@ api.post("/getsupport", async (req, res) => {
 
 api.post("/adminsupport", async (req, res) => {
   const { data, error } = await supabase
-    .from("Support")
+    .from("MarketConnect_Support")
     .select("Problem,Status,id,Sender,Contact");
   if (error) {
     res.status(400).json(error);
@@ -97,7 +97,7 @@ api.post("/adminsupport", async (req, res) => {
 api.post("/changestatus", async (req, res) => {
   const { status, id } = req.body;
   const { data, error } = await supabase
-    .from("Support")
+    .from("MarketConnect_Support")
     .update({ Status: status })
     .eq("id", id);
   if (error) {
@@ -110,7 +110,7 @@ api.post("/changestatus", async (req, res) => {
 api.post("/unsendsupport", async (req, res) => {
   const { id } = req.body;
   const { data, error } = await supabase
-    .from("Support")
+    .from("MarketConnect_Support")
     .delete()
     .eq("id", id);
   if (error) {
@@ -244,7 +244,7 @@ api.post("/save", async (req, res) => {
 api.post("/delete", async (req, res) => {
   const { food } = req.body;
   const { data, error } = await supabase
-    .from("Food")
+    .from("MarketConnect_Food")
     .delete()
     .eq("id", food);
   if (error) {
