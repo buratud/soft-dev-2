@@ -1,15 +1,15 @@
 'use client'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './nav.module.css'
 import Link from 'next/link'
-import { NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
-import Link from 'next/link'
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
+import axios from 'axios'
+
 
 export default function NavBar() {
 
     // NavBar ยังไม่ได้เชื่อม
-    const isLoggedIn = false;
     const [isOpen_1, setIsOpen_1] = useState(false);
     const [isOpen_2, setIsOpen_2] = useState(false);
     const [isOpen_3, setIsOpen_3] = useState(false);
@@ -25,8 +25,14 @@ export default function NavBar() {
         // เรียกใช้ isLoggedIn เพื่อตรวจสอบสถานะการเข้าสู่ระบบ
         const checkLoginStatus = async () => {
             try {
-                const loggedIn = await isLoggedIn();
-                setIsUserLoggedIn(loggedIn);
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/check-logged-in`,{})
+                .then(res =>{
+                    const {loggedIn , picture} = res.data;
+                    setIsUserLoggedIn(loggedIn);
+                    setProfileImage(picture);
+                }).error(error =>{
+                    console.log(error);
+                })
             } catch (error) {
                 console.error('Error checking login status:', error);
             }
@@ -172,7 +178,7 @@ export default function NavBar() {
             </div>
 
             <div className={styles.rightside}>
-                {isUserLoggedIn ? (
+                {!isUserLoggedIn ? (
                     <button
                         onClick={() => {
                             setIsOpen_Profile((prev) => !prev);

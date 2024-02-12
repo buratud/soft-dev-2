@@ -18,6 +18,21 @@ api.get('/', (req, res) => {
   res.send(JSON.stringify(req));
 });
 
+//Authentication
+
+api.post('/check-logged-in', async (req,res) =>{
+  const {data} = await supabase.auth.getSession();
+  const user = data?.session?.user;
+
+  if(user){
+    const {data : [{ picture }]} = await supabase.from('users').select('picture').eq('id', user.id);
+    res.status(200).json({logged : true, picture});
+  }
+  else{
+    res.status(200).json({logged : false});
+  }
+})
+
 api.put("/login", async (req,res) => {
   const {UsernameorEmail,password} = req.body;
 
@@ -47,6 +62,8 @@ api.put("/login", async (req,res) => {
       if (data.user === null) {
           res.status(400).json({message : "Incorrect username, email or password"});
       } else {
+          const user = await supabase.auth.getUser();
+          await supabase.auth.setSession( {data: {session: { user } } } );
           res.status(200).json({data, message : "User logined successfully"});
       }
   }
