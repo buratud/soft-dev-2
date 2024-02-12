@@ -27,10 +27,9 @@ const Manage = () => {
       });
   };
 
-  const [showPopup, setShowPopup] = useState(false); // State เพื่อแสดง/ซ่อน Popup
+  const [showPopup, setShowPopup] = useState(false);
   const [idfood, setIdfood] = useState("");
   const openPopup = (event, itemId) => {
-    // console.log(event, itemId);
     setIdfood(itemId);
     event.preventDefault();
     setShowPopup(true);
@@ -45,7 +44,7 @@ const Manage = () => {
     const [columns, setColumns] = useState(3); // Initially set to 3 columns
 
     useEffect(() => {
-      if (user != undefined) {
+      if (user !== undefined) {
         axios
           .post(`${REACT_APP_BASE_API_URL}/yourfood`, {
             user: user?.id,
@@ -64,20 +63,20 @@ const Manage = () => {
         const width = window.innerWidth;
         if (width <= 768) {
           setColumns(1);
-        } else if (width <= 1024) {
+        } else if (width <= 1782) { // Adjusted maximum width to 1782px
           setColumns(2);
         } else {
           setColumns(3);
         }
       };
 
-      handleResize(); // Call once initially
-      window.addEventListener("resize", handleResize); // Add event listener for resize
+      handleResize();
+      window.addEventListener("resize", handleResize);
 
       return () => {
-        window.removeEventListener("resize", handleResize); // Clean up event listener
+        window.removeEventListener("resize", handleResize);
       };
-    }, []); // Empty dependency array to run only once on mount
+    }, []);
 
     if (!Food) return null;
 
