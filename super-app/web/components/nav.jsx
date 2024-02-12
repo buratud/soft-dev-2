@@ -4,7 +4,6 @@ import { useState } from 'react'
 import styles from './nav.module.css'
 import Link from 'next/link'
 import { NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
-import Link from 'next/link'
 
 export default function NavBar() {
 
