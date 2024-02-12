@@ -121,7 +121,7 @@ const Random = () => {
   // Function to fetch random food items
   const fetchRandomFood = async () => {
     try {
-      const res = await axios.post(`${baseApiUrl}/food`);
+      const res = await axios.post(`${REACT_APP_BASE_API_URL}/food`);
       const food = res.data;
       const randomFood = [];
       for (let i = 0; i < 8; i++) {
