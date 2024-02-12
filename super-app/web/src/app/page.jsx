@@ -20,7 +20,7 @@ export default function Home() {
     .then(res => {
       //console.log(res)
       setRecDataProduct(res.data);
-      console.log(res.data);
+      //console.log(res.data);
     })
     .catch((err) => {
       console.log(err)
@@ -33,7 +33,7 @@ export default function Home() {
       })
       .then(res => {
           setData(res.data)
-          console.log('this',res.data)
+          //console.log('this',res.data)
       })
       .catch((err) => {
           console.log(err)
