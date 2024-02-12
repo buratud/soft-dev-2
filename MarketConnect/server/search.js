@@ -35,8 +35,8 @@ exports.search = (target, database) => {
     notFound = false
     // Get all edit distance for every product in the database
     for (const product of database) {
-        searchTerm = " "+target
-        food_name = " "+product.Food_Name
+        searchTerm = " "+target.toUpperCase()
+        food_name = " "+product.Food_Name.toUpperCase()
         edit_distance = wagner_fischer(searchTerm, food_name)
         if (edit_distance < 0) {
             continue

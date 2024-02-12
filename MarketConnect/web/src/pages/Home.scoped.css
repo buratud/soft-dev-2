@@ -57,7 +57,7 @@ img.carousel-image {
     color: white;
     padding: 0.5rem 1rem;
     cursor: pointer;
-    z-index: 100;
+    z-index: 2;
     border-radius: 50%;
     font-size: 1.5rem;
     display: flex;

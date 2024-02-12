@@ -73,11 +73,12 @@ const AddProduct = () => {
         });
       if (error) {
         setIsUploading(false);
-        return alert(error);
+        return alert(error.message);
       }
       const { data } = supabase.storage
         .from("Picture_Food")
         .getPublicUrl(filename + ".png");
+        console.log(data.publicUrl)
       setFile(data.publicUrl);
       setIsUploading(false);
     }
