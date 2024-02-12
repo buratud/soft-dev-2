@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import { baseApiUrl } from "../config";
-import { IoReloadOutline } from "react-icons/io5";
+import { PopChat } from "../components/PopChat";
+import { REACT_APP_BASE_API_URL } from "../config";
 
 const Home = () => {
   return (
@@ -36,14 +36,17 @@ const PromotionItems = () => {
   useEffect(() => {
     const fetchProFood = async () => {
       try {
-        const res = await axios.post(`${baseApiUrl}/pro`);
-        setProFood(res.data);
+        // Using async/await syntax for the request
+        const response = await axios.post(`${REACT_APP_BASE_API_URL}/pro`);
+        setProFood(response.data);
       } catch (err) {
+        // Catching and handling any error that occurs during the fetch operation
         alert(err);
       }
     };
     fetchProFood();
-  }, []);
+  }, []); // Empty dependency array means this effect runs only once after the initial render
+  
 
   useEffect(() => {
     // Auto change image
@@ -85,7 +88,7 @@ const NewArrivals = () => {
   const [food, setFood] = useState([]);
   useEffect(() => {
     axios
-      .post(`${baseApiUrl}/new`)
+      .post(`${REACT_APP_BASE_API_URL}/new`)
       .then((res) => {
         console.log('Response data:', res.data);
         setFood(res.data);
