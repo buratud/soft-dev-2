@@ -5,12 +5,14 @@ import NavBar from "../../../components/nav"
 import style from "./page.module.css"
 import Footer from "../../../components/footer/Footer"
 
-export default function Profile() {
-
-    
-    const BlogsProfile = () => {
-       
+const BlogsProfile = () => {
+       return(
+            <div>blog</div>
+       )
     }
+
+export default function Profile() {
+    
     return (
 
         <div className={style.profile_page}>
@@ -39,7 +41,7 @@ export default function Profile() {
                 </div>
 
                 <div className={style.data}>
-
+                    <BlogsProfile></BlogsProfile>
                 </div>
             </div>
             <Footer></Footer>
