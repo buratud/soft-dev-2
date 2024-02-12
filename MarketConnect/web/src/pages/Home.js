@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import { PopChat } from "../components/PopChat";
 import { REACT_APP_BASE_API_URL } from "../config";
+import { IoReloadOutline } from "react-icons/io5";
 
 const Home = () => {
   return (
