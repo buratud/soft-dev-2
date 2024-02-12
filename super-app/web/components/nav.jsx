@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import styles from './nav.module.css'
+import Link from 'next/link'
 import { NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
 import Link from 'next/link'
 
@@ -157,12 +158,12 @@ export default function NavBar() {
                         </div>
                         <div>
                             <span>
-                                <Link href={`/markets`}>All Products</Link>
+                                <Link href={`/markets/food`}>All Products</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <Link href={`/markets`}>Add Product</Link>
+                                <Link href={`/markets/addproduct`}>Add Product</Link>
                             </span>
                         </div>
                     </div>}
