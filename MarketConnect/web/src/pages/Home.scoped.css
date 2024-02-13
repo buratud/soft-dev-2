@@ -1,17 +1,16 @@
 .container {
     max-width: 100vw;
     min-height: 100vh;
-    background-color: #F6F4EB;
+    background-color: #F6F6FB;
 }
 
 #promotions-box {
-    height: calc(100vh - 20rem);
+    height: calc(100vh - 15rem);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding-top: 5rem;
-
+    padding-top: 3rem;
 }
 
 h1{
@@ -24,85 +23,138 @@ h1{
     
 .promotion-box-scroll {
     width: 60%;
-    height: 100%;
     display: flex;
-    overflow-x: scroll;
-    overflow-y: hidden;
+    overflow-y: auto;
     padding-bottom: 1rem;
 }
 
-.promotion-item {
+.promotion-carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+  
+.carousel-image {
+    width: 100%;
+    height: 100%; 
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+}
+
+img.carousel-image {
     width: 100%;
     height: 100%;
-    padding: 0.8rem;
-    margin: -0.5rem 0.5rem;
+    object-fit: cover;
 }
 
-.promotion-item img {
-    height: 100%;
-    border-radius: 1rem;
-    aspect-ratio: 12/8;
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    z-index: 2;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
+
+.carousel-button:focus {
+    outline: none;
+}
+
+.carousel-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.prev-button {
+    left: 10px;
+}
+  
+.next-button {
+    right: 10px;
+}
+
 
 #new-box {
-    height: calc(100vh - 25rem);
-    background-color: #F6F4EB;
+    padding-top: 1.2rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    padding-top: 2.5rem;
+    width: 100%;
+    margin-bottom: 1.2rem;
 }
 
-.new-box-scroll {
-    width: 80%;
-    height: 70%;
-    display: flex;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    background-color: inherit;
-    border-radius: 1rem;
-
+#new-box h1 {
+    margin-bottom: 0.8rem;
 }
 
-.new-item {
+.new-arrivals-container {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 1rem 0.5rem;
-    background-color: #efece2;
-    border-radius: 1rem;
-    box-shadow: 0 0 0.5rem 0.25rem rgba(0, 0, 0, 0.25);
-    padding: 10px;
+    justify-content: center; 
+    gap: 1rem; 
+    margin-bottom: 1.2rem;
+}
+
+.new-arrival-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
     text-decoration: none;
-    color: #12263a;
-    background-color: #fff4c9;
+    flex: 0 1 calc(25% - 2rem);
+    margin: 1rem; 
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-.new-item img {
-    height: 65%;
-    border-radius: 1rem ;
-    aspect-ratio: 16/9;
+.card-image-container {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
 }
 
-.new-item-name {
-    font-size: 1.3rem;
-    font-family:'Poppins', sans-serif;
-    font-weight: 400;
-    margin-top: 0.5rem;
+.card-image-container img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    object-fit: fill; 
 }
 
-.new-item-price {
+.card-content {
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-title {
     font-size: 1.2rem;
-    font-family:'Poppins', sans-serif;
-    font-weight: 400;
-    margin-top: 0.5rem;
+    font-weight: bold;
+    font-family: poppins, sans-serif;
+    color: #333333;
+    margin-bottom: 0.5rem;
+}
+
+.card-price {
+    font-size: 1.1rem;
+    font-family: poppins, sans-serif;
+    color: #333333;
+    margin-bottom: 0.5rem;
 }
 
 #rec-box{
-    min-height: 93vh;
-    background-color: #F6F4EB;
+    min-height: 90vh;
+    background-color: #F6F6FB;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -110,50 +162,67 @@ h1{
 }
 
 #rec-box h1 {
-    margin-bottom: 3rem;
-}
-.rec-box-grid{
-    display: grid;
-    width: 80%;
-    grid-template-columns: repeat(auto-fill, minmax(30%, 2fr));
-    grid-gap: 3.5rem;
-    
+    margin-bottom: 0.8rem;
 }
 
-.rec-item{
-    display : flex;
-    flex-direction: column;
+.title-with-button{
+    display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #efece2;
-    border-radius: 1rem;
-    box-shadow: 0 0 0.5rem 0.25rem rgba(0, 0, 0, 0.25);
-    text-decoration: none;
-    color: #12263a;
-    background-color: #F0F0F0;
-}
-
-.rec-item img{
     width: 100%;
-    border-radius: 1rem 1rem 0 0;
-    aspect-ratio: 16/9;
+    padding: 0 1rem;
+    margin-bottom: 0.2rem;
 }
-
-.rec-item-name{
+.rec-box-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 1.5rem; 
+    padding: 0.5rem; 
+}
+  
+.rec-item {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+  
+.rec-item img {
+    width: 300px;
+    height: 200px; 
+    object-fit: cover;
+}
+  
+.rec-item-name {
     font-size: 1.2rem;
-    font-family:'Poppins', sans-serif;
-    font-weight: 400;
+    font-family: poppins, sans-serif;
+    font-weight: bold;
+    color: #333;
     margin-top: 0.5rem;
 }
-
-.rec-item-price{
-    font-size: 1.1rem;
-    font-family:'Poppins', sans-serif;
-    font-weight: 400;
-    margin-top: 0.5rem;
+  
+.rec-item-price {
+    font-size: 1rem;
+    font-family: poppins, sans-serif;
+    color: #333;
     margin-bottom: 1rem;
 }
 
+.refresh-button {
+    margin-top: 10px;
+    width: 5%;
+    color: black; 
+    background-color: #F6F6FB;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
+    font-family: poppins, sans-serif;  
+}
 
 ::-webkit-scrollbar {
     width: 12px;
@@ -175,3 +244,6 @@ h1{
 ::-webkit-scrollbar-thumb:active{
     background: linear-gradient(left, #22ADD4, #1E98BA);
 }
+
+
+  

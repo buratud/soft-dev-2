@@ -26,8 +26,8 @@ export default function NavBar() {
             try {
                 axios.post(`${NEXT_PUBLIC_BASE_API_URL}/check-logged-in`,{})
                 .then(res =>{
-                    const {loggedIn , picture} = res.data;
-                    setIsUserLoggedIn(loggedIn);
+                    const {logged , picture} = res.data;
+                    setIsUserLoggedIn(logged);
                     setProfileImage(picture);
                 }).error(error =>{
                     console.log(error);
@@ -177,7 +177,7 @@ export default function NavBar() {
             </div>
 
             <div className={styles.rightside}>
-                {!isUserLoggedIn ? (
+                {isUserLoggedIn ? (
                     <button
                         onClick={() => {
                             setIsOpen_Profile((prev) => !prev);

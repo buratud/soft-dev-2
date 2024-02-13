@@ -53,9 +53,11 @@ h1{
   }
 
   .edit-table {
-    border-collapse: separate; /* Separate borders */
-    border-spacing: 20px; /* Set the distance between items */
-  }
+    width: 100%;
+    table-layout: fixed;
+    padding: 0 150px; /* Add left and right padding */
+}
+
 
 .edit-box{
     width: 100%;
@@ -169,8 +171,7 @@ span {
     margin-left: 0.7rem;
   }
 
-  /* For screens smaller than 768px */
-@media screen and (max-width: 1017px) {
+@media screen and (max-width: 1205px) {
     .edit-table td {
       width: 100%; /* Set full width for each table cell */
       display: block; /* Display each cell as a block */
@@ -178,17 +179,17 @@ span {
     }
   }
   
-  /* For screens between 768px and 1024px */
-  @media screen and (min-width: 1017px) and (max-width: 1517px) {
+  @media screen and (min-width: 1205px) and (max-width: 1782px) {
     .edit-table td {
       width: 50%; /* Set half width for each table cell */
       display: inline-block; /* Display each cell as an inline-block */
-      margin-bottom: 20px; /* Add margin between items */
+      vertical-align: top; /* Align cells to the top */
+      box-sizing: border-box; /* Ensure box-sizing includes padding and border */
+      padding: 20px; /* Add padding for spacing */
     }
   }
   
-  /* For screens larger than 1024px */
-  @media screen and (min-width: 1517px) {
+  @media screen and (min-width: 1782px) {
     .edit-table td {
       width: 33.33%; /* Set one-third width for each table cell */
       display: table-cell; /* Display each cell as a table-cell */
