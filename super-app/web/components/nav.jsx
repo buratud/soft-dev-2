@@ -5,12 +5,11 @@ import styles from './nav.module.css'
 import Link from 'next/link'
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
+
 
 
 export default function NavBar() {
 
-    const router = useRouter();
 
     const [isOpen_1, setIsOpen_1] = useState(false);
     const [isOpen_2, setIsOpen_2] = useState(false);
@@ -43,6 +42,7 @@ export default function NavBar() {
         checkLoginStatus();
     }, []);
 
+
     const SignOut = async () => {
         axios.put(`${NEXT_PUBLIC_BASE_API_URL}/logout`, {})
         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/check-logged-in`, {})
@@ -54,7 +54,7 @@ export default function NavBar() {
                 console.log(error);
             })
         setIsOpen_Profile(false);
-        router.push(`/`);
+        window.location.reload();
     }
 
     useEffect(() => {
