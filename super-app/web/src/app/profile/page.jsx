@@ -7,7 +7,8 @@ import Footer from "../../../components/footer/Footer"
 import CardProducts from "../../../components/CardProduct"
 import CardBlogs from "../../../components/CardBlogs"
 import Fakedata from "../data.js";
-import { NEXT_PUBLIC_BASE_WEB_PATH } from '../../../config';
+import { NEXT_PUBLIC_BASE_WEB_PATH,NEXT_PUBLIC_BASE_API_URL } from '../../../config';
+import axios from 'axios';
 
 const BlogsCards = () => {
 
@@ -19,6 +20,34 @@ const BlogsCards = () => {
         setShowLikes(true);
         setShowYourBlogs(false);
     }, []);
+
+    const [Likes, setLikes] = useState([]);
+    useState(()=>{
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
+            user: '95c6d7a8-b73f-4f51-8dca-e734b38fe21c', //รอการ authen
+        })
+        .then(res => {
+            setLikes(res.data)
+            console.log('likes',res.data)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    },[])
+
+    const [yourblog, setyourblog] = useState([]);
+    useState(()=>{
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_blog`, {
+            user: '95c6d7a8-b73f-4f51-8dca-e734b38fe21c', //รอการ authen
+        })
+        .then(res => {
+            setyourblog(res.data)
+            console.log('your blog',res.data)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    },[])
 
     const handleLikesClick = () => {
         setShowLikes(true);
@@ -47,12 +76,12 @@ const BlogsCards = () => {
             {/* ดึงข้อมูล Blogs ที่ชอบตรงนี้ */}
             {showLikes && (
                 <card>
-                    {Fakedata.map((card, index) => (
+                    {Likes.map((card, index) => (
                         <CardBlogs
                             key={index}
                             img={card.cover_img}
                             title={card.title}
-                            Blogger={card.Blogger}
+                            Blogger={card.blogger}
                             Categories={card.category}
                             id={card.blog_id}
                         />
@@ -62,12 +91,12 @@ const BlogsCards = () => {
             {showYourBlogs && (
                 <card>
                     {/* ดึงข้อมูล Blogs ของตัวเองตรงนี้*/}
-                    {Fakedata.map((card, index) => (
+                    {yourblog.map((card, index) => (
                         <CardBlogs
                             key={index}
                             img={card.cover_img}
                             title={card.title}
-                            Blogger={card.Blogger}
+                            Blogger={card.blogger}
                             Categories={card.category}
                             id={card.blog_id}
                         />
