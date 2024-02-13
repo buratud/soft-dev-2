@@ -3,12 +3,16 @@ const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 const { PORT } = require('./config');
 const { BASE_SERVER_PATH, SUPABASE_URL, SUPABASE_KEY } = require('./config');
+const multer = require('multer');
 const cors = require('cors');
 
 const app = express();
 const api = express.Router();
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 app.use(cors());
 app.use(express.json());
@@ -18,7 +22,7 @@ api.get('/', (req, res) => {
   res.send(JSON.stringify(req));
 });
 
-//Authentication
+//-----------------------------Authentication-----------------------------------
 
 api.post('/check-logged-in', async (req,res) =>{
   const {data} = await supabase.auth.getSession();
@@ -182,6 +186,36 @@ api.post('/recommended-product', async (req,res) => {
   }
 });
 
+//-----------------------------Profile-Edit-----------------------------------
+
+api.post('/profile-pic-upload', upload.single(), async (req, res) => {
+  if(!req.file){
+    return res.status(400).json({ message: 'No file uploaded' });
+  }
+
+  const {data} = await supabase.auth.getSession();
+  const user = data?.session?.user;
+
+  if(user){
+    const { data, error } = await supabase.storage.from('Profile_User').upload(`${user.id}_${Date.now()}`, req.file.buffer);
+
+    if (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Error uploading file to Supabase Storage' });
+    }
+
+    const fileUrl = data.Key;
+    console.log('File uploaded to Supabase Storage:', fileUrl);
+
+    await supabase.from('user').update({ picture: fileUrl }).eq('id', user.id);
+    res.status(200).json({ fileUrl });
+  }
+  else{
+    res.status(400).json({ error : 'User not found'});
+  }
+
+  
+})
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
