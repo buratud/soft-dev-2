@@ -57,22 +57,19 @@
     border-radius: 10px;
 }
 
-.editprofile {
-    width: 265px;
-    height: 265px;
-    border-radius: 50%;
-}
-
+/*This is where it show pfp*/
 .profiledisplay {
     width: 265px;
     height: 265px;
     border-radius: 50%;
-    background: #1F2021;
+    background: #e2e2e2;
     margin: 7.5%;
 }
 
-#pfp {
-
+.pfp {
+    width: 265px;
+    height: 265px;
+    border-radius: 50%;
 }
 
 .uploadbtn {
@@ -130,6 +127,10 @@
 }
 
 .update {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    text-decoration: none;
     width: 200px;
     height: 50px;
     border-radius: 12px;
@@ -141,11 +142,16 @@
 }
 
 .cancel {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    text-decoration: none;
     width: 200px;
     height: 50px;
     border-radius: 12px;
-    background: #ffffff;
     color: #1F2021;
+    border-style: solid;
+    border-color: #1F2021;
     font-size: 20px;
     font-weight: 500;
     margin: 2.5%;
