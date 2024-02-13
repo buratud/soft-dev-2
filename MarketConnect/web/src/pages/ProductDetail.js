@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { FaUser, FaPhone, FaLine } from "react-icons/fa"; // Importing required icons
+import { FaUser, FaMailBulk, FaLine } from "react-icons/fa"; // Importing required icons
 import "./ProductDetail.scoped.css";
 import NavBar from "../components/NavBar";
 import { PopChat } from "../components/PopChat";
@@ -56,10 +56,10 @@ const FoodDetail = () => {
                 <h2>Contact the seller: </h2>
                 <ul>
                   <li>
-                    <FaUser /> <p> {food?.User?.firstname ?? "-"} {food?.User?.lastname ?? "-"}</p>
+                    <FaUser /> <p> {food?.users?.username ?? "-"} </p>
                   </li>
                   <li>
-                    <FaPhone /> <p> {food?.User?.contact ?? "-"}</p>
+                    <FaMailBulk /> <p> {food?.users?.email ?? "-"}</p>
                   </li>
                   <li>
                     <FaLine /> <p> {food?.Line ?? "-"}</p>
@@ -67,7 +67,7 @@ const FoodDetail = () => {
                 </ul>
                 <hr className="separator-line-bottom"/> {/* Separator line */}
                 <h2 className="product-info-header-color">Product Info</h2>
-                <ct>Category: {food?.Catagory?.catagory_name ?? "-"}</ct>
+                <ct>Category: {food?.MarketConnect_Category?.catagory_name ?? "-"}</ct>
                 <de>{food?.Description ?? "-"}</de>
               </div>
             </div>

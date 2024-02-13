@@ -5,39 +5,45 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AuthContext, useSupabase } from "../App";
 import { REACT_APP_BASE_API_URL } from "../config";
+import { FaSpinner } from 'react-icons/fa'; // Import the loading spinner icon
 
 const AddProduct = () => {
   const { foodid } = useParams();
   const [file, setFile] = useState("");
   const [food, setFood] = useState({});
   const [isUploading, setIsUploading] = useState(false);
+  const [isLoadingResponse, setIsLoadingResponse] = useState(false);
   const supabase = useSupabase();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  const handleAddProduct = (event) => {
-    event.preventDefault();
-    const cata = event.target[3].value;
-    if (foodid === undefined) {
+  
+  useEffect(() => {
+    // Fetch the image when editing a product
+    if (foodid) {
       axios
-        .post(`${REACT_APP_BASE_API_URL}/addproduct`, {
-          name: event.target[1].value,
-          price: event.target[2].value,
-          catagory_id: cata,
-          id: user.id,
-          description: event.target[5].value,
-          picture: file,
-          line: event.target[4].value,
+        .post(`${REACT_APP_BASE_API_URL}/fooddetail`, {
+          foodid: foodid,
         })
-        .then((res) => {
-          alert("Add food success.");
-          navigate("/manage");
+        .then(({ data }) => {
+          setFood(data[0]);
+          setFile(data[0].URL);
         })
         .catch((err) => {
           alert(err);
         });
-    } else {
-      axios
-        .post(`${REACT_APP_BASE_API_URL}/manageproduct`, {
+    }
+  }, [foodid]);
+
+  const handleAddProduct = async (event) => {
+    event.preventDefault();
+    const cata = event.target[3].value;
+    setIsLoadingResponse(true);
+    try {
+      const response = await axios.post(
+        foodid === undefined
+          ? `${REACT_APP_BASE_API_URL}/addproduct`
+          : `${REACT_APP_BASE_API_URL}/manageproduct`,
+        {
           name: event.target[1].value,
           price: event.target[2].value,
           catagory_id: cata,
@@ -46,19 +52,22 @@ const AddProduct = () => {
           picture: file,
           line: event.target[4].value,
           food: foodid,
-        })
-        .then((res) => {
-          alert("Manage food success.");
-          navigate("/manage");
-        })
-        .catch((err) => {
-          alert(err);
-        });
+        }
+      );
+      setIsLoadingResponse(false);
+      if (foodid === undefined) {
+        alert("Add food success.");
+      } else {
+        alert("Manage food success.");
+      }
+      navigate("/manage");
+    } catch (err) {
+      setIsLoadingResponse(false);
+      alert(err);
     }
   };
 
   const upload_File = async (event) => {
-    // console.log(event.target.files[0]);
     if (event.target.files[0] !== undefined) {
       setIsUploading(true);
       const filename = Math.random()
@@ -72,11 +81,12 @@ const AddProduct = () => {
         });
       if (error) {
         setIsUploading(false);
-        return alert(error);
+        return alert(error.message);
       }
       const { data } = supabase.storage
         .from("Picture_Food")
         .getPublicUrl(filename + ".png");
+        console.log(data.publicUrl)
       setFile(data.publicUrl);
       setIsUploading(false);
   
@@ -89,22 +99,6 @@ const AddProduct = () => {
     } document.getElementById("image-preview").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png?20200912122019";
   };  
 
-  if (foodid !== undefined)
-    useEffect(() => {
-      axios
-        .post(`${REACT_APP_BASE_API_URL}/fooddetail`, {
-          foodid: foodid,
-        })
-        .then(({ data }) => {
-          setFood(data[0]);
-          setFile(data[0].URL);
-          console.log(file);
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    }, []);
-
   const changeCatagory = (e) => {
     setFood({ ...food, Catagory_Id: e.target.value });
   };
@@ -116,14 +110,24 @@ const AddProduct = () => {
       <form>
         <div className="box">
           <div className="form-box-left">
-            {/*image uploader*/}
-            <input onChange={upload_File} type="file" />
-            <img
-              id="image-preview"
-              src=""
-              alt="Preview"
-              style={{ maxWidth: "200px", maxHeight: "200px" }}
+            {/* Modified file input with label */}
+            <label htmlFor="fileInput" className="upload-button">
+              {isUploading ? <FaSpinner className="spinner" /> : "Upload Image"}
+            </label>
+            <input
+              id="fileInput"
+              type="file"
+              onChange={upload_File}
+              style={{ display: "none" }}
             />
+            <div className="image-container">
+              <img
+                id="image-preview"
+                src={foodid ? file : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"}
+                alt="Preview"
+                style={{ maxWidth: "200px", maxHeight: "200px" }}
+              />
+            </div>
           </div>
           <div className="form-box-right">
             <label htmlFor="productname">Food Name</label>
@@ -162,8 +166,8 @@ const AddProduct = () => {
           />
         </div>
         <div className="send-button">
-          <button disabled={isUploading} type="submit" className="send-button">
-            Done
+          <button disabled={isUploading || isLoadingResponse} type="submit" className="send-button">
+            {isLoadingResponse ? <FaSpinner className="spinner" /> : "Done"}
           </button>
         </div>
       </form>
