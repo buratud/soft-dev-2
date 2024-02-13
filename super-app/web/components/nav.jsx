@@ -43,7 +43,7 @@ export default function NavBar() {
         checkLoginStatus();
     }, []);
 
-    const SignOut = async ()  => {
+    const SignOut = async () => {
         axios.put(`${NEXT_PUBLIC_BASE_API_URL}/logout`, {})
         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/check-logged-in`, {})
             .then(res => {
@@ -53,6 +53,7 @@ export default function NavBar() {
             }).catch(error => {
                 console.log(error);
             })
+        setIsOpen_Profile(false);
         router.push(`/`);
     }
 
@@ -261,10 +262,7 @@ export default function NavBar() {
                         </span>
                     </div>
 
-                    <div onClick={() => {
-                        SignOut();
-                        setIsOpen_Profile(false);
-                    }}>
+                    <div onClick={SignOut}>
                         <Image alt="logout" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/BoxArrowLeft.svg`} height={30} width={30} className={styles.logout} />
                         <span className={styles.logout_text} >Log out</span>
                     </div>
