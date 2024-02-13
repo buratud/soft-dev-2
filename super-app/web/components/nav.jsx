@@ -5,10 +5,13 @@ import styles from './nav.module.css'
 import Link from 'next/link'
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
+
 
 export default function NavBar() {
 
-    // NavBar ยังไม่ได้เชื่อม
+    const router = useRouter();
+
     const [isOpen_1, setIsOpen_1] = useState(false);
     const [isOpen_2, setIsOpen_2] = useState(false);
     const [isOpen_3, setIsOpen_3] = useState(false);
@@ -19,19 +22,19 @@ export default function NavBar() {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
     useEffect(() => {
-        // เรียกใช้เพื่อดึงข้อมูลโปรไฟล์ ทำตรงนี้เลยเพื่อน ใช้ตัวแปร profileImage นะ
+
 
         // เรียกใช้ isLoggedIn เพื่อตรวจสอบสถานะการเข้าสู่ระบบ
         const checkLoginStatus = async () => {
             try {
-                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/check-logged-in`,{})
-                .then(res =>{
-                    const {logged , picture} = res.data;
-                    setIsUserLoggedIn(logged);
-                    setProfileImage(picture);
-                }).error(error =>{
-                    console.log(error);
-                })
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/check-logged-in`, {})
+                    .then(res => {
+                        const { logged, picture } = res.data;
+                        setIsUserLoggedIn(logged);
+                        setProfileImage(picture);
+                    }).catch(error => {
+                        console.log(error);
+                    })
             } catch (error) {
                 console.error('Error checking login status:', error);
             }
@@ -39,10 +42,42 @@ export default function NavBar() {
 
         checkLoginStatus();
     }, []);
-    
+
+    const SignOut = async ()  => {
+        axios.put(`${NEXT_PUBLIC_BASE_API_URL}/logout`, {})
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/check-logged-in`, {})
+            .then(res => {
+                const { logged, picture } = res.data;
+                setIsUserLoggedIn(logged);
+                setProfileImage(picture);
+            }).catch(error => {
+                console.log(error);
+            })
+        router.push(`/`);
+    }
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            const mainElement = document.getElementById('main');
+            if (!mainElement.contains(event.target)) {
+                setIsOpen_1(false);
+                setIsOpen_2(false);
+                setIsOpen_3(false);
+                setIsOpen_Profile(false);
+                setIsOpen_Categories(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
 
     return (
-        <main className={styles.main}>
+        <main id="main" className={styles.main}>
             <div className={styles.leftside}>
                 <div className={styles.logo}>
                     <Link href={`/`}>
@@ -185,8 +220,8 @@ export default function NavBar() {
                             setIsOpen_2(false);
                             setIsOpen_1(false);
                         }}>
-                            {/* ตัวแปรโปรไฟล์อยู่ตรงนี้ใน src */}
-                        <div><img alt="Profile" src={profileImage}  className={styles.ProfileImage} /></div>
+                        {/* ตัวแปรโปรไฟล์อยู่ตรงนี้ใน src */}
+                        <div><img alt="Profile" src={profileImage} className={styles.ProfileImage} /></div>
                     </button>
                 ) : (
                     <>
@@ -220,9 +255,13 @@ export default function NavBar() {
                             <Link href={`/support`}>Support</Link>
                         </span>
                     </div>
-                    <div>
+
+                    <div onClick={() => {
+                        SignOut();
+                        setIsOpen_Profile(false);
+                    }}>
                         <Image alt="logout" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/BoxArrowLeft.svg`} height={30} width={30} className={styles.logout} />
-                        <span className={styles.logout}><Link href={`/`}>Log out</Link></span>
+                        <span className={styles.logout_text} >Log out</span>
                     </div>
                 </div>}
             </div>
