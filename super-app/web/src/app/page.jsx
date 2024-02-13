@@ -10,6 +10,7 @@ import axios from 'axios';
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../config';
 import { useState } from 'react';
 import NavBar from "../../components/nav";
+import Footer from "../../components/footer/Footer";
 
 export default function Home() {
   const [RecDataProduct, setRecDataProduct] = useState([]);
@@ -20,7 +21,7 @@ export default function Home() {
     .then(res => {
       //console.log(res)
       setRecDataProduct(res.data);
-      console.log(res.data);
+      //console.log(res.data);
     })
     .catch((err) => {
       console.log(err)
@@ -33,7 +34,7 @@ export default function Home() {
       })
       .then(res => {
           setData(res.data)
-          console.log('this',res.data)
+          //console.log('this',res.data)
       })
       .catch((err) => {
           console.log(err)
@@ -218,7 +219,7 @@ export default function Home() {
       </div>
 
 
-      <footer>{/* footer ( petch )(component) */}</footer>
+      <Footer></Footer>
     </div>
   );
 }

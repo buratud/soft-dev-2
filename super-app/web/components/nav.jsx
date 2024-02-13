@@ -1,21 +1,44 @@
 'use client'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './nav.module.css'
 import Link from 'next/link'
-import { NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
+import axios from 'axios'
 
 export default function NavBar() {
 
     // NavBar ยังไม่ได้เชื่อม
-
     const [isOpen_1, setIsOpen_1] = useState(false);
     const [isOpen_2, setIsOpen_2] = useState(false);
     const [isOpen_3, setIsOpen_3] = useState(false);
     const [isOpen_Profile, setIsOpen_Profile] = useState(false);
     const [isOpen_Categories, setIsOpen_Categories] = useState(false);
+    // ส่วนของโปรไฟล์และทำการตรวจสอบว่า User ได้ทำการ login หรือยัง
+    const [profileImage, setProfileImage] = useState('');
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-    const isLoggedIn = false;
+    useEffect(() => {
+        // เรียกใช้เพื่อดึงข้อมูลโปรไฟล์ ทำตรงนี้เลยเพื่อน ใช้ตัวแปร profileImage นะ
+
+        // เรียกใช้ isLoggedIn เพื่อตรวจสอบสถานะการเข้าสู่ระบบ
+        const checkLoginStatus = async () => {
+            try {
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/check-logged-in`,{})
+                .then(res =>{
+                    const {logged , picture} = res.data;
+                    setIsUserLoggedIn(logged);
+                    setProfileImage(picture);
+                }).error(error =>{
+                    console.log(error);
+                })
+            } catch (error) {
+                console.error('Error checking login status:', error);
+            }
+        };
+
+        checkLoginStatus();
+    }, []);
     
 
     return (
@@ -154,7 +177,7 @@ export default function NavBar() {
             </div>
 
             <div className={styles.rightside}>
-                {isLoggedIn ? (
+                {isUserLoggedIn ? (
                     <button
                         onClick={() => {
                             setIsOpen_Profile((prev) => !prev);
@@ -162,7 +185,8 @@ export default function NavBar() {
                             setIsOpen_2(false);
                             setIsOpen_1(false);
                         }}>
-                        <div><img alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`}  className={styles.ProfileImage} /></div>
+                            {/* ตัวแปรโปรไฟล์อยู่ตรงนี้ใน src */}
+                        <div><img alt="Profile" src={profileImage}  className={styles.ProfileImage} /></div>
                     </button>
                 ) : (
                     <>
