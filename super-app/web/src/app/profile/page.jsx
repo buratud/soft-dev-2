@@ -21,10 +21,12 @@ const BlogsCards = () => {
         setShowYourBlogs(false);
     }, []);
 
+    let user = '7d454f34-572f-4455-901e-1b00cbfb0c70'; //รอการ authen
+
     const [Likes, setLikes] = useState([]);
     useState(()=>{
         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
-            user: '95c6d7a8-b73f-4f51-8dca-e734b38fe21c', //รอการ authen
+            user: user,
         })
         .then(res => {
             setLikes(res.data)
@@ -38,7 +40,7 @@ const BlogsCards = () => {
     const [yourblog, setyourblog] = useState([]);
     useState(()=>{
         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_blog`, {
-            user: '95c6d7a8-b73f-4f51-8dca-e734b38fe21c', //รอการ authen
+            user: user,
         })
         .then(res => {
             setyourblog(res.data)
@@ -109,6 +111,23 @@ const BlogsCards = () => {
 }
 
 const ProductCards = () => {
+    
+    let user = '7d454f34-572f-4455-901e-1b00cbfb0c70'; //รอการ authen
+
+    const [yourproduct, setyourproduct] = useState([]);
+    useState(()=>{
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
+            user: user,
+        })
+        .then(res => {
+            setyourproduct(res.data)
+            console.log('your product',res.data)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    },[])
+
     return (
         <div>
             <div className={style.blogs_btn} >
@@ -121,7 +140,7 @@ const ProductCards = () => {
             </div>
             {/* ดึงข้อมูล Product ของตัวเองตรงนี้*/}
             <card>
-                {Fakedata.map((card) => (
+                {yourproduct.map((card) => (
                     <CardProducts img={card.product_image} route={card.product_id} />
                 ))}
             </card>
