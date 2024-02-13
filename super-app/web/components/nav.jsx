@@ -42,6 +42,14 @@ export default function NavBar() {
 
     const SignOut = () => {
         axios.put(`${NEXT_PUBLIC_BASE_API_URL}/logout`, {})
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/check-logged-in`, {})
+            .then(res => {
+                const { logged, picture } = res.data;
+                setIsUserLoggedIn(logged);
+                setProfileImage(picture);
+            }).error(error => {
+                console.log(error);
+            })
     }
 
 

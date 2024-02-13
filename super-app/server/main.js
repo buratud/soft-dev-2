@@ -76,8 +76,6 @@ api.put("/login", async (req,res) => {
       if (data.user === null) {
           res.status(400).json({message : "Incorrect username, email or password"});
       } else {
-          const user = await supabase.auth.getUser();
-          await supabase.auth.setSession( {data: {session: { user } } } );
           res.status(200).json({data, message : "User logined successfully"});
       }
   }
