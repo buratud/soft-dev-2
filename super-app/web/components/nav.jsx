@@ -126,6 +126,11 @@ export default function NavBar() {
                                     </div>
                                     <div>
                                         <span>
+                                            <Link href={`/blogs/cooking`}>cooking</Link>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>
                                             <Link href={`/blogs/story`}>Story's DekHor</Link>
                                         </span>
                                     </div>
@@ -203,7 +208,7 @@ export default function NavBar() {
                         </div>
                         <div>
                             <span>
-                                <Link href={`/markets/addproduct`}>Add Product</Link>
+                                <Link href={`/markets/addproduct`}>Manage Product</Link>
                             </span>
                         </div>
                     </div>}

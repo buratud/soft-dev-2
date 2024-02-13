@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Footer.module.css"
-import { NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
+import { NEXT_PUBLIC_BASE_WEB_PATH } from '../../config'
 
 export default function Footer() {
     return (
