@@ -33,6 +33,20 @@ api.post('/check-logged-in', async (req,res) =>{
   }
 })
 
+api.put('/logout', async (req,res) =>{
+  const {data} = await supabase.auth.getSession();
+  const user = data?.session?.user;
+
+  if(user){
+    const {error} = await supabase.auth.signOut();
+    if(error){
+      console.log(error);
+    }else{
+      console.log('yay');
+    }
+  }
+})
+
 api.put("/login", async (req,res) => {
   const {UsernameorEmail,password} = req.body;
 
