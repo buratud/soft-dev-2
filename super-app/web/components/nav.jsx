@@ -24,14 +24,14 @@ export default function NavBar() {
         // เรียกใช้ isLoggedIn เพื่อตรวจสอบสถานะการเข้าสู่ระบบ
         const checkLoginStatus = async () => {
             try {
-                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/check-logged-in`,{})
-                .then(res =>{
-                    const {logged , picture} = res.data;
-                    setIsUserLoggedIn(logged);
-                    setProfileImage(picture);
-                }).error(error =>{
-                    console.log(error);
-                })
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/check-logged-in`, {})
+                    .then(res => {
+                        const { logged, picture } = res.data;
+                        setIsUserLoggedIn(logged);
+                        setProfileImage(picture);
+                    }).error(error => {
+                        console.log(error);
+                    })
             } catch (error) {
                 console.error('Error checking login status:', error);
             }
@@ -39,7 +39,11 @@ export default function NavBar() {
 
         checkLoginStatus();
     }, []);
-    
+
+    const SignOut = () => {
+        axios.put(`${NEXT_PUBLIC_BASE_API_URL}/logout`, {})
+    }
+
 
     return (
         <main className={styles.main}>
@@ -185,8 +189,8 @@ export default function NavBar() {
                             setIsOpen_2(false);
                             setIsOpen_1(false);
                         }}>
-                            {/* ตัวแปรโปรไฟล์อยู่ตรงนี้ใน src */}
-                        <div><img alt="Profile" src={profileImage}  className={styles.ProfileImage} /></div>
+                        {/* ตัวแปรโปรไฟล์อยู่ตรงนี้ใน src */}
+                        <div><img alt="Profile" src={profileImage} className={styles.ProfileImage} /></div>
                     </button>
                 ) : (
                     <>
@@ -220,9 +224,12 @@ export default function NavBar() {
                             <Link href={`/support`}>Support</Link>
                         </span>
                     </div>
+
                     <div>
-                        <Image alt="logout" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/BoxArrowLeft.svg`} height={30} width={30} className={styles.logout} />
-                        <span className={styles.logout}><Link href={`/`}>Log out</Link></span>
+                        <Link href={`/`} onClick={SignOut}>
+                            <Image alt="logout" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/BoxArrowLeft.svg`} height={30} width={30} className={styles.logout} />
+                            <span className={styles.logout}>Log out</span>
+                        </Link>
                     </div>
                 </div>}
             </div>
