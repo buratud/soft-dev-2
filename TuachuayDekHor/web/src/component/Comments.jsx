@@ -8,7 +8,7 @@ import { CiChat1 } from "react-icons/ci";
 import { General } from '../App';
 import { Link,useParams } from 'react-router-dom';
 import axios from 'axios';
-import { baseApiUrl } from '../config'
+import { REACT_APP_BASE_API_URL } from '../config'
 
 
 function OffCanvasExample({ name, ...props }) {
@@ -25,7 +25,7 @@ function OffCanvasExample({ name, ...props }) {
   const [allcomment, setAllComment] = useState([]);
 
   const fetchComments = () => {
-    axios.get(`${baseApiUrl}/showcomment?id_post=` + id)
+    axios.get(`${REACT_APP_BASE_API_URL}/showcomment?id_post=` + id)
     .then((response) => {
       setAllComment(response.data);
     })
@@ -41,7 +41,7 @@ function OffCanvasExample({ name, ...props }) {
   const onCommentSubmit = (event) => {
     event.preventDefault();
     if (comment) {
-      axios.post(`${baseApiUrl}/commentpost`, {
+      axios.post(`${REACT_APP_BASE_API_URL}/commentpost`, {
         id: user?.id,
         id_post: id,
         comment: comment,

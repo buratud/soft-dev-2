@@ -2,7 +2,7 @@ import axios from "axios";
 import "./Register.scoped.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { BASE_API_URL } from ".././config";
+import { REACT_APP_BASE_API_URL } from "../config";
 
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +13,7 @@ const Register = () => {
     if (event.target[1].value !== event.target[2].value)
       return alert("Password and comfrim Password does not match.");
     axios
-      .post(`${BASE_API_URL}/register`, {
+      .post(`${REACT_APP_BASE_API_URL}/register`, {
         email: event.target[0].value,
         password: event.target[1].value,
       })
@@ -52,7 +52,7 @@ const Register = () => {
               placeholder="Email"
               required
             />
-            <img src="-icon-person.svg" alt="" />
+            <img src="/-icon-person.svg" alt="" />
           </div>
           <div className="input-box">
             <input
@@ -61,7 +61,7 @@ const Register = () => {
               id="password"
               placeholder="Password"
             />
-            <img src="-icon-lock-locked.svg" alt="" />
+            <img src="/-icon-lock-locked.svg" alt="" />
           </div>
           <div className="input-box">
             <input
@@ -70,7 +70,7 @@ const Register = () => {
               id="confirm-password"
               placeholder="Confirm Password"
             />
-            <img src="-icon-lock-locked.svg" alt="" />
+            <img src="/-icon-lock-locked.svg" alt="" />
           </div>
         </div>
         <button disabled={isLoading} type="submit">

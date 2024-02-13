@@ -1,157 +1,224 @@
-'use client'
-import { useState } from 'react';
-import { useRouter } from "next/navigation"; 
-import Image from 'next/image';
-import styles from './register.module.css';
-import Link from 'next/link';
+"use client";
+import Link from "next/link";
+import styles from "./page.module.css";
+import CardList from "./data.js";
+import CardBlogs from "../../components/CardBlogs";
+import CardProducts from "../../components/CardProduct";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import axios from 'axios';
-import config from './config';
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../config';
+import { useState } from 'react';
+import NavBar from "../../components/nav";
 
 export default function Home() {
-    const router = useRouter();
-    const initialFormData = {
-        username: '',
-        email: '',
-        password: '',
-        reenterPassword: '',
-    };
+  const [RecDataProduct, setRecDataProduct] = useState([]);
+  useState(()=>{
+    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-product`, {
+      "MaxRecommended":4
+    })
+    .then(res => {
+      //console.log(res)
+      setRecDataProduct(res.data);
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  },[])
 
-    const [formData, setFormData] = useState(initialFormData);
+  const [data, setData] = useState([]);
+  useState(()=>{
+      axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-blog`, {
+      })
+      .then(res => {
+          setData(res.data)
+          console.log('this',res.data)
+      })
+      .catch((err) => {
+          console.log(err)
+      })
+  
+  },[])
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
+  return (
+    <div className={styles.bg_page}>
+      <NavBar/>
+      <div className={styles.place_holder}>
+        <img style={{ width: "100%" }} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/place_holder.png`} />
+      </div>
+      <div className={styles.search_bar_area}>
+        <div className={styles.search_bar}>
+          <input
+            className={styles.search_bar_input}
+            type="text"
+            placeholder="Search..."
+          ></input>
+          <div style={{ position: "absolute", display: "flex" }}>
+            <img style={{ marginLeft: "21px" }} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/search-icon.png`} />
+            <div
+              style={{
+                width: "2px",
+                height: "35px",
+                borderRadius: "1px",
+                backgroundColor: "rgba(0, 0, 0, 0.10)",
+                marginLeft: "15px",
+              }}
+            ></div>
+          </div>
+        </div>
+      </div>
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!formData.username || !formData.email || !formData.password || !formData.reenterPassword) {
-            alert('Please fill in all fields.');
-            return;
-        }
-
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(formData.email)) {
-            alert('Please enter a valid email address.');
-            return;
-        }
-
-        if (formData.password != formData.reenterPassword) {
-            alert('Please enter the same password.');
-            return;
-        }
-
-        console.log('Submitted Data:', formData);
-
-        // ทำสิ่งที่คุณต้องการทำหลังจาก Submit ที่นี่
-        axios.post(config.API + "/register",{
-            email: formData.email,
-            username: formData.username,
-            password: formData.password,
-        })
-        .then(res => {
-            alert('go to verify')
-            // navigate("/verify");
-        })
-        .catch((err) => {
-            // if (err.response && err.response.data && err.response.data.message) {
-            //     alert(err.response.data.message);
-            // } else {
-            //     alert("An error occurred during login.");
-            // }
-            // if (err.response.message === "User already registered") {
-            //     alert("Internal Server Error (500). Please don't submit too frequently.");
-            //     // alert("Internal Server Error (500). Please don't submit too frequently.");
-            // } else {
-                alert(err);
-            // }
-        })
-
-        setFormData(initialFormData);
-
-        // router.push('/verify');
-    };
-
-    return (
-        <main className={styles.main}>
-            <div className={styles.topBar}>
-                <img src="./images/logo.png" alt="Logo" className={styles.logo} />
+        <div className={styles.portalwrap}>
+          <Link style={{ textDecoration: 'none' }} href={`/dorms`}>
+            <div className={styles.portal}>
+              <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhordorm_portal.png`} /></div>
+              <p className={styles.subtitle_portal}>DekHor Dorms</p>
             </div>
-            <div className={styles.register_form}>
-                <div className={styles.leftside}>
-                    <div className={styles.Intro}>
-                        <div className={styles.Intro_1}>
-                            <head1>Get Started with</head1>  <br />
-                            <head2>DekHor ID</head2>
-                        </div>
-                        <div className={styles.Intro_2}>
-                            One account for everything. <br />
-                            Blogs, Dorms, Eats, Markets <br />
-                            We’ve got you covered!
-                        </div>
-                    </div>
-
-                    <div className={styles.pic}>
-                        <Image alt="dekhor1" src="/images/dekhor_1.png" height={412} width={288} />
-                    </div>
-                </div>
-
-                <div className={styles.rightside}>
-                    <div className={styles.form}>
-                        <div className={styles.block}>
-                            <div>Username</div>
-                            <input
-                                type="text"
-                                name="username"
-                                value={formData.username}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className={styles.block}>
-                            <div>Email</div>
-                            <input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                required
-                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-                                title="Please enter a valid email address."
-                            />
-                        </div>
-                        <div className={styles.block}>
-                            <div>Password</div>
-                            <input
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className={styles.block}>
-                            <div>Re-enter Password</div>
-                            <input
-                                type="password"
-                                name="reenterPassword"
-                                value={formData.reenterPassword}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <button onClick={handleSubmit}>Register</button>
-                    </div>
-                    <account>
-                        <span>
-                            Already have an account? <Link href="/">Sign In.</Link>
-                        </span>
-                    </account>
-                </div>
+          </Link>
+          <Link style={{ textDecoration: 'none' }} href={`/markets`}>
+            <div className={styles.portal}>
+              <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhormarket_portal.png`} /></div>
+              <p className={styles.subtitle_portal}>DekHor Markets</p>
             </div>
-        </main>
-    );
+          </Link>
+          <Link style={{ textDecoration: 'none' }} href={`/blogs`}>
+            <div className={styles.portal}>
+              <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhorblog_portal.png`} /></div>
+              <p className={styles.subtitle_portal}>DekHor Blogs</p>
+            </div>
+          </Link>
+        </div>
+
+      <div className={styles.container}>
+        {/* dekhor blog */}
+        <div>
+          <div>{/* bloging(krit) */}
+            <div className={styles.title}>
+              <p className={styles.dekhor_title}>Dekhor</p>
+              <p className={styles.blog_title}>Blog</p>
+              <div style={{ width: '80vw', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
+            </div>
+            <div className={styles.blog_poster}>
+              {/* bloging(krit) */}
+              <div className={styles.poster_info_blog}>
+                <h1>Start Your Blog Today!</h1>
+                <p>Share tips and tricks from your DekHor experience!</p>
+                <Link href={`/blogs/writeblog`} style={{ textDecoration: 'none' }}>
+                  <div className={styles.poster_button_blog}>
+                    <p style={{ marginRight: '10px' }}>Blogging</p>
+                    <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/arrow_right.png`} style={{ width: '29px', height: '21px' }} />
+                  </div>
+                </Link>
+              </div>
+              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
+            </div>
+          </div>
+          <div className={styles.ReccommendedBlogs}>
+            {/* reccommended blog(preaw) */}
+            <div className={styles.ReccommendedBlogs_text}>Recommended Blogs</div>
+            <main className={styles.mainBlogs}>
+              {/* Back-end ทำการเพิ่มข้อมูลตรงนี้ CardList_Blogs เป็น Reccommend แบบ Random*/}
+              {data.slice(0, 3).map((card,index) => (
+              <CardBlogs
+                key={index}
+                img={card.cover_img}
+                title={card.title}
+                Blogger={card.blogger}
+                Categories={card.category}
+                // ใช้ route แทน id ไปก่อน
+                id={card.blog_id}
+              />
+              ))}
+            </main>
+          </div>
+        </div>
+        {/* dekhor dorm */}
+        <div>
+          <div className={styles.title}>
+            <p className={styles.dekhor_title}>Dekhor</p>
+            <p className={styles.blog_title}>Dorms</p>
+            <div style={{ width: '80vw', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
+          </div>
+          <div className={styles.blog_poster}>
+            <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`}/>
+            <div className={styles.poster_info_blog}>
+              <h1>Find Your Dorms in Your Way!</h1>
+              <p>Friendly Interfacebr <br />
+                Verified Reviews <br />
+                Affordable Prices
+              </p>
+              <Link href={`/dorms`} style={{ textDecoration: 'none' }}>
+                <div className={styles.poster_button_discover}>
+                  <p style={{ marginRight: '10px' }}>Discover More</p>
+                  <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/arrow_right.png`} style={{ width: '29px', height: '21px' }} />
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+        {/* dekhor market */}
+        <div>
+          <div>
+            <div className={styles.title}>
+              <p className={styles.dekhor_title}>Dekhor</p>
+              <p className={styles.blog_title}>Markets</p>
+              <div style={{ width: '80vw', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
+            </div>
+            <div className={styles.blog_poster}>
+              {/* discover (krit) */}
+              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
+              <div className={styles.poster_info_market}>
+                <h1>Find the stuffs you need
+                  <br />with Dekhor Markets!</h1>
+                <Link href={`/markets`} style={{ textDecoration: 'none' }}>
+                  <div className={styles.poster_button_discover}>
+                    <p style={{ marginRight: '10px' }}>Discover More</p>
+                    <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/arrow_right.png`} style={{ width: '29px', height: '21px' }} />
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.ReccommendedProducts}>
+            {/* slider (poohsit) */}
+            <div className={styles.ReccommendedBlogs_text}>
+              Recommended Products
+            </div>
+            {/* CARD SLIDER */}
+            <div className={styles.slider}>
+              <Carousel responsive={responsive}>
+                {RecDataProduct.slice(0, 6).map((card) => (
+                  <div><CardProducts img={card.product_image} route={card.product_id} /></div>
+                ))}
+              </Carousel>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <footer>{/* footer ( petch )(component) */}</footer>
+    </div>
+  );
 }

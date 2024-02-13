@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import "./EditProfile.scoped.css";
 import axios from 'axios';
 import { General } from '../App';
-import { baseApiUrl } from '../config'
+import { REACT_APP_BASE_API_URL } from '../config'
 
 function Editprofile(props) {
     const{supabase_for_use : supabase,user} = useContext(General);
@@ -35,7 +35,7 @@ function Editprofile(props) {
         .from('avatars')
         .getPublicUrl(image_title)
 
-        axios.post(`${baseApiUrl}/edit_profile`,{
+        axios.post(`${REACT_APP_BASE_API_URL}/edit_profile`,{
             id: user.id,
             username: newName,
             email: user.email,

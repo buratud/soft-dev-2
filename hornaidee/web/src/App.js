@@ -12,33 +12,35 @@ import Error from "./pages/error";
 import Helppage from "./pages/helppage";
 import axios from "axios";
 import Main from "./pages/main";
+import { REACT_APP_BASE_API_URL, REACT_APP_BASE_WEB_PATH } from "./config";
+
 const router = createHashRouter([
   {
     path: "/",
     element: <Main />,
   },
   {
-    path: "Login",
+    path: "/Login",
     element: <Login />,
   },
   {
-    path: "Register",
+    path: "/Register",
     element: <Register />,
   },
   {
-    path: "detail/:dormID",
+    path: "/detail/:dormID",
     element: <Detaildorm />,
   },
   {
-    path: "chat/:userID/:chanel",
+    path: "/chat/:userID/:chanel",
     element: <Chat />,
   },
   {
-    path: "chat/:userID",
+    path: "/chat/:userID",
     element: <Chat />,
   },
   {
-    path: "manage/:dormID",
+    path: "/manage/:dormID",
     element: <Manage_detail></Manage_detail>,
   },
   {
@@ -46,11 +48,11 @@ const router = createHashRouter([
     element: <Error></Error>,
   },
   {
-    path: "help",
+    path: "/help",
     element: <Helppage></Helppage>,
   },
   {
-    path: "help/:ticketID",
+    path: "/help/:ticketID",
     element: <Helppage></Helppage>,
   }
 ]);
@@ -62,7 +64,7 @@ function App() {
   // }, [user])
 
   useEffect(() => {
-    axios.post("http://localhost:3001/auten", {},
+    axios.post(`${REACT_APP_BASE_API_URL}/auten`, {},
       {
         headers: {
           Authorization: `Basic ${localStorage.getItem("token")}`
@@ -79,7 +81,7 @@ function App() {
 
   return (
     <userContext.Provider value={{user: user, setUser: setUser}}>
-      <RouterProvider router={router} />
+      <RouterProvider router={router}  />
     </userContext.Provider>
   );
 }

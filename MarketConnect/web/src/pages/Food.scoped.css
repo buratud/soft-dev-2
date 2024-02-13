@@ -1,7 +1,7 @@
 .container{
     max-width: 100vw;
     min-height: 100vh;
-    background-color: #F6F4EB;
+    background-color: #F6F6FB;
 }
 
 .food-search {
@@ -9,13 +9,13 @@
 }
 
 #food-box{
-    background-color: #F6F4EB;
+    background-color: #F6F6FB;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding-top: 2rem;
-    padding-bottom: 6rem;
+    padding-bottom: 2rem;
 
 }
 
@@ -39,12 +39,11 @@ h1{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #efece2;
+    background-color: white;
     border-radius: 1rem;
     box-shadow: 0 0 0.5rem 0.25rem rgba(0, 0, 0, 0.25);
     text-decoration: none;
     color: #12263a;
-    background-color: #F0F0F0;
 }
 
 .food-item img{
