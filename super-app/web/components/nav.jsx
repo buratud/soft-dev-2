@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
 import axios from 'axios'
 
-
 export default function NavBar() {
 
     // NavBar ยังไม่ได้เชื่อม
