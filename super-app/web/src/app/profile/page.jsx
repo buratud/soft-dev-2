@@ -7,7 +7,10 @@ import Footer from "../../../components/footer/Footer"
 import CardProducts from "../../../components/CardProduct"
 import CardBlogs from "../../../components/CardBlogs"
 import Fakedata from "../data.js";
+import test_data_dorm from '../test_data_dorm';
 import { NEXT_PUBLIC_BASE_WEB_PATH } from '../../../config';
+import CardDorm from '../../../components/CardDorm';
+import { FaCircle } from 'react-icons/fa';
 
 const BlogsCards = () => {
 
@@ -101,6 +104,26 @@ const ProductCards = () => {
     )
 }
 
+const DormCards = () =>{
+    const dorms = test_data_dorm.map((dorm, index) => (
+        <CardDorm
+            key={index}
+            img = {dorm.img}
+            dorm_name = {dorm.dorm_name}
+            price = {dorm.price}
+            id = {dorm.id}
+            facilities = {dorm.facilities}
+            star = {dorm.star}
+        />
+    ))
+
+    return(
+        <div style={{paddingTop:'40px',display:'grid',gridTemplateColumns:'1fr 1fr',justifyItems:'center',rowGap:'30px'}}>
+            {dorms}
+        </div>
+    )
+}
+
 export default function Profile() {
 
     const [selectedOption, setSelectedOption] = useState('blogs'); // สร้าง state เพื่อเก็บค่า option ที่ถูกเลือก
@@ -140,6 +163,8 @@ export default function Profile() {
                 <div className={style.data}>
                     {selectedOption === 'blogs' && <BlogsCards />} {/* ถ้า option เป็น blogs แสดง BlogsCards */}
                     {selectedOption === 'markets' && <ProductCards />} {/* ถ้า option เป็น markets แสดง ProductCards */}
+                    {selectedOption === 'dorms' && <DormCards/>} {/* ถ้า option เป็น dorms แสดง DormCards */}
+                    
                 </div>
             </div>
             <Footer />
