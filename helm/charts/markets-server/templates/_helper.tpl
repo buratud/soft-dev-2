@@ -7,3 +7,7 @@
 {{- $name := (include "global.rootPath" .) -}}
 {{- printf "%s/markets" $name -}}
 {{- end -}}
+
+{{- define "markets-server.port"}}
+{{- 4001 -}}
+{{- end -}}

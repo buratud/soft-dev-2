@@ -7,3 +7,7 @@
 {{- $name := (include "global.rootPath" .) -}}
 {{- printf "%s/dorms" $name -}}
 {{- end -}}
+
+{{- define "dorms-server.port"}}
+{{- 4003 -}}
+{{- end -}}
