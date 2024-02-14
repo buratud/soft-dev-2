@@ -21,27 +21,27 @@ export default function NavBar() {
     const {session} = useContext(General);
 
     useEffect(() => {
-        console.log('session',session)
+        console.log('session', session )
 
         // เรียกใช้ isLoggedIn เพื่อตรวจสอบสถานะการเข้าสู่ระบบ
-        const checkLoginStatus = async () => {
-            try {
-                const { data, error } = await supabase.auth.getSession();
-                console.log('session in navbar',session)
-                if (error) {
-                    console.error('Error checking login status:', error);
-                } else {
-                    const { logged, picture } = data;
-                    setIsUserLoggedIn(logged);
-                    setProfileImage(picture);
-                }
-            } catch (error) {
-                console.error('Error checking login status:', error);
-            }
-        };
+        // const checkLoginStatus = async () => {
+        //     try {
+        //         const { data, error } = await supabase.auth.getSession();
+        //         console.log('session in navbar',session)
+        //         if (error) {
+        //             console.error('Error checking login status:', error);
+        //         } else {
+        //             const { logged, picture } = data;
+        //             setIsUserLoggedIn(logged);
+        //             setProfileImage(picture);
+        //         }
+        //     } catch (error) {
+        //         console.error('Error checking login status:', error);
+        //     }
+        // };
 
-        checkLoginStatus();
-    }, []);
+    //     checkLoginStatus();
+    }, [session]);
 
 
     const SignOut = async () => {
@@ -220,7 +220,7 @@ export default function NavBar() {
             </div>
 
             <div className={styles.rightside}>
-                {isUserLoggedIn ? (
+                { {session} ? (
                     <button
                         onClick={() => {
                             setIsOpen_Profile((prev) => !prev);

@@ -6,9 +6,9 @@ const supabaseUrl = NEXT_PUBLIC_SUPABASE_URL
 const supabaseKey = NEXT_PUBLIC_SUPABASE_ANON_KEY
 export const supabase = createClient(supabaseUrl,supabaseKey);
 
-export const General =createContext({});
+export const General = createContext({});
 
-function session() {
+function session(props) {
     const [session,setSession] =useState(null);
 
     useEffect(() => {
