@@ -1,29 +1,100 @@
 'use client'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import styles from './nav.module.css'
-import { NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
+import Link from 'next/link'
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
+import axios from 'axios'
+import { General, supabase } from '../session'
+
 
 export default function NavBar() {
-
-    // NavBar ยังไม่ได้เชื่อม
-
     const [isOpen_1, setIsOpen_1] = useState(false);
     const [isOpen_2, setIsOpen_2] = useState(false);
     const [isOpen_3, setIsOpen_3] = useState(false);
     const [isOpen_Profile, setIsOpen_Profile] = useState(false);
     const [isOpen_Categories, setIsOpen_Categories] = useState(false);
+    // ส่วนของโปรไฟล์และทำการตรวจสอบว่า User ได้ทำการ login หรือยัง
+    const [profileImage, setProfileImage] = useState('');
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-    const isLoggedIn = false;
-    
+    const { session } = useContext(General);
+
+    useEffect(() => {
+        //console.log('session', session)
+
+        //เรียกใช้ isLoggedIn เพื่อตรวจสอบสถานะการเข้าสู่ระบบ
+        const checkLoginStatus = async () => {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                if (error) {
+                    console.log(error);
+                }
+                const user = data?.session?.user;
+
+                if (user) {
+                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`,
+                        {
+                            userID: user.id
+                        }).then(res => {
+                            const {picture} = res.data;
+                            setProfileImage(picture);
+                            setIsUserLoggedIn(true);
+                        });
+                }
+                else {
+                    setIsUserLoggedIn(false);
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+            }
+        };
+
+        checkLoginStatus();
+    }, [session]);
+
+
+    const SignOut = async () => {
+        const { data } = await supabase.auth.getSession();
+        const user = data?.session?.user;
+
+        if (user) {
+            const { error } = await supabase.auth.signOut();
+            if (error) {
+                console.log(error);
+            }
+        }
+        setIsOpen_Profile(false);
+        window.location.reload();
+    }
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            const mainElement = document.getElementById('main');
+            if (!mainElement.contains(event.target)) {
+                setIsOpen_1(false);
+                setIsOpen_2(false);
+                setIsOpen_3(false);
+                setIsOpen_Profile(false);
+                setIsOpen_Categories(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
 
     return (
-        <main className={styles.main}>
+        <main id="main" className={styles.main}>
             <div className={styles.leftside}>
                 <div className={styles.logo}>
-                    <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}`}>
+                    <Link href={`/`}>
                         <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} height={70} width={80} />
-                    </a>
+                    </Link>
                 </div>
             </div>
             <div className={styles.middle} >
@@ -45,7 +116,7 @@ export default function NavBar() {
                     {isOpen_1 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs`}>Main</a>
+                                <Link href={`/blogs`}>Main</Link>
                             </span>
                         </div>
                         <div>
@@ -57,17 +128,22 @@ export default function NavBar() {
                                 <div className={styles.subdropdownContent}>
                                     <div>
                                         <span>
-                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/cleaning`}>Cleaning</a>
+                                            <Link href={`/blogs/cleaning`}>Cleaning</Link>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/decorations`}>Decorations</a>
+                                            <Link href={`/blogs/decoration`}>Decorations</Link>
                                         </span>
                                     </div>
                                     <div>
                                         <span>
-                                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/story`}>Story's DekHor</a>
+                                            <Link href={`/blogs/cooking`}>cooking</Link>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            <Link href={`/blogs/story`}>Story's DekHor</Link>
                                         </span>
                                     </div>
                                 </div>
@@ -75,12 +151,12 @@ export default function NavBar() {
                         </div>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/writeblog`}>Blogging</a>
+                                <Link href={`/blogs/writeblog`}>Blogging</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs/blogger`}>Blogger</a>
+                                <Link href={`/blogs/blogger`}>Blogger</Link>
                             </span>
                         </div>
                     </div>}
@@ -102,17 +178,17 @@ export default function NavBar() {
                     {isOpen_2 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>Main</a>
+                                <Link href={`/dorms`}>Main</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>All Dorms</a>
+                                <Link href={`/dorms`}>All Dorms</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>Add Dorm</a>
+                                <Link href={`/dorms`}>Add Dorm</Link>
                             </span>
                         </div>
                     </div>}
@@ -134,17 +210,17 @@ export default function NavBar() {
                     {isOpen_3 && <div className={styles.dropdownContent}>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>Main</a>
+                                <Link href={`/markets`}>Main</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>All Products</a>
+                                <Link href={`/markets/food`}>All Products</Link>
                             </span>
                         </div>
                         <div>
                             <span>
-                                <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>Add Product</a>
+                                <Link href={`/markets/addproduct`}>Manage Product</Link>
                             </span>
                         </div>
                     </div>}
@@ -153,7 +229,7 @@ export default function NavBar() {
             </div>
 
             <div className={styles.rightside}>
-                {isLoggedIn ? (
+                {isUserLoggedIn ? (
                     <button
                         onClick={() => {
                             setIsOpen_Profile((prev) => !prev);
@@ -161,23 +237,24 @@ export default function NavBar() {
                             setIsOpen_2(false);
                             setIsOpen_1(false);
                         }}>
-                        <div><img alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`}  className={styles.ProfileImage} /></div>
+                        {/* ตัวแปรโปรไฟล์อยู่ตรงนี้ใน src */}
+                        <div><img alt="Profile" src={profileImage} className={styles.ProfileImage} /></div>
                     </button>
                 ) : (
                     <>
                         <div className={styles.btn}>
-                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/register`}>
+                            <Link href={`/register`}>
                                 <button className={styles.signup_btn} >
                                     Sign up
                                 </button>
-                            </a>
+                            </Link>
                         </div>
                         <div>
-                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/login`}>
+                            <Link href={`/login`}>
                                 <button className={styles.login_btn} >
                                     Login
                                 </button>
-                            </a>
+                            </Link>
                         </div>
                     </>
                 )}
@@ -186,18 +263,19 @@ export default function NavBar() {
                     <div>
                         <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
                         <span>
-                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/profile`}>My Profile</a>
+                            <Link href={`/profile`}>My Profile</Link>
                         </span>
                     </div>
                     <div>
                         <Image alt="Support" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`} height={30} width={30} />
                         <span>
-                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/support`}>Support</a>
+                            <Link href={`/support`}>Support</Link>
                         </span>
                     </div>
-                    <div>
+
+                    <div onClick={SignOut}>
                         <Image alt="logout" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/BoxArrowLeft.svg`} height={30} width={30} className={styles.logout} />
-                        <span className={styles.logout}><a href={`${NEXT_PUBLIC_BASE_WEB_PATH}`}>Log out</a></span>
+                        <span className={styles.logout_text} >Log out</span>
                     </div>
                 </div>}
             </div>
