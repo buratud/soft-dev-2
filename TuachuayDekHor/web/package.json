@@ -63,5 +63,5 @@
     "dotenv": "^16.3.1",
     "tailwindcss": "^3.3.3"
   },
-  "homepage": "http://localhost:3000"
+  "homepage": "http://localhost:3002"
 }
