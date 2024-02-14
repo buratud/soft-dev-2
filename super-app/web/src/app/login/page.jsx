@@ -7,10 +7,12 @@ import { redirect, useRouter } from "next/navigation";
 import axios from 'axios';
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_URL, NEXT_PUBLIC_BASE_WEB_PATH } from "../../../config.js";
 import { supabase } from '../../../session'
-
+import { useSearchParams } from 'next/navigation'
 
 export default function Login() {
-
+    const searchParams = useSearchParams()
+    const redirectUrl = searchParams.get('redirect')
+    
     const initialFormData = {
         username: '',
         password: '',
@@ -51,7 +53,11 @@ export default function Login() {
                     if (data.user === null) {
                         alert("Incorrect username, email or password");
                     } else {
-                        router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
+                        if (!redirectUrl) {
+                            router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
+                        } else {
+                            window.location.replace(redirectUrl);
+                        }
                     }
                 }
             });
