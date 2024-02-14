@@ -32,17 +32,17 @@ api.put("/login", async (req, res) => {
 
   if (users.length === 0) {
     res
-        .status(200)
-        .json({ email: UsernameorEmail });
+      .status(200)
+      .json({ email: UsernameorEmail });
   } else {
     res
-        .status(200)
-        .json({ email: users[0].email });
+      .status(200)
+      .json({ email: users[0].email });
   }
 });
 
 api.put("/register", async (req, res) => {
-  const { email, username, password } = req.body;
+  const { email, username } = req.body;
 
   let { data: users, errors } = await supabase
     .from("users")
@@ -53,65 +53,24 @@ api.put("/register", async (req, res) => {
     res.status(500).json(errors);
   } else {
     if (users.length === 0) {
-      const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-        options: {
-          data: {
-            username: username,
-          },
-        },
-      });
+      res.status(200).json({ next: true });
 
-      if (error) {
-        res.status(500).json(error);
-      } else {
-        const { insert_username, err } = await supabase
-          .from("users")
-          .upsert([{ id: data.user.id, username: username, email: email }], {
-            onConflict: ["email"],
-          })
-          .select();
-
-        if (err) {
-          res.status(500).json(err);
-        } else {
-          res.status(200).json({ message: "User go to verify page" });
-        }
-      }
     } else {
-      res.status(400).json({ message: "This username already used" });
+      res.status(400).json({ message: "This username already used", next: false });
     }
   }
 });
 
-api.put("/verify-otp", async (req, res) => {
-  try {
-    const { email, otp } = req.body;
+api.put('/update-username', async (req) => {
+  const { email, username, data } = req.body;
 
-    const { error } = await supabase.auth.verifyOtp({
-      email,
-      token: otp,
-      type: "email",
-    });
-
-    if (error) {
-      throw error;
-    }
-
-    res.status(200).json({ message: "OTP verified successfully" });
-  } catch (error) {
-    if (
-      error.message.includes("invalid") ||
-      error.message.includes("expired")
-    ) {
-      res.status(200).json({ error: "OTP has invalid or expired" });
-    } else {
-      console.log(error);
-      res.status(500).json({ error: "An error occurred while verifying OTP" });
-    }
-  }
-});
+  const { insert_username, err } = await supabase
+    .from("users")
+    .upsert([{ id: data.user.id, username: username, email: email }], {
+      onConflict: ["email"],
+    })
+    .select();
+})
 
 //-----------------------------superapp home page-----------------------------------
 
