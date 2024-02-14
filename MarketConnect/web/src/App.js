@@ -3,18 +3,17 @@ import {
   Route,
   useNavigationType,
   useLocation,
+  Navigate 
 } from "react-router-dom";
 
 import { useEffect, createContext, useState, useRef } from "react";
 import Register from "./pages/Register";
-import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Support from "./pages/Support";
 import Profile from "./pages/Profile";
 import Food from "./pages/Food";
 import FoodDetail from "./pages/ProductDetail";
 import AddProduct from "./pages/AddProduct";
-import Verify from "./pages/Verify";
 import Manage from "./pages/ManageProduct";
 import GuardedRoute from "./components/GuardedRoute";
 import GuardedAdmin from "./components/GuardedAdmin";
@@ -32,7 +31,6 @@ export const AuthContext = createContext({});
 
 function App() {
   const [session, setSession] = useState(null);
-  const [isFetching, setIsFetching] = useState(true);
   const didMount = useRef(false);
   const action = useNavigationType();
   const location = useLocation();
@@ -47,17 +45,11 @@ function App() {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log("onAuthStateChange", _event)
       setSession(session);
     });
     return () => subscription.unsubscribe();
   }, []);
-
-  useEffect(() => {
-    if (!didMount.current) {
-      return () => (didMount.current = true);
-    }
-    setIsFetching(false);
-  }, [session]);
 
   useEffect(() => {
     if (action !== "POP") {
@@ -92,20 +84,17 @@ function App() {
   return (
     <AuthContext.Provider
       value={{
-        isFetching: isFetching,
         session: session,
         user: session?.user,
       }}
     >
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<Home />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/food" element={<Food />} />
         <Route path="/fooddetail" element={<FoodDetail />} />
         <Route path="/fooddetail/:foodid" element={<FoodDetail />} />
-        <Route path="/verify" element={<Verify />} />
         <Route element={<GuardedRoute />}>
           <Route path="/addproduct" element={<AddProduct />} />
           <Route path="/addproduct/:foodid" element={<AddProduct />} />
