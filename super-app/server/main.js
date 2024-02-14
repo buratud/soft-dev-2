@@ -37,8 +37,7 @@ api.post("/check-logged-in", async (req, res) => {
 });
 
 api.put("/logout", async (req, res) => {
-  // const { data } = await supabase.auth.getSession();
-  const { data } = req.body;
+  const { data } = await supabase.auth.getSession();
   const user = data?.session?.user;
 
   if (user) {
@@ -197,64 +196,20 @@ api.post("/recommended-product", async (req, res) => {
   }
 });
 
-//-----------------------------profile-----------------------------------
+//-----------------------------Profile-----------------------------------
 
-//-----------------blog-------------------
-
-api.post('/liked_blog', async (req, res) => {
-  const {user} = req.body;
-  try {
-    const { data, error } = await supabase
-    .from('likedblog') 
-    .select('*')
-    .eq('user_id',user)
-    if (error) {
-        throw error;
-    } else {
-        res.status(200).json(data);
-    }
-  } catch (error) {
-    res.status(500).json(error);
+api.post('/profile-picture', async (req, res) => {
+  const { userID } = req.body;
+  if (userID) {
+    const { data } = await supabase
+      .from("users")
+      .select("picture")
+      .eq("id", userID);
+    const picture = data[0]?.picture;
+    console.log(picture);
+    res.status(200).json({ picture });
   }
 })
-
-api.post('/your_blog', async (req, res) => {
-  const {user} = req.body;
-  try {
-    const { data, error } = await supabase
-    .from('yourblog') 
-    .select('blog_id,title,category,body,blogger,date,cover_img')
-    .eq('user_id',user)
-    if (error) {
-        throw error;
-    } else {
-        res.status(200).json(data);
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-})
-
-//-----------------market-------------------
-
-api.post('/your_product', async (req, res) => {
-  const {user} = req.body;
-  try {
-    const { data, error } = await supabase
-    .from('yourproduct') 
-    .select('*')
-    .eq('user_id',user)
-    if (error) {
-        throw error;
-    } else {
-        res.status(200).json(data);
-    }
-  } catch (error) {
-    res.status(500).json(error);
-  }
-})
-
-//-----------------------------port-----------------------------------
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);

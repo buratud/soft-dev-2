@@ -18,43 +18,52 @@ export default function NavBar() {
     const [profileImage, setProfileImage] = useState('');
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-    const {session} = useContext(General);
+    const { session } = useContext(General);
 
     useEffect(() => {
-        console.log('session', session )
+        //console.log('session', session)
 
-        // เรียกใช้ isLoggedIn เพื่อตรวจสอบสถานะการเข้าสู่ระบบ
-        // const checkLoginStatus = async () => {
-        //     try {
-        //         const { data, error } = await supabase.auth.getSession();
-        //         console.log('session in navbar',session)
-        //         if (error) {
-        //             console.error('Error checking login status:', error);
-        //         } else {
-        //             const { logged, picture } = data;
-        //             setIsUserLoggedIn(logged);
-        //             setProfileImage(picture);
-        //         }
-        //     } catch (error) {
-        //         console.error('Error checking login status:', error);
-        //     }
-        // };
+        //เรียกใช้ isLoggedIn เพื่อตรวจสอบสถานะการเข้าสู่ระบบ
+        const checkLoginStatus = async () => {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                if (error) {
+                    console.log(error);
+                }
+                const user = data?.session?.user;
 
-    //     checkLoginStatus();
+                if (user) {
+                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`,
+                        {
+                            userID: user.id
+                        }).then(res => {
+                            const {picture} = res.data;
+                            console.log(picture);
+                            setIsUserLoggedIn(true);
+                        });
+                }
+                else {
+                    setIsUserLoggedIn(false);
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+            }
+        };
+
+        checkLoginStatus();
     }, [session]);
 
 
     const SignOut = async () => {
         const { data } = await supabase.auth.getSession();
-        axios.put(`${NEXT_PUBLIC_BASE_API_URL}/logout`, {})
-        // axios.post(`${NEXT_PUBLIC_BASE_API_URL}/check-logged-in`, {})
-            .then(res => {
-                const { logged, picture } = res.data;
-                setIsUserLoggedIn(logged);
-                setProfileImage(picture);
-            }).catch(error => {
+        const user = data?.session?.user;
+
+        if (user) {
+            const { error } = await supabase.auth.signOut();
+            if (error) {
                 console.log(error);
-            })
+            }
+        }
         setIsOpen_Profile(false);
         window.location.reload();
     }
@@ -220,7 +229,7 @@ export default function NavBar() {
             </div>
 
             <div className={styles.rightside}>
-                { session ? (
+                {isUserLoggedIn ? (
                     <button
                         onClick={() => {
                             setIsOpen_Profile((prev) => !prev);
