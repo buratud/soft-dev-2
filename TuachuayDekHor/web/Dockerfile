@@ -17,7 +17,7 @@ ENV REACT_APP_SUPABASE_ANON_KEY=${BLOG_SUPABASE_ANON_KEY}
 COPY package.json .
 RUN npm install --omit=dev --legacy-peer-deps
 COPY . .
-RUN sed -i "s|http://localhost:3000|${BASE_DOMAIN_WITH_PROTOCOL}${BASE_BLOG_WEB_PATH}|g" package.json
+RUN sed -i "s|http://localhost:3002|${BASE_DOMAIN_WITH_PROTOCOL}${BASE_BLOG_WEB_PATH}|g" package.json
 RUN npm run build
 
 FROM nginx:stable-alpine AS serve
