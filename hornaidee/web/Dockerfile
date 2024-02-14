@@ -13,7 +13,7 @@ ENV REACT_APP_BASE_SERVER_PATH=${BASE_DORM_SERVER_PATH}
 COPY package.json .
 RUN npm install --omit=dev --legacy-peer-deps
 COPY . .
-RUN sed -i "s|http://localhost:3000|${BASE_DOMAIN_WITH_PROTOCOL}${BASE_DORM_WEB_PATH}|g" package.json
+RUN sed -i "s|http://localhost:3003|${BASE_DOMAIN_WITH_PROTOCOL}${BASE_DORM_WEB_PATH}|g" package.json
 RUN npm run build
 
 FROM nginx:stable-alpine AS serve
