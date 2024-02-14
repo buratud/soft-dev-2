@@ -20,4 +20,4 @@ spec:
           service:
             name: markets-server-service{{ include "global.appendTag" . }}
             port:
-              number: 5000
+              number: {{ include "markets-server.port" . }}
