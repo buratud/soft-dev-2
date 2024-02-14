@@ -21,7 +21,7 @@ const BlogsCards = () => {
         setShowYourBlogs(false);
     }, []);
 
-    let user = '7d454f34-572f-4455-901e-1b00cbfb0c70'; //รอการ authen
+    let user = '95c6d7a8-b73f-4f51-8dca-e734b38fe21c'; //รอการ authen
 
     const [Likes, setLikes] = useState([]);
     useState(()=>{
@@ -112,7 +112,7 @@ const BlogsCards = () => {
 
 const ProductCards = () => {
     
-    let user = '7d454f34-572f-4455-901e-1b00cbfb0c70'; //รอการ authen
+    let user = '95c6d7a8-b73f-4f51-8dca-e734b38fe21c'; //รอการ authen
 
     const [yourproduct, setyourproduct] = useState([]);
     useState(()=>{
