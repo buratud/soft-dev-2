@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Link from "next/link"
 import NavBar from "../../../components/nav"
 import style from "./page.module.css"
@@ -9,11 +9,14 @@ import CardBlogs from "../../../components/CardBlogs"
 import Fakedata from "../data.js";
 import { NEXT_PUBLIC_BASE_WEB_PATH,NEXT_PUBLIC_BASE_API_URL } from '../../../config';
 import axios from 'axios';
+import { General, supabase } from '../../../session'
 
 const BlogsCards = () => {
 
     const [showLikes, setShowLikes] = useState(false);
     const [showYourBlogs, setShowYourBlogs] = useState(false);
+
+    const { session } = useContext(General);
 
     // ส่วนของ front ให้แสดงในส่วนของ Showlikes Blogs ก่อนโดยใช้ UseEffect
     useEffect(() => {
@@ -21,35 +24,53 @@ const BlogsCards = () => {
         setShowYourBlogs(false);
     }, []);
 
-    let user = '95c6d7a8-b73f-4f51-8dca-e734b38fe21c'; //รอการ authen
-
+    
     const [Likes, setLikes] = useState([]);
-    useState(()=>{
-        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
-            user: user,
-        })
-        .then(res => {
-            setLikes(res.data)
-            console.log('likes',res.data)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    },[])
-
     const [yourblog, setyourblog] = useState([]);
+
     useState(()=>{
-        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_blog`, {
-            user: user,
-        })
-        .then(res => {
-            setyourblog(res.data)
-            console.log('your blog',res.data)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    },[])
+        const checkLoginStatus = async () => {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                if (error) {
+                    console.log(error);
+                }
+                const user = data?.session?.user?.id;
+
+                if (user) {
+                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
+                        user: user,
+                    })
+                    .then(res => {
+                        setLikes(res.data)
+                        console.log('likes',res.data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+
+                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_blog`, {
+                        user: user,
+                    })
+                    .then(res => {
+                        setyourblog(res.data)
+                        console.log('your blog',res.data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                    
+                }
+                else {
+                    setIsUserLoggedIn(false);
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+            }
+        };
+
+        checkLoginStatus();
+    }, [session]);
 
     const handleLikesClick = () => {
         setShowLikes(true);
@@ -111,22 +132,55 @@ const BlogsCards = () => {
 }
 
 const ProductCards = () => {
-    
-    let user = '95c6d7a8-b73f-4f51-8dca-e734b38fe21c'; //รอการ authen
 
+    const { session } = useContext(General);
     const [yourproduct, setyourproduct] = useState([]);
+
     useState(()=>{
-        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
-            user: user,
-        })
-        .then(res => {
-            setyourproduct(res.data)
-            console.log('your product',res.data)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    },[])
+        const checkLoginStatus = async () => {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                if (error) {
+                    console.log(error);
+                }
+                const user = data?.session?.user?.id;
+
+                if (user) {
+                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
+                        user: user,
+                    })
+                    .then(res => {
+                        setyourproduct(res.data)
+                        console.log('your product',res.data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                }
+                else {
+                    setIsUserLoggedIn(false);
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+            }
+        };
+
+        checkLoginStatus();
+    }, [session]);
+
+    // const [yourproduct, setyourproduct] = useState([]);
+    // useState(()=>{
+    //     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
+    //         user: user,
+    //     })
+    //     .then(res => {
+    //         setyourproduct(res.data)
+    //         console.log('your product',res.data)
+    //     })
+    //     .catch((err) => {
+    //         console.log(err)
+    //     })
+    // },[])
 
     return (
         <div>
