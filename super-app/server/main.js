@@ -23,8 +23,6 @@ api.get("/", (req, res) => {
 api.put("/login", async (req, res) => {
   const { UsernameorEmail } = req.body;
 
-  let for_login;
-
   let { data: users, errors } = await supabase
     .from("users")
     .select("*")
@@ -32,12 +30,12 @@ api.put("/login", async (req, res) => {
 
   if (users.length === 0) {
     res
-      .status(200)
-      .json({ email: UsernameorEmail });
+        .status(200)
+        .json({ email: UsernameorEmail });
   } else {
     res
-      .status(200)
-      .json({ email: users[0].email });
+        .status(200)
+        .json({ email: users[0].email });
   }
 });
 
@@ -116,6 +114,8 @@ api.post("/recommended-product", async (req, res) => {
 
 //-----------------------------Edit profile-----------------------------------
 
+
+//-----------------------------profile-----------------------------------
 api.post('/profile-picture', async (req, res) => {
   const { userID } = req.body;
   if (userID) {
@@ -127,10 +127,6 @@ api.post('/profile-picture', async (req, res) => {
     res.status(200).json({ picture });
   }
 })
-
-
-//-----------------------------profile-----------------------------------
-
 //-----------------blog-------------------
 
 api.post('/liked_blog', async (req, res) => {
