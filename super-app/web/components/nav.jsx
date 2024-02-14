@@ -138,7 +138,7 @@ export default function NavBar() {
                                     </div>
                                     <div>
                                         <span>
-                                            <Link href={`/blogs/cooking`}>cooking</Link>
+                                            <Link href={`/blogs/cooking`}>Cooking</Link>
                                         </span>
                                     </div>
                                     <div>
