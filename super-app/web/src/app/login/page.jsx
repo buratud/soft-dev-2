@@ -35,17 +35,6 @@ export default function Login() {
             return;
         }
         else {
-            // axios.put(`${NEXT_PUBLIC_BASE_API_URL}/login`,{
-            //     UsernameorEmail: formData.username,
-            //     password: formData.password,
-            // })
-            // .then(res => {
-            //     router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
-            //     // router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
-            // })
-            // .catch((err) => {
-            //     alert(err.response.data.message);
-            // })
             const { data, error } = await supabase.auth.signInWithPassword({
                 email: formData.username,
                 password: formData.password,
@@ -57,7 +46,7 @@ export default function Login() {
                 if (data.user === null) {
                     alert("Incorrect username, email or password");
                 } else {
-                    alert("User logined successfully");
+                    router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
                 }
             }
         }

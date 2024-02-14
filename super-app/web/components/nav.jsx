@@ -220,7 +220,7 @@ export default function NavBar() {
             </div>
 
             <div className={styles.rightside}>
-                { {session} ? (
+                { session ? (
                     <button
                         onClick={() => {
                             setIsOpen_Profile((prev) => !prev);
