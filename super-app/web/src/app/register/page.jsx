@@ -6,6 +6,7 @@ import styles from './register.module.css';
 import Link from 'next/link';
 import axios from 'axios';
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../../config';
+import { supabase } from '../../../session'
 
 export default function Home() {
     const router = useRouter();
@@ -49,14 +50,39 @@ export default function Home() {
         axios.put(`${NEXT_PUBLIC_BASE_API_URL}/register`, {
             email: formData.email,
             username: formData.username,
-            password: formData.password,
         })
-        .then(res => {
-            router.push(`/verify?email=${formData.email}`)
-        })
-        .catch((err) => {
-            alert(err.response.data.message);
-        })
+            .then(async res => {
+                const { message, next } = res.data;
+                message? alert(message): '';
+                if (next) {
+                    const { data, error } = await supabase.auth.signUp({
+                        email: formData.email,
+                        password: formData.password,
+                        options: {
+                            data: {
+                                username: formData.username,
+                            },
+                        },
+                    });
+
+                    if (error) {
+                        console.log(error);
+                    }
+                    else {
+
+                        axios.put(`${NEXT_PUBLIC_BASE_API_URL}/update-username`, {
+                            email: formData.email,
+                            username: formData.username,
+                            data
+                        })
+                        router.push(`/verify?email=${formData.email}`)
+                    }
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
 
         setFormData(initialFormData);
 
@@ -66,7 +92,7 @@ export default function Home() {
     return (
         <main className={styles.main}>
             <div className={styles.topBar}>
-            <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/LOGO.png`} height={55} width={55} />
+                <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/LOGO.png`} height={55} width={55} />
             </div>
             <div className={styles.register_form}>
                 <div className={styles.leftside}>
