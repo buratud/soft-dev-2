@@ -8,5 +8,5 @@ spec:
     app: superapp-server{{ include "global.appendTag" . }}
   ports:
     - protocol: TCP
-      port: 5000
-      targetPort: 5000
+      port: {{ include "superapp-server.port" . }}
+      targetPort: {{ include "superapp-server.port" . }}
