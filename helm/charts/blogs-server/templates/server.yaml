@@ -16,7 +16,7 @@ spec:
         - name: blogs-server
           image: softdev2southeastasia.azurecr.io/blogs-server:{{ .Values.global.revision }}
           ports:
-            - containerPort: 5000
+            - containerPort: {{ include "blogs-server.port" . }}
           env:
             {{- template "global.env" . }}
             - name: BASE_WEB_PATH

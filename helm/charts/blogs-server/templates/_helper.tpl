@@ -7,3 +7,7 @@
 {{- $name := (include "global.rootPath" .) -}}
 {{- printf "%s/blogs" $name -}}
 {{- end -}}
+
+{{- define "blogs-server.port"}}
+{{- 4002 -}}
+{{- end -}}
