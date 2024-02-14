@@ -20,36 +20,8 @@ api.get("/", (req, res) => {
 
 //Authentication
 
-api.post("/check-logged-in", async (req, res) => {
-  const { data } = await supabase.auth.getSession();
-  const user = data?.session?.user;
-
-  if (user) {
-    const { data } = await supabase
-      .from("users")
-      .select("picture")
-      .eq("id", user.id);
-    const picture = data[0]?.picture;
-    res.status(200).json({ logged: true, picture });
-  } else {
-    res.status(200).json({ logged: false });
-  }
-});
-
-api.put("/logout", async (req, res) => {
-  const { data } = await supabase.auth.getSession();
-  const user = data?.session?.user;
-
-  if (user) {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.log(error);
-    }
-  }
-});
-
 api.put("/login", async (req, res) => {
-  const { UsernameorEmail, password } = req.body;
+  const { UsernameorEmail } = req.body;
 
   let for_login;
 
@@ -59,26 +31,13 @@ api.put("/login", async (req, res) => {
     .eq("username", UsernameorEmail);
 
   if (users.length === 0) {
-    for_login = UsernameorEmail;
+    res
+        .status(200)
+        .json({ email: UsernameorEmail });
   } else {
-    for_login = users[0].email;
-  }
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: for_login,
-    password: password,
-  });
-
-  if (errors) {
-    res.status(500).json(error);
-  } else {
-    if (data.user === null) {
-      res
-        .status(400)
-        .json({ message: "Incorrect username, email or password" });
-    } else {
-      res.status(200).json({ data, message: "User logined successfully" });
-    }
+    res
+        .status(200)
+        .json({ email: users[0].email });
   }
 });
 
@@ -206,7 +165,6 @@ api.post('/profile-picture', async (req, res) => {
       .select("picture")
       .eq("id", userID);
     const picture = data[0]?.picture;
-    console.log(picture);
     res.status(200).json({ picture });
   }
 })

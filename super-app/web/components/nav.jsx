@@ -38,7 +38,7 @@ export default function NavBar() {
                             userID: user.id
                         }).then(res => {
                             const {picture} = res.data;
-                            console.log(picture);
+                            setProfileImage(picture);
                             setIsUserLoggedIn(true);
                         });
                 }

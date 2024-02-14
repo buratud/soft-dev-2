@@ -35,20 +35,28 @@ export default function Login() {
             return;
         }
         else {
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: formData.username,
-                password: formData.password,
+            axios.put(`${NEXT_PUBLIC_BASE_API_URL}/login`, {
+                UsernameorEmail:formData.username
+
+            }).then(async res =>{
+                const {email} = res.data;
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: formData.password,
+                });
+    
+                if (error) {
+                    console.log("Internal server error");
+                } else {
+                    if (data.user === null) {
+                        alert("Incorrect username, email or password");
+                    } else {
+                        router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
+                    }
+                }
             });
 
-            if (error) {
-                console.log("Internal server error'");
-            } else {
-                if (data.user === null) {
-                    alert("Incorrect username, email or password");
-                } else {
-                    router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
-                }
-            }
+            
         }
     }
 
