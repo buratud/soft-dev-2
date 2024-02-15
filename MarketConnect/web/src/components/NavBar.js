@@ -1,7 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./NavBar.scoped.sass";
 import { useSupabase } from "../App";
-import { REACT_APP_BASE_WEB_PATH } from "../config";
+import { REACT_APP_BASE_WEB_PATH, REACT_APP_MAIN_URL } from "../config";
 
 const NavBar = () => {
   const supabase = useSupabase();
@@ -13,40 +13,40 @@ const NavBar = () => {
   return (
     <nav>
       <div>
-        <img src={`${REACT_APP_BASE_WEB_PATH}/logo.png`} className="logo" />
+        <a href={REACT_APP_MAIN_URL}><img src={`${REACT_APP_BASE_WEB_PATH}/logo.png`} className="logo" /></a>
       </div>
       <ul className="menu">
         <li>
           <span>Blogs</span>
           <ul className="main hidden">
-            <li>Main</li>
+            <a href={`${REACT_APP_MAIN_URL}/blogs`}><li>Cleaning</li></a>
             <li className="sub-menu">
               <span>Categories &gt;</span>
               <ul className="hidden left">
-                <li>Cleaning</li>
-                <li>Decorations</li>
-                <li>Cooking</li>
-                <li>DekHor's Story</li>
+                <a href={`${REACT_APP_MAIN_URL}/blogs/cleaning`}><li>Cleaning</li></a>
+                <a href={`${REACT_APP_MAIN_URL}/blogs/decoration`}><li>Decorations</li></a>
+                <a href={`${REACT_APP_MAIN_URL}/blogs/cooking`}><li>Cooking</li></a>
+                <a href={`${REACT_APP_MAIN_URL}/blogs/story`}><li>DekHor's Story</li></a>
               </ul>
             </li>
-            <li>Blogging</li>
-            <li>Blogger</li>
+            <a href={`${REACT_APP_MAIN_URL}/blogs/writeblog`}><li>Blogging</li></a>
+            <a href={`${REACT_APP_MAIN_URL}/blogs/blogger`}><li>Blogger</li></a>
           </ul>
         </li>
         <li>
           <span>Dorms</span>
           <ul className="main hidden">
-            <li>Main</li>
-            <li>All Dorms</li>
-            <li>Add Dorm</li>
+            <a href={`${REACT_APP_MAIN_URL}/dorms`}><li>Main</li></a>
+            <a href={`${REACT_APP_MAIN_URL}/dorms`}><li>All Dorms</li></a>
+            <a href={`${REACT_APP_MAIN_URL}/dorms`}><li>Add Dorm</li></a>
           </ul>
         </li>
         <li>
           <span>Markets</span>
           <ul className="main hidden">
-            <li>Main</li>
-            <li>All Products</li>
-            <li>Manage Products</li>
+            <Link to={'/home'}><li>Main</li></Link>
+            <Link to={'/food'}><li>All Products</li></Link>
+            <Link to={'/manage'}><li>Manage Products</li></Link>
           </ul>
         </li>
       </ul>
