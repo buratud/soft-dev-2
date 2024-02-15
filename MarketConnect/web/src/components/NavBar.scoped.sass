@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap')
+
+*
+    font-family: "Poppins", sans-serif
+    font-weight: bold
+    box-sizing: border-box
+
+ul
+    list-style-type: none
+    padding: 0
+
+.button
+    display: inline-block
+    font-size: 16px
+    border-radius: 11px
+    text-align: center
+    min-width: 90px
+    padding: 6px 0
+    transition: 0.3s ease
+    cursor: pointer
+    border: 2px solid black
+    &.primary
+        background-color: black
+        color: white
+    &.outlined
+        background-color: white
+        &:hover
+            background-color: black
+            color: white
+    &:hover
+        transform: scale(1.1)
+
+nav
+    padding: 0 70px
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1)
+    position: relative
+    z-index: 1
+    width: 100%
+    height: 70px
+    background-color: white
+    display: flex
+    align-items: center
+    > *
+        display: inline
+    &> *:last-child, &> *:first-child
+        flex-basis: 220px
+
+.hidden
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1)
+    display: none
+    position: absolute
+    background-color: white
+    border-radius: 10px
+    li
+        padding: 12px 0
+    &.left
+        left: 130px
+        top: 0
+
+.main.hidden > li:first-child
+    border-radius: 0
+
+.main.hidden > li
+    position: relative
+
+.logo
+    flex-grow: 0
+    width: 70px
+    height: 70px
+.menu
+    flex-grow: 1
+    text-align: center
+    height: 100%
+    margin: 0
+    > li
+        width: 130px
+        cursor: pointer
+        height: 100%
+        display: inline-block
+        vertical-align: middle
+        position: relative
+        ul
+            width: 130px
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2)
+        > span
+            position: absolute
+            top: 50%
+            transform: translateY(-50%)
+            left: 0
+            right: 0
+            text-align: center
+        &:hover
+            background-color: #f2f2f2
+            > .hidden
+                display: block
+                top: 70px
+                border-radius: 0 0 10px 10px
+        li:first-child
+            border-radius: 10px 10px 0 0
+        li:last-child
+            border-radius: 0 0 10px 10px
+    li:hover
+        background-color: #f2f2f2
+    
+
+.sub-menu:hover .hidden
+    display: block
+    top: 0
+    left: 130px
+    width: 150px
+
+.right
+    height: fit-content
+    flex-grow: 0
+    text-align: right
+    vertical-align: middle
+    .divider
+        border-left: 2px solid gray
+        margin: 0 15px
+        height: 100%
+        display: inline
+        padding: 8px 0
+
+.debug
+    border: 1px solid red
