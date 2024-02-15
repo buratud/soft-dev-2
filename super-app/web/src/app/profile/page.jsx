@@ -170,7 +170,7 @@ export default function Profile() {
                     <div className={style.user_info}>
                         <div className={style.username}>Username</div>
                          {/* เหลือใส่ Link edit profile link */}
-                        <Link href={'/'} className={style.edit_profile_button}>
+                        <Link href={'/profile-edit'} className={style.edit_profile_button}>
                             <div className={style.edit_profile_img}>
                                 <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}images/edit_profile.png`} />
                             </div>

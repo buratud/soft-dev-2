@@ -3,16 +3,12 @@ const { createClient } = require("@supabase/supabase-js");
 require("dotenv").config();
 const { PORT } = require("./config");
 const { BASE_SERVER_PATH, SUPABASE_URL, SUPABASE_KEY } = require("./config");
-const multer = require('multer');
 const cors = require("cors");
 
 const app = express();
 const api = express.Router();
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
 
 app.use(cors());
 app.use(express.json());
@@ -34,12 +30,12 @@ api.put("/login", async (req, res) => {
 
   if (users.length === 0) {
     res
-        .status(200)
-        .json({ email: UsernameorEmail });
+      .status(200)
+      .json({ email: UsernameorEmail });
   } else {
     res
-        .status(200)
-        .json({ email: users[0].email });
+      .status(200)
+      .json({ email: users[0].email });
   }
 });
 
@@ -130,19 +126,66 @@ api.post('/profile-picture', async (req, res) => {
   }
 })
 
+api.post('/profile-username', async (req, res) => {
+  const { userID } = req.body;
+  if (userID) {
+    const { data } = await supabase
+      .from("users")
+      .select("username")
+      .eq("id", userID);
+    const username = data[0]?.username;
+    res.status(200).json({ username });
+  }
+})
+
+api.post('/set-profile', async (req, res) => {
+  const { userID, username, imageURL } = req.body;
+  if (userID) {
+    const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
+    console.log(filename);
+    let { data: users } = await supabase
+      .from("users")
+      .select("*")
+      .eq("username", username);
+
+    if (users.length === 0) {
+
+      const { error } = await supabase.from('users').update({ username: username, picture: imageURL }).eq('id', userID)
+      if (error) {
+
+        await supabase.storage.from('Profile_User').remove(filename);
+        console.log(`error : `);
+        console.log(error);
+
+      } else {
+
+        res.status(200).json({ message: 'Update Profile Success' });
+
+      }
+
+    } else {
+
+      await supabase.storage.from('Profile_User').remove(filename);
+      res.status(200).json({ message: 'Update failed new username already used' , err : true});
+
+    }
+
+  }
+})
+
 //-----------------blog-------------------
 
 api.post('/liked_blog', async (req, res) => {
-  const {user} = req.body;
+  const { user } = req.body;
   try {
     const { data, error } = await supabase
-    .from('likedblog') 
-    .select('*')
-    .eq('user_id',user)
+      .from('likedblog')
+      .select('*')
+      .eq('user_id', user)
     if (error) {
-        throw error;
+      throw error;
     } else {
-        res.status(200).json(data);
+      res.status(200).json(data);
     }
   } catch (error) {
     res.status(500).json(error);
@@ -150,16 +193,16 @@ api.post('/liked_blog', async (req, res) => {
 })
 
 api.post('/your_blog', async (req, res) => {
-  const {user} = req.body;
+  const { user } = req.body;
   try {
     const { data, error } = await supabase
-    .from('yourblog') 
-    .select('blog_id,title,category,body,blogger,date,cover_img')
-    .eq('user_id',user)
+      .from('yourblog')
+      .select('blog_id,title,category,body,blogger,date,cover_img')
+      .eq('user_id', user)
     if (error) {
-        throw error;
+      throw error;
     } else {
-        res.status(200).json(data);
+      res.status(200).json(data);
     }
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -169,16 +212,16 @@ api.post('/your_blog', async (req, res) => {
 //-----------------market-------------------
 
 api.post('/your_product', async (req, res) => {
-  const {user} = req.body;
+  const { user } = req.body;
   try {
     const { data, error } = await supabase
-    .from('yourproduct') 
-    .select('*')
-    .eq('user_id',user)
+      .from('yourproduct')
+      .select('*')
+      .eq('user_id', user)
     if (error) {
-        throw error;
+      throw error;
     } else {
-        res.status(200).json(data);
+      res.status(200).json(data);
     }
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
