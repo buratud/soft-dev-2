@@ -39,8 +39,8 @@ function App() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
+      setIsLoading(false);
     });
-    setIsLoading(false);
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
