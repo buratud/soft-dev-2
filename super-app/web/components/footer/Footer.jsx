@@ -7,7 +7,7 @@ import { NEXT_PUBLIC_BASE_WEB_PATH } from '../../config'
 export default function Footer() {
     return (
         <div className={styles.footerframe}>
-            <Image src={`${ NEXT_PUBLIC_BASE_WEB_PATH }/DekhorlogoTrans.png`} width={96} height={96} alt="logo"/>
+            <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/DekhorlogoTrans.png`} width={96} height={96} alt="logo"/>
             <div className={styles.footercontent}> 
                 <div className={styles.footernavbox}>
                     <Link className={styles.footernav} href="/homepage">Home</Link>
@@ -19,11 +19,11 @@ export default function Footer() {
                 <div className={styles.footercontactbox}>
                     <b>Contact Us</b>
                     <div className={styles.footercontact}> 
-                        <Image src ={`${ NEXT_PUBLIC_BASE_WEB_PATH }/EmailFtico.png`} alt = "email" width={20} height={20}/> Email : contact@dekhorsuperapp.bruh </div>
+                        <Image src ={`${NEXT_PUBLIC_BASE_WEB_PATH}/EmailFtico.png`} alt = "email" width={20} height={20}/> Email : contact@dekhorsuperapp.bruh </div>
                     <div className={styles.footercontact}>
-                        <Image src ={`${ NEXT_PUBLIC_BASE_WEB_PATH }/FBftico.png"`} alt = "FB" width={20} height={20}/> Facebook : DekHor Super App </div>
+                        <Image src ={`${NEXT_PUBLIC_BASE_WEB_PATH}/FBftico.png`} alt = "FB" width={20} height={20}/> Facebook : DekHor Super App </div>
                     <div className={styles.footercontact}>
-                        <Image src ={`${ NEXT_PUBLIC_BASE_WEB_PATH }/phonecallico.png`} alt = "phone" width={20} height={20}/> 02-XXX-XXXX </div>
+                        <Image src ={`${NEXT_PUBLIC_BASE_WEB_PATH}/phonecallico.png`} alt = "phone" width={20} height={20}/> 02-XXX-XXXX </div>
                 </div>
             </div>
             <div className={styles.footerline}></div>
