@@ -2,12 +2,12 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    background: #f6f6fb;
+    background: #f9f9f9;
 }
 
 .editcontainer { 
+    height: 100vh;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -15,9 +15,23 @@
     position: absolute;
     width: 80%;
     height: 90%;
-    padding: 10px;
+    padding: 0%;
     font-family: Poppins;
-    font-size: 18px;
+    font-size: 2vh;
+}
+
+.edittitle {
+    color: #1F2021;
+    text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.20);
+    font-size: 5vh;
+    font-weight: 700;
+}
+
+.editline {
+    background: rgba(31, 32, 33, 0.25);
+    width: 50%;
+    height: 0.5vh;
+    border-radius: 10px;
 }
 
 .editframe {
@@ -27,7 +41,7 @@
     justify-content: space-around;
     background: #ffffff;
     width: 75%;
-    height: 70%;
+    height: 75%;
     flex-shrink: 0;
     border-radius: 30px;
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.25); 
@@ -37,57 +51,16 @@
 
 .framecontent {
     width: 100%;
+    height: 70%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
 }
 
-.edittitle {
-    color: #1F2021;
-    text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.20);
-    font-size: 46px;
-    font-weight: 700;
-}
-
-.editline {
-    background: rgba(31, 32, 33, 0.25);
-    width: 50%;
-    height: 3px;
-    border-radius: 10px;
-}
-
-/*This is where it show pfp*/
-.profiledisplay {
-    width: 265px;
-    height: 265px;
-    border-radius: 50%;
-    background: #e2e2e2;
-    margin: 7.5%;
-}
-
-.pfp {
-    width: 265px;
-    height: 265px;
-    border-radius: 50%;
-}
-
-.uploadbtn {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 275px;
-    height: 45px;
-    background: #1f2021;
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: 500;
-    border-radius: 12px;
-    padding: 1%;
-    margin: 2%;
-}
-
 .profile {
+    width: 50vh;
+    height: 50vh;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -95,7 +68,45 @@
     align-items: center;
 }
 
+/*This is where it show pfp*/
+.profiledisplay {
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    background: #e2e2e2;
+    margin: 7.5%;
+}
+
+.pfp {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.uploadicon {
+    width: 5vh;
+    height: 3vh;
+    padding-left: 1vh;
+}
+
+.uploadbtn {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: 100%;
+    width: 70%;
+    height: 12.5%;
+    background: #1f2021;
+    color: #ffffff;
+    font-size: 2.5vh;
+    font-weight: 500;
+    border-radius: 12px;
+    padding: 1%;
+    margin: 2%;
+}
+
 .username {
+    width: 50%;
     display: flex;
     flex-direction: column;
     text-align: left;
@@ -104,12 +115,13 @@
     display: flex;
     align-items: center;
     border: none;
-    width: 472px;
-    height: 42px;
+    width: 80%;
+    height: 4.5vh;
     flex-shrink: 0;
     border-radius: 10px;
-    padding-left: 1.5%;
+    padding-left: 1.5vh;
     margin-top: 1%;
+    font-size: 1.75vh;
     background: #D9D9D9;
     color: rgba(0, 0, 0, 0.7);
 }
@@ -117,11 +129,13 @@
 .frameline {
     background: #E9E7E7;
     width: 100%;
-    height: 3px;
+    height: 0.35vh;
     border-radius: 10px;
 }
 
 .button {
+    width: 45vh;
+    height: 7vh;
     display: flex;
     align-self: flex-end;
 }
@@ -131,14 +145,14 @@
     justify-content: space-evenly;
     align-items: center;
     text-decoration: none;
-    width: 200px;
-    height: 50px;
+    width: 25vh;
+    height: 5.25vh;
     border-radius: 12px;
     background: #1F2021;
     color: #ffffff;
-    font-size: 20px;
+    font-size: 2.25vh;
     font-weight: 500;
-    margin: 2.5%;
+    margin: 2%;
 }
 
 .cancel {
@@ -146,20 +160,20 @@
     justify-content: space-evenly;
     align-items: center;
     text-decoration: none;
-    width: 200px;
-    height: 50px;
+    width: 25vh;
+    height: 5.25vh;
     border-radius: 12px;
     color: #1F2021;
     border-style: solid;
     border-color: #1F2021;
-    font-size: 20px;
+    font-size: 2.25vh;
     font-weight: 500;
-    margin: 2.5%;
+    margin: 2%;
 }
 
 .frameremind {
     display: flex;
-    font-size: 16px;
+    font-size: 2vh;
     align-self: flex-end;
 }
 

@@ -120,7 +120,8 @@ export default function Home() {
                                         hidden
                                         onChange={handleFileChange}
                                     />
-                                    <div>Upload Your Photo <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/pfpcamicon.png`} alt="cam" width={35} height={28} /></div>
+                                    <div>Upload Your Photo
+                                    <img className={styles.uploadicon} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/pfpcamicon.png`} alt="cam" /></div>
                                 </label>
                             </div>
                             <div className={styles.username}>
@@ -146,7 +147,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className={styles.editfooter}><Footer /></div>
+            <Footer/>
         </main>
     )
 }
