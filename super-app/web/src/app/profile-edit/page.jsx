@@ -60,8 +60,8 @@ export default function Home() {
                         </div>
                         <div className={styles.frameline}/>
                         <div className={styles.button}>
-                            <a href={`/`} className={styles.update}>Update</a>
-                            <a href={`/`} className={styles.cancel}>Cancel</a>
+                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/`} className={styles.update}>Update</a>
+                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/`} className={styles.cancel}>Cancel</a>
                         </div>
                         <div className={styles.frameremind}>
                             This information will be displayed publicly so be careful what you share.
