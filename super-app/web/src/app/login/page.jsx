@@ -8,16 +8,9 @@ import axios from 'axios';
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_URL, NEXT_PUBLIC_BASE_WEB_PATH } from "../../../config.js";
 import { supabase } from '../../../session'
 
-export default function LoginSuspense() {
-    <Suspense>
-        <Login />
-    </Suspense>
-}
 
-function Login() {
-    const searchParams = useSearchParams();
-    const redirectUrl = searchParams.get('redirect');
-    
+export default function Login() {
+
     const initialFormData = {
         username: '',
         password: '',
@@ -58,11 +51,7 @@ function Login() {
                     if (data.user === null) {
                         alert("Incorrect username, email or password");
                     } else {
-                        if (!redirectUrl) {
-                            router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
-                        } else {
-                            window.location.replace(redirectUrl);
-                        }
+                        router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
                     }
                 }
             });
