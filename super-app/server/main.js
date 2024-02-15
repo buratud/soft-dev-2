@@ -116,10 +116,8 @@ api.post("/recommended-product", async (req, res) => {
   }
 });
 
-//-----------------------------Edit profile-----------------------------------
+//-----------------------------Profile-----------------------------------
 
-
-//-----------------------------profile-----------------------------------
 api.post('/profile-picture', async (req, res) => {
   const { userID } = req.body;
   if (userID) {
@@ -131,6 +129,7 @@ api.post('/profile-picture', async (req, res) => {
     res.status(200).json({ picture });
   }
 })
+
 //-----------------blog-------------------
 
 api.post('/liked_blog', async (req, res) => {
@@ -186,36 +185,6 @@ api.post('/your_product', async (req, res) => {
   }
 })
 
-//-----------------------------Profile-Edit-----------------------------------
-
-api.post('/profile-pic-upload', upload.single(), async (req, res) => {
-  if(!req.file){
-    return res.status(400).json({ message: 'No file uploaded' });
-  }
-
-  const {data} = await supabase.auth.getSession();
-  const user = data?.session?.user;
-
-  if(user){
-    const { data, error } = await supabase.storage.from('Profile_User').upload(`${user.id}_${Date.now()}`, req.file.buffer);
-
-    if (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Error uploading file to Supabase Storage' });
-    }
-
-    const fileUrl = data.Key;
-    console.log('File uploaded to Supabase Storage:', fileUrl);
-
-    await supabase.from('user').update({ picture: fileUrl }).eq('id', user.id);
-    res.status(200).json({ fileUrl });
-  }
-  else{
-    res.status(400).json({ error : 'User not found'});
-  }
-
-  
-})
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
