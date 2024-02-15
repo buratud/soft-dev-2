@@ -205,13 +205,13 @@
 }
 
 .ReccommendedBlogs {
-    width: 100%;
+    width: 80vw;
     min-height: 100%;
     padding-left: 5rem;
     padding-right: 5rem;
     align-items: center;
     text-align: center;
-
+    justify-items: center;
 }
 
 .ReccommendedBlogs_text {
