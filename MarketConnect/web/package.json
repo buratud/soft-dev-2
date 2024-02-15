@@ -51,7 +51,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "http://localhost:3001/markets",
+  "homepage": "http://localhost:3001",
   "devDependencies": {
     "dotenv": "^16.4.3",
     "nodemon": "^3.0.3"
