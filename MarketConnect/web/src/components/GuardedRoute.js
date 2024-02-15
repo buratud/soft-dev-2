@@ -4,8 +4,8 @@ import { AuthContext } from "../App";
 import { REACT_APP_MAIN_URL } from "../config";
 
 const GuardedRoute = () => {
-  const { session, isFetching } = useContext(AuthContext);
-  if (session != null || isFetching) return <Outlet />;
+  const { session } = useContext(AuthContext);
+  if (session != null) return <Outlet />;
   else return <LoginRedirector />;
 };
 

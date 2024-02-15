@@ -2,8 +2,7 @@ import {
   Routes,
   Route,
   useNavigationType,
-  useLocation,
-  Navigate 
+  useLocation,  Navigate
 } from "react-router-dom";
 
 import { useEffect, createContext, useState, useRef } from "react";
@@ -29,9 +28,9 @@ export const useSupabase = () => {
 
 export const AuthContext = createContext({});
 
-function App() {
+function App() {  
   const [session, setSession] = useState(null);
-  const didMount = useRef(false);
+  const [isLoading, setIsLoading] = useState(true);
   const action = useNavigationType();
   const location = useLocation();
   const supabase = useSupabase();
@@ -41,7 +40,7 @@ function App() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     });
-
+    setIsLoading(false);
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -81,6 +80,11 @@ function App() {
       }
     }
   }, [pathname]);
+
+  if (isLoading) {
+    return <div>Hold...</div>;
+  }
+
   return (
     <AuthContext.Provider
       value={{
