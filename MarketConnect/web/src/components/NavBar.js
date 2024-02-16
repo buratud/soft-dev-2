@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import "./NavBar.scoped.css";
 import {  REACT_APP_MAIN_URL, REACT_APP_MAIN_API_URL } from "../config";
 import { useState, useContext, useEffect } from "react";
-import { General } from "../session";
+import { AuthContext } from "../App";
 const NavBar = () => {
   const [isOpen_1, setIsOpen_1] = useState(false);
   const [isOpen_2, setIsOpen_2] = useState(false);
@@ -13,7 +13,7 @@ const NavBar = () => {
   const [profileImage, setProfileImage] = useState('');
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-  const { session } = useContext(General);
+  const { session } = useContext(AuthContext);
 
   useEffect(() => {
     //console.log('session', session)
