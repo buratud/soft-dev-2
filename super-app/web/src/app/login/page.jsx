@@ -7,6 +7,7 @@ import { redirect, useRouter } from "next/navigation";
 import axios from 'axios';
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_URL, NEXT_PUBLIC_BASE_WEB_PATH } from "../../../config.js";
 import { supabase } from '../../../session'
+import TopBar from "../../../components/TopBar";
 
 
 export default function Login({ searchParams }) {
@@ -67,13 +68,11 @@ export default function Login({ searchParams }) {
 
 
     return (
-        <>
+        <>  
             <title>DekHor | Login or Signup</title>
 
-            <div className={styles.Loginnavbar}>
-                <div className={styles.navimage}>
-                    <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/Dekhorlogo.png`} width={85} height={85} alt="logo" />
-                </div>
+            <div>
+                <TopBar/>
             </div>
             <div className={styles.Logincontainer}>
                 <div className={styles.Loginframe}>
