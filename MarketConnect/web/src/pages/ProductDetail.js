@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { FaUser, FaMailBulk, FaLine } from "react-icons/fa"; // Importing required icons
 import "./ProductDetail.scoped.css";
 import NavBar from "../components/NavBar";
-import { PopChat } from "../components/PopChat";
+import Footer from "../components/Footer";
 import axios from "axios";
 import { REACT_APP_BASE_API_URL } from "../config";
 
@@ -74,6 +74,7 @@ const FoodDetail = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
