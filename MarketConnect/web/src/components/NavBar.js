@@ -13,7 +13,7 @@ const NavBar = () => {
   const [profileImage, setProfileImage] = useState('');
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-  const { session } = useContext(AuthContext);
+  const { session, isLoading } = useContext(AuthContext);
 
   useEffect(() => {
     //console.log('session', session)
@@ -44,9 +44,9 @@ const NavBar = () => {
         console.error('Error checking login status:', error);
       }
     };
-
+    console.log('session', session)
     checkLoginStatus();
-  }, [session]);
+  }, [session, isLoading]);
 
 
   const SignOut = async () => {

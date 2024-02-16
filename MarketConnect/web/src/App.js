@@ -90,6 +90,7 @@ function App() {
       value={{
         session: session,
         user: session?.user,
+        isLoading: isLoading,
       }}
     >
       <Routes>
