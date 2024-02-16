@@ -247,7 +247,7 @@ const NavBar = () => {
               </a>
             </div>
             <div>
-              <a href={`${REACT_APP_MAIN_URL}/login`}>
+              <a href={`${REACT_APP_MAIN_URL}/login?redirect=${window.location.href}`}>
                 <button className="login_btn" >
                   Login
                 </button>
