@@ -139,10 +139,16 @@
 }
 
 .rightside {
-    margin-right: 5vw;
+    margin-right: 8vw;
     align-items: center;
     justify-content: center;
     display: flex;
+}
+
+.btn_wrap{
+    display: flex;
+    height: auto;
+    width: auto;
 }
 
 .rightside .btn{
@@ -152,8 +158,7 @@
 
 .rightside .signup_btn{
     width: 100%;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding: 0.5rem;
     position: relative;
     cursor: pointer;
     background-color: white;
@@ -181,8 +186,7 @@
 .rightside .login_btn{
     width: 100%;
     margin-left: 1rem;
-    padding-right: 1rem;
-    padding-left: 1rem;
+    padding: 0.6rem 1rem ;
     position: relative;
     cursor: pointer;
     background-color: rgba(31, 32, 33, 1);
@@ -215,14 +219,21 @@
     align-items: center;
     justify-content: center;
     padding: 0;
-    height: 40px;
-    width: 40px;
+    height: auto;
+    width: auto;
     cursor: pointer;
 }
 
 .ProfileImage{
-    width: 100%;
-    height: 100%;
+    width: 55px;
+    height: 55px;
+    border: 2px solid black;
+    border-radius: 100%;
+    padding: 3px;
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+    margin-top: auto;
+
+
 }
 
 .dropdownContentProfile{
@@ -233,6 +244,7 @@
     flex-direction: column;
     position: absolute;
     right: 0;
+    margin-right: 3vw;
     top: 70px;
     padding: 1rem;
     width: max-content;
