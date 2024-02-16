@@ -13,7 +13,7 @@ export default function NavBar() {
     const [isOpen_2, setIsOpen_2] = useState(false);
     const [isOpen_3, setIsOpen_3] = useState(false);
     const [isOpen_Profile, setIsOpen_Profile] = useState(false);
-    const [isOpen_Categories, setIsOpen_Categories] = useState(false); 
+    const [isOpen_Categories, setIsOpen_Categories] = useState(false);
     // ส่วนของโปรไฟล์และทำการตรวจสอบว่า User ได้ทำการ login หรือยัง
     const [profileImage, setProfileImage] = useState('');
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -37,7 +37,7 @@ export default function NavBar() {
                         {
                             userID: user.id
                         }).then(res => {
-                            const {picture} = res.data;
+                            const { picture } = res.data;
                             setProfileImage(picture);
                             setIsUserLoggedIn(true);
                         });
@@ -114,11 +114,13 @@ export default function NavBar() {
                         {!isOpen_1 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
                     {isOpen_1 && <div className={styles.dropdownContent}>
-                        <div>
-                            <span>
-                                <Link href={`/blogs`}>Main</Link>
-                            </span>
-                        </div>
+                        <Link href={`/blogs`}>
+                            <div>
+                                <span>
+                                    Main
+                                </span>
+                            </div>
+                        </Link>
                         <div>
                             <button className={styles.subdropdown} onClick={() => setIsOpen_Categories((prev) => !prev)}>
                                 <span>Categories</span>
@@ -126,39 +128,52 @@ export default function NavBar() {
                             </button>
                             {isOpen_Categories && (
                                 <div className={styles.subdropdownContent}>
-                                    <div>
-                                        <span>
-                                            <Link href={`/blogs/cleaning`}>Cleaning</Link>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span>
-                                            <Link href={`/blogs/decoration`}>Decorations</Link>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span>
-                                            <Link href={`/blogs/cooking`}>cooking</Link>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span>
-                                            <Link href={`/blogs/story`}>Story's DekHor</Link>
-                                        </span>
-                                    </div>
+                                    <Link href={`/blogs/cleaning`}>
+                                        <div>
+                                            <span>
+                                                Cleaning
+                                            </span>
+                                        </div>
+                                    </Link>
+                                    <Link href={`/blogs/decoration`}>
+                                        <div>
+                                            <span>
+                                                Decorations
+                                            </span>
+                                        </div>
+                                    </Link>
+                                    <Link href={`/blogs/cooking`}>
+                                        <div>
+                                            <span>
+                                                Cooking
+                                            </span>
+                                        </div>
+                                    </Link>
+
+                                    <Link href={`/blogs/story`}>
+                                        <div>
+                                            <span>
+                                                Story's DekHor
+                                            </span>
+                                        </div>
+                                    </Link>
                                 </div>
                             )}
                         </div>
-                        <div>
-                            <span>
-                                <Link href={`/blogs/writeblog`}>Blogging</Link>
-                            </span>
-                        </div>
-                        <div>
-                            <span>
-                                <Link href={`/blogs/blogger`}>Blogger</Link>
-                            </span>
-                        </div>
+                        <Link href={`/blogs/writeblog`}>
+                            <div>
+                                <span>
+                                    Blogging
+                                </span>
+                            </div>
+                        </Link>
+                        <Link href={`/blogs/blogger`}>
+                            <div>
+                                <span>
+                                    Blogger
+                                </span>
+                            </div>
+                        </Link>
                     </div>}
                 </div>
 
@@ -176,21 +191,28 @@ export default function NavBar() {
                         {!isOpen_2 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
                     {isOpen_2 && <div className={styles.dropdownContent}>
-                        <div>
-                            <span>
-                                <Link href={`/dorms`}>Main</Link>
-                            </span>
-                        </div>
-                        <div>
-                            <span>
-                                <Link href={`/dorms`}>All Dorms</Link>
-                            </span>
-                        </div>
-                        <div>
-                            <span>
-                                <Link href={`/dorms`}>Add Dorm</Link>
-                            </span>
-                        </div>
+                        <Link href={`/dorms`}>
+                            <div>
+                                <span>
+                                    Main
+                                </span>
+                            </div>
+                        </Link>
+                        <Link href={`/dorms`}>
+                            <div>
+                                <span>
+                                    All Dorms
+                                </span>
+                            </div>
+                        </Link>
+
+                        <Link href={`/dorms`}>
+                            <div>
+                                <span>
+                                    Add Dorm
+                                </span>
+                            </div>
+                        </Link>
                     </div>}
                 </div>
 
@@ -208,21 +230,27 @@ export default function NavBar() {
                         {!isOpen_3 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
                     {isOpen_3 && <div className={styles.dropdownContent}>
-                        <div>
-                            <span>
-                                <Link href={`/markets`}>Main</Link>
-                            </span>
-                        </div>
-                        <div>
-                            <span>
-                                <Link href={`/markets/food`}>All Products</Link>
-                            </span>
-                        </div>
-                        <div>
-                            <span>
-                                <Link href={`/markets/addproduct`}>Manage Product</Link>
-                            </span>
-                        </div>
+                        <Link href={`/markets`}>
+                            <div>
+                                <span>
+                                    Main
+                                </span>
+                            </div>
+                        </Link>
+                        <Link href={`/markets/food`}>
+                            <div>
+                                <span>
+                                    All Products
+                                </span>
+                            </div>
+                        </Link>
+                        <Link href={`/markets/manage`}>
+                            <div>
+                                <span>
+                                    Manage Product
+                                </span>
+                            </div>
+                        </Link>
                     </div>}
                 </div>
 
@@ -238,10 +266,10 @@ export default function NavBar() {
                             setIsOpen_1(false);
                         }}>
                         {/* ตัวแปรโปรไฟล์อยู่ตรงนี้ใน src */}
-                        <div><img alt="Profile" src={profileImage} className={styles.ProfileImage} /></div>
+                        <img alt="Profile" src={profileImage} className={styles.ProfileImage} />
                     </button>
                 ) : (
-                    <>
+                    <div className={styles.btn_wrap}>
                         <div className={styles.btn}>
                             <Link href={`/register`}>
                                 <button className={styles.signup_btn} >
@@ -256,23 +284,26 @@ export default function NavBar() {
                                 </button>
                             </Link>
                         </div>
-                    </>
+                    </div>
                 )}
 
                 {isOpen_Profile && <div className={styles.dropdownContentProfile}>
-                    <div>
-                        <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
-                        <span>
-                            <Link href={`/profile`}>My Profile</Link>
-                        </span>
-                    </div>
-                    <div>
-                        <Image alt="Support" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`} height={30} width={30} />
-                        <span>
-                            <Link href={`/support`}>Support</Link>
-                        </span>
-                    </div>
-
+                    <Link href={`/profile`}>
+                        <div>
+                            <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
+                            <span>
+                                My Profile
+                            </span>
+                        </div>
+                    </Link>
+                    <Link href={`/support`}>
+                        <div>
+                            <Image alt="Support" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`} height={30} width={30} />
+                            <span>
+                                Support
+                            </span>
+                        </div>
+                    </Link>
                     <div onClick={SignOut}>
                         <Image alt="logout" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/BoxArrowLeft.svg`} height={30} width={30} className={styles.logout} />
                         <span className={styles.logout_text} >Log out</span>
