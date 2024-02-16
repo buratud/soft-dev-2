@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import "./NavBar.scoped.css";
-import {  REACT_APP_MAIN_URL, REACT_APP_MAIN_API_URL } from "../config";
+import { REACT_APP_MAIN_URL, REACT_APP_MAIN_API_URL } from "../config";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext, supabase } from "../App";
 import axios from "axios";
@@ -19,7 +19,7 @@ const NavBar = () => {
 
   useEffect(() => {
     //console.log('session', session)
-    
+
     //เรียกใช้ isLoggedIn เพื่อตรวจสอบสถานะการเข้าสู่ระบบ
     const checkLoginStatus = async () => {
       try {
@@ -111,11 +111,13 @@ const NavBar = () => {
             {!isOpen_1 ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}</button>
 
           {isOpen_1 && <div className="dropdownContent">
-            <div>
-              <span>
-                <a href={`${REACT_APP_MAIN_URL}/blogs`}>Main</a>
-              </span>
-            </div>
+            <a href={`${REACT_APP_MAIN_URL}/blogs`}>
+              <div>
+                <span>
+                  Main
+                </span>
+              </div>
+            </a>
             <div>
               <button className="subdropdown" onClick={() => setIsOpen_Categories((prev) => !prev)}>
                 <span>Categories</span>
@@ -123,39 +125,51 @@ const NavBar = () => {
               </button>
               {isOpen_Categories && (
                 <div className="subdropdownContent">
-                  <div>
-                    <span>
-                      <a href={`${REACT_APP_MAIN_URL}/blogs/cleaning`}>Cleaning</a>
-                    </span>
-                  </div>
-                  <div>
-                    <span>
-                      <a href={`${REACT_APP_MAIN_URL}/blogs/decoration`}>Decorations</a>
-                    </span>
-                  </div>
-                  <div>
-                    <span>
-                      <a href={`${REACT_APP_MAIN_URL}/blogs/cooking`}>cooking</a>
-                    </span>
-                  </div>
-                  <div>
-                    <span>
-                      <a href={`${REACT_APP_MAIN_URL}/blogs/story`}>Story's DekHor</a>
-                    </span>
-                  </div>
+                  <a href={`${REACT_APP_MAIN_URL}/blogs/cleaning`}>
+                    <div>
+                      <span>
+                        Cleaning
+                      </span>
+                    </div>
+                  </a>
+                  <a href={`${REACT_APP_MAIN_URL}/blogs/decoration`}>
+                    <div>
+                      <span>
+                        Decorations
+                      </span>
+                    </div>
+                  </a>
+                  <a href={`${REACT_APP_MAIN_URL}/blogs/cooking`}>
+                    <div>
+                      <span>
+                        cooking
+                      </span>
+                    </div>
+                  </a>
+                  <a href={`${REACT_APP_MAIN_URL}/blogs/story`}>
+                    <div>
+                      <span>
+                        Story's DekHor
+                      </span>
+                    </div>
+                  </a>
                 </div>
               )}
             </div>
-            <div>
-              <span>
-                <a href={`${REACT_APP_MAIN_URL}/blogs/writeblog`}>Blogging</a>
-              </span>
-            </div>
-            <div>
-              <span>
-                <a href={`${REACT_APP_MAIN_URL}/blogs/blogger`}>Blogger</a>
-              </span>
-            </div>
+            <a href={`${REACT_APP_MAIN_URL}/blogs/writeblog`}>
+              <div>
+                <span>
+                  Blogging
+                </span>
+              </div>
+            </a>
+            <a href={`${REACT_APP_MAIN_URL}/blogs/blogger`}>
+              <div>
+                <span>
+                  Blogger
+                </span>
+              </div>
+            </a>
           </div>}
         </div>
 
@@ -173,21 +187,27 @@ const NavBar = () => {
             {!isOpen_2 ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}</button>
 
           {isOpen_2 && <div className="dropdownContent">
-            <div>
-              <span>
-                <a href={`${REACT_APP_MAIN_URL}/dorms`}>Main</a>
-              </span>
-            </div>
-            <div>
-              <span>
-                <a href={`${REACT_APP_MAIN_URL}/dorms`}>All Dorms</a>
-              </span>
-            </div>
-            <div>
-              <span>
-                <a href={`${REACT_APP_MAIN_URL}/dorms`}>Add Dorm</a>
-              </span>
-            </div>
+            <a href={`${REACT_APP_MAIN_URL}/dorms`}>
+              <div>
+                <span>
+                  Main
+                </span>
+              </div>
+            </a>
+            <a href={`${REACT_APP_MAIN_URL}/dorms`}>
+              <div>
+                <span>
+                  All Dorms
+                </span>
+              </div>
+            </a>
+            <a href={`${REACT_APP_MAIN_URL}/dorms`}>
+              <div>
+                <span>
+                  Add Dorm
+                </span>
+              </div>
+            </a>
           </div>}
         </div>
 
@@ -205,21 +225,27 @@ const NavBar = () => {
             {!isOpen_3 ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}</button>
 
           {isOpen_3 && <div className="dropdownContent">
-            <div>
-              <span>
-                <Link to={`/home`}>Main</Link>
-              </span>
-            </div>
-            <div>
-              <span>
-                <Link to={`/food`}>All Products</Link>
-              </span>
-            </div>
-            <div>
-              <span>
-                <Link to={`/manage`}>Manage Product</Link>
-              </span>
-            </div>
+            <Link to={`/home`}>
+              <div>
+                <span>
+                  Main
+                </span>
+              </div>
+            </Link>
+            <Link to={`/food`}>
+              <div>
+                <span>
+                  All Products
+                </span>
+              </div>
+            </Link>
+            <Link to={`/manage`}>
+              <div>
+                <span>
+                  Manage Product
+                </span>
+              </div>
+            </Link>
           </div>}
         </div>
 
