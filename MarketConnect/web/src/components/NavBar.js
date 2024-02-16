@@ -217,7 +217,7 @@ const NavBar = () => {
             </div>
             <div>
               <span>
-                <Link to={`/addproduct`}>Manage Product</Link>
+                <Link to={`/manage`}>Manage Product</Link>
               </span>
             </div>
           </div>}
