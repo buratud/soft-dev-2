@@ -1,4 +1,5 @@
 .Logincontainer { 
+    margin-top: 5vh;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -13,23 +14,25 @@
 .Loginnavbar {
     padding: 0;
     background: #FFF;
-    height: 85px;
-    box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.25); 
+    height: 9vh;
+    box-shadow: 0px 0px 1.25vh 0px rgba(0, 0, 0, 0.25); 
+    margin-bottom: 2rem;
 }
 
 .navimage {
     display: flex;
     position: absolute;
+    width: 9vh;
+    height: 9vh;
     left: 2.5%;
 }
 
 .Loginfont {
     color: #000;
-    font-size: 32px;
+    font-size: 3vh;
     font-style: normal;
     font-weight: 850;
     line-height: normal;
-    letter-spacing: 0.32px;
 }
 
 .Loginframe {
@@ -38,27 +41,32 @@
     justify-content: center;
     flex-direction: column;
     background: #FFF;
-    width: 550px;
-    height: 558px;
+    width: 57.5vh;
+    height: 62.5vh;
     flex-shrink: 0;
-    border-radius: 30px;
-    box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.25); 
+    border-radius: 3vh;
+    box-shadow: 0px 0px 1.75vh 0px rgba(0, 0, 0, 0.25); 
+}
+
+.Loginlogo {
+    width: 17vh;
+    height: 17vh;
 }
 
 .Loginform {
     display: flex;
     align-items: center;
     text-align: left;
-    width: 75%;
+    width: 43vh;
     height: 7.5%;
     flex-shrink: 0;
-    border-radius: 15px;
+    border-radius: 1.25vh;
     padding-left: 2.5%;
     margin: 2%;
     margin-bottom: 5%;
     background: #D9D9D9;
     color: rgba(0, 0, 0, 0.32);
-    font-size: 18px;
+    font-size: 2vh;
     font-weight: 500;
 }
 
@@ -73,7 +81,7 @@
     background: #d9d9d900;
     color: rgba(0, 0, 0, 0.7);
     font-family: Poppins;
-    font-size: 18px;
+    font-size: 2vh;
     font-weight: 500;
 }
 
@@ -84,6 +92,8 @@
 }
 
 .inputicon {
+    width: 2vh;
+    height: 2vh;
     display: flex;
     align-items: center;
     margin: 2.5%;
@@ -102,15 +112,16 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    border-radius: 11px;
+    border-radius: 1.2vh;
+    border-style: none;
     background: #1F2021;
-    width: 110px;
-    height: 45px;
+    width: 13vh;
+    height: 5vh;
     flex-shrink: 0;
     text-align: center;
     color: #ffffff;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 2.35vh;
 }
 
 .signuplabel {
@@ -118,14 +129,12 @@
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    margin: 2.5%;
+    margin: 2vh;
     color: #000000;
     text-align: center;
     font-family: Poppins;
-    font-size: 12px;
+    font-size: 1.5vh;
     font-weight: 400;
-    line-height: 15px; 
-    letter-spacing: 0.12px;
 }
 
 .signuplink {
