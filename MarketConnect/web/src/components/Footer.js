@@ -1,29 +1,29 @@
 import React from "react";
 import "./Footer.scoped.css";
-import { REACT_APP_BASE_WEB_PATH } from '../config';
+import { REACT_APP_MAIN_URL } from "../config";
 
 export default function Footer() {
     return (
         <div className={"footerframe"}>
-            <img src={`${REACT_APP_BASE_WEB_PATH}/DekhorlogoTrans.png`} width={96} height={96} alt="logo" />
+            <img src={`${REACT_APP_MAIN_URL}/DekhorlogoTrans.png`} width={96} height={96} alt="logo" />
             <div className={"footercontent"}> 
                 <div className={"footernavbox"}>
-                    <a className={"footernav"} href="/homepage">Home</a>
-                    <a className={"footernav"} href="/blogs">Blogs</a>
-                    <a className={"footernav"} href="/dorms">Dorms</a>
-                    <a className={"footernav"} href="/eats">Eats</a>
-                    <a className={"footernav"} href="/market">Markets</a>
+                    <a className={"footernav"} href={`${REACT_APP_MAIN_URL}/`}>Home</a>
+                    <a className={"footernav"} href={`${REACT_APP_MAIN_URL}/blogs`}>Blogs</a>
+                    <a className={"footernav"} href={`${REACT_APP_MAIN_URL}/dorms`}>Dorms</a>
+                    <a className={"footernav"} href={`${REACT_APP_MAIN_URL}/eats`}>Eats</a>
+                    <a className={"footernav"} href={`${REACT_APP_MAIN_URL}/markets`}>Markets</a>
                 </div>
                 <div className={"footercontactbox"}>
                     <b>Contact Us</b>
                     <div className={"footercontact"}> 
-                        <img src={`${REACT_APP_BASE_WEB_PATH}/EmailFtico.png`} alt="email" width={20} height={20} /> Email : contact@dekhorsuperapp.bruh 
+                        <img src={`${REACT_APP_MAIN_URL}/EmailFtico.png`} alt="email" width={20} height={20} /> Email : contact@dekhorsuperapp.com 
                     </div>
                     <div className={"footercontact"}>
-                        <img src={`${REACT_APP_BASE_WEB_PATH}/FBftico.png`} alt="FB" width={20} height={20} /> Facebook : DekHor Super App 
+                        <img src={`${REACT_APP_MAIN_URL}/FBftico.png`} alt="FB" width={20} height={20} /> Facebook : DekHor Super App 
                     </div>
                     <div className={"footercontact"}>
-                        <img src={`${REACT_APP_BASE_WEB_PATH}/phonecallico.png`} alt="phone" width={20} height={20} /> 02-XXX-XXXX 
+                        <img src={`${REACT_APP_MAIN_URL}/phonecallico.png`} alt="phone" width={20} height={20} /> 02-XXX-XXXX 
                     </div>
                 </div>
             </div>

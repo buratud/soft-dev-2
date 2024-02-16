@@ -19,7 +19,7 @@ export default function Footer() {
                 <div className={styles.footercontactbox}>
                     <b>Contact Us</b>
                     <div className={styles.footercontact}> 
-                        <Image src ={`${NEXT_PUBLIC_BASE_WEB_PATH}/EmailFtico.png`} alt = "email" width={20} height={20}/> Email : contact@dekhorsuperapp.bruh </div>
+                        <Image src ={`${NEXT_PUBLIC_BASE_WEB_PATH}/EmailFtico.png`} alt = "email" width={20} height={20}/> Email : contact@dekhorsuperapp.com </div>
                     <div className={styles.footercontact}>
                         <Image src ={`${NEXT_PUBLIC_BASE_WEB_PATH}/FBftico.png`} alt = "FB" width={20} height={20}/> Facebook : DekHor Super App </div>
                     <div className={styles.footercontact}>
