@@ -2,7 +2,8 @@ import { Link, NavLink } from "react-router-dom";
 import "./NavBar.scoped.css";
 import {  REACT_APP_MAIN_URL, REACT_APP_MAIN_API_URL } from "../config";
 import { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../App";
+import { AuthContext, supabase } from "../App";
+
 const NavBar = () => {
   const [isOpen_1, setIsOpen_1] = useState(false);
   const [isOpen_2, setIsOpen_2] = useState(false);
@@ -13,11 +14,11 @@ const NavBar = () => {
   const [profileImage, setProfileImage] = useState('');
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-  const { session, isLoading } = useContext(AuthContext);
+  const { session } = useContext(AuthContext);
 
   useEffect(() => {
     //console.log('session', session)
-
+    
     //เรียกใช้ isLoggedIn เพื่อตรวจสอบสถานะการเข้าสู่ระบบ
     const checkLoginStatus = async () => {
       try {
@@ -46,7 +47,7 @@ const NavBar = () => {
     };
     console.log('session', session)
     checkLoginStatus();
-  }, [session, isLoading]);
+  }, [session]);
 
 
   const SignOut = async () => {

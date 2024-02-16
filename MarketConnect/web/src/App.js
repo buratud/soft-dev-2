@@ -20,7 +20,7 @@ import Admin from "./pages/Admin";
 import { createClient } from "@supabase/supabase-js";
 import { REACT_APP_SUPABASE_ANON_KEY, REACT_APP_SUPABASE_URL } from "./config";
 
-const supabase = createClient(REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_ANON_KEY);
+export const supabase = createClient(REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_ANON_KEY);
 
 export const useSupabase = () => {
   return supabase;
@@ -89,8 +89,7 @@ function App() {
     <AuthContext.Provider
       value={{
         session: session,
-        user: session?.user,
-        isLoading: isLoading,
+        user: session?.user
       }}
     >
       <Routes>
