@@ -8,6 +8,7 @@
     transform: translate(-50%, -50%);
     padding: 10px;
     font-family: Poppins;
+    margin-top: 1.5rem;
 }
 
 .navimage {
@@ -109,6 +110,7 @@
     color: #ffffff;
     text-decoration: none;
     font-size: 20px;
+    cursor: pointer;
 }
 
 .signuplabel {
