@@ -3,6 +3,7 @@ import "./NavBar.scoped.css";
 import {  REACT_APP_MAIN_URL, REACT_APP_MAIN_API_URL } from "../config";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext, supabase } from "../App";
+import axios from "axios";
 
 const NavBar = () => {
   const [isOpen_1, setIsOpen_1] = useState(false);
