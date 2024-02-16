@@ -1,4 +1,8 @@
-.main {
+.main{
+ overflow-x: hidden;
+}
+
+.container {
   height: 100vh;
   display: flex;
   background-color: white;
@@ -34,7 +38,6 @@
 
 .rightside {
   text-align: right;
-
 }
 
 .rightside account span :link {
@@ -65,6 +68,7 @@
   border-style: none;
   background-color: black;
   color: #FFF;
+  cursor: pointer;
 }
 
 .block {
