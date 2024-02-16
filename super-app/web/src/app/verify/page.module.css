@@ -76,7 +76,7 @@
     font-weight: 700;
 }
 .button:hover{
-    background-color: #909394;
+    background-color: #393a3a;
     transition: 0.5s;
     transform: scale(1.1); 
 }

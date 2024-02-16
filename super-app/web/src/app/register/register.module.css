@@ -68,6 +68,12 @@
   cursor: pointer;
 }
 
+.form button:hover {
+  background-color: #393a3a;
+  transition: 0.5s;
+  transform: scale(1.1); 
+}
+
 .block {
   margin-bottom: 24px;
   font-family: Poppins;
@@ -131,3 +137,4 @@
 .Intro_2 {
   margin-top: 12px;
 }
+

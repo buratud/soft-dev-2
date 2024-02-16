@@ -8,7 +8,7 @@
     transform: translate(-50%, -50%);
     padding: 10px;
     font-family: Poppins;
-    margin-top: 1.5rem;
+    margin-top: 2rem;
 }
 
 .navimage {
@@ -111,6 +111,12 @@
     text-decoration: none;
     font-size: 20px;
     cursor: pointer;
+}
+
+.Loginbutton:hover {
+    background-color: #393a3a;
+    transition: 0.5s;
+    transform: scale(1.1); 
 }
 
 .signuplabel {
