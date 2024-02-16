@@ -54,9 +54,9 @@ const NavBar = () => {
           </ul>
           <div className="right">
             <>
-              <a className="button outlined">Sign up</a>
+              <a className="button outlined" href={`${REACT_APP_MAIN_URL}/login`}>Sign up</a>
               <div className="divider" />
-              <a className="button primary">Login</a>
+              <a className="button primary" href={`${REACT_APP_MAIN_URL}/register`}>Login</a>
             </>
             {/* <div>
           <img src={`${REACT_APP_BASE_WEB_PATH}/logo.png`} className="logo" />
