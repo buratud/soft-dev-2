@@ -11,52 +11,54 @@ const NavBar = () => {
     supabase.auth.signOut();
   };
   return (
-    <nav>
-      <div>
-        <a href={REACT_APP_MAIN_URL}><img src={`${REACT_APP_BASE_WEB_PATH}/logo.png`} className="logo" /></a>
-      </div>
-      <ul className="menu">
-        <li>
-          <span>Blogs</span>
-          <ul className="main hidden">
-            <a href={`${REACT_APP_MAIN_URL}/blogs`}><li>Cleaning</li></a>
-            <li className="sub-menu">
-              <span>Categories &gt;</span>
-              <ul className="hidden left">
-                <a href={`${REACT_APP_MAIN_URL}/blogs/cleaning`}><li>Cleaning</li></a>
-                <a href={`${REACT_APP_MAIN_URL}/blogs/decoration`}><li>Decorations</li></a>
-                <a href={`${REACT_APP_MAIN_URL}/blogs/cooking`}><li>Cooking</li></a>
-                <a href={`${REACT_APP_MAIN_URL}/blogs/story`}><li>DekHor's Story</li></a>
+    <>
+      <nav>
+        <div>
+          <div>
+            <a href={REACT_APP_MAIN_URL}><img src={`${REACT_APP_BASE_WEB_PATH}/logo.png`} className="logo" /></a>
+          </div>
+          <ul className="menu">
+            <li>
+              <span>Blogs</span>
+              <ul className="hidden">
+                <a href={`${REACT_APP_MAIN_URL}/blogs`}><li><span>Main</span></li></a>
+                <li className="sub-menu">
+                  <span>Categories &gt;</span>
+                  <ul className="hidden">
+                    <a href={`${REACT_APP_MAIN_URL}/blogs/cleaning`}><li><span>Cleaning</span></li></a>
+                    <a href={`${REACT_APP_MAIN_URL}/blogs/decoration`}><li><span>Decorations</span></li></a>
+                    <a href={`${REACT_APP_MAIN_URL}/blogs/cooking`}><li><span>Cooking</span></li></a>
+                    <a href={`${REACT_APP_MAIN_URL}/blogs/story`}><li><span>DekHor's Story</span></li></a>
+                  </ul>
+                </li>
+                <a href={`${REACT_APP_MAIN_URL}/blogs/writeblog`}><li><span>Blogging</span></li></a>
+                <a href={`${REACT_APP_MAIN_URL}/blogs/blogger`}><li><span>Blogger</span></li></a>
               </ul>
             </li>
-            <a href={`${REACT_APP_MAIN_URL}/blogs/writeblog`}><li>Blogging</li></a>
-            <a href={`${REACT_APP_MAIN_URL}/blogs/blogger`}><li>Blogger</li></a>
+            <li>
+              <span>Dorms</span>
+              <ul className="main hidden">
+                <a href={`${REACT_APP_MAIN_URL}/dorms`}><li><span>Main</span></li></a>
+                <a href={`${REACT_APP_MAIN_URL}/dorms`}><li><span>All Dorms</span></li></a>
+                <a href={`${REACT_APP_MAIN_URL}/dorms`}><li><span>Add Dorm</span></li></a>
+              </ul>
+            </li>
+            <li>
+              <span>Markets</span>
+              <ul className="main hidden">
+                <Link to={'/home'}><li><span>Main</span></li></Link>
+                <Link to={'/food'}><li><span>All Products</span></li></Link>
+                <Link to={'/manage'}><li><span>Manage Products</span></li></Link>
+              </ul>
+            </li>
           </ul>
-        </li>
-        <li>
-          <span>Dorms</span>
-          <ul className="main hidden">
-            <a href={`${REACT_APP_MAIN_URL}/dorms`}><li>Main</li></a>
-            <a href={`${REACT_APP_MAIN_URL}/dorms`}><li>All Dorms</li></a>
-            <a href={`${REACT_APP_MAIN_URL}/dorms`}><li>Add Dorm</li></a>
-          </ul>
-        </li>
-        <li>
-          <span>Markets</span>
-          <ul className="main hidden">
-            <Link to={'/home'}><li>Main</li></Link>
-            <Link to={'/food'}><li>All Products</li></Link>
-            <Link to={'/manage'}><li>Manage Products</li></Link>
-          </ul>
-        </li>
-      </ul>
-      <div className="right">
-        <>
-          <a className="button outlined">Sign up</a>
-          <div className="divider" />
-          <a className="button primary">Login</a>
-        </>
-        {/* <div>
+          <div className="right">
+            <>
+              <a className="button outlined">Sign up</a>
+              <div className="divider" />
+              <a className="button primary">Login</a>
+            </>
+            {/* <div>
           <img src={`${REACT_APP_BASE_WEB_PATH}/logo.png`} className="logo" />
           <ul>
             <li>
@@ -73,8 +75,11 @@ const NavBar = () => {
             </li>
           </ul>
         <div/> */}
-      </div>
-    </nav>
+          </div>
+        </div>
+      </nav>
+      <div style={{ height: '70px' }} />
+    </>
   );
 };
 

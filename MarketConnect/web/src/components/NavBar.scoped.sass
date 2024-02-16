@@ -35,83 +35,75 @@ ul
         transform: scale(1.1)
 
 nav
-    padding: 0 70px
+    background-color: white
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1)
-    position: relative
-    z-index: 1
+    padding: 0 50px
     width: 100%
     height: 70px
-    background-color: white
+    position: absolute
+    z-index: 1
     display: flex
-    align-items: center
-    > *
-        display: inline
-    &> *:last-child, &> *:first-child
-        flex-basis: 220px
+    > div
+        width: 100%
+        margin: auto
+        max-width: 1500px
+        display: flex
+        align-items: center
+        height: 70px
+        > *
+            display: inline
+        &> *:last-child, &> *:first-child
+            flex-basis: 220px
+            flex-shrink: 0
 
+.menu
+    width: 100%
+    height: 100%
+    justify-content: center
+    align-content: center
+    margin: 0
+    display: flex
+    ul
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1)
+    li
+        width: 150px
+        display: flex
+        justify-content: center
+        align-items: center
+        transition: 0.3s ease
+        cursor: pointer
+        position: relative
+        background-color: white
+        &:hover
+            background-color: #dedede
+        &:hover > .hidden
+            display: block
+
+.sub-menu .hidden
+    position: absolute
+    left: 150px
+    top: 0
+    
 .hidden
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1)
     display: none
     position: absolute
-    background-color: white
-    border-radius: 10px
+    top: 70px
+    width: 100%
     li
-        padding: 12px 0
-    &.left
-        left: 130px
-        top: 0
+        display: block
+        width: 100%
+        padding: 20px 10px
+        display: block
+        text-align: center
+        position: relative
 
-.main.hidden > li:first-child
-    border-radius: 0
 
-.main.hidden > li
-    position: relative
 
 .logo
     flex-grow: 0
     width: 70px
     height: 70px
-.menu
-    flex-grow: 1
-    text-align: center
-    height: 100%
-    margin: 0
-    > li
-        width: 130px
-        cursor: pointer
-        height: 100%
-        display: inline-block
-        vertical-align: middle
-        position: relative
-        ul
-            width: 130px
-            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2)
-        > span
-            position: absolute
-            top: 50%
-            transform: translateY(-50%)
-            left: 0
-            right: 0
-            text-align: center
-        &:hover
-            background-color: #f2f2f2
-            > .hidden
-                display: block
-                top: 70px
-                border-radius: 0 0 10px 10px
-        li:first-child
-            border-radius: 10px 10px 0 0
-        li:last-child
-            border-radius: 0 0 10px 10px
-    li:hover
-        background-color: #f2f2f2
-    
 
-.sub-menu:hover .hidden
-    display: block
-    top: 0
-    left: 130px
-    width: 150px
 
 .right
     height: fit-content
