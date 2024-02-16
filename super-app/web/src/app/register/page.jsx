@@ -69,7 +69,7 @@ export default function Home() {
             <title>DekHor | Register </title>
 
             <div className={styles.main}>
-                <div>
+                <div className={styles.topbar}>
                     <TopBar />
                 </div>
                 <div className={styles.container}>
