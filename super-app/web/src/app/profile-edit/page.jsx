@@ -139,7 +139,7 @@ export default function Home() {
                         <div className={styles.frameline} />
                         <div className={styles.button}>
                             <button onClick={updateProfile} className={styles.update}>Update</button>
-                            <a href={`/`} className={styles.cancel}>Cancel</a>
+                            <a href={`/profile`} className={styles.cancel}>Cancel</a>
                         </div>
                         <div className={styles.frameremind}>
                             This information will be displayed publicly so be careful what you share.
