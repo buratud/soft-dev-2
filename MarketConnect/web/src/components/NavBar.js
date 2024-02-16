@@ -261,10 +261,10 @@ const NavBar = () => {
               setIsOpen_1(false);
             }}>
             {/* ตัวแปรโปรไฟล์อยู่ตรงนี้ใน src */}
-            <div><img alt="Profile" src={profileImage} className="ProfileImage" /></div>
+            <img alt="Profile" src={profileImage} className="ProfileImage" />
           </button>
         ) : (
-          <>
+          <div className="btn_wrap">
             <div className="btn">
               <a href={`${REACT_APP_MAIN_URL}/register`}>
                 <button className="signup_btn" >
@@ -279,7 +279,7 @@ const NavBar = () => {
                 </button>
               </a>
             </div>
-          </>
+          </div>
         )}
 
         {isOpen_Profile && <div className="dropdownContentProfile">
