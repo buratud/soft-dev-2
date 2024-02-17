@@ -103,6 +103,7 @@
     border-radius: 12px;
     padding: 1%;
     margin: 2%;
+    cursor: pointer;
 }
 
 .username {
@@ -153,6 +154,7 @@
     font-size: 2.25vh;
     font-weight: 500;
     margin: 2%;
+    cursor: pointer;
 }
 
 .cancel {
