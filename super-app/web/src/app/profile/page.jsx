@@ -190,9 +190,10 @@ const ProductCards = () => {
         <div>
             <div className={style.blogs_btn} >
                 {/* เหลือใส่ Link manage products link */}
-                <Link href={`/markets/`}>
+                <Link href={`/markets/manage`} style={{ textDecoration: 'none' }}>
                     <button className={style.yourblogs_btn}>
-                        <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Products.svg`} alt="" className={style.img_likes} />Manage your Products
+                        <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Products.svg`} alt="" className={style.img_likes} />
+                        <p style={{ textDecoration: 'none' }}>Manage your Products</p>
                     </button>
                 </Link>
             </div>
