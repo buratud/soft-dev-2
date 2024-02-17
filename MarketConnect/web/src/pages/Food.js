@@ -5,7 +5,7 @@ import NavBar from "../components/NavBar";
 import FoodSearchBar from "../components/FoodSearchBar";
 import "../components/FoodSearchBar.scoped.css";
 import "./Food.scoped.css";
-import { PopChat } from "../components/PopChat";
+import Footer from "../components/Footer";
 import { REACT_APP_BASE_API_URL } from "../config";
 import MarketSearchBox from "../components/MarketSearchBox";
 
@@ -49,6 +49,7 @@ const Food = () => {
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 };

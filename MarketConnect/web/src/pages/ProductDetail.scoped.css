@@ -14,7 +14,6 @@ body {
 }
 .container {
   background-color: #f6f6fb;
-  height: 100vh;
 }
 
 .prodinfo-container {
@@ -169,6 +168,7 @@ img {
     grid-gap: 5.5rem;
     padding: 1.5rem;
     padding-top: 3.5rem;
+    padding-bottom: 11.8rem;
     overflow: hidden;
   }
   .container-box {
