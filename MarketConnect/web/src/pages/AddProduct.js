@@ -3,6 +3,7 @@ import "./AddProduct.scoped.css";
 import NavBar from "../components/NavBar";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import Footer from "../components/Footer";
 import { AuthContext, useSupabase } from "../App";
 import { REACT_APP_BASE_API_URL } from "../config";
 import { FaSpinner } from 'react-icons/fa'; // Import the loading spinner icon
@@ -171,6 +172,7 @@ const AddProduct = () => {
           </button>
         </div>
       </form>
+    <Footer />
     </div>
   );
 };

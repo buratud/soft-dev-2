@@ -10,7 +10,6 @@
     max-width: 100vw;
     min-height: 100vh;
     background-color: #F6F6FB;
-    padding-bottom: 3rem;
 }
 
 h1{
@@ -56,6 +55,8 @@ h1{
     width: 100%;
     table-layout: fixed;
     padding: 0 150px; /* Add left and right padding */
+    padding-top: 3rem;
+    padding-bottom: 12.1rem;
 }
 
 

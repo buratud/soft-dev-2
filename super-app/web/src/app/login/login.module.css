@@ -4,11 +4,12 @@
     justify-content: center;
     flex-direction: column;
     position: absolute;
-    top: 50%;
+    top: 52%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 10px;
     font-family: Poppins;
+    margin-top: 2rem;
 }
 
 .Loginnavbar {
@@ -85,6 +86,11 @@
     font-weight: 500;
 }
 
+.Loginblock:focus {
+    outline: none; /* ลบเส้นกรอบ */
+    box-shadow: none; /* ลบเงา */
+}
+
 .navimage {
     display: flex;
     position: absolute;
@@ -122,6 +128,13 @@
     color: #ffffff;
     text-decoration: none;
     font-size: 2.35vh;
+    cursor: pointer;
+}
+
+.Loginbutton:hover {
+    background-color: #393a3a;
+    transition: 0.5s;
+    transform: scale(1.1); 
 }
 
 .signuplabel {

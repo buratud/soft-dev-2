@@ -19,11 +19,11 @@ export default function Footer() {
                 <div className={styles.footercontactbox}>
                     <b>Contact Us</b>
                     <div className={styles.footercontact}> 
-                        <img src ={`${NEXT_PUBLIC_BASE_WEB_PATH}/EmailFtico.png`} className={styles.icon} alt = "email" /> Email : contact@dekhorsuperapp.bruh </div>
+                        <Image src ={`${NEXT_PUBLIC_BASE_WEB_PATH}/EmailFtico.png`} alt = "email" width={20} height={20} className={styles.icon}/> Email : contact@dekhorsuperapp.com </div>
                     <div className={styles.footercontact}>
-                        <img src ={`${NEXT_PUBLIC_BASE_WEB_PATH}/FBftico.png`} className={styles.icon} alt = "FB" /> Facebook : DekHor Super App </div>
+                        <Image src ={`${NEXT_PUBLIC_BASE_WEB_PATH}/FBftico.png`} width={20} height={20} className={styles.icon} alt = "FB" /> Facebook : DekHor Super App </div>
                     <div className={styles.footercontact}>
-                        <img src ={`${NEXT_PUBLIC_BASE_WEB_PATH}/phonecallico.png`} className={styles.icon} alt = "phone" /> 02-XXX-XXXX </div>
+                        <Image src ={`${NEXT_PUBLIC_BASE_WEB_PATH}/phonecallico.png`} width={20} height={20} className={styles.icon} alt = "phone" /> 02-XXX-XXXX </div>
                 </div>
             </div>
             <div className={styles.footerline}></div>

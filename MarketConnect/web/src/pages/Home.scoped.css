@@ -5,11 +5,11 @@
 }
 
 #promotions-box {
-    height: calc(100vh - 15rem);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    padding-bottom: 3rem;
     padding-top: 3rem;
 }
 
@@ -153,12 +153,12 @@ img.carousel-image {
 }
 
 #rec-box{
-    min-height: 90vh;
     background-color: #F6F6FB;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    padding-bottom: 7rem;
 }
 
 #rec-box h1 {

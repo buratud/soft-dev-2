@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./ManageProduct.scoped.css";
 import NavBar from "../components/NavBar";
-import { PopChat } from "../components/PopChat";
+import Footer from "../components/Footer";
 import { AuthContext } from "../App";
 import axios from "axios";
 import DeleteConfirmPopup from "../components/DeleteConfirmPopup";
@@ -125,7 +125,7 @@ const Manage = () => {
             )}
           </tbody>
         </table>
-      </div>
+    </div>
     );
   };
 
@@ -142,6 +142,7 @@ const Manage = () => {
       {showPopup && (
         <DeleteConfirmPopup onCancel={closePopup} onDelete={handleDelete} />
       )}
+      <Footer />
     </div>
   );
 };

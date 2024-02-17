@@ -2,15 +2,16 @@
 import Image from "next/image"
 import Link from "next/link"
 import styles from "./login.module.css"
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { redirect, useRouter } from "next/navigation";
 import axios from 'axios';
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_URL, NEXT_PUBLIC_BASE_WEB_PATH } from "../../../config.js";
 import { supabase } from '../../../session'
+import TopBar from "../../../components/TopBar";
 
 
-export default function Login() {
-
+export default function Login({ searchParams }) {
+    const redirectUrl = searchParams.redirect;
     const initialFormData = {
         username: '',
         password: '',
@@ -36,40 +37,42 @@ export default function Login() {
         }
         else {
             axios.put(`${NEXT_PUBLIC_BASE_API_URL}/login`, {
-                UsernameorEmail:formData.username
+                UsernameorEmail: formData.username
 
-            }).then(async res =>{
-                const {email} = res.data;
+            }).then(async res => {
+                const { email } = res.data;
                 const { data, error } = await supabase.auth.signInWithPassword({
                     email: email,
                     password: formData.password,
                 });
-    
+
                 if (error) {
                     console.log("Internal server error");
                 } else {
                     if (data.user === null) {
                         alert("Incorrect username, email or password");
                     } else {
-                        router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
+                        if (!redirectUrl) {
+                            router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
+                        } else {
+                            window.location.replace(redirectUrl);
+                        }
                     }
                 }
             });
 
-            
+
         }
     }
 
 
 
     return (
-        <>
+        <>  
             <title>DekHor | Login or Signup</title>
 
-            <div className={styles.Loginnavbar}>
-                <div className={styles.navimage}>
-                    <img className={styles.navimage} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/Dekhorlogo.png`} alt="logo" />
-                </div>
+            <div>
+                <TopBar/>
             </div>
             <div className={styles.Logincontainer}>
                 <div className={styles.Loginframe}>
