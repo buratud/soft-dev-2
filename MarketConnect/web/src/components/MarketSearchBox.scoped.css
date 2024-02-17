@@ -1,6 +1,6 @@
 .searchlist {
-    border: 2px solid #D09D6B;
-    color: #D09D6B;
+    border: 2px solid black;
+    color: black;
     justify-items: auto;
     align-items: center;
     border-radius: 15px;
@@ -16,7 +16,7 @@
 }
 
 .searchlist::-webkit-scrollbar-thumb {
-    background-color: #D09D6B;
+    background-color: black;
 }
 
 .searchbox {
@@ -29,7 +29,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: #D09D6B;
+    background: black;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -60,14 +60,14 @@
     color: #533f2b;
     background: none;
     line-height: normal;
-    border-bottom: 1px solid #D09D6B;
+    border-bottom: 1px solid black;
 }
 
 .textbox_input::placeholder {
     opacity: 0.22;
     font-family:'Poppins', sans-serif;
     font-weight: 500;
-    color: #533f2b;
+    color: black;
 }
 
 .loading_spinner {
@@ -79,7 +79,7 @@
 
 .spinner_icon {
     font-size: 30px;
-    color: #D09D6B;
+    color: black;
     animation: spin 1s linear infinite;
 }
 

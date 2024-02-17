@@ -245,6 +245,8 @@
 .dropdownContentProfile div{
     padding: 1rem;
     display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 
 .dropdownContentProfile div:hover{
@@ -265,6 +267,6 @@
     color: #C10206;
 }
 
-.logout a{
+.logout_text{
     color: #C10206;
 }

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Link from "next/link"
 import NavBar from "../../../components/nav"
 import style from "./page.module.css"
@@ -8,20 +8,72 @@ import CardProducts from "../../../components/CardProduct"
 import CardBlogs from "../../../components/CardBlogs"
 import Fakedata from "../data.js";
 import test_data_dorm from '../test_data_dorm';
-import { NEXT_PUBLIC_BASE_WEB_PATH } from '../../../config';
 import CardDorm from '../../../components/CardDorm';
 import { FaCircle } from 'react-icons/fa';
+import { NEXT_PUBLIC_BASE_WEB_PATH,NEXT_PUBLIC_BASE_API_URL } from '../../../config';
+import axios from 'axios';
+import { General, supabase } from '../../../session'
 
 const BlogsCards = () => {
 
     const [showLikes, setShowLikes] = useState(false);
     const [showYourBlogs, setShowYourBlogs] = useState(false);
 
+    const { session } = useContext(General);
+
     // ส่วนของ front ให้แสดงในส่วนของ Showlikes Blogs ก่อนโดยใช้ UseEffect
     useEffect(() => {
         setShowLikes(true);
         setShowYourBlogs(false);
     }, []);
+
+    
+    const [Likes, setLikes] = useState([]);
+    const [yourblog, setyourblog] = useState([]);
+
+    useState(()=>{
+        const checkLoginStatus = async () => {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                if (error) {
+                    console.log(error);
+                }
+                const user = data?.session?.user?.id;
+
+                if (user) {
+                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
+                        user: user,
+                    })
+                    .then(res => {
+                        setLikes(res.data)
+                        console.log('likes',res.data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+
+                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_blog`, {
+                        user: user,
+                    })
+                    .then(res => {
+                        setyourblog(res.data)
+                        console.log('your blog',res.data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                    
+                }
+                else {
+                    setIsUserLoggedIn(false);
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+            }
+        };
+
+        checkLoginStatus();
+    }, [session]);
 
     const handleLikesClick = () => {
         setShowLikes(true);
@@ -50,12 +102,12 @@ const BlogsCards = () => {
             {/* ดึงข้อมูล Blogs ที่ชอบตรงนี้ */}
             {showLikes && (
                 <card>
-                    {Fakedata.map((card, index) => (
+                    {Likes.map((card, index) => (
                         <CardBlogs
                             key={index}
                             img={card.cover_img}
                             title={card.title}
-                            Blogger={card.Blogger}
+                            Blogger={card.blogger}
                             Categories={card.category}
                             id={card.blog_id}
                         />
@@ -65,12 +117,12 @@ const BlogsCards = () => {
             {showYourBlogs && (
                 <card>
                     {/* ดึงข้อมูล Blogs ของตัวเองตรงนี้*/}
-                    {Fakedata.map((card, index) => (
+                    {yourblog.map((card, index) => (
                         <CardBlogs
                             key={index}
                             img={card.cover_img}
                             title={card.title}
-                            Blogger={card.Blogger}
+                            Blogger={card.blogger}
                             Categories={card.category}
                             id={card.blog_id}
                         />
@@ -83,6 +135,56 @@ const BlogsCards = () => {
 }
 
 const ProductCards = () => {
+
+    const { session } = useContext(General);
+    const [yourproduct, setyourproduct] = useState([]);
+
+    useState(()=>{
+        const checkLoginStatus = async () => {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                if (error) {
+                    console.log(error);
+                }
+                const user = data?.session?.user?.id;
+
+                if (user) {
+                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
+                        user: user,
+                    })
+                    .then(res => {
+                        setyourproduct(res.data)
+                        console.log('your product',res.data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                }
+                else {
+                    setIsUserLoggedIn(false);
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+            }
+        };
+
+        checkLoginStatus();
+    }, [session]);
+
+    // const [yourproduct, setyourproduct] = useState([]);
+    // useState(()=>{
+    //     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
+    //         user: user,
+    //     })
+    //     .then(res => {
+    //         setyourproduct(res.data)
+    //         console.log('your product',res.data)
+    //     })
+    //     .catch((err) => {
+    //         console.log(err)
+    //     })
+    // },[])
+
     return (
         <div>
             <div className={style.blogs_btn} >
@@ -95,7 +197,7 @@ const ProductCards = () => {
             </div>
             {/* ดึงข้อมูล Product ของตัวเองตรงนี้*/}
             <card>
-                {Fakedata.map((card) => (
+                {yourproduct.map((card) => (
                     <CardProducts img={card.product_image} route={card.product_id} />
                 ))}
             </card>
