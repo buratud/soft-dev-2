@@ -10,7 +10,7 @@ export default function Footer() {
             <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/DekhorlogoTrans.png`} className={styles.logo} alt="logo"/>
             <div className={styles.footercontent}> 
                 <div className={styles.footernavbox}>
-                    <Link className={styles.footernav} href="/homepage">Home</Link>
+                    <Link className={styles.footernav} href="/">Home</Link>
                     <Link className={styles.footernav} href="/blogs">Blogs</Link>
                     <Link className={styles.footernav} href="/dorms">Dorms</Link>
                     <Link className={styles.footernav} href="/eats">Eats</Link>
