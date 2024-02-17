@@ -92,12 +92,12 @@ const BlogsCards = () => {
                 <button
                     className={`${style.like_btn} ${showYourBlogs ? style.notactive_btn : style.active_btn}`}
                     onClick={handleLikesClick}>
-                    <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}images/heart.svg`} className={style.img_likes} alt="" />Likes
+                    <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/heart.svg`} className={style.img_likes} alt="" />Likes
                 </button>
                 <button
                     className={`${style.yourblogs_btn} ${showLikes ? style.notactive_btn : ''}`}
                     onClick={handleYourBlogsClick}>
-                    <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}images/Pencil.svg`} className={style.img_likes} alt="" />Your Blogs
+                    <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Pencil.svg`} className={style.img_likes} alt="" />Your Blogs
                 </button>
             </div>
             {/* ดึงข้อมูล Blogs ที่ชอบตรงนี้ */}
@@ -192,7 +192,7 @@ const ProductCards = () => {
                 {/* เหลือใส่ Link manage products link */}
                 <Link href={`/markets/`}>
                     <button className={style.yourblogs_btn}>
-                        <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}images/Products.svg`} alt="" className={style.img_likes} />Manage your Products
+                        <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Products.svg`} alt="" className={style.img_likes} />Manage your Products
                     </button>
                 </Link>
             </div>
@@ -283,7 +283,7 @@ export default function Profile() {
                          {/* เหลือใส่ Link edit profile link */}
                         <Link href={'/profile-edit'} className={style.edit_profile_button}>
                             <div className={style.edit_profile_img}>
-                                <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}images/edit_profile.png`} />
+                                <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/edit_profile.png`} />
                             </div>
                             <div className={style.edit_profile}>Edit profile</div>
                         </Link>
