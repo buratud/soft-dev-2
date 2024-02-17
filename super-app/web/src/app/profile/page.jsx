@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Link from "next/link"
 import NavBar from "../../../components/nav"
 import style from "./page.module.css"
@@ -7,13 +7,20 @@ import Footer from "../../../components/footer/Footer"
 import CardProducts from "../../../components/CardProduct"
 import CardBlogs from "../../../components/CardBlogs"
 import Fakedata from "../data.js";
+import test_data_dorm from '../test_data_dorm';
+import CardDorm from '../../../components/CardDorm';
+import { FaCircle } from 'react-icons/fa';
 import { NEXT_PUBLIC_BASE_WEB_PATH,NEXT_PUBLIC_BASE_API_URL } from '../../../config';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { General, supabase } from '../../../session'
 
 const BlogsCards = () => {
 
     const [showLikes, setShowLikes] = useState(false);
     const [showYourBlogs, setShowYourBlogs] = useState(false);
+
+    const { session } = useContext(General);
 
     // ส่วนของ front ให้แสดงในส่วนของ Showlikes Blogs ก่อนโดยใช้ UseEffect
     useEffect(() => {
@@ -21,35 +28,53 @@ const BlogsCards = () => {
         setShowYourBlogs(false);
     }, []);
 
-    let user = '95c6d7a8-b73f-4f51-8dca-e734b38fe21c'; //รอการ authen
-
+    
     const [Likes, setLikes] = useState([]);
-    useState(()=>{
-        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
-            user: user,
-        })
-        .then(res => {
-            setLikes(res.data)
-            console.log('likes',res.data)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    },[])
-
     const [yourblog, setyourblog] = useState([]);
+
     useState(()=>{
-        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_blog`, {
-            user: user,
-        })
-        .then(res => {
-            setyourblog(res.data)
-            console.log('your blog',res.data)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    },[])
+        const checkLoginStatus = async () => {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                if (error) {
+                    console.log(error);
+                }
+                const user = data?.session?.user?.id;
+
+                if (user) {
+                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
+                        user: user,
+                    })
+                    .then(res => {
+                        setLikes(res.data)
+                        console.log('likes',res.data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+
+                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_blog`, {
+                        user: user,
+                    })
+                    .then(res => {
+                        setyourblog(res.data)
+                        console.log('your blog',res.data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                    
+                }
+                else {
+                    setIsUserLoggedIn(false);
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+            }
+        };
+
+        checkLoginStatus();
+    }, [session]);
 
     const handleLikesClick = () => {
         setShowLikes(true);
@@ -67,12 +92,12 @@ const BlogsCards = () => {
                 <button
                     className={`${style.like_btn} ${showYourBlogs ? style.notactive_btn : style.active_btn}`}
                     onClick={handleLikesClick}>
-                    <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}images/heart.svg`} className={style.img_likes} alt="" />Likes
+                    <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/heart.svg`} className={style.img_likes} alt="" />Likes
                 </button>
                 <button
                     className={`${style.yourblogs_btn} ${showLikes ? style.notactive_btn : ''}`}
                     onClick={handleYourBlogsClick}>
-                    <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}images/Pencil.svg`} className={style.img_likes} alt="" />Your Blogs
+                    <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Pencil.svg`} className={style.img_likes} alt="" />Your Blogs
                 </button>
             </div>
             {/* ดึงข้อมูล Blogs ที่ชอบตรงนี้ */}
@@ -111,30 +136,64 @@ const BlogsCards = () => {
 }
 
 const ProductCards = () => {
-    
-    let user = '95c6d7a8-b73f-4f51-8dca-e734b38fe21c'; //รอการ authen
 
+    const { session } = useContext(General);
     const [yourproduct, setyourproduct] = useState([]);
+
     useState(()=>{
-        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
-            user: user,
-        })
-        .then(res => {
-            setyourproduct(res.data)
-            console.log('your product',res.data)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    },[])
+        const checkLoginStatus = async () => {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                if (error) {
+                    console.log(error);
+                }
+                const user = data?.session?.user?.id;
+
+                if (user) {
+                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
+                        user: user,
+                    })
+                    .then(res => {
+                        setyourproduct(res.data)
+                        console.log('your product',res.data)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                }
+                else {
+                    setIsUserLoggedIn(false);
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+            }
+        };
+
+        checkLoginStatus();
+    }, [session]);
+
+    // const [yourproduct, setyourproduct] = useState([]);
+    // useState(()=>{
+    //     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
+    //         user: user,
+    //     })
+    //     .then(res => {
+    //         setyourproduct(res.data)
+    //         console.log('your product',res.data)
+    //     })
+    //     .catch((err) => {
+    //         console.log(err)
+    //     })
+    // },[])
 
     return (
         <div>
             <div className={style.blogs_btn} >
                 {/* เหลือใส่ Link manage products link */}
-                <Link href={`/markets/`}>
+                <Link href={`/markets/manage`} style={{ textDecoration: 'none' }}>
                     <button className={style.yourblogs_btn}>
-                        <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}images/Products.svg`} alt="" className={style.img_likes} />Manage your Products
+                        <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Products.svg`} alt="" className={style.img_likes} />
+                        <p style={{ textDecoration: 'none' }}>Manage your Products</p>
                     </button>
                 </Link>
             </div>
@@ -149,13 +208,66 @@ const ProductCards = () => {
     )
 }
 
+const DormCards = () =>{
+    const dorms = test_data_dorm.map((dorm, index) => (
+        <CardDorm
+            key={index}
+            img = {dorm.img}
+            dorm_name = {dorm.dorm_name}
+            price = {dorm.price}
+            id = {dorm.id}
+            facilities = {dorm.facilities}
+            star = {dorm.star}
+        />
+    ))
+
+    return(
+        <div style={{paddingTop:'40px',display:'grid',gridTemplateColumns:'1fr 1fr',justifyItems:'center',rowGap:'30px'}}>
+            {dorms}
+        </div>
+    )
+}
+
 export default function Profile() {
 
     const [selectedOption, setSelectedOption] = useState('blogs'); // สร้าง state เพื่อเก็บค่า option ที่ถูกเลือก
+    const [profileImage, setProfileImage] = useState('');
+    const [profileUsername, setProfileUsername] = useState('XXXXX');
+
+    const router = useRouter();
 
     const handleChange = (event) => {
         setSelectedOption(event.target.value); // เมื่อเลือก option ใหม่ เปลี่ยนค่า state
     };
+
+    useEffect(() => {
+        const getProfile = async () =>{
+            const {data} = await supabase.auth.getSession();
+            const user = data?.session?.user;
+
+            if(user){
+
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`,{
+                    userID:user.id
+                })
+                .then(res =>{
+                    setProfileImage(res.data.picture);
+                });
+
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-username`,{
+                    userID:user.id
+                })
+                .then(res =>{
+                    setProfileUsername(res.data.username);
+                });
+
+            }else{
+                router.push('/');
+            }
+        }
+
+        getProfile();
+    },[]);
 
     return (
 
@@ -166,13 +278,13 @@ export default function Profile() {
                 <div className={style.profile}>Profile</div>
 
                 <div className={style.user}>
-                    <img className={style.user_img} src={`${NEXT_PUBLIC_BASE_WEB_PATH}images/user_img.png`} />
+                    <img className={style.user_img} src={profileImage} />
                     <div className={style.user_info}>
-                        <div className={style.username}>Username</div>
+                        <div className={style.username}>{profileUsername}</div>
                          {/* เหลือใส่ Link edit profile link */}
-                        <Link href={'/'} className={style.edit_profile_button}>
+                        <Link href={'/profile-edit'} className={style.edit_profile_button}>
                             <div className={style.edit_profile_img}>
-                                <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}images/edit_profile.png`} />
+                                <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/edit_profile.png`} />
                             </div>
                             <div className={style.edit_profile}>Edit profile</div>
                         </Link>
@@ -188,6 +300,8 @@ export default function Profile() {
                 <div className={style.data}>
                     {selectedOption === 'blogs' && <BlogsCards />} {/* ถ้า option เป็น blogs แสดง BlogsCards */}
                     {selectedOption === 'markets' && <ProductCards />} {/* ถ้า option เป็น markets แสดง ProductCards */}
+                    {selectedOption === 'dorms' && <DormCards/>} {/* ถ้า option เป็น dorms แสดง DormCards */}
+                    
                 </div>
             </div>
             <Footer />
