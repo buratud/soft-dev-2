@@ -11,7 +11,6 @@ import test_data_dorm from '../test_data_dorm';
 import CardDorm from '../../../components/CardDorm';
 import { FaCircle } from 'react-icons/fa';
 import { NEXT_PUBLIC_BASE_WEB_PATH,NEXT_PUBLIC_BASE_API_URL } from '../../../config';
-import { supabase } from '../../../session'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { General, supabase } from '../../../session'
