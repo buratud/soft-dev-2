@@ -76,14 +76,17 @@ api.post("/recommended-blog", async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("randomblog")
+      // .select('*');
       .select("blog_id,title,category,body,blogger,date,cover_img");
     // .limit(3);
     if (error) {
       throw error;
     } else {
+      console.log('data',data)
       res.status(200).json(data);
     }
   } catch (error) {
+    console.log('error',error)
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
