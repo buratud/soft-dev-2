@@ -76,11 +76,11 @@ export default function Login({ searchParams }) {
             </div>
             <div className={styles.Logincontainer}>
                 <div className={styles.Loginframe}>
-                    <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/Dekhorlogo.png`} width={150} height={150} alt="logo" />
+                    <img className={styles.Loginlogo} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/Dekhorlogo.png`} alt="logo" />
                     <h1 className={styles.Loginfont}>Sign In with DekHor ID</h1>
                     <div className={styles.Loginform}>
                         <div className={styles.inputicon}>
-                            <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/usericon.png`} width={16} height={18} alt="user" />
+                            <img className={styles.inputicon} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/usericon.png`} alt="user" />
                         </div>
                         <div>| </div>
                         <input className={styles.Loginblock}
@@ -95,7 +95,7 @@ export default function Login({ searchParams }) {
                     </div>
                     <div className={styles.Loginform}>
                         <div className={styles.inputicon}>
-                            <Image src={`${NEXT_PUBLIC_BASE_WEB_PATH}/pwicon.png`} width={16} height={15} alt="pw" />
+                            <img className={styles.inputicon} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/pwicon.png`} alt="pw" />
                         </div>
                         <div>| </div>
                         <input className={styles.Loginblock}

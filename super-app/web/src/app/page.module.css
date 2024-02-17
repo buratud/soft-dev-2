@@ -211,7 +211,7 @@
     padding-right: 5rem;
     align-items: center;
     text-align: center;
-
+    justify-items: center;
 }
 
 .ReccommendedBlogs_text {
@@ -264,4 +264,6 @@
     align-items: center;
     margin-left: auto;
     text-align: center;
+    margin-bottom: 2rem;
+    z-index: 900;
 }

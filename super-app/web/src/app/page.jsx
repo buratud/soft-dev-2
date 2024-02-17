@@ -208,9 +208,9 @@ export default function Home() {
             </div>
             {/* CARD SLIDER */}
             <div className={styles.slider}>
-              <Carousel responsive={responsive}>
+              <Carousel responsive={responsive} style={{zIndex: "900"}}>
                 {RecDataProduct.slice(0, 6).map((card) => (
-                  <div><CardProducts img={card.product_image} route={card.product_id} /></div>
+                  <div><CardProducts img={card.URL} route={card.id} /></div>
                 ))}
               </Carousel>
             </div>

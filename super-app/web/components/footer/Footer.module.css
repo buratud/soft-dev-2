@@ -1,12 +1,16 @@
 .footerframe{
-    margin-top: 2rem;
-    height: 334px;
+    height: 40vh;
     background-color: #d9d9d9;
     padding: 0%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     flex-direction: column;
+}
+
+.logo {
+    width: 12.5vh;
+    height: 12.5vh;
 }
 
 .footercontent{
@@ -17,11 +21,12 @@
     flex-direction: row;
     color: #000;
     font-family: Poppins;
-    font-size: 16px;
+    font-size: 2vh;
     font-weight: 400;
 }
 
 .footernavbox{
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -35,7 +40,7 @@
 }
 
 .footercontactbox{
-    width: 25%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -47,10 +52,15 @@
     padding-right: 0%;
 }
 
+.icon{
+    width: 2.5vh;
+    height: 2.5vh;
+}
+
 .footerline{
     background: #B5B5B5;
     width: 80%;
-    height: 1px;
+    height: 0.25vh;
 }
 
 .footerend{
@@ -59,6 +69,6 @@
     flex-direction: row;
     width: 80%;
     color: rgba(0, 0, 0, 0.22);
-    font-size: 14px;
+    font-size: 1.5vh;
     font-weight: 500;
 }

@@ -9,7 +9,7 @@ const CardProducts = (props) => {
 
     return (
         <div>
-            <Link href={`/markets/dessertRecipe/${route}`} >
+            <Link href={`/markets/fooddetail/${route}`} >
                     <img src={img} alt="" className={styles.card} />
             </Link>
         </div>
