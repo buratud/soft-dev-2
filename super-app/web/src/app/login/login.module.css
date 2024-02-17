@@ -3,18 +3,12 @@
     justify-content: center;
     flex-direction: column;
     position: absolute;
-    top: 50%;
+    top: 52%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 10px;
     font-family: Poppins;
-}
-
-.Loginnavbar {
-    padding: 0;
-    background: #FFF;
-    height: 85px;
-    box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.25); 
+    margin-top: 2rem;
 }
 
 .navimage {
@@ -77,6 +71,11 @@
     font-weight: 500;
 }
 
+.Loginblock:focus {
+    outline: none; /* ลบเส้นกรอบ */
+    box-shadow: none; /* ลบเงา */
+}
+
 .navimage {
     display: flex;
     position: absolute;
@@ -111,6 +110,13 @@
     color: #ffffff;
     text-decoration: none;
     font-size: 20px;
+    cursor: pointer;
+}
+
+.Loginbutton:hover {
+    background-color: #393a3a;
+    transition: 0.5s;
+    transform: scale(1.1); 
 }
 
 .signuplabel {

@@ -5,6 +5,7 @@ import styles from "./page.module.css";
 import axios from 'axios';
 import {NEXT_PUBLIC_BASE_WEB_PATH,NEXT_PUBLIC_BASE_API_URL} from "../../../config";
 import { Suspense } from 'react';
+import TopBar from "../../../components/TopBar";
 
 const Verify = () => {
   const router = useRouter();
@@ -84,10 +85,9 @@ const Verify = () => {
   }, []);
   
   return (
+    <>
+    <TopBar/>
     <div className={styles.container}>
-       <div className={styles.topBar}>
-        <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} alt="Logo" className={styles.logo} />
-      </div>
       {loading && <div className={styles.overlay}>
         <div className={styles.loading}>Loading...</div>
       </div>}
@@ -119,6 +119,7 @@ const Verify = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
