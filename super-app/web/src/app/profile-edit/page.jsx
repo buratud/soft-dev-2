@@ -77,27 +77,38 @@ export default function Home() {
     const updateProfile = async () => {
         const currentDate = new Date();
         const fileName = `${currentDate.getTime()}_${formData.userID}`
-        const { error } = await supabase.storage.from('Profile_User').upload(fileName,Imagefile);
-        if (error) {
-            console.log(error);
+        if (formData.username === '') {
+            formData.username = undefined;
+        }
+        if (Imagefile === '') {
+            setImagefile(undefined);
         }
         else {
+            const { error } = await supabase.storage.from('Profile_User').upload(fileName, Imagefile);
+            if (error) {
+                console.log(error);
+            }
+        }
+        if (Imagefile) {
             const { data } = supabase.storage.from('Profile_User').getPublicUrl(fileName);
             formData.imageURL = data.publicUrl;
-            axios.post(`${NEXT_PUBLIC_BASE_API_URL}/set-profile`,{
-                userID: formData.userID,
-                username: formData.username,
-                imageURL: formData.imageURL
-            })
-            .then(res =>{
-                if(res?.data){
+        }
+        else{
+            formData.imageURL = undefined;
+        }
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/set-profile`, {
+            userID: formData.userID,
+            username: formData.username,
+            imageURL: formData.imageURL
+        })
+            .then(res => {
+                if (res?.data) {
                     alert(res.data.message);
-                    if(!res.data.err){
+                    if (!res.data.err) {
                         window.location.reload();
                     }
                 }
             });
-        }
     }
 
 
@@ -121,7 +132,7 @@ export default function Home() {
                                         onChange={handleFileChange}
                                     />
                                     <div>Upload Your Photo
-                                    <img className={styles.uploadicon} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/pfpcamicon.png`} alt="cam" /></div>
+                                        <img className={styles.uploadicon} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/pfpcamicon.png`} alt="cam" /></div>
                                 </label>
                             </div>
                             <div className={styles.username}>
@@ -139,7 +150,7 @@ export default function Home() {
                         <div className={styles.frameline} />
                         <div className={styles.button}>
                             <button onClick={updateProfile} className={styles.update}>Update</button>
-                            <a href={`${NEXT_PUBLIC_BASE_API_URL}/profile`} className={styles.cancel}>Cancel</a>
+                            <a href={`${NEXT_PUBLIC_BASE_WEB_PATH}/profile`} className={styles.cancel}>Cancel</a>
                         </div>
                         <div className={styles.frameremind}>
                             This information will be displayed publicly so be careful what you share.
@@ -147,7 +158,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </main>
     )
 }
