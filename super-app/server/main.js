@@ -82,7 +82,7 @@ api.post("/recommended-blog", async (req, res) => {
     if (error) {
       throw error;
     } else {
-      console.log('data', data)
+      //console.log('data', data)
       res.status(200).json(data);
     }
   } catch (error) {
@@ -93,7 +93,7 @@ api.post("/recommended-blog", async (req, res) => {
 
 api.post("/recommended-product", async (req, res) => {
   try {
-    const { data, error } = await supabase.from("product").select("*");
+    const { data, error } = await supabase.from("MarketConnect_Food").select("*");
     const MaxRecommended = req.body.MaxRecommended || 3;
 
     if (error) {
@@ -106,6 +106,7 @@ api.post("/recommended-product", async (req, res) => {
           newData[i] = data[randomNumber];
           data.splice(randomNumber, 1);
         }
+        //console.log(newData);
         return newData;
       };
       res.status(200).json(randomProduct(MaxRecommended));
@@ -168,7 +169,7 @@ api.post('/set-profile', async (req, res) => {
       if (imageURL && username) {
         const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
         const oldFilename = oldPicture.substring(oldPicture.lastIndexOf('/') + 1);
-        if (oldFilename) {
+        if (oldFilename || oldFilename !== 'PersonCircle.svg') {
           await supabase.storage.from('Profile_User').remove(oldFilename);
         }
         const { error } = await supabase.from('users').update({ username: username, picture: imageURL }).eq('id', userID)
@@ -187,7 +188,7 @@ api.post('/set-profile', async (req, res) => {
       else if (imageURL) {
         const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
         const oldFilename = oldPicture.substring(oldPicture.lastIndexOf('/') + 1);
-        if (oldFilename) {
+        if (oldFilename || oldFilename !== 'PersonCircle.svg') {
           await supabase.storage.from('Profile_User').remove(oldFilename);
         }
         const { error } = await supabase.from('users').update({ picture: imageURL }).eq('id', userID)
