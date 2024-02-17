@@ -144,7 +144,17 @@ api.post('/profile-username', async (req, res) => {
 api.post('/set-profile', async (req, res) => {
   const { userID, username, imageURL } = req.body;
   if (userID) {
-    let SameUserName = []
+    let SameUserName = [];
+    let oldPicture = '';
+
+    if (imageURL) {
+      let { data } = await supabase
+        .from("users")
+        .select("picture")
+        .eq("id", userID);
+      oldPicture = data[0]?.picture;
+
+    }
 
     if (username) {
       let { data: users } = await supabase
@@ -157,6 +167,10 @@ api.post('/set-profile', async (req, res) => {
     if (SameUserName.length === 0) {
       if (imageURL && username) {
         const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
+        const oldFilename = oldPicture.substring(oldPicture.lastIndexOf('/') + 1);
+        if (oldFilename) {
+          await supabase.storage.from('Profile_User').remove(oldFilename);
+        }
         const { error } = await supabase.from('users').update({ username: username, picture: imageURL }).eq('id', userID)
         if (error) {
 
@@ -172,6 +186,10 @@ api.post('/set-profile', async (req, res) => {
       }
       else if (imageURL) {
         const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
+        const oldFilename = oldPicture.substring(oldPicture.lastIndexOf('/') + 1);
+        if (oldFilename) {
+          await supabase.storage.from('Profile_User').remove(oldFilename);
+        }
         const { error } = await supabase.from('users').update({ picture: imageURL }).eq('id', userID)
         if (error) {
 
@@ -195,7 +213,7 @@ api.post('/set-profile', async (req, res) => {
 
         }
       }
-      else{
+      else {
         res.status(200).json({ message: 'No input' });
       }
 
