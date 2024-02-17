@@ -10,7 +10,7 @@ spec:
     service:
       name: superapp-server-service{{ include "global.appendTag" . }}
       port:
-        number: 5000
+        number: {{ include "superapp-server.port" . }}
   tls:
   - hosts:
     - {{ .Values.global.topLevelUrl }}
@@ -25,4 +25,4 @@ spec:
           service:
             name: superapp-server-service{{ include "global.appendTag" . }}
             port:
-              number: 5000
+              number: {{ include "superapp-server.port" . }}

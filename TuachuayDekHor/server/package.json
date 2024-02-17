@@ -16,7 +16,6 @@
     "dotenv": "^16.4.1",
     "express": "^4.18.2"
   },
-  "homepage": "http://localhost:3000",
   "devDependencies": {
     "nodemon": "^3.0.3"
   }

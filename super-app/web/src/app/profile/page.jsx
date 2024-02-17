@@ -11,7 +11,9 @@ import test_data_dorm from '../test_data_dorm';
 import CardDorm from '../../../components/CardDorm';
 import { FaCircle } from 'react-icons/fa';
 import { NEXT_PUBLIC_BASE_WEB_PATH,NEXT_PUBLIC_BASE_API_URL } from '../../../config';
+import { supabase } from '../../../session'
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { General, supabase } from '../../../session'
 
 const BlogsCards = () => {
@@ -229,10 +231,43 @@ const DormCards = () =>{
 export default function Profile() {
 
     const [selectedOption, setSelectedOption] = useState('blogs'); // สร้าง state เพื่อเก็บค่า option ที่ถูกเลือก
+    const [profileImage, setProfileImage] = useState('');
+    const [profileUsername, setProfileUsername] = useState('XXXXX');
+
+    const router = useRouter();
 
     const handleChange = (event) => {
         setSelectedOption(event.target.value); // เมื่อเลือก option ใหม่ เปลี่ยนค่า state
     };
+
+    useEffect(() => {
+        const getProfile = async () =>{
+            const {data} = await supabase.auth.getSession();
+            const user = data?.session?.user;
+
+            if(user){
+
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`,{
+                    userID:user.id
+                })
+                .then(res =>{
+                    setProfileImage(res.data.picture);
+                });
+
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-username`,{
+                    userID:user.id
+                })
+                .then(res =>{
+                    setProfileUsername(res.data.username);
+                });
+
+            }else{
+                router.push('/');
+            }
+        }
+
+        getProfile();
+    },[]);
 
     return (
 
@@ -243,11 +278,11 @@ export default function Profile() {
                 <div className={style.profile}>Profile</div>
 
                 <div className={style.user}>
-                    <img className={style.user_img} src={`${NEXT_PUBLIC_BASE_WEB_PATH}images/user_img.png`} />
+                    <img className={style.user_img} src={profileImage} />
                     <div className={style.user_info}>
-                        <div className={style.username}>Username</div>
+                        <div className={style.username}>{profileUsername}</div>
                          {/* เหลือใส่ Link edit profile link */}
-                        <Link href={'/'} className={style.edit_profile_button}>
+                        <Link href={'/profile-edit'} className={style.edit_profile_button}>
                             <div className={style.edit_profile_img}>
                                 <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}images/edit_profile.png`} />
                             </div>

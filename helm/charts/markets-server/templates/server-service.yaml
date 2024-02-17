@@ -8,5 +8,5 @@ spec:
     app: markets-server{{ include "global.appendTag" . }}
   ports:
     - protocol: TCP
-      port: 5000
-      targetPort: 5000
+      port: {{ include "markets-server.port" . }}
+      targetPort: {{ include "markets-server.port" . }}

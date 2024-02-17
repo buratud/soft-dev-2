@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import { PopChat } from "../components/PopChat";
+import Footer from "../components/Footer";
 import { REACT_APP_BASE_API_URL } from "../config";
 import { IoReloadOutline } from "react-icons/io5";
 
@@ -26,6 +26,7 @@ const Home = () => {
             <Random />
         </section>
       </main>
+      <Footer />
     </div>
   );
 };
