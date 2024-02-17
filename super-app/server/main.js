@@ -82,11 +82,11 @@ api.post("/recommended-blog", async (req, res) => {
     if (error) {
       throw error;
     } else {
-      console.log('data',data)
+      console.log('data', data)
       res.status(200).json(data);
     }
   } catch (error) {
-    console.log('error',error)
+    console.log('error', error)
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -144,32 +144,65 @@ api.post('/profile-username', async (req, res) => {
 api.post('/set-profile', async (req, res) => {
   const { userID, username, imageURL } = req.body;
   if (userID) {
-    const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
-    console.log(filename);
-    let { data: users } = await supabase
-      .from("users")
-      .select("*")
-      .eq("username", username);
+    let SameUserName = []
 
-    if (users.length === 0) {
+    if (username) {
+      let { data: users } = await supabase
+        .from("users")
+        .select("*")
+        .eq("username", username);
+      SameUserName = users;
+    }
 
-      const { error } = await supabase.from('users').update({ username: username, picture: imageURL }).eq('id', userID)
-      if (error) {
+    if (SameUserName.length === 0) {
+      if (imageURL && username) {
+        const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
+        const { error } = await supabase.from('users').update({ username: username, picture: imageURL }).eq('id', userID)
+        if (error) {
 
-        await supabase.storage.from('Profile_User').remove(filename);
-        console.log(`error : `);
-        console.log(error);
+          await supabase.storage.from('Profile_User').remove(filename);
+          console.log(`error : `);
+          console.log(error);
 
-      } else {
+        } else {
 
-        res.status(200).json({ message: 'Update Profile Success' });
+          res.status(200).json({ message: 'Update Profile Success' });
 
+        }
+      }
+      else if (imageURL) {
+        const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
+        const { error } = await supabase.from('users').update({ picture: imageURL }).eq('id', userID)
+        if (error) {
+
+          await supabase.storage.from('Profile_User').remove(filename);
+          console.log(`error : `);
+          console.log(error);
+
+        } else {
+
+          res.status(200).json({ message: 'Update Profile Success' });
+
+        }
+      }
+      else if (username) {
+        const { error } = await supabase.from('users').update({ username: username }).eq('id', userID)
+        if (error) {
+          res.status(200).json({ message: 'Update Profile Error' });
+        } else {
+
+          res.status(200).json({ message: 'Update Profile Success' });
+
+        }
+      }
+      else{
+        res.status(200).json({ message: 'No input' });
       }
 
     } else {
 
       await supabase.storage.from('Profile_User').remove(filename);
-      res.status(200).json({ message: 'Update failed new username already used' , err : true});
+      res.status(200).json({ message: 'Update failed new username already used', err: true });
 
     }
 
