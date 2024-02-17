@@ -265,4 +265,5 @@
     margin-left: auto;
     text-align: center;
     margin-bottom: 2rem;
+    z-index: 900;
 }
