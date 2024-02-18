@@ -1,0 +1,74 @@
+.footerframe{
+    height: 40vh;
+    background-color: #d9d9d9;
+    padding: 0%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.logo {
+    width: 12.5vh;
+    height: 12.5vh;
+}
+
+.footercontent{
+    height: 50%;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    color: #000;
+    font-family: Poppins;
+    font-size: 2vh;
+    font-weight: 400;
+}
+
+.footernavbox{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.footernav{
+    padding: 5%;
+    padding-left: 0%;
+    color: #000;
+    text-decoration: none; 
+}
+
+.footercontactbox{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+}
+
+.footercontact{
+    padding: 1%;
+    padding-right: 0%;
+}
+
+.icon{
+    width: 2.5vh;
+    height: 2.5vh;
+}
+
+.footerline{
+    background: #B5B5B5;
+    width: 80%;
+    height: 0.25vh;
+}
+
+.footerend{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 80%;
+    color: rgba(0, 0, 0, 0.22);
+    font-size: 1.5vh;
+    font-weight: 500;
+}

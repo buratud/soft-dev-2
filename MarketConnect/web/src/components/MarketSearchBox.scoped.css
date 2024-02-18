@@ -1,0 +1,177 @@
+.searchlist {
+    border: 2px solid black;
+    color: black;
+    justify-items: auto;
+    align-items: center;
+    border-radius: 15px;
+    padding: 15px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+    overflow: auto;
+}
+
+.searchlist::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+.searchlist::-webkit-scrollbar-thumb {
+    background-color: black;
+}
+
+.searchbox {
+    display: flex;
+    font-size: 16px;
+    flex: auto;
+}
+
+.cart_logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-right: 10px;
+}
+
+.cart_logo_icon {
+    font-size: 30px;
+}
+
+.textbox_container {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+}
+
+.textbox_input {
+    border: 0;
+    width: 100%;
+    outline: none;
+    font-size: 20px;
+    font-family:'Poppins', sans-serif;
+    font-weight: 500;
+    color: #533f2b;
+    background: none;
+    line-height: normal;
+    border-bottom: 1px solid black;
+}
+
+.textbox_input::placeholder {
+    opacity: 0.22;
+    font-family:'Poppins', sans-serif;
+    font-weight: 500;
+    color: black;
+}
+
+.loading_spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.spinner_icon {
+    font-size: 30px;
+    color: black;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.not_found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    color: #FF6347;
+    font-family:'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.not_found_icon {
+    font-size: 30px;
+    color: #FF6347;
+    margin-bottom: 5px;
+}
+
+.not_found p {
+    margin: 0;
+}
+
+.search_result_item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    border-bottom: 1px solid #D09D6B;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+
+.search_result_item:hover {
+    background: #e2d8ca;
+    color: #fff;
+    border-radius: 15px;
+}
+
+.search_result_item_title {
+    color: #533f2b;
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+    flex-grow: 1;
+    font-family:'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.search_result_item_price {
+    color: #533f2b;
+    font-size: 20px;
+    padding-right: 10px;
+    font-family:'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.search_result_item_image {
+    height: 10vh;
+    border-radius: 10%;
+}
+
+.search_results {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    margin-top: 10px;
+    overflow-y: auto;
+}
+
+.search_results.show {
+    max-height: 500px;
+}
+
+/* Hide the scrollbar */
+.search_results::-webkit-scrollbar {
+    width: 0;
+}
+
+/* Add Firefox scrollbar hiding */
+.search_results {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;  /* hide scrollbar in Firefox */
+}
+
+.search_results.show {
+    max-height: 500px;
+}

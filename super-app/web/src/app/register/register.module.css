@@ -1,0 +1,140 @@
+.main{
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.container {
+  top: 0;
+  margin-top: 4rem;
+  height: 100%;
+  display: flex;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.topBar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.logo{
+  width: 60px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.register_form {
+  display: flex;
+}
+
+.rightside {
+  text-align: right;
+}
+
+.rightside account span :link {
+  text-decoration: none;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  padding:56px;
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.25);
+  margin-bottom: 16px;
+}
+
+.form button {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.2px;
+  margin-top: 16px;
+  padding: 8px 32px;
+  border-radius: 15px;
+  border-style: none;
+  background-color: black;
+  color: #FFF;
+  cursor: pointer;
+}
+
+.form button:hover {
+  background-color: #393a3a;
+  transition: 0.5s;
+  transform: scale(1.1); 
+}
+
+.block {
+  margin-bottom: 24px;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.block input {
+  width: 400px;
+  padding-left: 16px;
+  height: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 15px;
+  background: #D9D9D9;
+  flex-shrink: 0;
+  border-style: none;
+  font-family: Poppins;
+  font-size: 18px;
+}
+
+.block div {
+  margin-bottom: 4px;
+}
+
+.leftside{
+  margin-right: 16px;
+}
+
+.leftside p {
+  white-space: pre;
+}
+
+
+.Intro{
+  margin-left: 32px;
+}
+
+.Intro_1 head1 {
+  color: #000;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 37px;
+  letter-spacing: 0.24px;
+}
+
+.Intro_1 head2 {
+  color: #000;
+  font-family: Poppins;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 37px;
+  letter-spacing: 0.32px;
+}
+
+.Intro_2 {
+  margin-top: 12px;
+}
+

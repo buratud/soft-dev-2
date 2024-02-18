@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: markets-server-service{{ include "global.appendTag" . }}
+spec:
+  type: ClusterIP
+  selector:
+    app: markets-server{{ include "global.appendTag" . }}
+  ports:
+    - protocol: TCP
+      port: {{ include "markets-server.port" . }}
+      targetPort: {{ include "markets-server.port" . }}

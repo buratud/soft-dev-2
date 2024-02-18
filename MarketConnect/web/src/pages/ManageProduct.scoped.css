@@ -1,0 +1,200 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    
+}
+.container{
+    max-width: 100vw;
+    min-height: 100vh;
+    background-color: #F6F6FB;
+}
+
+h1{
+    text-align: center;
+    padding-top: 4rem;
+    padding-bottom: 2rem;
+    color: #092f88;
+    font-weight: 600;
+    font-size: 3rem;
+}
+
+.add-box{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-product{
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+    background-color: #006016;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+
+.add-product:hover{
+    background-color: #00821e; 
+}
+
+.edit-table td {
+    width: 1/3; /* Set equal width for each table cell */
+    padding: 2rem; /* Add padding for spacing */
+  }
+
+  .edit-table {
+    width: 100%;
+    table-layout: fixed;
+    padding: 0 150px; /* Add left and right padding */
+    padding-top: 3rem;
+    padding-bottom: 12.1rem;
+}
+
+
+.edit-box{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 2.6rem;
+    background: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.edit-box-left {
+    width: 200px; /* Set a fixed width for the image container */
+    height: 200px; /* Set a fixed height for the image container */
+    border: 1px solid #ccc;
+    border-radius: 2rem;
+    overflow: hidden; /* Ensure image does not overflow its container */
+    display: flex; /* Center the image vertically */
+    align-items: center;
+    justify-content: center;
+}
+  
+.edit-box-left img {
+    width: 110%; /* Set a fixed width for the image */
+    height: auto; /* Allow the height to adjust proportionally */
+}
+
+.edit-box-right{
+    width: 40%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-left: 2rem;
+    flex: 1; /* Allow edit-box-right to grow and take remaining space */
+}
+
+
+.edit-container {
+    display: flex;
+    justify-content: center; /* Center the table horizontally */
+  }
+  
+  .edit-table {
+    width: 100%; /* Ensure the table fills its container */
+    table-layout: fixed; /* Fix the layout of the table */
+  }
+
+.edit-product img{
+    width: 2rem;
+    margin-left: 1rem;
+}
+
+.edit-product,
+.delete-product {
+  display: block;
+  width: auto; /* Adjust the width to fit content */
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: #fff;
+  font-weight: 500;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all .3s ease;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.edit-product {
+    background-color: #092f88; /* Use background-color instead of background */
+}
+
+.delete-product {
+    background-color: #880909; /* Use background-color instead of background */
+}
+
+.edit-product:hover{
+    background-color: #3249ba; 
+}
+
+.delete-product:hover{
+    background-color: #f14242;
+}
+
+/* For all buttons */
+.edit-product,
+.delete-product,
+.add-product {
+  transition: all 0.3s ease; /* Apply transition for smooth effect */
+}
+
+.edit-product:hover,
+.delete-product:hover,
+.add-product:hover {
+  transform: scale(1.1); /* Scale the button by 10% on hover */
+}
+
+
+.delete-product img{
+    width: 2rem;
+    margin-left: 1rem;
+}
+
+span {
+    margin-left: 0.7rem;
+  }
+
+@media screen and (max-width: 1205px) {
+    .edit-table td {
+      width: 100%; /* Set full width for each table cell */
+      display: block; /* Display each cell as a block */
+      margin-bottom: 20px; /* Add margin between items */
+    }
+  }
+  
+  @media screen and (min-width: 1205px) and (max-width: 1782px) {
+    .edit-table td {
+      width: 50%; /* Set half width for each table cell */
+      display: inline-block; /* Display each cell as an inline-block */
+      vertical-align: top; /* Align cells to the top */
+      box-sizing: border-box; /* Ensure box-sizing includes padding and border */
+      padding: 20px; /* Add padding for spacing */
+    }
+  }
+  
+  @media screen and (min-width: 1782px) {
+    .edit-table td {
+      width: 33.33%; /* Set one-third width for each table cell */
+      display: table-cell; /* Display each cell as a table-cell */
+      vertical-align: top; /* Align cells to the top */
+    }
+  }
+  

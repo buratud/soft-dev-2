@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: superapp-server-service{{ include "global.appendTag" . }}
+spec:
+  type: ClusterIP
+  selector:
+    app: superapp-server{{ include "global.appendTag" . }}
+  ports:
+    - protocol: TCP
+      port: {{ include "superapp-server.port" . }}
+      targetPort: {{ include "superapp-server.port" . }}

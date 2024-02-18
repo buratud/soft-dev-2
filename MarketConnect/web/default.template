@@ -1,0 +1,19 @@
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name _;
+    # This must be included to be used by "try_files"
+    root    /usr/share/nginx/html;
+    location ${REACT_APP_BASE_WEB_PATH}/ {
+        # Included otherwise the "location" will just append "root"
+        alias /usr/share/nginx/html/;
+        try_files $uri $uri/ /index.html;
+    } 
+    location = ${REACT_APP_BASE_WEB_PATH} {
+        return 301 $scheme://$http_host${REACT_APP_BASE_WEB_PATH}/;
+    }
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
