@@ -1,4 +1,5 @@
 import "./globals.css";
+import NavBar from "./navbar";
 
 export const metadata = {
   title: "DekHor Dorms",
@@ -8,7 +9,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {<NavBar />}
+        {children}
+      </body>
     </html>
   );
 }
