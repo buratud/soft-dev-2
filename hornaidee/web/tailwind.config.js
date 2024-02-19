@@ -6,14 +6,14 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    colors: {
+      '092F88' : '#092F88',
+    },
+
     extend: {
-      theme: {
-        fontFamily: {
-          'Poppins': ["Poppins", "sans-serif"],
-          'Paytone One': ["Paytone One", "sans-serif"],
-        },
-    
-        extend: {},
+      fontFamily: {
+        'Poppins': ["Poppins", "sans-serif"],
+        'Paytone One': ["Paytone One", "sans-serif"],
       },
     },
   },
