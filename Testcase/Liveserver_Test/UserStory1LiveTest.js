@@ -22,10 +22,12 @@ const driver = new Builder()
     await driver.wait(until.titleIs('Create Next App'), 3000);
     //let myElement = await driver.findElement(By.id('main'));
     //let attributeValue = await myElement.getAttribute('href');
-    let attributeValue = await driver.findElement(By.tagName('a')).getAttribute('href');
+    let attributeValue = await driver.findElement(By.className('nav_leftside__KJoZ9')).findElement(By.tagName('a')).getAttribute('href');
     //.getAttribute('href');
     //let attributeValue = await driver.findElement(By.className('nav_btn__oq_Li')).getAttribute('href');
-    console.log(attributeValue)
+    console.log(attributeValue);
+    let attributeSignup = await driver.findElement(By.className('nav_btn__oq_Li')).findElement(By.tagName('a')).getAttribute('href');
+    console.log(attributeSignup);
     //assert.equal(attributeValue, 'https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop/register', 'The href attribute is not as expected.');
     //assert.equal(attributeValue, '/develop/register', 'The href attribute is not as expected.');
     await driver.findElement(By.className('nav_btn__oq_Li')).click();
