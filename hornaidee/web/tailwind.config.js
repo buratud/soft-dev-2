@@ -7,10 +7,13 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      theme: {
+        fontFamily: {
+          'Poppins': ["Poppins", "sans-serif"],
+          'Paytone One': ["Paytone One", "sans-serif"],
+        },
+    
+        extend: {},
       },
     },
   },
