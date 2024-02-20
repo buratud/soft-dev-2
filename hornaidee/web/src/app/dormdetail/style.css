@@ -23,7 +23,7 @@ h3 {
   font-weight: normal;
   color: #000000;
 }
-/* Styles for title container */
+/* Styles for title */
 
 .titlecontainer {
   display: flex;
@@ -33,6 +33,18 @@ h3 {
   margin-left: auto;
   margin-right: auto;
   max-width: 1200px; /* Set max-width */
+}
+
+.address {
+  display: flex;
+  align-items: center;
+}
+
+.address > svg {
+  margin-right: 0.7rem;
+  width: 22px;
+  height: 22px;
+  color: darkred;
 }
 
 /* Styles for carousel container */
@@ -170,7 +182,7 @@ h3 {
 .facilitiesbox {
   display: flex;
   flex-direction: column; /* Change flex direction to column */
-  width: 50%;
+  width: 65%;
   padding-top: 1.5rem; /* Add padding */
 }
 
@@ -182,9 +194,32 @@ h3 {
   color: #000000; /* Text color */
 }
 
-.facilitiesbox li {
+.facilitieslist {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+}
+
+.facilitieslist>* {
+  flex: 1 1 160px;
+}
+
+.facilitieslist span {
+  padding-top: 0.4rem; 
+  padding-bottom: 0.4rem; 
   font-size: 19px; /* Font size */
   color: #000000; /* Text color */
+}
+
+.facilitieslistrow {
+  display: flex;
+  align-items: center;
+}
+
+.facilitieslistrow > svg {
+  margin-right: 0.5rem;
+  width: 20px;
+  height: 20px;
 }
 
 /* Styles for host content */
@@ -192,13 +227,54 @@ h3 {
 .hostbox {
   display: flex;
   flex-direction: column; /* Change flex direction to column */
-  width: 50%;
-  align-items: flex-end;
-  padding-top: 2rem; /* Add padding */
+  width: 35%;
+  padding-left: 7rem;
+  padding-top: 1.5rem; /* Add padding */
 }
 
 .hostbox h3 {
+  padding-top: 0.5rem; /* Add padding */
+  padding-bottom: 0.5rem; /* Add padding */
   font-size: 26px; /* Font size */
   font-weight: 600;
   color: #000000; /* Text color */
+}
+
+.hostprofile {
+  display: flex;
+  align-items: center;
+  justify-items: flex-end;
+}
+
+.hostavatar {
+  width: 80px; /* Adjust size as needed */
+  height: 80px; /* Adjust size as needed */
+  border-radius: 50%; /* Makes the image circular */
+  margin-right: 20px;
+}
+
+.hostdetails {
+  flex: 1;
+}
+
+.contactinfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.contactrow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.contactrow > h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.contactrow > svg {
+  margin-right: 0.5rem;
+  width: 20px;
+  height: 20px;
 }

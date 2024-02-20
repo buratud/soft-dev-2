@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaMapPin, FaSchool, FaChevronLeft, FaChevronRight, FaPhone, FaLine, FaWifi, FaPaw, FaBus, FaUtensils, FaShoppingBag, FaSnowflake } from "react-icons/fa";
+import { MdElevator } from "react-icons/md";
 import "./style.css"; // Import CSS module for styling
 
 export default function DormDetails() {
-
   const mockImages = [
     "https://dailyillini.com/wp-content/uploads/2021/08/2560px-Escalante_Dorm_Room.jpeg",
     "https://www.baltimoresun.com/wp-content/uploads/migration/2023/08/30/IFOYMMPS6VB6XAHVTINFPROGXI.jpg?w=620",
@@ -32,8 +32,15 @@ export default function DormDetails() {
     <div className="container">
       <div className="titlecontainer">
         <div className="title">
-          <h1>Dorm Details</h1>
-          <h3>99 Soi Centerpoint Pier, Bang Rak, Bangkok, 10500 TH</h3>
+          <h1>Insert Dorm Name Here</h1>
+          <div className="address">
+            <FaMapPin />
+            <h3>99 Soi Centerpoint Pier, Bang Rak, Bangkok, 10500 TH</h3>
+          </div>
+          <div className="address">
+            <FaSchool />
+            <h3>King Mongkut's University of Technology North Bangkok</h3>
+          </div>
         </div>
       </div>
 
@@ -75,15 +82,60 @@ export default function DormDetails() {
         <div className="facilitiesbox">
           <h3>Most Popular Facilities</h3>
           <div className="facilitieslist">
-            <ul>
-              <li>Air-Conditioner</li>
-              <li>Free WiFi</li>
-              <li>Pet-friendly</li>
-              <li>Elevator</li>
-              <li>Near Bus Stop</li>
-              <li>Near Restaurants</li>
-              <li>Near Shopping Malls</li>
-            </ul>
+            <div className="facilitieslistrow">
+              <FaSnowflake />
+              <span>Air-Condition</span>
+            </div>
+            <div className="facilitieslistrow">
+              <FaWifi />
+              <span>Free WiFi</span>
+            </div>
+            <div className="facilitieslistrow">
+              <FaPaw />
+              <span>Pet-friendly</span>
+            </div>
+            <div className="facilitieslistrow">
+            <MdElevator />
+              <span>Elevator</span>
+            </div>
+            <div className="facilitieslistrow">
+              <FaBus />
+              <span>Near Bus Stop</span>
+            </div>
+            <div className="facilitieslistrow">
+              <FaUtensils />
+              <span>Near Restaurants</span>
+            </div>
+            <div className="facilitieslistrow">
+              <FaShoppingBag />
+              <span>Near Shopping Malls</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="hostbox">
+          <h3>Hosted By</h3>
+          <div className="hostinfo">
+            <div className="hostprofile">
+              <img
+                src="https://www.w3schools.com/howto/img_avatar.png"
+                alt="Host"
+                className="hostavatar"
+              />
+              <div className="hostdetails">
+                <h3>John Doe</h3>
+                <div className="contactinfo">
+                  <div className="contactrow">
+                    <FaLine />
+                    <span>johndoe123</span>
+                  </div>
+                  <div className="contactrow">
+                    <FaPhone />
+                    <span>02-xxx-xxxx</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
