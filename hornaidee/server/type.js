@@ -9,6 +9,7 @@ exports.CreateDormRequest = z.object({
     province: z.string().min(1),
     zip_code: z.string().length(5),
     rent_price: z.number(),
-    facilities: z.array(z.number())
+    facilities: z.array(z.number()),
+    photos: z.array(z.number()).min(1),
 });
 
