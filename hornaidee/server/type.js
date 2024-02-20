@@ -5,7 +5,7 @@ exports.CreateDormRequest = z.object({
     name: z.string(),
     address: z.string(),
     property_number: z.string().optional(),
-    city: z.string().optional(),
+    city: z.string().nullable().optional(),
     province: z.string(),
     zip_code: z.string(),
     rent_price: z.number(),

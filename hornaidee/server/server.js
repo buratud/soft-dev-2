@@ -2,17 +2,13 @@ const express = require('express');
 const jsonwebtoken = require('jsonwebtoken');
 const bodyParser = require('body-parser')
 const { createClient } = require('@supabase/supabase-js');
-const { SUPABASE_URL, SUPABASE_KEY, JWT_SECRET } = require('./config');
+const { z } = require('zod');
+
+const { SUPABASE_URL, SUPABASE_KEY, JWT_SECRET, LOG_LEVEL } = require('./config');
 const { CreateDormRequest } = require('./type');
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-const pino = require('pino')
-const logger = pino({
-    transport: {
-        target: 'pino-pretty'
-    },
-})
-
+const logger = require('pino')({ level: LOG_LEVEL || 'info'});
 
 const app = express.Router();
 
@@ -23,7 +19,7 @@ app.use((req, res, next) => {
     const token = authorization?.split(' ')[1];
     jsonwebtoken.verify(token, JWT_SECRET, (err, decoded) => {
         if (err) {
-            logger.debug(err);
+            logger.error(err);
             res.status(401).send({ message: 'Unauthorized' });
         } else {
             req.user = decoded;
@@ -36,14 +32,16 @@ app.post('/dorms', async (req, res) => {
     try {
         req.body.owner = req.user.sub;
         const data = CreateDormRequest.parse(req.body);
-        const { result, error } = await supabase.schema('dorms').from('dorms').insert(data).select('id');
+        const { facilities, ...dormData } = data;
+        const { data: result, error } = await supabase.schema('dorms').from('dorms').insert(dormData).select('id');
+        logger.debug(result);
         if (error) {
             logger.error(error);
             res.status(500).send();
             return;
         }
-        for (const facility of data.facilities) {
-            const { error } = await supabase.schema('dorm_facilities').from('dorm_facilities').insert({
+        for (const facility of facilities) {
+            const { error } = await supabase.schema('dorms').from('dorms_facilities').insert({
                 dorm_id: result[0].id,
                 facility_id: facility
             });
