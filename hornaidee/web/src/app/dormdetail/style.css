@@ -171,12 +171,19 @@ h3 {
   display: flex;
   flex-direction: column; /* Change flex direction to column */
   width: 50%;
-  padding-top: 2rem; /* Add padding */
+  padding-top: 1.5rem; /* Add padding */
 }
 
 .facilitiesbox h3 {
+  padding-top: 0.5rem; /* Add padding */
+  padding-bottom: 0.5rem; /* Add padding */
   font-size: 26px; /* Font size */
   font-weight: 600;
+  color: #000000; /* Text color */
+}
+
+.facilitiesbox li {
+  font-size: 19px; /* Font size */
   color: #000000; /* Text color */
 }
 

@@ -76,24 +76,18 @@ export default function DormDetails() {
           <h3>Most Popular Facilities</h3>
           <div className="facilitieslist">
             <ul>
-              <li>Wifi</li>
-              <li>Laundry</li>
-              <li>Security</li>
-              <li>24/7 Reception</li>
+              <li>Air-Conditioner</li>
+              <li>Free WiFi</li>
+              <li>Pet-friendly</li>
+              <li>Elevator</li>
+              <li>Near Bus Stop</li>
+              <li>Near Restaurants</li>
+              <li>Near Shopping Malls</li>
             </ul>
           </div>
         </div>
-        <div className="hostbox">
-          <h3>Hosted by</h3>
-          <div className="hostinfo">
-            <img
-              src="https://www.freeiconspng.com/thumbs/msn-icon/msn-icon-16.png"
-              alt="host"
-            />
-            <h3>John Doe</h3>
-            </div>
-          </div>
       </div>
+
     </div>
   );
 }
