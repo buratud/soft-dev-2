@@ -3,11 +3,11 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import "./EditProfile.scoped.css";
 import axios from 'axios';
-import { General } from '../App';
+import { AuthContext } from '../App';
 import { REACT_APP_BASE_API_URL } from '../config'
 
 function Editprofile(props) {
-    const{supabase_for_use : supabase,user} = useContext(General);
+    const{supabase_for_use : supabase,user} = useContext(AuthContext);
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);

@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import {BsFillTrashFill,BsXLg} from "react-icons/bs";
 import axios from 'axios';
-import { General } from '../App';
+import { AuthContext } from '../App';
 import { REACT_APP_BASE_API_URL } from '../config'
 
 function CheckDelete(){
@@ -16,7 +16,7 @@ function CheckDelete(){
 
   const {id} = useParams();
   const navigate = useNavigate();
-  const { supabase_for_use: supabase, session, user } = useContext(General);
+  const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
   const handledelete = () => {
   // const [data,setData] = useState([]);
     axios.delete(`${REACT_APP_BASE_API_URL}/deletepost?id_post=` + id)

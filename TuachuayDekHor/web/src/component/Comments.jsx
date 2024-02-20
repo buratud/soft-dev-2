@@ -5,7 +5,7 @@ import { FaRegComment } from "react-icons/fa";
 import './Comments.scoped.css'
 import { RiFlag2Line, RiMessage2Line, RiSendPlaneFill } from "react-icons/ri";
 import { CiChat1 } from "react-icons/ci";
-import { General } from '../App';
+import { AuthContext } from '../App';
 import { Link,useParams } from 'react-router-dom';
 import axios from 'axios';
 import { REACT_APP_BASE_API_URL } from '../config'
@@ -17,7 +17,7 @@ function OffCanvasExample({ name, ...props }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const {session,user} = useContext(General);
+  const {session,user} = useContext(AuthContext);
   const {id} = useParams();
 
 
