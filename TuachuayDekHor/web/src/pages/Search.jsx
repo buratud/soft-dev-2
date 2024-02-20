@@ -30,11 +30,11 @@ function Search() {
             })
     }, [])
     const location = useLocation();
-    const searchQuery = new URLSearchParams(location.search).get('query');
+    // const searchQuery = new URLSearchParams(location.search).get('query');
 
     // ใช้ค่า searchQuery ที่ได้รับจาก URL query parameter เป็นเงื่อนไขในการกรองข้อมูล Data 
     // กรองข้อมูลที่ตรงกับคำค้นหา
-    const filteredData = data.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    // const filteredData = data.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
     return (
         <div className="search">
@@ -45,14 +45,15 @@ function Search() {
                 <div className="search_wrapper">
                     <div className='headResult'>
                         <h2>
-                            Search Results for : <p>{searchQuery}</p>
+                            Search Results for : 
+                            {/* <p>{searchQuery}</p> */}
                         </h2>
                     </div>
                     <div className="showResult">
                         <div className="main_content">
-                            {filteredData.length > 0 ? (
+                            {data.length > 0 ? (
                                 // แสดงข้อมูลของผลการค้นหาที่ตรงกับคำค้นหา
-                                filteredData.map(({ id_post: id, title, user: { username }, category ,image_link }, index) => {
+                                data.map(({ id_post: id, title, user: { username }, category ,image_link }, index) => {
                                     return (
                                         <div className="singleDest" key={index}>
                                             <div className="dastImage">
