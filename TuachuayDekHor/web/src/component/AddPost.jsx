@@ -2,7 +2,7 @@ import React, { useRef, useState, useContext } from 'react'
 import { Card, CardBody, Form, Input, Label, Button, Container, FormGroup } from 'reactstrap'
 import "./AddPost.scoped.css"
 import JoditEditor from 'jodit-react';
-import { General } from '../App';
+import { AuthContext } from '../App';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { REACT_APP_BASE_API_URL } from '../config';
@@ -18,7 +18,7 @@ function makeid(length) {
     return result;
 }
 function AddPost() {
-    const { supabase_for_use: supabase, session, user } = useContext(General);
+    const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
     const navigate = useNavigate()
 
     const [loading,setLoading] = useState(false);
