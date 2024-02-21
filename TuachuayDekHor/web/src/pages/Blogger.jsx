@@ -14,6 +14,7 @@ function Blogger() {
   const [searchInput, setSearchInput] = useState("");
   const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
 
+  // Back
   useEffect(() => {
     axios.post(`${REACT_APP_BASE_API_URL}/blogger`)
       .then(res => {
@@ -26,6 +27,7 @@ function Blogger() {
   }, []);
 
   useEffect(() => {
+    // ตัวแปร data คือที่ Back ต้องเอา Blogger ทั้งหมดมาใส่
     const filtered = data.filter(({ user: { username } }) =>
       username.toLowerCase().includes(searchInput.toLowerCase())
     );
@@ -66,6 +68,7 @@ function Blogger() {
         </div>
         <div className="blogger_list">
           <div className="blogger_wrapper">
+            {/* ข้อมูล backend ใส่ตรงนี้ */}
             {filteredData.map(({ user: { username, id }, image: { avatar_url } }, index) => (
               <div className="box" key={index}>
                 <Link to={`/profile/${id}`} className="Blog1">
