@@ -141,7 +141,7 @@ app.post('/dorms', async (req, res) => {
     }
 });
 
-app.post('/dorms/:id/reviews', async (req, res) => {
+app.post('/dorms/:id/review', async (req, res) => {
     try {
         const data = CreateReviewRequest.parse(req.body);
         const { error } = await supabase.schema('dorms').from('reviews').insert({
@@ -168,7 +168,7 @@ app.post('/dorms/:id/reviews', async (req, res) => {
     }
 });
 
-app.put('/dorms/:id/reviews', async (req, res) => {
+app.put('/dorms/:id/review', async (req, res) => {
     try {
         const data = PutReviewRequest.parse(req.body);
         const { data: result, error } = await supabase.schema('dorms').from('reviews')
@@ -196,7 +196,7 @@ app.put('/dorms/:id/reviews', async (req, res) => {
     }
 });
 
-app.delete('/dorms/:id/reviews', async (req, res) => {
+app.delete('/dorms/:id/review', async (req, res) => {
     try {
         const { error } = await supabase.schema('dorms').from('reviews').delete().eq('user_id', req.user.sub).eq('dorm_id', req.params.id);
         if (error) {
