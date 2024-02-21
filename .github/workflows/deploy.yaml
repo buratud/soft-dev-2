@@ -133,6 +133,55 @@ jobs:
           docker build MarketConnect/server/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-server:${{ github.sha }}
           docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-server:${{ github.sha }}
 
+  dorms_web:
+    name: Dorms Website
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set GIT_REF
+        run: bash ./env.sh >> "$GITHUB_ENV"
+
+      - name: Login to Azure Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
+          username: ${{ vars.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push image
+        run: |
+          docker build hornaidee/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-web:${{ github.sha }} --build-arg BASE_DORM_WEB_PATH=$BASE_DORM_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_DORM_SERVER_PATH=$BASE_DORM_SERVER_PATH --build-arg DORM_SUPABASE_URL=$DORM_SUPABASE_URL --build-arg DORM_SUPABASE_ANON_KEY=$DORM_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-web:${{ github.sha }}
+        env:
+          MAIN_URL: ${{ env.MAIN_URL }}
+          BASE_DORM_WEB_PATH: ${{ env.BASE_DORM_WEB_PATH }}
+          BASE_DOMAIN_WITH_PROTOCOL: ${{ env.BASE_DOMAIN_WITH_PROTOCOL }}
+          BASE_DORM_SERVER_PATH: ${{ env.BASE_DORM_SERVER_PATH }}
+          DORM_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          DORM_SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+
+  dorms_server:
+    name: Dorms Server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set GIT_REF
+        run: bash ./env.sh >> "$GITHUB_ENV"
+
+      - name: Login to Azure Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
+          username: ${{ vars.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push image
+        run: |
+          docker build hornaidee/server/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-server:${{ github.sha }}
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-server:${{ github.sha }}
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
