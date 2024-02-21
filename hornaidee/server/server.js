@@ -6,13 +6,14 @@ const { z } = require('zod');
 const { CreateDormRequest } = require('./type');
 
 const { SUPABASE_URL, SUPABASE_KEY, JWT_SECRET, LOG_LEVEL } = require('./config');
+const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage } = require('./util');
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-const logger = require('pino')({ level: LOG_LEVEL || 'info'});
+const logger = require('pino')({ level: LOG_LEVEL || 'info' });
 
 const app = express.Router();
 
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '50mb' }))
 
 app.use((req, res, next) => {
     const { authorization } = req.headers;
@@ -32,7 +33,7 @@ app.post('/dorms', async (req, res) => {
     try {
         req.body.owner = req.user.sub;
         const data = CreateDormRequest.parse(req.body);
-        const { facilities, ...dormData } = data;
+        const { facilities, photos, ...dormData } = data;
         const { data: result, error } = await supabase.schema('dorms').from('dorms').insert(dormData).select('id');
         logger.debug(result);
         if (error) {
@@ -50,6 +51,25 @@ app.post('/dorms', async (req, res) => {
                 res.status(500).send();
                 return;
             }
+        }
+        for (let i = 0; i < photos.length; i++) {
+            const photo = photos[i];
+            const base64 = getRawBase64(photo);
+            const decodedData = Buffer.from(base64, 'base64');
+            const mimeType = getMimeTypeFromBase64(photo);
+            const fileExtension = getFileExtensionFromMimeType(mimeType);
+            if (!isImage(mimeType)) {
+                res.status(400).send({ message: 'Only images are allowed' });
+                return;
+            }
+            supabase.storage.from('dorms').upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, {
+                contentType: mimeType
+            }).then(({ error }) => {
+                if (error) {
+                    logger.error(error);
+                    res.status(500).send();
+                }
+            });
         }
         res.status(201).json(result[0]);
     } catch (error) {
