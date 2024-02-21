@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaMapPin,
   FaSchool,
@@ -13,52 +13,80 @@ import {
   FaUtensils,
   FaShoppingBag,
   FaSnowflake,
+  FaAccessibleIcon,
 } from "react-icons/fa";
 import { MdElevator } from "react-icons/md";
+import { IoLogoNoSmoking, IoIosFitness } from "react-icons/io";
 import "./style.css";
+import { NEXT_PUBLIC_BASE_API_URL } from "../../../../config";
+import axios from "axios";
+import { useParams } from "next/navigation";
 
 export default function DormDetails() {
-  const mockImages = [
-    "https://dailyillini.com/wp-content/uploads/2021/08/2560px-Escalante_Dorm_Room.jpeg",
-    "https://www.baltimoresun.com/wp-content/uploads/migration/2023/08/30/IFOYMMPS6VB6XAHVTINFPROGXI.jpg?w=620",
-    "https://cdn.vox-cdn.com/thumbor/z2M_XZXuk2EK-oIBbPXCVizxN80=/0x0:6492x4328/1200x675/filters:focal(2727x1645:3765x2683)/cdn.vox-cdn.com/uploads/chorus_image/image/69720403/13_THURSDAY_020.0.jpg",
-    "https://www.michigandaily.com/wp-content/uploads/2022/02/online_jeh.opinion.Dormroom.02.22.22.0105.jpg"
-    // needs to be dynamically changed
-  ];
+  const params = useParams();
+  
 
-  const [images] = useState(mockImages);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [data, setData] = useState({}); // [dorm, address, property_number, city, province, zip_code, rent_price, facilities, host, nearby_university
+  const [isLoading, setIsLoading] = useState(true);
+
+  const falicititesIconMap = {
+    1: <IoLogoNoSmoking />,
+    2: <IoIosFitness />,
+    3: <FaSnowflake />,
+    4: <FaPaw />,
+    5: <FaWifi />,
+    6: <MdElevator />,
+    7: <FaBus />,
+    8: <FaShoppingBag />,
+    9: <FaUtensils />,
+    10: <FaAccessibleIcon />,
+  };
 
   const goToNextImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      prevIndex === data.photos.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   const goToPreviousImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+      prevIndex === 0 ? data.photos.length - 1 : prevIndex - 1
     );
   };
+
+  useEffect(() => {
+    const interval = setInterval(goToNextImage, 5000);
+    return () => clearInterval(interval);
+  });
+
+  useEffect(() => {
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
+      console.log(res.data);
+      setData(res.data);
+      setIsLoading(false);
+    });
+  }, []);
+
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <div className="container">
       {/* dorm name, address, nearby university */}
       <div className="titlecontainer">
         <div className="title">
-          <h1>Insert Dorm Name Here</h1> {/* needs to be dy
-    namically changed */}
+          <h1>{data.name}</h1>
           <div className="address">
             <FaMapPin />
-            <h3>99 Soi Centerpoint Pier, Bang Rak, Bangkok, 10500 TH</h3>{" "}
-            {/* needs to be dy
-      namically changed */}
+            <h3>
+              {data.address} {data.property_number} {data.city} {data.province}{" "}
+              {data.zip_code}
+            </h3>
           </div>
           <div className="address">
             <FaSchool />
-            <h3>King Mongkut's University of Technology North Bangkok</h3>{" "}
-            {/* needs to be dy
-      namically changed */}
+            <h3>King Mongkut's University of Technology North Bangkok</h3>
+            {/* needs to be dynamically changed */}
           </div>
         </div>
       </div>
@@ -66,11 +94,11 @@ export default function DormDetails() {
       {/* carousel */}
       <div className="carouselcontainer">
         <div className="carousel">
-          {images.length > 0 && (
+          {data.photos.length > 0 && (
             <div className="imageContainer">
               <img
                 className="carouselImage"
-                src={images[currentImageIndex]}
+                src={data.photos[currentImageIndex]}
                 alt={`Image ${currentImageIndex + 1}`}
               />
               <button className="previousButton" onClick={goToPreviousImage}>
@@ -92,13 +120,12 @@ export default function DormDetails() {
             </div>
           </div>
           <div className="bigPricebox">
-            <h3>THB</h3>
-            <h3>3,500</h3> {/* needs to be dynamically changed */}
-            <l1>/mo.</l1>
+            <h3>THB {data.rent_price}</h3>
+            <span>&nbsp;/mo.</span>
           </div>
           <div className="editButtonContainer">
             <button className="editButton">Edit Property</button>{" "}
-          {/* hidden unless a owner */}
+            {/* hidden unless a owner */}
           </div>
         </div>
       </div>
@@ -108,36 +135,12 @@ export default function DormDetails() {
         <div className="facilitiesbox">
           <h3>Most Popular Facilities</h3>
           <div className="facilitieslist">
-            {/* needs to be dy
-      namically changed */}
-            <div className="facilitieslistrow">
-              <FaSnowflake />
-              <span>Air-Condition</span>
-            </div>
-            <div className="facilitieslistrow">
-              <FaWifi />
-              <span>Free WiFi</span>
-            </div>
-            <div className="facilitieslistrow">
-              <FaPaw />
-              <span>Pet-friendly</span>
-            </div>
-            <div className="facilitieslistrow">
-              <MdElevator />
-              <span>Elevator</span>
-            </div>
-            <div className="facilitieslistrow">
-              <FaBus />
-              <span>Near Bus Stop</span>
-            </div>
-            <div className="facilitieslistrow">
-              <FaUtensils />
-              <span>Near Restaurants</span>
-            </div>
-            <div className="facilitieslistrow">
-              <FaShoppingBag />
-              <span>Near Shopping Malls</span>
-            </div>
+            {data.facilities.map((facility) => (
+              <div className="facilitieslistrow" key={facility.id}>
+                {falicititesIconMap[facility.id]}
+                <span>{facility.name}</span>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -145,28 +148,24 @@ export default function DormDetails() {
           <h3>Hosted By</h3>
           <div className="hostinfo">
             <div className="hostprofile">
-              {/* needs to be dy
-        namically changed */}
+              {/* needs to be dynamically changed */}
               <img
                 src="https://www.w3schools.com/howto/img_avatar.png"
                 alt="Host"
                 className="hostavatar"
               />
               <div className="hostdetails">
-                <h3>John Doe</h3> {/* needs to be dy
-          namically changed */}
+                <h3>John Doe</h3> {/* needs to be dynamically changed */}
                 <div className="contactinfo">
                   <div className="contactrow">
                     <FaLine />
                     <span>johndoe123</span>{" "}
-                    {/* needs to be dy
-              namically changed */}
+                    {/* needs to be dynamically changed */}
                   </div>
                   <div className="contactrow">
                     <FaPhone />
                     <span>02-xxx-xxxx</span>{" "}
-                    {/* needs to be dy
-              namically changed */}
+                    {/* needs to be dynamically changed */}
                   </div>
                 </div>
               </div>

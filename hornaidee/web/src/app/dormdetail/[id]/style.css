@@ -12,19 +12,6 @@
 
 /* Styles for title */
 
-h1 {
-  font-size: 40px;
-  font-weight: bold;
-  color: #092f88;
-}
-
-h3 {
-  font-size: 20px;
-  font-weight: normal;
-  color: #000000;
-}
-/* Styles for title */
-
 .titlecontainer {
   display: flex;
   justify-content: space-between;
@@ -45,6 +32,18 @@ h3 {
   width: 22px;
   height: 22px;
   color: darkred;
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: bold;
+  color: #092f88;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: normal;
+  color: #000000;
 }
 
 /* Styles for carousel container */
@@ -163,7 +162,7 @@ h3 {
   font-weight: 600;
 }
 
-.bigPricebox l1 {
+.bigPricebox span {
   color: #092F88; /* Text color */
   font-size: 18px;
 }
@@ -223,11 +222,12 @@ h3 {
 .facilitieslist {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row-reverse;
+  flex-direction: row;
+  column-gap: 2rem;
 }
 
 .facilitieslist>* {
-  flex: 1 1 160px;
+  flex: 0 1 1;
 }
 
 .facilitieslist span {
@@ -235,6 +235,7 @@ h3 {
   padding-bottom: 0.4rem; 
   font-size: 19px; /* Font size */
   color: #000000; /* Text color */
+  white-space: nowrap;
 }
 
 .facilitieslistrow {

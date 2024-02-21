@@ -14,6 +14,9 @@ const logger = require('pino')({ level: LOG_LEVEL || 'info' });
 
 const app = express.Router();
 
+const cors = require('cors');
+app.use(cors())
+
 app.use(bodyParser.json({ limit: '50mb' }))
 
 app.get('/dorms/:id', async (req, res) => {
