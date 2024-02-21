@@ -78,7 +78,7 @@ export default function AddDormPage() {
         <div className="">
           <form className="flex flex-col md:flex-row gap-36 font-Poppins w-full">
             <div className="flex flex-col w-full">
-              <div className="text-bg-[#092F88] font-bold text-4xl font-Poppins mb-4">List New Property</div>
+              <div className="text-[#092F88] font-bold text-4xl font-Poppins mb-4">List New Property</div>
               <div>Tell us your property name.</div>
               <div className="flex items-center py-2 my-2 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
                 <BsBuildings className="input-icon ml-4 mr-1" />
