@@ -62,14 +62,23 @@ app.post('/dorms', async (req, res) => {
                 res.status(400).send({ message: 'Only images are allowed' });
                 return;
             }
-            supabase.storage.from('dorms').upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, {
+            const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms').upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, {
                 contentType: mimeType
-            }).then(({ error }) => {
-                if (error) {
-                    logger.error(error);
-                    res.status(500).send();
-                }
             });
+            if (uploadError) {
+                logger.error(uploadError);
+                res.status(500).send();
+                return;
+            }
+            const { error: insertError } = await supabase.schema('dorms').from('photos').insert({
+                dorm_id: result[0].id,
+                photo_url: `${SUPABASE_URL}${uploadData.path}`
+            })
+            if (insertError) {
+                logger.error(insertError);
+                res.status(500).send();
+                return;
+            }
         }
         res.status(201).json(result[0]);
     } catch (error) {
