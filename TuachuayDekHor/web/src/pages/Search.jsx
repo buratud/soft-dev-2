@@ -22,6 +22,7 @@ function Search() {
         })
         .then(res => {
             setData(res.data);
+            setSearchResult(res.data); // ตั้งค่า searchResult เป็นข้อมูลทั้งหมดเมื่อโหลดหน้าเว็บใหม่
             setNoResults(false);
         })
         .catch(err => {
@@ -29,27 +30,29 @@ function Search() {
         });
     }, [searchQuery]);
 
-    const handleSearch = (e) => {
-        e.preventDefault();
+    useEffect(() => {
         const results = data.filter(card => 
             card.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
             card.user.username.toLowerCase().includes(searchQuery.toLowerCase())
         );
         setSearchResult(results);
         setNoResults(results.length === 0);
-    };
-
-    useEffect(() => {
-        setSearchResult(data);
-        setNoResults(false);
-    }, [data]);
+    }, [searchQuery, data]);
 
     return (
         <div className="search">
             <Navbar />
             <div className="mainSearch">
                 <div className='Search_Wrapper'>
-                    <form className='SearchBox' onSubmit={handleSearch}>
+                    <form className='SearchBox' onSubmit={(e) => {
+                        e.preventDefault();
+                        const results = data.filter(card => 
+                            card.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            card.user.username.toLowerCase().includes(searchQuery.toLowerCase())
+                        );
+                        setSearchResult(results);
+                        setNoResults(results.length === 0);
+                    }}>
                         <div className='Search_inside'>
                             <IoSearch size={25} className="icon_Search" />
                             <input
@@ -65,7 +68,7 @@ function Search() {
                 </div>
 
                 <div className="AllBlogs">
-                    {noResults && <p className="noResults">No results found. Please try another search.</p>}
+                    {noResults && searchQuery !== '' && <p className="noResults">No results found. Please try another search.</p>}
                     <div className="grid-container">
                         {searchResult.map((card, index) => (
                             <Card
