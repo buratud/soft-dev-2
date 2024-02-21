@@ -1,14 +1,13 @@
-import { AiOutlineUser, AiOutlineHome, AiOutlineTag, AiOutlineEnvironment, AiOutlineBank } from 'react-icons/ai';
+import { AiOutlineHome, AiOutlineTag, AiOutlineEnvironment } from 'react-icons/ai';
 import { BsBuildings, Bs123, BsHouse } from "react-icons/bs";
 
 export default function AddDormPage() {
   return (
     <main className="flex flex-col items-center justify-center h-screen bg-f6f6fb">
-      <div className="flex flex-col items-center justify-center gap-4">
-        <div className="text-092F88 font-bold text-5xl font-Poppins mb-8">List New Property</div>
-        <div className="flex justify-center w-full">
-          <form className="flex flex-col md:flex-row gap-8 w-full font-Poppins">
+        <div className="">
+          <form className="flex flex-col md:flex-row gap-36 font-Poppins w-full">
             <div className="flex flex-col w-full">
+              <div className="text-092F88 font-bold text-4xl font-Poppins mb-4">List New Property</div>
               <div>Tell us your property name.</div>
               <div className="flex items-center py-2 my-2 pr-2 rounded-2xl select-none bg-D9D9D9">
                 <BsBuildings className="input-icon ml-4 mr-1" />
@@ -41,18 +40,13 @@ export default function AddDormPage() {
                 <div className="h-5 bg-000000 w-[2px] bg-opacity-10 rounded-full mx-1"></div>
                 <input type="text" placeholder="Zip Code" className="input-field ml-2 flex-grow border-none bg-D9D9D9 focus:outline-none font-medium" />
               </div>
-              <div className="flex items-center py-2 my-2 pr-2 rounded-2xl select-none bg-D9D9D9">
-                <AiOutlineTag className="input-icon ml-4 mr-1" />
-                <div className="h-5 bg-000000 w-[2px] bg-opacity-10 rounded-full mx-1"></div>
-                <input type="text" placeholder="How much do you want to charge per month?" className="input-field ml-2 flex-grow border-none bg-D9D9D9 focus:outline-none font-medium" />
-              </div>
             </div>
             
 
-            <div className="w-full md:w-1/2">
+            <div className="w-full">
             {/* <ImageUploadComponent /> */}
-            <div className='pt-6'>What facilities and filters do your property provide?</div>
-              <div className="flex "></div>
+              <div className='pt-6'>What facilities and filters do your property provide?</div>
+              <div className='flex flex-row gap-4 py-2 my-2'>
                 <div className="flex flex-col gap-4 py-2 my-2">
                   <label className="flex items-center gap-2">
                     <input type="checkbox" className="form-checkbox h-6 w-6 accent-092F88 rounded" />
@@ -87,9 +81,21 @@ export default function AddDormPage() {
                   </label>
                 </div>
               </div>
+
+              <div>
+                <div>How much do you want to charge per month?</div>
+                <div className="flex items-center py-2 my-2 pr-2 rounded-2xl select-none bg-D9D9D9">
+                <AiOutlineTag className="input-icon ml-4 mr-1" />
+                <div className="h-5 bg-000000 w-[2px] bg-opacity-10 rounded-full mx-1"></div>
+                <input type="text" placeholder="Price per month (in THB)" className="input-field ml-2 flex-grow border-none bg-D9D9D9 focus:outline-none font-medium" />
+              </div>
+              </div>
+
+            </div>
+
+            
           </form>
         </div>
-      </div>
     </main>
   );
 }
