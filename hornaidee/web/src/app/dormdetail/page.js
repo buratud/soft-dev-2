@@ -22,10 +22,8 @@ export default function DormDetails() {
     "https://dailyillini.com/wp-content/uploads/2021/08/2560px-Escalante_Dorm_Room.jpeg",
     "https://www.baltimoresun.com/wp-content/uploads/migration/2023/08/30/IFOYMMPS6VB6XAHVTINFPROGXI.jpg?w=620",
     "https://cdn.vox-cdn.com/thumbor/z2M_XZXuk2EK-oIBbPXCVizxN80=/0x0:6492x4328/1200x675/filters:focal(2727x1645:3765x2683)/cdn.vox-cdn.com/uploads/chorus_image/image/69720403/13_THURSDAY_020.0.jpg",
-    "https://www.michigandaily.com/wp-content/uploads/2022/02/online_jeh.opinion.Dormroom.02.22.22.0105.jpg",
-    {
-      /* needs to be dinamically changed */
-    },
+    "https://www.michigandaily.com/wp-content/uploads/2022/02/online_jeh.opinion.Dormroom.02.22.22.0105.jpg"
+    // needs to be dynamically changed
   ];
 
   const [images] = useState(mockImages);
@@ -48,16 +46,19 @@ export default function DormDetails() {
       {/* dorm name, address, nearby university */}
       <div className="titlecontainer">
         <div className="title">
-          <h1>Insert Dorm Name Here</h1> {/* needs to be dinamically changed */}
+          <h1>Insert Dorm Name Here</h1> {/* needs to be dy
+    namically changed */}
           <div className="address">
             <FaMapPin />
             <h3>99 Soi Centerpoint Pier, Bang Rak, Bangkok, 10500 TH</h3>{" "}
-            {/* needs to be dinamically changed */}
+            {/* needs to be dy
+      namically changed */}
           </div>
           <div className="address">
             <FaSchool />
             <h3>King Mongkut's University of Technology North Bangkok</h3>{" "}
-            {/* needs to be dinamically changed */}
+            {/* needs to be dy
+      namically changed */}
           </div>
         </div>
       </div>
@@ -107,7 +108,8 @@ export default function DormDetails() {
         <div className="facilitiesbox">
           <h3>Most Popular Facilities</h3>
           <div className="facilitieslist">
-            {/* needs to be dinamically changed */}
+            {/* needs to be dy
+      namically changed */}
             <div className="facilitieslistrow">
               <FaSnowflake />
               <span>Air-Condition</span>
@@ -143,24 +145,28 @@ export default function DormDetails() {
           <h3>Hosted By</h3>
           <div className="hostinfo">
             <div className="hostprofile">
-              {/* needs to be dinamically changed */}
+              {/* needs to be dy
+        namically changed */}
               <img
                 src="https://www.w3schools.com/howto/img_avatar.png"
                 alt="Host"
                 className="hostavatar"
               />
               <div className="hostdetails">
-                <h3>John Doe</h3> {/* needs to be dinamically changed */}
+                <h3>John Doe</h3> {/* needs to be dy
+          namically changed */}
                 <div className="contactinfo">
                   <div className="contactrow">
                     <FaLine />
                     <span>johndoe123</span>{" "}
-                    {/* needs to be dinamically changed */}
+                    {/* needs to be dy
+              namically changed */}
                   </div>
                   <div className="contactrow">
                     <FaPhone />
                     <span>02-xxx-xxxx</span>{" "}
-                    {/* needs to be dinamically changed */}
+                    {/* needs to be dy
+              namically changed */}
                   </div>
                 </div>
               </div>
