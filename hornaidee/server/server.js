@@ -195,6 +195,9 @@ app.post('/dorms/:id/review', async (req, res) => {
 app.put('/dorms/:id/review', async (req, res) => {
     try {
         const data = PutReviewRequest.parse(req.body);
+        if (!data.review) {
+            data.review = null;
+        }
         const { data: result, error } = await supabase.schema('dorms').from('reviews')
             .update(data)
             .eq('dorm_id', req.params.id)
