@@ -151,9 +151,10 @@ app.post('/dorms', async (req, res) => {
                 res.status(500).send();
                 return;
             }
+            const { data: pictureMetadata } = supabase.storage.from('dorms').getPublicUrl(uploadData.path);
             const { error: insertError } = await supabase.schema('dorms').from('photos').insert({
                 dorm_id: result[0].id,
-                photo_url: `${SUPABASE_URL}${uploadData.path}`
+                photo_url: pictureMetadata.publicUrl
             })
             if (insertError) {
                 logger.error(insertError);
