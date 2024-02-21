@@ -48,39 +48,6 @@ app.get('/dorms/:id', async (req, res) => {
     }
 });
 
-app.get('/dorms/:id', async (req, res) => {
-    try {
-        const { data: dorm, error } = await supabase.schema('dorms').from('dorms').select().eq('id', req.params.id).single();
-        if (error) {
-            logger.error(error);
-            res.status(500).send();
-            return;
-        }
-        if (dorm.length === 0) {
-            res.status(404).send();
-            return;
-        }
-        const { data: facilities, error: facilitiesError } = await supabase.schema('dorms').from('dorms_facilities').select('facility_id, facilities(name)').eq('dorm_id', dorm.id);
-        if (facilitiesError) {
-            logger.error(facilitiesError);
-            res.status(500).send();
-            return;
-        }
-        const { data: photos, error: photosError } = await supabase.schema('dorms').from('photos').select('photo_url').eq('dorm_id', dorm.id);
-        if (photosError) {
-            logger.error(photosError);
-            res.status(500).send();
-            return;
-        }
-        dorm.facilities = facilities.map(f => ({ id: f.facility_id, name: f.facilities.name }));
-        dorm.photos = photos.map(p => p.photo_url);
-        res.json(dorm);
-    } catch (error) {
-        logger.error(error);
-        res.status(500).send();
-    }
-});
-
 app.get('/dorms/:id/reviews', async (req, res) => {
     try {
         const { data: reviews, error } = await supabase.schema('dorms').from('reviews').select('user_id, stars, short_review, review').eq('dorm_id', req.params.id);
