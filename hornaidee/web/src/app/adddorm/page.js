@@ -33,6 +33,13 @@ export default function AddDormPage() {
     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/dorms`, 
     { Headers: { Authorization: `Bearer ${session.access_token}` }, 
     data: { owner, name, address, property_number, city, province, zip_code, rent_price, facilities, photos } })
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
 
   useEffect(() => {
     console.log('Session:', session);
