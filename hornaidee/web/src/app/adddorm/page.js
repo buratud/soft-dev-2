@@ -7,8 +7,8 @@ export default function AddDormPage() {
       <div className="flex flex-col items-center justify-center gap-4">
         <div className="text-092F88 font-bold text-5xl font-Poppins mb-8">List New Property</div>
         <div className="flex justify-center w-full">
-          <form className="flex flex-col md:flex-row gap-8 w-full">
-            <div className="flex flex-col w-full font-Poppins">
+          <form className="flex flex-col md:flex-row gap-8 w-full font-Poppins">
+            <div className="flex flex-col w-full">
               <div>Tell us your property name.</div>
               <div className="flex items-center py-2 my-2 pr-2 rounded-2xl select-none bg-D9D9D9">
                 <BsBuildings className="input-icon ml-4 mr-1" />
@@ -47,6 +47,46 @@ export default function AddDormPage() {
                 <input type="text" placeholder="How much do you want to charge per month?" className="input-field ml-2 flex-grow border-none bg-D9D9D9 focus:outline-none font-medium" />
               </div>
             </div>
+            
+
+            <div className="w-full md:w-1/2">
+            {/* <ImageUploadComponent /> */}
+            <div className='pt-6'>What facilities and filters do your property provide?</div>
+              <div className="flex "></div>
+                <div className="flex flex-col gap-4 py-2 my-2">
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" className="form-checkbox h-6 w-6 accent-092F88 rounded" />
+                    Air-Conditioner
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" className="form-checkbox h-6 w-6 accent-092F88 rounded" />
+                    Elevator
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" className="form-checkbox h-6 w-6 accent-092F88 rounded" />
+                    Near Bus Stop
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" className="form-checkbox h-6 w-6 accent-092F88 rounded" />
+                    Near Restaurants
+                  </label>
+                </div>
+
+                <div className="flex flex-col gap-4 py-2 my-2">
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" className="form-checkbox h-6 w-6 accent-092F88 rounded" />
+                    Free WiFi
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" className="form-checkbox h-6 w-6 accent-092F88 rounded" />
+                    Pet-friendly
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" className="form-checkbox h-6 w-6 accent-092F88 rounded" />
+                    Near Shopping Malls
+                  </label>
+                </div>
+              </div>
           </form>
         </div>
       </div>
