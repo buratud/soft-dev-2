@@ -3,7 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const bodyParser = require('body-parser')
 const { createClient } = require('@supabase/supabase-js');
 const { z } = require('zod');
-const { CreateDormRequest } = require('./type');
+const { CreateDormRequest, CreateReviewRequest, PutReviewRequest } = require('./type');
 
 const { SUPABASE_URL, SUPABASE_KEY, JWT_SECRET, LOG_LEVEL } = require('./config');
 const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage } = require('./util');
@@ -136,6 +136,76 @@ app.post('/dorms', async (req, res) => {
             res.status(400).json(error.errors);
             return;
         }
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.post('/dorms/:id/reviews', async (req, res) => {
+    try {
+        const data = CreateReviewRequest.parse(req.body);
+        const { error } = await supabase.schema('dorms').from('reviews').insert({
+            user_id: req.user.sub,
+            dorm_id: req.params.id,
+            stars: data.stars,
+            short_review: data.short_review,
+            review: data.review
+        });
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        res.status(201).send();
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            logger.debug(error.errors);
+            res.status(400).json(error.errors);
+            return;
+        }
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.put('/dorms/:id/reviews', async (req, res) => {
+    try {
+        const data = PutReviewRequest.parse(req.body);
+        const { data: result, error } = await supabase.schema('dorms').from('reviews')
+            .update(data)
+            .eq('dorm_id', req.params.id)
+            .eq('user_id', req.user.sub).select('user_id');
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        if (result.length === 0) {
+            res.status(404).send();
+            return;
+        }
+        res.status(200).send();
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            logger.debug(error.errors);
+            res.status(400).json(error.errors);
+            return;
+        }
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.delete('/dorms/:id/reviews', async (req, res) => {
+    try {
+        const { error } = await supabase.schema('dorms').from('reviews').delete().eq('user_id', req.user.sub).eq('dorm_id', req.params.id);
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        res.status(204).send();
+    } catch (error) {
         logger.error(error);
         res.status(500).send();
     }
