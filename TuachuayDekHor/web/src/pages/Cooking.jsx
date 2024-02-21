@@ -17,6 +17,9 @@ function Cooking() {
         </h1>
       </main>
       <div className="Container">
+        <div className="searchbar">
+          Search Bar Here
+        </div>
         <div className="rec">
           <div className="Content"></div>
           <div className="rec__title">

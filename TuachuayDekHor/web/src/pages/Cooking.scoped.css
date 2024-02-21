@@ -142,7 +142,7 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     background: linear-gradient(#35477dde,#546baf65),url(../../src/Assets/img_Cook/2.png);
     background-position: center;
     background-repeat: no-repeat;
@@ -152,7 +152,7 @@ main{
 
 .title{
     padding-top: 8rem;
-    font-size: 60px;
+    font-size: 6vh;
     font-family: 'Galindo';
     color: #f8f8f8;
     width: 100%;
@@ -180,10 +180,18 @@ main{
 }
 
 .title_sub{
-    font-size:30px;
+    font-size:3.5vh;
     text-align: center;
     padding: 2rem;
     border-bottom: solid 3px #74717134;
+}
+
+.searchbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #a3a3a3;
+    height: 5vh;
 }
 
 .Container{
