@@ -154,3 +154,20 @@
     color: #0057ff;
     text-decoration: none;
 }
+
+.error-text {
+    margin: 1em;
+    color: red;
+    text-align: center;
+    font-size: 1em;
+    position: absolute;
+    left: 1em;
+    right: 1em;
+}
+
+.Loginbutton.disabled {
+    pointer-events: none;
+    cursor: default;
+    background-color: #d9d9d9;
+    color: #000000;
+}
