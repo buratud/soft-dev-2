@@ -144,17 +144,17 @@ app.post('/dorms', async (req, res) => {
 
 app.get('/dorms/:id/review', async (req, res) => {
     try {
-        const { data: review, error } = await supabase.schema('dorms').from('reviews').select('user_id, stars, short_review, review').eq('dorm_id', req.params.id).eq('user_id', req.user.sub).single();
+        const { data: review, error } = await supabase.schema('dorms').from('reviews').select('user_id, stars, short_review, review').eq('dorm_id', req.params.id).eq('user_id', req.user.sub);
         if (error) {
             logger.error(error);
             res.status(500).send();
             return;
         }
-        if (!review) {
+        if (review.length === 0) {
             res.status(404).send();
             return;
         }
-        res.json(review);
+        res.json(review[0]);
     } catch (error) {
         logger.error(error);
         res.status(500).send();
