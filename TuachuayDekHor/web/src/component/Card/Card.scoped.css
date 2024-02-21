@@ -1,6 +1,6 @@
 .singleDest{
     position: relative;
-    width: 30%;
+    width: 100%;
     height: 350px;
     overflow: hidden;
     border-radius: 1rem;
@@ -8,6 +8,7 @@
     box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
     margin: 1.2rem;
     cursor: pointer;
+    background-color: #f8f8f8;
     
 }
 
@@ -42,12 +43,13 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
+    font-size: 18px;
 }
 
-.destText a{
+.destText p{
     color: black;
     font-family:'Poppins' ;
+    font-weight: 500;
 }
 
 .icon{
@@ -62,4 +64,13 @@
 
 .name{
     margin-top: 2rem;
+}
+
+img{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
