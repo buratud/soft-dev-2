@@ -12,7 +12,6 @@ on:
       - "main"
       - "release"
       - "develop"
-      - "feature/cicd"
   pull_request:
     types:
       - "opened"
@@ -21,7 +20,6 @@ on:
       - "main"
       - "release"
       - "develop"
-
 
 jobs:
   superapp_web:
@@ -39,6 +37,7 @@ jobs:
           login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
           username: ${{ vars.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
+
       - name: Build and push image
         run: |
           docker build super-app/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }} --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg SUPERAPP_SUPABASE_URL=$SUPERAPP_SUPABASE_URL --build-arg SUPERAPP_SUPABASE_ANON_KEY=$SUPERAPP_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL
@@ -75,13 +74,14 @@ jobs:
           MAIN_URL: ${{ env.MAIN_URL }}
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
         
-      - name: Build and push image
+      - name: Login to Azure Registry
         uses: azure/docker-login@v1
         with:
           login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
           username: ${{ vars.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-      - run: |
+      - name: Build and push image
+        run: |
           docker build super-app/server/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
           docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
 
@@ -100,6 +100,7 @@ jobs:
           login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
           username: ${{ vars.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
+
       - name: Build and push image
         run: |
           docker build MarketConnect/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }} --build-arg BASE_MARKET_WEB_PATH=$BASE_MARKET_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_MARKET_SERVER_PATH=$BASE_MARKET_SERVER_PATH --build-arg MARKET_SUPABASE_URL=$MARKET_SUPABASE_URL --build-arg MARKET_SUPABASE_ANON_KEY=$MARKET_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL
@@ -121,13 +122,15 @@ jobs:
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
 
-      - name: Build and push image
+      - name: Login to Azure Registry
         uses: azure/docker-login@v1
         with:
           login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
           username: ${{ vars.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-      - run: |
+
+      - name: Build and push image
+        run: |
           docker build MarketConnect/server/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-server:${{ github.sha }}
           docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-server:${{ github.sha }}
 
@@ -140,12 +143,14 @@ jobs:
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
 
-      - name: Build and push image
+      - name: Login to Azure Registry
         uses: azure/docker-login@v1
         with:
           login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
           username: ${{ vars.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push image
         run: |
           docker build hornaidee/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-web:${{ github.sha }} --build-arg BASE_DORM_WEB_PATH=$BASE_DORM_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_DORM_SERVER_PATH=$BASE_DORM_SERVER_PATH --build-arg DORM_SUPABASE_URL=$DORM_SUPABASE_URL --build-arg DORM_SUPABASE_ANON_KEY=$DORM_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL
           docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-web:${{ github.sha }}
@@ -166,13 +171,15 @@ jobs:
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
 
-      - name: Build and push image
+      - name: Login to Azure Registry
         uses: azure/docker-login@v1
         with:
           login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
           username: ${{ vars.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-      - run: |
+
+      - name: Build and push image
+        run: |
           docker build hornaidee/server/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-server:${{ github.sha }}
           docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-server:${{ github.sha }}
 
@@ -185,12 +192,14 @@ jobs:
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
 
-      - name: Build and push image
+      - name: Login to Azure Registry
         uses: azure/docker-login@v1
         with:
           login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
           username: ${{ vars.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push image
         run: |
           docker build TuachuayDekHor/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/blogs-web:${{ github.sha }} --build-arg BASE_BLOG_WEB_PATH=$BASE_BLOG_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_BLOG_SERVER_PATH=$BASE_BLOG_SERVER_PATH --build-arg BLOG_SUPABASE_URL=$BLOG_SUPABASE_URL --build-arg BLOG_SUPABASE_ANON_KEY=$BLOG_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL
           docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/blogs-web:${{ github.sha }}
@@ -211,13 +220,15 @@ jobs:
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
         
-      - name: Build and push image
+      - name: Login to Azure Registry
         uses: azure/docker-login@v1
         with:
           login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
           username: ${{ vars.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-      - run: |
+
+      - name: Build and push image
+        run: |
           docker build TuachuayDekHor/server/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/blogs-server:${{ github.sha }}
           docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/blogs-server:${{ github.sha }}
 
