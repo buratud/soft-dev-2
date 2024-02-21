@@ -142,6 +142,25 @@ app.post('/dorms', async (req, res) => {
     }
 });
 
+app.get('/dorms/:id/review', async (req, res) => {
+    try {
+        const { data: review, error } = await supabase.schema('dorms').from('reviews').select('user_id, stars, short_review, review').eq('dorm_id', req.params.id).eq('user_id', req.user.sub).single();
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        if (!review) {
+            res.status(404).send();
+            return;
+        }
+        res.json(review);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
 app.post('/dorms/:id/review', async (req, res) => {
     try {
         const data = CreateReviewRequest.parse(req.body);
