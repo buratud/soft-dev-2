@@ -10,9 +10,10 @@ const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isIma
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const logger = require('pino')({ level: LOG_LEVEL || 'info' });
+const cors = require('cors');
 
 const app = express.Router();
-
+app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' }))
 
 app.get('/dorms/:id', async (req, res) => {
