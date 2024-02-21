@@ -36,8 +36,15 @@ img{
     margin: 1.2rem;
     cursor: pointer;
     text-decoration: none;
-    color: inherit;
 }
+
+.singleDest a{
+    color: black;
+    font-size: 1.1rem;
+    font-family:'Poppins' ;
+}
+
+
 
 h4{
     font-size: 1.2rem;
@@ -101,6 +108,7 @@ h4{
 
 .name{
     margin-top: 2rem;
+    color: black;
 }
 
 .delete{
