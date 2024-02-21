@@ -55,7 +55,7 @@ export default function DormReview() {
             color2={'#ffd700'}/>
           </div>
           <div className="reviewButtonContainer">
-          <button className="reviewButton">Edit Property</button>{" "}
+          <button className="reviewButton">Review Property</button>{" "}
           {/* hidden unless a owner */}
         </div>
         </div>
