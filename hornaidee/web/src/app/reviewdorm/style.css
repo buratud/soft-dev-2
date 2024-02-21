@@ -71,6 +71,10 @@ h3 {
   border-radius: 15px;
 }
 
+textarea {
+  background-color: #D9D9D9;
+}
+
 /* styles for rating card */
 
 .ratings {
