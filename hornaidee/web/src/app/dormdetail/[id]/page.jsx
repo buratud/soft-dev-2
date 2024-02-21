@@ -1,12 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import {
+  FaSpinner,
   FaMapPin,
   FaSchool,
   FaChevronLeft,
   FaChevronRight,
-  FaPhone,
-  FaLine,
+  FaMailBulk,
   FaWifi,
   FaPaw,
   FaBus,
@@ -18,7 +18,8 @@ import {
 import { MdElevator } from "react-icons/md";
 import { IoLogoNoSmoking, IoIosFitness } from "react-icons/io";
 import "./style.css";
-import { NEXT_PUBLIC_BASE_API_URL } from "../../../../config";
+import Image from 'next/image'
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from "../../../../config";
 import axios from "axios";
 import { useParams } from "next/navigation";
 
@@ -28,7 +29,9 @@ export default function DormDetails() {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [data, setData] = useState({}); // [dorm, address, property_number, city, province, zip_code, rent_price, facilities, host, nearby_university
+  const [user, setUser] = useState({}); 
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
   const falicititesIconMap = {
     1: <IoLogoNoSmoking />,
@@ -68,7 +71,22 @@ export default function DormDetails() {
     });
   }, []);
 
-  if (isLoading) return <p>Loading...</p>;
+  useEffect(() => {
+    const owner = data.owner;
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/users/${owner}`).then((res) => {
+      console.log(res.data);
+      setUser(res.data);
+      setIsLoadingUser(false);
+    });
+  }, [data]);
+
+  if (isLoading && isLoadingUser) {
+    return (
+      <div className="loading-container">
+        <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} height={70} width={80} className="loading-image spinning" />
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -85,7 +103,7 @@ export default function DormDetails() {
           </div>
           <div className="address">
             <FaSchool />
-            <h3>King Mongkut's University of Technology North Bangkok</h3>
+            <h3>University Name Here</h3>
             {/* needs to be dynamically changed */}
           </div>
         </div>
@@ -116,7 +134,7 @@ export default function DormDetails() {
           <div className="bigRatingbox">
             <h3>Overall Rating</h3>
             <div className="ratingnumbox">
-              <h3>5.0</h3> {/* needs to be dynamically changed */}
+              <h3>-.-</h3> {/* needs to be dynamically changed */}
             </div>
           </div>
           <div className="bigPricebox">
@@ -148,24 +166,17 @@ export default function DormDetails() {
           <h3>Hosted By</h3>
           <div className="hostinfo">
             <div className="hostprofile">
-              {/* needs to be dynamically changed */}
               <img
-                src="https://www.w3schools.com/howto/img_avatar.png"
+                src={user.picture}
                 alt="Host"
                 className="hostavatar"
               />
               <div className="hostdetails">
-                <h3>John Doe</h3> {/* needs to be dynamically changed */}
+                <h3>{user.username}</h3>
                 <div className="contactinfo">
                   <div className="contactrow">
-                    <FaLine />
-                    <span>johndoe123</span>{" "}
-                    {/* needs to be dynamically changed */}
-                  </div>
-                  <div className="contactrow">
-                    <FaPhone />
-                    <span>02-xxx-xxxx</span>{" "}
-                    {/* needs to be dynamically changed */}
+                    <FaMailBulk/>
+                    <span>{user.email}</span>
                   </div>
                 </div>
               </div>

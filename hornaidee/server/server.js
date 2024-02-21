@@ -19,6 +19,25 @@ app.use(cors())
 
 app.use(bodyParser.json({ limit: '50mb' }))
 
+app.get('/users/:id', async (req, res) => {
+    try {
+        const { data: user, error } = await supabase.from('users').select().eq('id', req.params.id);
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        if (user.length === 0) {
+            res.status(404).send();
+            return;
+        }
+        res.json(user[0]);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
 app.get('/dorms/:id', async (req, res) => {
     try {
         const { data: dorm, error } = await supabase.schema('dorms').from('dorms').select().eq('id', req.params.id).single();

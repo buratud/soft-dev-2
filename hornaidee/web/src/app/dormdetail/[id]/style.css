@@ -200,6 +200,7 @@ h3 {
   margin-left: auto;
   margin-right: auto;
   max-width: 1200px; /* Set max-width */
+  padding-bottom: 4rem; /* Add padding */
 }
 
 /* Styles for facilities content */
@@ -309,3 +310,22 @@ h3 {
   width: 20px;
   height: 20px;
 }
+
+/* Styles for loading */
+
+.loading-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.spinning {
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
