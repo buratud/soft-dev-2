@@ -10,12 +10,117 @@
 
 .grid-container {
     display: grid;
-    gap: 50px;
+    gap: 20px;
     grid-template-columns: 1fr 1fr 1fr;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding-bottom: 6rem;
-    margin: auto;
     min-height: 100%;
     width: 100%;
+}
+
+.AllBlogs{
+    width: 100%;
+    padding-top: 2rem;
+    padding-left: 8rem;
+    padding-right: 8rem;
+}
+
+.Search_Wrapper{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.SearchBox{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10rem;
+    margin-right: 10rem;
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    background-color: rgba(103, 133, 176, 1) ;
+    border-radius: 1rem;
+}
+
+.inputSearch{
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    width: 100%;
+    border: none;
+    border-left: solid 3px rgba(164, 160, 160, 0.21) ;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    color: black ;
+}
+
+.inputSearch::placeholder{
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    color: rgba(120, 117, 117, 0.21) ;
+}
+
+
+.inputSearch:focus{
+   outline: none;
+}
+
+.Search_inside{
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    width: 100%;
+    padding: 0.5rem;
+    margin-left: 2rem;
+    margin-right: 1rem;
+    border-radius: 5rem;
+    padding-left: 0.5rem;
+}
+
+.icon_Search{
+    align-items: center;
+    justify-self: center;
+    margin-right: 0.5rem;
+}
+
+.SearchBox_btn{
+    border-radius: 1rem;
+    background: #F7C951;
+    width: max-content;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border: none;
+    justify-content: center;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.2px;
+}
+
+.SearchBox_btn:hover{
+    box-shadow: 0 2px 8px 2px rgba(78, 77, 77, 0.172);
+    scale: 1.03;
+}
+
+.noResults{
+    padding: 1rem;
+    padding-left: 5rem;
+    font-family: Poppins;
+    font-style: italic;
+    font-weight: 400;
+    color:black ;
+
 }
