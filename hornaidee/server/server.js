@@ -81,6 +81,21 @@ app.get('/dorms/:id', async (req, res) => {
     }
 });
 
+app.get('/dorms/:id/reviews', async (req, res) => {
+    try {
+        const { data: reviews, error } = await supabase.schema('dorms').from('reviews').select('user_id, stars, short_review, review').eq('dorm_id', req.params.id);
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        res.json(reviews);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
 app.use((req, res, next) => {
     const { authorization } = req.headers;
     const token = authorization?.split(' ')[1];
