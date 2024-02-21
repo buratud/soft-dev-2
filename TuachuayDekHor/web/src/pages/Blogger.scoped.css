@@ -114,5 +114,12 @@ img{
 }
 
 .Search_Wrapper{
+    width: 100%;
+    padding-right: 6rem;
+    padding-left: 6rem;
+}
+
+.SearchBox{
     display: flex;
+    width: 100%;
 }
