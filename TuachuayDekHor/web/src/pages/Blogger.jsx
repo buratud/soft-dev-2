@@ -29,23 +29,25 @@ function Blogger() {
         <h1 className='title'>
           Our Blogger
         </h1>
-        <div className="blogger_wrapper">
-          {
-            data.map(({ user: { username, id }, image: { avatar_url } }, index) => {
-              return (
-                <div className="box">
-                  <Link to={`/profile/${id}`}>
-                    <div className="singleDest" key={index}>
-                      <img src={avatar_url ?? img1} alt="" />
-                    </div>
-                    <div className="userwrite">
-                      <Link to={`/profile/${id}`}>{username}</Link>
-                    </div>
-                  </Link>
-                </div>
-              )
-            })
-          }
+        <div className="blogger_list">
+          <div className="blogger_wrapper">
+            {
+              data.map(({ user: { username, id }, image: { avatar_url } }, index) => {
+                return (
+                  <div className="box">
+                    <Link to={`/profile/${id}`} className="Blog1">
+                      <div className="singleDest" key={index}>
+                        <img src={avatar_url ?? img1} alt="" />
+                      </div>
+                      <div className="userwrite">
+                        {username}
+                      </div>
+                    </Link>
+                  </div>
+                )
+              })
+            }
+          </div>
         </div>
       </div>
     </div>
