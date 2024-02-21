@@ -7,6 +7,7 @@ const { CreateDormRequest, CreateReviewRequest, PutReviewRequest } = require('./
 
 const { SUPABASE_URL, SUPABASE_KEY, JWT_SECRET, LOG_LEVEL } = require('./config');
 const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage } = require('./util');
+const { log } = require('console');
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const logger = require('pino')({ level: LOG_LEVEL || 'info' });
@@ -144,13 +145,17 @@ app.post('/dorms', async (req, res) => {
 app.post('/dorms/:id/review', async (req, res) => {
     try {
         const data = CreateReviewRequest.parse(req.body);
-        const { error } = await supabase.schema('dorms').from('reviews').insert({
+        const { status, error } = await supabase.schema('dorms').from('reviews').insert({
             user_id: req.user.sub,
             dorm_id: req.params.id,
             stars: data.stars,
             short_review: data.short_review,
             review: data.review
         });
+        if (status === 409) {
+            res.status(409).send();
+            return;
+        }
         if (error) {
             logger.error(error);
             res.status(500).send();
