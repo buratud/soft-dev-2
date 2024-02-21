@@ -39,7 +39,6 @@ const Verify = () => {
       }
       setLoading(false);
     } else {
-      alert('OTP verified successfully');
       router.push('/');
     }
   };
