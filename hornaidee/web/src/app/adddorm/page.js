@@ -3,7 +3,7 @@ import { BsBuildings, Bs123, BsHouse } from "react-icons/bs";
 
 export default function AddDormPage() {
   return (
-    <main className="flex flex-col items-center justify-center h-screen bg-f6f6fb">
+    <main className="flex flex-col items-center justify-center h-screen bg-F6F6FB">
         <div className="">
           <form className="flex flex-col md:flex-row gap-36 font-Poppins w-full">
             <div className="flex flex-col w-full">
@@ -90,11 +90,12 @@ export default function AddDormPage() {
                 <input type="text" placeholder="Price per month (in THB)" className="input-field ml-2 flex-grow border-none bg-D9D9D9 focus:outline-none font-medium" />
               </div>
               </div>
-
             </div>
-
-            
           </form>
+          <div className="flex justify-center mt-8 pb-16">
+            <button className="bg-092F88 font-bold text-FFFFFF px-6 py-2 rounded-2xl mr-4">Add Your Property</button>
+            <button className="bg-C10206 font-bold text-FFFFFF px-6 py-2 rounded-2xl">Cancel</button>
+          </div>
         </div>
     </main>
   );

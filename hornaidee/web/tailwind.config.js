@@ -10,7 +10,9 @@ module.exports = {
       '092F88' : '#092F88',
       'D9D9D9' : '#D9D9D9',
       '000000' : '#000000',
-      'f6f6fb' : '#f6f6fb',
+      'F6F6FB' : '#f6f6fb',
+      'FFFFFF' : '#ffffff',
+      'C10206' : '#C10206',
     },
 
     extend: {
