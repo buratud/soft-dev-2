@@ -17,6 +17,23 @@ api.get("/", (req, res) => {
   res.send(JSON.stringify(req));
 });
 
+api.get('/users/:id', async (req, res) => {
+  try {
+    const { data: users, error } = await supabase.from('users').select().eq('id', req.params.id);
+    if (error) {
+      res.status(500).send();
+      return;
+    }
+    if (users.length === 0) {
+      res.status(404).send();
+      return;
+    }
+    res.json(users[0]);
+  } catch (error) {
+    res.status(500).send();
+  }
+});
+
 //Authentication
 
 api.put("/login", async (req, res) => {
