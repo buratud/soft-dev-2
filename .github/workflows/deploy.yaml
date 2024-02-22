@@ -21,7 +21,6 @@ on:
       - "release"
       - "develop"
 
-
 jobs:
   superapp_web:
     name: Superapp Website
