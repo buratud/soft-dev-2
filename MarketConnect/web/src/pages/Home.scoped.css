@@ -104,6 +104,7 @@ img.carousel-image {
 }
 
 .new-arrival-card {
+    width: 300px;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -111,7 +112,6 @@ img.carousel-image {
     text-decoration: none;
     flex: 0 1 calc(25% - 2rem);
     margin: 1rem; 
-    overflow: hidden;
     display: flex;
     flex-direction: column;
 }

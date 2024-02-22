@@ -17,6 +17,8 @@ export default function Home() {
         password: '',
         reenterPassword: '',
     };
+    const [error, setError] = useState(null);
+    const [isRegistering, setIsRegistering] = useState(false);
 
     const [formData, setFormData] = useState(initialFormData);
 
@@ -30,19 +32,24 @@ export default function Home() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setError(null);
+        setIsRegistering(true);
         if (!formData.username || !formData.email || !formData.password || !formData.reenterPassword) {
-            alert('Please fill in all fields.');
+            setError('Please fill in all fields.');
+            setIsRegistering(false);
             return;
         }
 
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(formData.email)) {
-            alert('Please enter a valid email address.');
+            setError('Please enter a valid email address.');
+            setIsRegistering(false);
             return;
         }
 
         if (formData.password != formData.reenterPassword) {
-            alert('Please enter the same password.');
+            setError('Please enter the same password.');
+            setIsRegistering(false);
             return;
         }
 
@@ -54,7 +61,7 @@ export default function Home() {
         })
             .then(async res => {
                 const { message, next } = res.data;
-                message? alert(message): '';
+                message ? setError(message) : '';
                 if (next) {
                     const { data, error } = await supabase.auth.signUp({
                         email: formData.email,
@@ -67,6 +74,7 @@ export default function Home() {
                     });
 
                     if (error) {
+                        setError(error.message);
                         console.log(error);
                     }
                     else {
@@ -81,9 +89,10 @@ export default function Home() {
                 }
             })
             .catch((err) => {
+                setError(err.response.data.message)
                 console.log(err);
             })
-
+        setIsRegistering(false);
         setFormData(initialFormData);
 
         // router.push('/verify');
@@ -162,6 +171,9 @@ export default function Home() {
                                     />
                                 </div>
                                 <button onClick={handleSubmit}>Register</button>
+                                <div id="customer-error" aria-live="polite" aria-atomic="true">
+                                    {error && <div className={`${styles["error-text"]}`}>{error}</div>}
+                                </div>
                             </div>
                             <account>
                                 <span>
