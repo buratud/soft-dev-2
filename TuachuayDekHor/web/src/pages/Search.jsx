@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import "./Search.scoped.css";
 import Navbar from '../component/Nav';
 import img1 from '../../src/Assets/slide1.png';
@@ -15,6 +15,7 @@ function Search() {
     const [searchResult, setSearchResult] = useState([]);
     const [noResults, setNoResults] = useState(false);
     const location = useLocation();
+    const prevSearchQuery = useRef("");
 
     useEffect(() => {
         axios.post(`${REACT_APP_BASE_API_URL}/search`, {
@@ -22,13 +23,15 @@ function Search() {
         })
         .then(res => {
             setData(res.data);
-            setSearchResult(res.data); // ตั้งค่า searchResult เป็นข้อมูลทั้งหมดเมื่อโหลดหน้าเว็บใหม่
-            setNoResults(false);
+            if (searchQuery === prevSearchQuery.current) {
+                setSearchResult(res.data);
+                setNoResults(false);
+            }
         })
         .catch(err => {
             alert(err);
         });
-    }, [searchQuery]);
+    }, [searchQuery, prevSearchQuery]);
 
     useEffect(() => {
         const results = data.filter(card => 
