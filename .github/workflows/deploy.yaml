@@ -12,8 +12,6 @@ on:
       - "main"
       - "release"
       - "develop"
-      - "feature/cicd"
-      - "dorm"
   pull_request:
     types:
       - "opened"
@@ -22,7 +20,6 @@ on:
       - "main"
       - "release"
       - "develop"
-      - "dorm"
 
 
 jobs:
