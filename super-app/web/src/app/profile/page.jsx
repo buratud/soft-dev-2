@@ -106,11 +106,11 @@ const BlogsCards = () => {
                     {Likes.map((card, index) => (
                         <CardBlogs
                             key={index}
-                            img={card.cover_img}
-                            title={card.title}
-                            Blogger={card.blogger}
-                            Categories={card.category}
-                            id={card.blog_id}
+                            img={card.blog.cover_img}
+                            title={card.blog.title}
+                            Blogger={card.users.username}
+                            Categories={card.blog.blog_category.category}
+                            id={card.blog.blog_id}
                         />
                     ))}
                 </card>
@@ -123,8 +123,8 @@ const BlogsCards = () => {
                             key={index}
                             img={card.cover_img}
                             title={card.title}
-                            Blogger={card.blogger}
-                            Categories={card.category}
+                            Blogger={card.users.username}
+                            Categories={card.blog_category.category}
                             id={card.blog_id}
                         />
                     ))}
@@ -172,20 +172,6 @@ const ProductCards = () => {
         checkLoginStatus();
     }, [session]);
 
-    // const [yourproduct, setyourproduct] = useState([]);
-    // useState(()=>{
-    //     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
-    //         user: user,
-    //     })
-    //     .then(res => {
-    //         setyourproduct(res.data)
-    //         console.log('your product',res.data)
-    //     })
-    //     .catch((err) => {
-    //         console.log(err)
-    //     })
-    // },[])
-
     return (
         <div>
             <div className={style.blogs_btn} >
@@ -200,7 +186,7 @@ const ProductCards = () => {
             {/* ดึงข้อมูล Product ของตัวเองตรงนี้*/}
             <card>
                 {yourproduct.map((card) => (
-                    <CardProducts img={card.product_image} route={card.product_id} />
+                    <CardProducts img={card.URL} route={card.id} />
                 ))}
             </card>
         </div>
