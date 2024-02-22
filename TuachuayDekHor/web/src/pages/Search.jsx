@@ -20,19 +20,19 @@ function Search() {
         axios.post(`${REACT_APP_BASE_API_URL}/search`, {
             query: searchQuery
         })
-        .then(res => {
-            setData(res.data);
-            setNoResults(false);
-        })
-        .catch(err => {
-            alert(err);
-        });
+            .then(res => {
+                setData(res.data);
+                setNoResults(false);
+            })
+            .catch(err => {
+                alert(err);
+            });
     }, [searchQuery]);
 
     const handleSearch = (e) => {
         e.preventDefault();
-        const results = data.filter(card => 
-            card.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        const results = data.filter(card =>
+            card.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             card.user.username.toLowerCase().includes(searchQuery.toLowerCase())
         );
         setSearchResult(results);
@@ -51,16 +51,20 @@ function Search() {
                 <div className='Search_Wrapper'>
                     <form className='SearchBox' onSubmit={handleSearch}>
                         <div className='Search_inside'>
-                            <IoSearch size={25} className="icon_Search" />
+
                             <input
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Search here..."
                                 className='inputSearch'
-                            /> 
+                            />
+                            <button type='submit' className='search_btn'>
+                                <IoSearch size={25} className="icon_Search" />
+                            </button>
+
                         </div>
-                        <button type='submit' className='SearchBox_btn'>Search</button>
+
                     </form>
                 </div>
 
