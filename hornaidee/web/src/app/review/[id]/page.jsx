@@ -83,7 +83,7 @@ export default function DormReview() {
         // Review added successfully
         alert("Review added successfully");
         // Redirect to dorm detail page
-        window.location.href = `${NEXT_PUBLIC_BASE_WEB_PATH}/dormdetail/${params.id}`;
+        window.location.href = `${NEXT_PUBLIC_BASE_WEB_PATH}/detail/${params.id}`;
       }
     }).catch(error => {
       if (error.response) {
