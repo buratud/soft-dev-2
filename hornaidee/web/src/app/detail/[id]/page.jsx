@@ -42,6 +42,7 @@ export default function DormDetails() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [data, setData] = useState({}); // [dorm, address, property_number, city, province, zip_code, rent_price, facilities, host, nearby_university
   const [user, setUser] = useState({});
+  const [rate, setRate] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   const falicititesIconMap = {
@@ -100,17 +101,24 @@ export default function DormDetails() {
 
   useEffect(() => {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
-      console.log(res.data);
+      //console.log(res.data);
       setData(res.data);
       console.log(res.data.owner);
       setOwner_id(res.data.owner); // Update owner_id using setState
       axios
         .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${res.data.owner}`)
         .then((res) => {
-          console.log(res.data);
+          //console.log(res.data);
           setUser(res.data);
           setIsLoading(false);
         });
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}/reviews`).then((res) => {
+      console.log(res.data);
+      setRate(res.data);
     });
   }, []);
 
@@ -189,7 +197,7 @@ export default function DormDetails() {
           <div className="bigRatingbox">
             <h3>Overall Rating</h3>
             <div className="ratingnumbox">
-              <h3>-.-</h3> {/* needs to be dynamically changed */}
+              <h3>{rate.average !== null ? rate.average.toFixed(1) : "_._"}</h3>
             </div>
           </div>
           <div className="bigPricebox">
