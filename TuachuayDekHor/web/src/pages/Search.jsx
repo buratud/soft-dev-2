@@ -51,7 +51,7 @@ function Search() {
                 <div className='Search_Wrapper'>
                     <form className='SearchBox' onSubmit={handleSearch}>
                         <div className='Search_inside'>
-
+                            <IoSearch size={25} className="icon_Search" type='submit' />
                             <input
                                 type="text"
                                 value={searchQuery}
@@ -59,12 +59,8 @@ function Search() {
                                 placeholder="Search here..."
                                 className='inputSearch'
                             />
-                            <button type='submit' className='search_btn'>
-                                <IoSearch size={25} className="icon_Search" />
-                            </button>
-
                         </div>
-
+                        <button type='submit' className='SearchBox_btn'>Search</button>
                     </form>
                 </div>
 

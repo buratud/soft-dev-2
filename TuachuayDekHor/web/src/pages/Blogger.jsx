@@ -54,7 +54,7 @@ function Blogger() {
         <div className='Search_Wrapper'>
           <form className='SearchBox' onSubmit={handleSearchSubmit}>
             <div className='Search_inside'>
-              <IoSearch size={25} className="icon_Search" />
+
               <input
                 type="text"
                 placeholder="Search here..."
@@ -62,8 +62,11 @@ function Blogger() {
                 value={searchInput}
                 onChange={handleSearchInputChange}
               />
+              <button type='submit' className='SearchBox_btn'>
+                <IoSearch size={25} className="icon_Search" />
+              </button>
             </div>
-            <button type='submit' className='SearchBox_btn'>Search</button>
+
           </form>
         </div>
         <div className="blogger_list">
