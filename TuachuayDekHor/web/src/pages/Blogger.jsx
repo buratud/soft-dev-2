@@ -72,11 +72,11 @@ function Blogger() {
         <div className="blogger_list">
           <div className="blogger_wrapper">
             {/* ข้อมูล backend ใส่ตรงนี้ */}
-            {filteredData.map(({ blogger,id,cover_img }, index) => (
+            {filteredData.map(({ blogger,id,picture }, index) => (
               <div className="box" key={index}>
                 <Link to={`/profile/${id}`} className="Blog1">
                   <div className="singleDest">
-                    <img src={cover_img ?? img1} alt="" />
+                    <img src={picture ?? img1} alt="" />
                   </div>
                   <div className="userwrite">
                     {blogger}
