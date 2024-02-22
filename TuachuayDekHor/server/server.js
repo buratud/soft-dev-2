@@ -99,7 +99,7 @@ api.post("/createpost", async (req, res) => {
             res.status(500).json(error);
         }
         else {
-            res.status(200).json({message : 'Create Post Success'});
+            res.status(200).json({message : 'Create Post Success' , notError : true});
         }
     }
 })
