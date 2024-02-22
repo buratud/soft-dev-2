@@ -55,6 +55,19 @@ export default function DormReview() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  
+    // Check if all fields are filled
+    if (!reviewForm.stars || !reviewForm.short_review) {
+      alert("Please fill in all fields");
+      return;
+    }
+  
+    // Check if session token is available
+    if (!session) {
+      alert("Authentication token is missing");
+      return;
+    }
+  
     axios.post(
       `${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}/review`,
       {
@@ -65,8 +78,28 @@ export default function DormReview() {
           Authorization: `Bearer ${session}`,
         },
       }
-    );
-  };
+    ).then(response => {
+      if (response.status === 201) {
+        // Review added successfully
+        alert("Review added successfully");
+        // Redirect to dorm detail page
+        window.location.href = `${NEXT_PUBLIC_BASE_WEB_PATH}/dormdetail/${params.id}`;
+      }
+    }).catch(error => {
+      if (error.response) {
+        if (error.response.status === 409) {
+          // Conflict error
+          alert("Cannot add review due to conflicts");
+        } else {
+          // Other errors
+          alert("An error occurred while adding the review");
+        }
+      } else {
+        // Network errors
+        alert("Network error occurred, please try again");
+      }
+    });
+  };  
 
   useEffect(() => {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
