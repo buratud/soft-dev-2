@@ -14,33 +14,33 @@ import Footer from "../../components/footer/Footer";
 
 export default function Home() {
   const [RecDataProduct, setRecDataProduct] = useState([]);
-  useState(()=>{
+  useState(() => {
     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-product`, {
-      "MaxRecommended":4
+      "MaxRecommended": 4
     })
-    .then(res => {
-      //console.log(res)
-      setRecDataProduct(res.data);
-      //console.log(res.data);
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  },[])
-
-  const [data, setData] = useState([]);
-  useState(()=>{
-      axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-blog`, {
-      })
       .then(res => {
-          setData(res.data)
-          //console.log('this',res.data)
+        //console.log(res)
+        setRecDataProduct(res.data);
+        //console.log(res.data);
       })
       .catch((err) => {
-          console.log(err)
+        console.log(err)
       })
-  
-  },[])
+  }, [])
+
+  const [data, setData] = useState([]);
+  useState(() => {
+    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-blog`, {
+    })
+      .then(res => {
+        setData(res.data)
+        //console.log('this',res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+  }, [])
 
   const responsive = {
     superLargeDesktop: {
@@ -63,7 +63,7 @@ export default function Home() {
   };
   return (
     <div className={styles.bg_page}>
-      <NavBar/>
+      <NavBar />
       <div className={styles.place_holder}>
         <img style={{ width: "100%" }} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/place_holder.png`} />
       </div>
@@ -89,26 +89,26 @@ export default function Home() {
         </div>
       </div>
 
-        <div className={styles.portalwrap}>
-          <Link style={{ textDecoration: 'none' }} href={`/dorms`}>
-            <div className={styles.portal}>
-              <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhordorm_portal.png`} /></div>
-              <p className={styles.subtitle_portal}>DekHor Dorms</p>
-            </div>
-          </Link>
-          <Link style={{ textDecoration: 'none' }} href={`/markets`}>
-            <div className={styles.portal}>
-              <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhormarket_portal.png`} /></div>
-              <p className={styles.subtitle_portal}>DekHor Markets</p>
-            </div>
-          </Link>
-          <Link style={{ textDecoration: 'none' }} href={`/blogs`}>
-            <div className={styles.portal}>
-              <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhorblog_portal.png`} /></div>
-              <p className={styles.subtitle_portal}>DekHor Blogs</p>
-            </div>
-          </Link>
-        </div>
+      <div className={styles.portalwrap}>
+        <Link style={{ textDecoration: 'none' }} href={`/dorms`}>
+          <div className={styles.portal}>
+            <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhordorm_portal.png`} /></div>
+            <p className={styles.subtitle_portal}>DekHor Dorms</p>
+          </div>
+        </Link>
+        <Link style={{ textDecoration: 'none' }} href={`/markets`}>
+          <div className={styles.portal}>
+            <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhormarket_portal.png`} /></div>
+            <p className={styles.subtitle_portal}>DekHor Markets</p>
+          </div>
+        </Link>
+        <Link style={{ textDecoration: 'none' }} href={`/blogs`}>
+          <div className={styles.portal}>
+            <div className={styles.icon}><img className={styles.bg_portal} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/dekhorblog_portal.png`} /></div>
+            <p className={styles.subtitle_portal}>DekHor Blogs</p>
+          </div>
+        </Link>
+      </div>
 
       <div className={styles.container}>
         {/* dekhor blog */}
@@ -139,16 +139,16 @@ export default function Home() {
             <div className={styles.ReccommendedBlogs_text}>Recommended Blogs</div>
             <main className={styles.mainBlogs}>
               {/* Back-end ทำการเพิ่มข้อมูลตรงนี้ CardList_Blogs เป็น Reccommend แบบ Random*/}
-              {data.slice(0, 3).map((card,index) => (
-              <CardBlogs
-                key={index}
-                img={card.cover_img}
-                title={card.title}
-                Blogger={card.blogger}
-                Categories={card.category}
-                // ใช้ route แทน id ไปก่อน
-                id={card.blog_id}
-              />
+              {data.slice(0, 3).map((card, index) => (
+                <CardBlogs
+                  key={index}
+                  img={card.cover_img}
+                  title={card.title}
+                  Blogger={card.blogger}
+                  Categories={card.category}
+                  // ใช้ route แทน id ไปก่อน
+                  id={card.blog_id}
+                />
               ))}
             </main>
           </div>
@@ -161,7 +161,7 @@ export default function Home() {
             <div style={{ width: '80vw', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
           </div>
           <div className={styles.blog_poster}>
-            <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`}/>
+            <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
             <div className={styles.poster_info_blog}>
               <h1>Find Your Dorms in Your Way!</h1>
               <p>Friendly Interfacebr <br />
@@ -208,10 +208,13 @@ export default function Home() {
             </div>
             {/* CARD SLIDER */}
             <div className={styles.slider}>
-              <Carousel responsive={responsive} style={{zIndex: "900"}}>
-                {RecDataProduct.slice(0, 6).map((card) => (
-                  <div><CardProducts img={card.URL} route={card.id} /></div>
-                ))}
+              <Carousel responsive={responsive} style={{ zIndex: "900" }}>
+                {RecDataProduct.slice(0, 6).map((card) => {
+                  if (card) {
+                    console.log(card)
+                    return <div key={card.id}><CardProducts img={card.URL} route={card.id} /></div>
+                  }
+                })}
               </Carousel>
             </div>
           </div>
