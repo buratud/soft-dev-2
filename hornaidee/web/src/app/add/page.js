@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY } from '../../../config';
 import { createClient } from '@supabase/supabase-js'
+import ImageUploadComponent from '../image_component';
 
 const supabase = createClient( NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY )
 
@@ -68,9 +69,9 @@ export default function AddDormPage() {
 
   return (
     <main className="flex flex-col items-center justify-center h-screen bg-[#F6F6FB]">
-        <div className="">
-          <form className="flex flex-col md:flex-row gap-36 font-Poppins w-full">
-            <div className="flex flex-col w-full">
+        <div className="flex flex-col justify-center items-center w-full md:w-3/4 lg:w-full gap-8">
+          <form className="flex flex-col md:flex-row gap-36 font-Poppins flex-grow">
+            <div className="flex flex-col w-full self-end">
               <div className="text-[#092F88] font-bold text-4xl font-Poppins mb-4">List New Property</div>
               <div>Tell us your property name.</div>
               <div className="flex items-center py-2 my-2 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
@@ -107,9 +108,9 @@ export default function AddDormPage() {
             </div>
             
 
-            <div className="w-full">
-            {/* <ImageUploadComponent /> */}
-              <div className='pt-6'>What facilities and filters do your property provide?</div>
+            <div className="w-full self-end">
+              <ImageUploadComponent/>
+              <div>What facilities and filters do your property provide?</div>
               <div className='flex flex-row gap-4 py-2 my-2'>
                 <div className="flex flex-col gap-4 py-2 my-2">
                   <label className="flex items-center gap-2">
