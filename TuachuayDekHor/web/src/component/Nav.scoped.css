@@ -107,6 +107,7 @@ header{
     position: sticky;
     display: flex;
     width: 100vw;
+    height: 7.5vh;
     top: 0;
     z-index: 999;
     align-items: center;
@@ -125,6 +126,11 @@ header{
     margin-left: 5vw;
 }
 
+.logo {
+    width: 7.5vh;
+    height: 7.5vh;
+}
+
 .middle {
     width: 40vw;
     display: flex;
@@ -135,7 +141,7 @@ header{
 .dropdown {
     color: #000;
     font-family: Poppins;
-    font-size: 18px;
+    font-size: 2vh;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -160,7 +166,7 @@ header{
 
 
 .arrow {
-    font-size: 10px;
+    font-size: 1.25vh;
     margin-left: 0.5rem;
     align-self: center;
     margin-top: 0.2rem;
@@ -244,13 +250,13 @@ header{
     background: none;
     border: solid 3px white;
     box-shadow: 0px 0px 5px 0px rgba(64, 64, 64, 0.25);
-    border-radius: 35px;
+    border-radius: 10vh;
     overflow: hidden;
     align-items: center;
     justify-content: center;
     padding: 0;
-    height: 40px;
-    width: 40px;
+    height: 6vh;
+    width: 6vh;
     cursor: pointer;
 }
 

@@ -136,14 +136,13 @@ header{
 main{
     width: 100%;
     height: 60vh;
-    padding: 4rem;
     padding-left: 8rem;
     padding-right: 8rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 1.5rem;
-    background: linear-gradient(#35477dde,#546baf65),url(../../src/Assets/img_Cook/2.png);
+    margin-top: 2.5vh;
+    background: linear-gradient(to top,#35477dde,#546baf65),url(../../src/Assets/img_Cook/2.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -151,7 +150,7 @@ main{
 }
 
 .title{
-    padding-top: 8rem;
+    padding-top: 30vh;
     font-size: 6vh;
     font-family: 'Galindo';
     color: #f8f8f8;

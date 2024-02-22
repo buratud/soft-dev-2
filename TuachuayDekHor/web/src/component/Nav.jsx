@@ -16,7 +16,7 @@ const Navbar = () => {
       <div className="leftside">
         <div className="logo">
           <NavLink to={"https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/"}>
-            <img alt="logo" src="/LOGO.png" height={70} width={80} />
+            <img className="logo" alt="logo" src="/LOGO.png" />
           </NavLink>
         </div>
       </div>
@@ -259,13 +259,11 @@ const Navbar = () => {
             setIsOpen_1(false);
           }}
         >
-          <div>
-            <img
-              alt="Profile"
-              src="/PersonCircle.svg"
-              className="ProfileImage"
-            />
-          </div>
+        <img
+          alt="Profile"
+          src="/PersonCircle.svg"
+          className="ProfileImage"
+        />
         </button>
 
         {isOpen_Profile && (
