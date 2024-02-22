@@ -32,7 +32,6 @@ export default function AddDormPage() {
     });
   }, []);
   
-  
   const toggleFacility = (facility) => {
     if (facilities.includes(facility)) {
       // Facility already selected, remove it
@@ -42,7 +41,7 @@ export default function AddDormPage() {
       setFacilities([...facilities, facility]);
     }
   };
-  
+
   const submitForm = () => {
     // console.log('Form: ', { owner, name, address, property_number, city, province, zip_code, rent_price, facilities, photos }, 'Session:', session.access_token)
       axios.post(`${NEXT_PUBLIC_BASE_API_URL}/dorms`, 
@@ -74,33 +73,33 @@ export default function AddDormPage() {
             <div className="flex flex-col w-full self-end">
               <div className="text-[#092F88] font-bold text-4xl font-Poppins mb-4">List New Property</div>
               <div>Tell us your property name.</div>
-              <div className="flex items-center py-2 my-2 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
+              <div className="flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
                 <BsBuildings className="input-icon ml-4 mr-1" />
                 <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" className="input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium" />
               </div>
-              <div className='pt-6'>Where is the property you are listing?</div>
-              <div className="flex items-center py-2 my-2 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
+              <div className='pt-10 pb-2'>Where is the property you are listing?</div>
+              <div className="flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
                 <AiOutlineHome className="input-icon ml-4 mr-1" />
                 <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
                 <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Street Address" className="input-field ml-2 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium" />
               </div>
-              <div className="flex items-center py-2 my-2 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
+              <div className="flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
                 <BsHouse className="input-icon ml-4 mr-1" />
                 <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
                 <input type="text" value={property_number} onChange={(e) => setPropertyNumber(e.target.value)} placeholder="Property Number" className="input-field ml-2 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium" />
               </div>
-              <div className="flex items-center py-2 my-2 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
+              <div className="flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
                 <AiOutlineEnvironment className="input-icon ml-4 mr-1" />
                 <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
                 <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="City" className="input-field ml-2 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium" />
               </div>
-              <div className="flex items-center py-2 my-2 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
+              <div className="flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
                 <AiOutlineEnvironment className="input-icon ml-4 mr-1" />
                 <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
                 <input type="text" value={province} onChange={(e) => setProvince(e.target.value)} placeholder="Province" className="input-field ml-2 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium" />
               </div>
-              <div className="flex items-center py-2 my-2 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
+              <div className="flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
                 <Bs123 className="input-icon ml-4 mr-1" />
                 <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
                 <input type="text" value={zip_code} onChange={(e) => setZipCode(e.target.value)} placeholder="Zip Code" className="input-field ml-2 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium" />
@@ -109,10 +108,11 @@ export default function AddDormPage() {
             
 
             <div className="w-full self-end">
-              <ImageUploadComponent/>
-              <div>What facilities and filters do your property provide?</div>
-              <div className='flex flex-row gap-4 py-2 my-2'>
-                <div className="flex flex-col gap-4 py-2 my-2">
+              <div className='pb-1'>Add some pictures of your property.</div>
+              <ImageUploadComponent photos={photos} setPhotos={setPhotos} />
+              <div className='pt-2'>What facilities and filters do your property provide?</div>
+              <div className='flex flex-row gap-4 my-2'>
+                <div className="flex flex-col gap-4 py-2 my-3">
                   <label className="flex items-center gap-2">
                     <input type="checkbox" onChange={() => toggleFacility(3)} checked={facilities.includes(3)} className="form-checkbox h-6 w-6 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]" />
                     Air-Conditioner
@@ -131,7 +131,7 @@ export default function AddDormPage() {
                   </label>
                 </div>
 
-                <div className="flex flex-col gap-4 py-2 my-2">
+                <div className="flex flex-col gap-4 py-2 my-3">
                   <label className="flex items-center gap-2">
                     <input type="checkbox" onChange={() => toggleFacility(5)} checked={facilities.includes(5)} className="form-checkbox h-6 w-6 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]" />
                     Free WiFi
@@ -149,7 +149,7 @@ export default function AddDormPage() {
 
               <div>
                 <div>How much do you want to charge per month?</div>
-                <div className="flex items-center py-2 my-2 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
+                <div className="flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9]">
                 <AiOutlineTag className="input-icon ml-4 mr-1" />
                 <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
                 <input type="number" value={rent_price} onChange={(e) => setRentPrice(e.target.value)} placeholder="Price per month (in THB)" className="input-field ml-2 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium" />
@@ -158,9 +158,9 @@ export default function AddDormPage() {
             </div>
           </form>
           <div className="flex justify-center mt-8 pb-16">
-            <button className="bg-[#092F88] font-bold text-[#FFFFFF] px-6 py-2 rounded-2xl mr-4" onClick={submitForm}>Add Your Property</button>
+            <button className="bg-[#092F88] font-bold text-[#FFFFFF] px-6 py-2 rounded-2xl mr-4 hover:transition-all hover:scale-110 duration-300" onClick={submitForm}>Add Your Property</button>
             <Link href="/dorms">
-              <button className="bg-[#C10206] font-bold text-[#FFFFFF] px-6 py-2 rounded-2xl">Cancel</button>
+              <button className="bg-[#C10206] font-bold text-[#FFFFFF] px-6 py-2 rounded-2xl hover:transition-all hover:scale-110 duration-300">Cancel</button>
             </Link>
           </div>
         </div>
