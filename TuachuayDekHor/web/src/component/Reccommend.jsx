@@ -26,34 +26,33 @@ function Reccommend() {
     },[])
 
 
-  return (
-    <div className="content">
-      <div className="main_content">
-        {limitedData.map(({ id_post: id, title, category, user: { username }, image_link }, index) => {
-          return (
-            <div className="singleDest" key={index}>
-              <div className="dastImage">
-                <img src={image_link??img1} alt="" />
-              </div>
-              <div className="destFooter">
-                <div className="destText">
-                  <h4>
-                    <Link to={`/${category}/${id}`}>{title}</Link>
-                  </h4>
+    return (
+      <div className="content">
+        <div className="main_content">
+          {limitedData.map(({ id_post: id, title, category, user: { username }, image_link }, index) => {
+            return (
+              //แก้ link ให้คลุมทั้ง Card
+              <Link to={`/${category}/${id}`} className="singleDest" key={index}>
+                <div className="dastImage">
+                  <img src={image_link??img1} alt="" />
                 </div>
-              </div>
-              <div className="userwrite">
-                <div className="name">
-                  <BiSolidPencil size={20} className="icon_pencil" />
-                  {username}
+                <div className="destFooter">
+                  <div className="destText">
+                    <h4>{title}</h4> 
+                  </div>
                 </div>
-              </div>
-            </div>
-          );
-        })}
+                <div className="userwrite">
+                  <div className="name">
+                    <BiSolidPencil size={20} className="icon_pencil" />
+                    {username}
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
 }
 
 export default Reccommend;

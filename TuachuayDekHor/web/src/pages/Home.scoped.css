@@ -2,6 +2,7 @@
     width: 100vw;
     height: 100vh;
     background-color: #f8f8f8;
+    overflow-x: hidden;
 }
 
 *{
@@ -139,6 +140,7 @@ main{
 
 .Cleaning_wrapper{
     width: 50%;
+    height: 250px;
     padding: 1rem;
     background: linear-gradient(#35477dde,#546baf65),url(../../src/Assets/img_Clean/S__37683227.jpg);
     background-position: center;
@@ -149,8 +151,15 @@ main{
     box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
 }
 
+/*animation beautiful when :hover*/
+.Cleaning_wrapper:hover{
+    transform: scale(1.03);
+    transition: 0.5s;
+}
+
 .Decoration_wrapper{
     width: 50%;
+    height: 250px;
     padding: 1rem;
     background: linear-gradient(#35477dde,#546baf65),url(../../src/Assets/img_Dec/covercook.png);
     background-position: center;
@@ -160,8 +169,14 @@ main{
     box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
 }
 
+.Decoration_wrapper:hover{
+    transform: scale(1.03);
+    transition: 0.5s;
+}
+
 .Cooking_wrapper{
     width: 50%;
+    height: 250px;
     padding: 1rem;
     background: linear-gradient(#35477dde,#546baf65),url(../../src/Assets/img_Cook/4.png);
     background-position: center;
@@ -171,8 +186,14 @@ main{
     box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
 }
 
+.Cooking_wrapper:hover{
+    transform: scale(1.03);
+    transition: 0.5s;
+}
+
 .story_wrapper{
     width: 50%;
+    height: 250px;
     padding: 1rem;
     background: linear-gradient(#35477dde,#546baf65),url(../../src/Assets/img_Story/S__37683205.jpg);
     background-position: center;
@@ -181,6 +202,11 @@ main{
     margin-left: 1rem;
     border-radius: 10px;
     box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+}
+
+.story_wrapper:hover{
+    transform: scale(1.03);
+    transition: 0.5s;
 }
 
 .box{
@@ -267,4 +293,34 @@ main{
     background-color: #cdaf07;
     color: black;
     scale: 1.1;
+}
+
+.btn_Search{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.btn_Search a{
+    width: 18%;
+    padding: 1rem;
+    align-items: center;
+    border-radius: 10px;
+    border: none;
+    background-color: #D9C029;
+    color: black;
+    box-shadow:  2px 5px 2px rgba(183, 180, 180, 0.281);
+    border: none;
+    font-family: poppins;
+    font-size: 1rem;
+    cursor: pointer;
+    padding-left: 1rem;
+}
+
+.btn_Search a:hover{
+    background-color: #cdaf07;
+    color: black;
+    transform: scale(1.1);
+    transition: 0.5s;
 }
