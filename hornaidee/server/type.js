@@ -13,3 +13,14 @@ exports.CreateDormRequest = z.object({
     photos: z.array(z.string().min(1)).min(1),
 });
 
+exports.CreateReviewRequest = z.object({
+    stars: z.number().int().min(1).max(5),
+    short_review: z.string().min(1),
+    review: z.string().optional(),
+});
+
+exports.PutReviewRequest = z.object({
+    stars: z.number().int().min(1).max(5),
+    short_review: z.string().min(1),
+    review: z.string().optional(),
+});
