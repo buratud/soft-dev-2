@@ -1,0 +1,4 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: blogs-web-configmap{{ include "global.appendTag" . }}
