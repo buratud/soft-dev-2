@@ -54,13 +54,9 @@ img{
     font-family:'Poppins' ;
 }
 
-.icon{
-    position: relative;
-    color: #3D39BD ;
-}
 
 .userwrite{
-    background-color: #3D39BD;
+    background-color:rgba(103, 133, 176, 1);
     height: 30px;
     width: max-content;
     padding-left: 1rem;
