@@ -31,7 +31,6 @@ export default function DormDetails() {
   const [data, setData] = useState({}); // [dorm, address, property_number, city, province, zip_code, rent_price, facilities, host, nearby_university
   const [user, setUser] = useState({}); 
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
   const falicititesIconMap = {
     1: <IoLogoNoSmoking />,
@@ -67,20 +66,14 @@ export default function DormDetails() {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
       console.log(res.data);
       setData(res.data);
+      axios.get(`${NEXT_PUBLIC_BASE_API_URL}/users/${res.data.owner}`).then((res) => {
+        console.log(res.data);
+        setUser(res.data);
       setIsLoading(false);
     });
-  }, []);
+  })}, []);
 
-  useEffect(() => {
-    const owner = data.owner;
-    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/users/${owner}`).then((res) => {
-      console.log(res.data);
-      setUser(res.data);
-      setIsLoadingUser(false);
-    });
-  }, [data]);
-
-  if (isLoading && isLoadingUser) {
+  if (isLoading) {
     return (
       <div className="loading-container">
         <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} height={70} width={80} className="loading-image spinning" />
