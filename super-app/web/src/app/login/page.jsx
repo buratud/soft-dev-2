@@ -16,10 +16,10 @@ export default function Login({ searchParams }) {
         username: '',
         password: '',
     };
-
+    const [error, setError] = useState(null);
     const [formData, setFormData] = useState(initialFormData);
     const router = useRouter();
-
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -32,10 +32,12 @@ export default function Login({ searchParams }) {
         console.log(NEXT_PUBLIC_BASE_API_URL)
         e.preventDefault();
         if (!formData.username || !formData.password) {
-            alert('Login Invalid. Please make sure you filled both username and password in correctly');
+            setError('Please fill in all fields');
             return;
         }
         else {
+            setIsLoggingIn(true);
+            console.log(isLoggingIn);
             axios.put(`${NEXT_PUBLIC_BASE_API_URL}/login`, {
                 UsernameorEmail: formData.username
 
@@ -47,10 +49,15 @@ export default function Login({ searchParams }) {
                 });
 
                 if (error) {
-                    console.log("Internal server error");
+                    if (error.message === "Invalid login credentials") {
+                        setError("Incorrect credentials");
+                    } else {
+                        console.log("Internal server error");
+                        setError("Internal server error");
+                    }
                 } else {
                     if (data.user === null) {
-                        alert("Incorrect username, email or password");
+                        setError("Incorrect credentials");
                     } else {
                         if (!redirectUrl) {
                             router.push(`${NEXT_PUBLIC_BASE_WEB_URL}`);
@@ -60,19 +67,18 @@ export default function Login({ searchParams }) {
                     }
                 }
             });
-
-
+            setIsLoggingIn(false);
         }
     }
 
 
 
     return (
-        <>  
+        <>
             <title>DekHor | Login or Signup</title>
 
             <div>
-                <TopBar/>
+                <TopBar />
             </div>
             <div className={styles.Logincontainer}>
                 <div className={styles.Loginframe}>
@@ -108,9 +114,13 @@ export default function Login({ searchParams }) {
                         />
                     </div>
                     <button onClick={handleSubmit} className={styles.Loginbutton}>Login</button>
+                    <div id="customer-error" aria-live="polite" aria-atomic="true">
+                        {error && <div className={`${styles["error-text"]} ${isLoggingIn ? styles.disabled : ''}`}>{error}</div>}
+                    </div>
                 </div>
                 <div className={styles.signuplabel}>
                     <label>Don't have an account?</label>
+                    &nbsp;
                     <div>
                         <Link href={`/register`} className={styles.signuplink}>Sign Up.</Link>
                     </div>
