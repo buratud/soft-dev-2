@@ -14,7 +14,16 @@ ARG DORM_SUPABASE_URL
 ENV NEXT_PUBLIC_SUPABASE_URL=${DORM_SUPABASE_URL}
 ARG DORM_SUPABASE_ANON_KEY
 ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=${DORM_SUPABASE_ANON_KEY}
-RUN npm install --production
+ARG BASE_SUPERAPP_WEB_PATH
+ENV NEXT_PUBLIC_BASE_SUPERAPP_WEB_PATH=${BASE_SUPERAPP_WEB_PATH}
+ARG BASE_SUPERAPP_SERVER_PATH
+ENV NEXT_PUBLIC_BASE_SUPERAPP_SERVER_PATH=${BASE_SUPERAPP_SERVER_PATH}
+
+# Separating the copy of package.json can save time on rebuilding the image if the package.json file is not changed
+COPY package.json .
+RUN npm install --omit=dev
+COPY . .
+RUN sed -i "s|http://localhost:3003|${BASE_DOMAIN_WITH_PROTOCOL}${BASE_DORM_WEB_PATH}|g" package.json
 RUN npm run build
 EXPOSE 3003
 
