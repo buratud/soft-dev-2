@@ -1,5 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from 'next/image';
+import axios from "axios";
+import { useParams, useRouter } from "next/navigation";
 import {
   FaSpinner,
   FaMapPin,
@@ -18,10 +21,19 @@ import {
 import { MdElevator } from "react-icons/md";
 import { IoLogoNoSmoking, IoIosFitness } from "react-icons/io";
 import "./style.css";
-import Image from 'next/image'
-import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from "../../../../config";
-import axios from "axios";
-import { useParams } from "next/navigation";
+
+import {
+  NEXT_PUBLIC_SUPABASE_URL,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  NEXT_PUBLIC_BASE_API_URL,
+  NEXT_PUBLIC_BASE_WEB_PATH
+} from "../../../../config";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  NEXT_PUBLIC_SUPABASE_URL,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY,
+);
 
 export default function DormDetails() {
   const params = useParams();
@@ -45,6 +57,18 @@ export default function DormDetails() {
     10: <FaAccessibleIcon />,
   };
 
+  const [session, setSession] = useState(null);
+  const [user_id, setUser_id] = useState("");
+  const [owner_id, setOwner_id] = useState("");
+
+  useEffect(() => {
+    supabase.auth.getSession().then((result) => {
+      setSession(result.data.session.user.id);
+      console.log(result.data.session.user.id);
+      setUser_id(result.data.session.user.id);
+    });
+  }, []);
+
   const goToNextImage = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex === data.photos.length - 1 ? 0 : prevIndex + 1
@@ -57,6 +81,11 @@ export default function DormDetails() {
     );
   };
 
+  const router = useRouter();
+  const handleEditButtonClick = () => {
+    router.push(`/edit/${params.id}`);
+  };
+
   useEffect(() => {
     const interval = setInterval(goToNextImage, 5000);
     return () => clearInterval(interval);
@@ -66,13 +95,16 @@ export default function DormDetails() {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
       console.log(res.data);
       setData(res.data);
+      console.log(res.data.owner);
+      setOwner_id(res.data.owner); // Update owner_id using setState
       axios.get(`${NEXT_PUBLIC_BASE_API_URL}/users/${res.data.owner}`).then((res) => {
         console.log(res.data);
         setUser(res.data);
-      setIsLoading(false);
+        setIsLoading(false);
+      });
     });
-  })}, []);
-
+  }, []);  
+  
   if (isLoading) {
     return (
       <div className="loading-container">
@@ -134,10 +166,11 @@ export default function DormDetails() {
             <h3>THB {data.rent_price}</h3>
             <span>&nbsp;/mo.</span>
           </div>
-          <div className="editButtonContainer">
-            <button className="editButton">Edit Property</button>{" "}
-            {/* hidden unless a owner */}
-          </div>
+          {user_id === owner_id ? (
+            <div className="editButtonContainer">
+              <button className="editButton" onClick={handleEditButtonClick}>Edit Property</button>
+            </div>
+          ) : null}
         </div>
       </div>
 
