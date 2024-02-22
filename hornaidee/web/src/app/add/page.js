@@ -60,6 +60,7 @@ export default function AddDormPage() {
       )
       .then(res => {
         alert('Dorm added successfully');
+        window.location.href = '/';
       })
       .catch(err => {
         alert(err);
