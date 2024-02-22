@@ -2,14 +2,14 @@
 import { AiOutlineHome, AiOutlineTag, AiOutlineEnvironment } from 'react-icons/ai';
 import { BsBuildings, Bs123, BsHouse } from "react-icons/bs";
 import Link from 'next/link'
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { NEXT_PUBLIC_BASE_API_URL } from '../../../config';
-import { supabase, General } from '../../../session';
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY } from '../../../config';
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient( NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY )
 
 export default function AddDormPage() {
-  const { session } = useContext(General);
-  const [owner, setOwner] = useState('')
   const [name, setName] = useState('')
   const [address, setAddress] = useState('')
   const [property_number, setPropertyNumber] = useState('')
@@ -19,6 +19,18 @@ export default function AddDormPage() {
   const [rent_price, setRentPrice] = useState(0)
   const [facilities, setFacilities] = useState([])
   const [photos, setPhotos] = useState([])
+  const [session, setSession] = useState(null)
+
+  useEffect(() => {
+    supabase.auth.getSession().then((result) => {
+      if (result.data) {
+        setSession(result.data.session);
+      }
+    }).catch(error => {
+      console.log(error)
+    });
+  }, []);
+  
   
   const toggleFacility = (facility) => {
     if (facilities.includes(facility)) {
@@ -29,27 +41,11 @@ export default function AddDormPage() {
       setFacilities([...facilities, facility]);
     }
   };
-
-  const fetchOwnerUUID = () => {
-    if (session && session.user) {
-      // If session and user information exist
-      const ownerUUID = session.user.id; // Access user ID from the session
-      setOwner(ownerUUID); // Set owner state with the user ID
-    } else {
-      console.log('Session or user information not available.');
-    }
-  };
-  
-  useEffect(() => {
-    fetchOwnerUUID();
-  }, [session]);
   
   const submitForm = () => {
     // console.log('Form: ', { owner, name, address, property_number, city, province, zip_code, rent_price, facilities, photos }, 'Session:', session.access_token)
-    if (session) {
-        console.log('Session token: ', session.access_token);
       axios.post(`${NEXT_PUBLIC_BASE_API_URL}/dorms`, 
-      { owner: owner,
+      { owner: session.user.id,
         name: name,
         address: address,
         property_number: property_number,
@@ -68,9 +64,6 @@ export default function AddDormPage() {
       .catch(err => {
         alert(err);
       });
-    } else {
-      console.log('Session is not available yet.');
-    }
   }
 
   return (
