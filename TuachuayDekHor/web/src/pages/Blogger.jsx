@@ -18,7 +18,7 @@ function Blogger() {
   useEffect(() => {
     axios.post(`${REACT_APP_BASE_API_URL}/blogger`)
       .then(res => {
-        console.log(res.data);
+        console.log('blogger',res.data);
         setData(res.data);
       })
       .catch((err) => {
@@ -28,8 +28,8 @@ function Blogger() {
 
   useEffect(() => {
     // ตัวแปร data คือที่ Back ต้องเอา Blogger ทั้งหมดมาใส่
-    const filtered = data.filter(({ user: { username } }) =>
-      username.toLowerCase().includes(searchInput.toLowerCase())
+    const filtered = data.filter(({ blogger }) =>
+      blogger.toLowerCase().includes(searchInput.toLowerCase())
     );
     setFilteredData(filtered);
   }, [data, searchInput]);
@@ -40,8 +40,8 @@ function Blogger() {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    const filtered = data.filter(({ user: { username } }) =>
-      username.toLowerCase().includes(searchInput.toLowerCase())
+    const filtered = data.filter(({ blogger }) =>
+      blogger.toLowerCase().includes(searchInput.toLowerCase())
     );
     setFilteredData(filtered);
   };
@@ -72,14 +72,14 @@ function Blogger() {
         <div className="blogger_list">
           <div className="blogger_wrapper">
             {/* ข้อมูล backend ใส่ตรงนี้ */}
-            {filteredData.map(({ user: { username, id }, image: { avatar_url } }, index) => (
+            {filteredData.map(({ blogger,id,cover_img }, index) => (
               <div className="box" key={index}>
                 <Link to={`/profile/${id}`} className="Blog1">
                   <div className="singleDest">
-                    <img src={avatar_url ?? img1} alt="" />
+                    <img src={cover_img ?? img1} alt="" />
                   </div>
                   <div className="userwrite">
-                    {username}
+                    {blogger}
                   </div>
                 </Link>
               </div>

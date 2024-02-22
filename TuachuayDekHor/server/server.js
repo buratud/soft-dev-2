@@ -280,14 +280,23 @@ api.get("/idtopic", async (req, res) => {
 
 //blogger
 api.post("/blogger", async (req, res) => {
-    const { data, error } = await supabase.from('distinct_id').select('user:profiles(id, username),image: profiles(avatar_url)');
-    if (error) {
+    try {
+      const { data, error } = await supabase
+        .rpc('get_blogger')
+  
+      if (error) {
         console.error(error);
         res.status(400).json(error);
-    } else {
-        res.status(200).json(data);
+      } else {
+        const distinctBloggers = [...new Set(data.map(entry => entry))];
+        res.status(200).json(distinctBloggers);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
-});
+  });
+  
 
 //search
 api.post("/search", async (req, res) => {
