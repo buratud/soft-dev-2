@@ -21,4 +21,8 @@
               value: {{ printf "https://%s%s" .Values.global.topLevelUrl (include "global.rootPath" .) | quote }}
             - name: REACT_APP_MAIN_URL
               value: {{ printf "https://%s%s" .Values.global.topLevelUrl (include "global.rootPath" .) | quote }}
+            - name: NEXT_PUBLIC_BASE_WEB_PATH
+              value: {{ include "global.rootPath" . | quote }}
+            - name: NEXT_PUBLIC_BASE_SERVER_PATH
+              value: {{ include "superapp-server.rootPath" . | quote }}
 {{- end -}}
