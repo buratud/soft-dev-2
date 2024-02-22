@@ -62,7 +62,7 @@ function OffCanvasExample({ name, ...props }) {
     return (
       <div className="comment_app" key={index}>
         <h5>{username}</h5>
-        <p>{comment}</p>
+        <p1>{comment}</p1>
       </div>
     )
   })
@@ -75,11 +75,11 @@ function OffCanvasExample({ name, ...props }) {
         <CiChat1 size={28} className='comment-icon' /><p>{commentElements.length}</p>
       </div>
       <Offcanvas show={show} onHide={handleClose} {...props}>
-        <Offcanvas.Header closeButton>
+        <Offcanvas.Header closeButton style={{ backgroundColor: 'rgb(64, 102, 156)' }}>
           <Offcanvas.Title>
             <div className="title">
-              <h4>Comments</h4>
-              <p>({commentElements.length})</p>
+              <p2>Comments</p2>
+              <p2>({commentElements.length})</p2>
             </div>
           </Offcanvas.Title>
         </Offcanvas.Header>
