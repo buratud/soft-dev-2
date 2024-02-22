@@ -5,7 +5,7 @@ import img1 from '../../src/Assets/person-circle-outline.svg';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../App';
-import { REACT_APP_BASE_API_URL } from '../config';
+import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config';
 import { IoSearch } from "react-icons/io5";
 
 function Blogger() {
@@ -74,7 +74,7 @@ function Blogger() {
             {/* ข้อมูล backend ใส่ตรงนี้ */}
             {filteredData.map(({ blogger,id,picture }, index) => (
               <div className="box" key={index}>
-                <Link to={`/profile/${id}`} className="Blog1">
+                <Link to={`${REACT_APP_MAIN_URL}/profile/${id}`} className="Blog1">
                   <div className="singleDest">
                     <img src={picture ?? img1} alt="" />
                   </div>
