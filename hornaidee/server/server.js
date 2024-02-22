@@ -87,7 +87,7 @@ app.get('/dorms/:id/reviews', async (req, res) => {
         }
         let average = null;
         if (avg.length === 1) {
-            average = avg[0].average_stars;
+            average = avg[0].average;
         }
         res.json({ reviews, average });
     } catch (error) {
