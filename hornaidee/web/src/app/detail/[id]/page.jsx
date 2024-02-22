@@ -129,9 +129,15 @@ export default function DormDetails() {
   }
 
   const Overlay = () => (
-    <div className={`overlay ${showOverlay ? "fadeIn" : "fadeOut"}`} onClick={() => setShowOverlay(false)}>
+    <div
+      className={`overlay ${showOverlay ? "fadeIn" : "fadeOut"}`}
+      onClick={() => setShowOverlay(false)}
+    >
       <div className="overlayContent">
-        <img src={data.photos[overlayImageIndex]} alt={`Image ${overlayImageIndex + 1}`} />
+        <img
+          src={data.photos[overlayImageIndex]}
+          alt={`Image ${overlayImageIndex + 1}`}
+        />
       </div>
     </div>
   );
@@ -218,7 +224,11 @@ export default function DormDetails() {
           <h3>Hosted By</h3>
           <div className="hostinfo">
             <div className="hostprofile">
-              <img src={user.picture} alt="Host" className="hostavatar" />
+              <img
+                src={user.picture || "https://images.macrumors.com/t/XjzsIpBxeGphVqiWDqCzjDgY4Ck=/800x0/article-new/2019/04/guest-user-250x250.jpg?lossy"}
+                alt="Host"
+                className="hostavatar"
+              />
               <div className="hostdetails">
                 <h3>{user.username}</h3>
                 <div className="contactinfo">
