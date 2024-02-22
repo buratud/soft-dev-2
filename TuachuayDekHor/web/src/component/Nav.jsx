@@ -119,6 +119,13 @@ const Navbar = () => {
                 </span>
               </div>
             </a>
+            <a href={`${REACT_APP_MAIN_URL}/search`}>
+              <div>
+                <span>
+                  All Blogs
+                </span>
+              </div>
+            </a>
             <div>
               <button className="subdropdown" onClick={() => setIsOpen_Categories((prev) => !prev)}>
                 <span>Categories</span>
@@ -143,7 +150,7 @@ const Navbar = () => {
                   <a href={`${REACT_APP_MAIN_URL}/blogs/cooking`}>
                     <div>
                       <span>
-                        cooking
+                        Cooking
                       </span>
                     </div>
                   </a>
