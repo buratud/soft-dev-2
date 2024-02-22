@@ -18,10 +18,6 @@ app.use(Sentry.Handlers.tracingHandler());
 
 app.use(BASE_SERVER_PATH, router);
 
-app.get("/debug-sentry", function mainHandler(req, res) {
-    throw new Error("My first Sentry error!");
-});
-
 app.use(Sentry.Handlers.errorHandler());
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
