@@ -15,7 +15,7 @@
 .titlecontainer {
   display: flex;
   justify-content: space-between;
-  padding-top: 3rem;
+  padding-top: 6.5rem; /* previously 3rem */
   padding-bottom: 2.5rem;
   margin-left: auto;
   margin-right: auto;
@@ -61,6 +61,7 @@ h3 {
   width: 65%;
   height: 500px; /* 4:3 aspect ratio */
   overflow: hidden; /* Hide overflow to ensure fixed dimensions */
+  cursor: pointer; /* Change cursor to indicate clickable area */
 }
 
 .imageContainer {

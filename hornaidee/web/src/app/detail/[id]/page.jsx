@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from 'next/image';
+import Image from "next/image";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import {
-  FaSpinner,
+  FaTimes,
   FaMapPin,
   FaSchool,
   FaChevronLeft,
@@ -21,27 +21,27 @@ import {
 import { MdElevator } from "react-icons/md";
 import { IoLogoNoSmoking, IoIosFitness } from "react-icons/io";
 import "./style.css";
+import "./overlay.css";
 
 import {
   NEXT_PUBLIC_SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY,
   NEXT_PUBLIC_BASE_API_URL,
-  NEXT_PUBLIC_BASE_WEB_PATH
+  NEXT_PUBLIC_BASE_WEB_PATH,
 } from "../../../../config";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   NEXT_PUBLIC_SUPABASE_URL,
-  NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
 export default function DormDetails() {
   const params = useParams();
-  
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [data, setData] = useState({}); // [dorm, address, property_number, city, province, zip_code, rent_price, facilities, host, nearby_university
-  const [user, setUser] = useState({}); 
+  const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   const falicititesIconMap = {
@@ -60,6 +60,8 @@ export default function DormDetails() {
   const [session, setSession] = useState(null);
   const [user_id, setUser_id] = useState("");
   const [owner_id, setOwner_id] = useState("");
+  const [showOverlay, setShowOverlay] = useState(false); // State for overlay visibility
+  const [overlayImageIndex, setOverlayImageIndex] = useState(0); // State for the index of image shown in overlay
 
   useEffect(() => {
     supabase.auth.getSession().then((result) => {
@@ -81,6 +83,11 @@ export default function DormDetails() {
     );
   };
 
+  const handleImageClick = (index) => {
+    setOverlayImageIndex(index);
+    setShowOverlay(true);
+  };
+
   const router = useRouter();
   const handleEditButtonClick = () => {
     router.push(`/edit/${params.id}`);
@@ -97,21 +104,37 @@ export default function DormDetails() {
       setData(res.data);
       console.log(res.data.owner);
       setOwner_id(res.data.owner); // Update owner_id using setState
-      axios.get(`${NEXT_PUBLIC_BASE_API_URL}/users/${res.data.owner}`).then((res) => {
-        console.log(res.data);
-        setUser(res.data);
-        setIsLoading(false);
-      });
+      axios
+        .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${res.data.owner}`)
+        .then((res) => {
+          console.log(res.data);
+          setUser(res.data);
+          setIsLoading(false);
+        });
     });
-  }, []);  
-  
+  }, []);
+
   if (isLoading) {
     return (
       <div className="loading-container">
-        <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} height={70} width={80} className="loading-image spinning" />
+        <Image
+          alt="logo"
+          src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`}
+          height={70}
+          width={80}
+          className="loading-image spinning"
+        />
       </div>
     );
   }
+
+  const Overlay = () => (
+    <div className={`overlay ${showOverlay ? "fadeIn" : "fadeOut"}`} onClick={() => setShowOverlay(false)}>
+      <div className="overlayContent">
+        <img src={data.photos[overlayImageIndex]} alt={`Image ${overlayImageIndex + 1}`} />
+      </div>
+    </div>
+  );
 
   return (
     <div className="container">
@@ -143,6 +166,7 @@ export default function DormDetails() {
                 className="carouselImage"
                 src={data.photos[currentImageIndex]}
                 alt={`Image ${currentImageIndex + 1}`}
+                onClick={() => handleImageClick(currentImageIndex)}
               />
               <button className="previousButton" onClick={goToPreviousImage}>
                 <FaChevronLeft />
@@ -168,7 +192,9 @@ export default function DormDetails() {
           </div>
           {user_id === owner_id ? (
             <div className="editButtonContainer">
-              <button className="editButton" onClick={handleEditButtonClick}>Edit Property</button>
+              <button className="editButton" onClick={handleEditButtonClick}>
+                Edit Property
+              </button>
             </div>
           ) : null}
         </div>
@@ -192,16 +218,12 @@ export default function DormDetails() {
           <h3>Hosted By</h3>
           <div className="hostinfo">
             <div className="hostprofile">
-              <img
-                src={user.picture}
-                alt="Host"
-                className="hostavatar"
-              />
+              <img src={user.picture} alt="Host" className="hostavatar" />
               <div className="hostdetails">
                 <h3>{user.username}</h3>
                 <div className="contactinfo">
                   <div className="contactrow">
-                    <FaMailBulk/>
+                    <FaMailBulk />
                     <span>{user.email}</span>
                   </div>
                 </div>
@@ -210,6 +232,7 @@ export default function DormDetails() {
           </div>
         </div>
       </div>
+      {showOverlay && <Overlay />}
     </div>
   );
 }
