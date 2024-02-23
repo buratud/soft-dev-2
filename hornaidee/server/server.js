@@ -146,7 +146,7 @@ app.put('/dorms/:id', async (req, res) => {
     try {
         const data = PutDormRequest.parse(req.body);
         const { facilities, photos, ...dormData } = data;
-        res.status(200).json(data);
+        // res.status(200).json(data);
         const { data: result, error } = await supabase.schema('dorms').from('dorms')
             .update(dormData)
             .eq('id', req.params.id)
@@ -156,6 +156,15 @@ app.put('/dorms/:id', async (req, res) => {
             res.status(500).send();
             return;
         }
+
+        const { data: facilitiesID, error: facilitiesError } = await supabase.schema('dorms').from('dorms_facilities').select('facility_id').eq('dorm_id', req.params.id);
+        if (facilitiesError) {
+            logger.error(facilitiesError);
+            res.status(500).send();
+            return;
+        }
+        res.status(200).json(facilitiesID);
+
         for (const facility of facilities) {
             try {
                 const { error } = await supabase.schema('dorms').from('dorms_facilities').insert({
@@ -169,6 +178,7 @@ app.put('/dorms/:id', async (req, res) => {
                 return;
             }
         }
+
         for (let i = 0; i < photos.length; i++) {
             const photo = photos[i];
             const base64 = getRawBase64(photo);
