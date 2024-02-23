@@ -2,7 +2,7 @@ import React, { useRef, useState, useContext ,useEffect } from 'react'
 import { Card, CardBody, Form, Input, Label, Button, Container, FormGroup } from 'reactstrap'
 import "./AddPost.scoped.css"
 import JoditEditor from 'jodit-react';
-import { General } from '../App';
+import { AuthContext } from '../App';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { REACT_APP_BASE_API_URL } from '../config';

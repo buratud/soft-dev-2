@@ -294,7 +294,9 @@ api.post("/blogger", async (req, res) => {
 //search
 api.post("/search", async (req, res) => {
     // const {id} = req.query;
-    const { data, error } = await supabase.from("Create_Post").select('title,user:profiles!Create_Post_id_fkey(username),category,id_post,image_link')
+    const { data, error } = await supabase
+        .from("blog")
+        .select('*,blog_category(category),users(username)')
     if (error) {
         console.log(error)
         res.status(400).json(error);
@@ -303,6 +305,7 @@ api.post("/search", async (req, res) => {
         res.status(200).json(data);
     }
 })
+
 //login
 // api.post("/login",async (req,res) => {
 //     const{email,password} = req.body;

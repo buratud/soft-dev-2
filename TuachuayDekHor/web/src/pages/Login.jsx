@@ -2,7 +2,7 @@ import React, { useContext, useEffect} from 'react'
 import "./Login.scoped.css"
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { General } from '../App';
+import { AuthContext } from '../App';
 import { alignPropType } from 'react-bootstrap/esm/types';
 
 
@@ -10,7 +10,7 @@ import { alignPropType } from 'react-bootstrap/esm/types';
 
 const Login= () => {
     const navigate = useNavigate();
-    const {supabase_for_use : supabase,session} = useContext(General);
+    const {supabase_for_use : supabase,session} = useContext(AuthContext);
     const check_login = (event) => {
         // console.log(event)
         event.preventDefault()
