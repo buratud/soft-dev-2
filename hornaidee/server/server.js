@@ -5,17 +5,17 @@ const { createClient } = require('@supabase/supabase-js');
 const { z } = require('zod');
 const { CreateDormRequest, CreateReviewRequest, PutReviewRequest } = require('./type');
 
-const { SUPABASE_URL, SUPABASE_KEY, JWT_SECRET, LOG_LEVEL } = require('./config');
+const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET, LOG_LEVEL } = require('./config');
 const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage } = require('./util');
 const { log } = require('console');
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const logger = require('pino')({ level: LOG_LEVEL || 'info' });
+const cors = require('cors');
 
 const app = express.Router();
 
-const cors = require('cors');
-app.use(cors())
+app.use(cors());
 
 app.use(bodyParser.json({ limit: '50mb' }))
 
@@ -99,7 +99,7 @@ app.get('/dorms/:id/reviews', async (req, res) => {
 app.use((req, res, next) => {
     const { authorization } = req.headers;
     const token = authorization?.split(' ')[1];
-    jsonwebtoken.verify(token, JWT_SECRET, (err, decoded) => {
+    jsonwebtoken.verify(token, SUPABASE_JWT_SECRET, (err, decoded) => {
         if (err) {
             logger.error(err);
             res.status(401).send({ message: 'Unauthorized' });
