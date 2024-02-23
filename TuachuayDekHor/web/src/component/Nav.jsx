@@ -119,7 +119,7 @@ const Navbar = () => {
                 </span>
               </div>
             </a>
-            <a href={`${REACT_APP_MAIN_URL}/search`}>
+            <a href={`${REACT_APP_MAIN_URL}/blogs/search`}>
               <div>
                 <span>
                   All Blogs
