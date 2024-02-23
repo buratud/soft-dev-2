@@ -5,7 +5,7 @@ import JoditEditor from 'jodit-react';
 import { AuthContext } from '../App';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { REACT_APP_BASE_API_URL } from '../config';
+import { REACT_APP_BASE_API_URL , REACT_APP_BASE_WEB_URL } from '../config';
 const { createClient } = require("@supabase/supabase-js");
 const {REACT_APP_SUPABASE_URL,REACT_APP_SUPABASE_ANON_KEY} = require("../config");
 const supabase = createClient(REACT_APP_SUPABASE_URL , REACT_APP_SUPABASE_ANON_KEY);
@@ -59,6 +59,9 @@ function AddPost() {
             console.log(user);
             if(user){
                 setUserID(user.id);
+            }
+            else{
+                window.location.href(`${REACT_APP_BASE_WEB_URL}/login`);
             }
         }
         
