@@ -61,7 +61,7 @@ function AddPost() {
                 setUserID(user.id);
             }
             else{
-                window.location.href(`${REACT_APP_BASE_WEB_URL}/login`);
+                window.location.href = `${REACT_APP_BASE_WEB_URL}/login`;
             }
         }
         
