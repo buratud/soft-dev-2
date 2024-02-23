@@ -191,6 +191,15 @@ app.put('/dorms/:id', async (req, res) => {
             }
         }
 
+        const { data: photosURL, error: photosError } = await supabase.schema('dorms').from('photos').select('photo_url').eq('dorm_id', req.params.id);
+        if (photosError) {
+            logger.error(photosError);
+            res.status(500).send();
+            return;
+        }
+        const photosList = photosURL.map(object => object.photo_url.split('/').splice(-1)[0])
+        // res.status(200).json(photosList);
+
         for (let i = 0; i < photos.length; i++) {
             const photo = photos[i];
             const base64 = getRawBase64(photo);
@@ -201,17 +210,34 @@ app.put('/dorms/:id', async (req, res) => {
                 res.status(400).send({ message: 'Only images are allowed' });
                 return;
             }
-            const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms').upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, {
-                contentType: mimeType
-            });
-            if (uploadError) {
+            const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms')
+                .upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, {contentType: mimeType});
+
+            if (uploadError.statusCode === "409") {
+                // res.status(200).json(`dorms/${result[0].id}/${i}.${fileExtension}`)
+                const position = photosList.indexOf(`${i}.${fileExtension}`)
+                photosList.splice(position, position + 1)
+                continue
+            } else if (uploadError) {
                 logger.error(uploadError);
                 res.status(500).send();
                 return;
             }
+            res.status(200).json(position);
+
             const { data: pictureMetadata } = supabase.storage.from('dorms').getPublicUrl(uploadData.path);
-            res.status(200).send({ message: "Update sucessfully" });
+            const { error: insertError } = await supabase.schema('dorms').from('photos').insert({
+                dorm_id: result[0].id,
+                photo_url: pictureMetadata.publicUrl
+            })
+            if (insertError) {
+                logger.error(insertError);
+                res.status(500).send();
+                return;
+            }
         }
+        // res.status(200).send({ message: "Update sucessfully" });
+
     } catch (error) {
         if (error instanceof z.ZodError) {
             logger.debug(error.errors);
