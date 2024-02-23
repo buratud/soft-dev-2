@@ -3,7 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const bodyParser = require('body-parser')
 const { createClient } = require('@supabase/supabase-js');
 const { z } = require('zod');
-const { CreateDormRequest, CreateReviewRequest, PutReviewRequest } = require('./type');
+const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest} = require('./type');
 
 const { SUPABASE_URL, SUPABASE_KEY, JWT_SECRET, LOG_LEVEL } = require('./config');
 const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage } = require('./util');
@@ -146,19 +146,10 @@ app.put('/dorms/:id', async (req, res) => {
     try {
         const data = PutDormRequest.parse(req.body);
         const { facilities, photos, ...dormData } = data;
-        res.status(200).json(dormData);
+        res.status(200).json(data);
         const { data: result, error } = await supabase.schema('dorms').from('dorms')
             .update(dormData)
-            .eq('owner', req.params.owner)
-            .eq('name', req.params.name)
-            .eq('address', req.params.address)
-            .eq('property_number', req.params.property_number)
-            .eq('city', req.params.city)
-            .eq('province', req.params.province)
-            .eq('zip_code', req.params.zip_code)
-            .eq('rent_price', req.params.rent_price)
-            .eq('facilities', req.params.facilities)
-            .eq('photos', req.params.photos)
+            .eq('id', req.params.id)
             .select('id');
         if (error) {
             logger.error(error);
@@ -166,10 +157,12 @@ app.put('/dorms/:id', async (req, res) => {
             return;
         }
         for (const facility of facilities) {
-            const { error } = await supabase.schema('dorms').from('dorms_facilities').insert({
-                dorm_id: result[0].id,
-                facility_id: facility
-            });
+            try {
+                const { error } = await supabase.schema('dorms').from('dorms_facilities').insert({
+                    dorm_id: result[0].id,
+                    facility_id: facility
+                });
+            } catch (error) { console.log(error) }
             if (error) {
                 logger.error(error);
                 res.status(500).send();
@@ -195,6 +188,7 @@ app.put('/dorms/:id', async (req, res) => {
                 return;
             }
             const { data: pictureMetadata } = supabase.storage.from('dorms').getPublicUrl(uploadData.path);
+            res.status(200).send({ message: "Update sucessfully" });
         }
     } catch (error) {
         if (error instanceof z.ZodError) {
