@@ -4,7 +4,7 @@ import { BsBuildings, Bs123, BsHouse } from "react-icons/bs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY } from "../../../config";
+import { NEXT_PUBLIC_BASE_WEB_URL, NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY } from "../../../config";
 import { createClient } from "@supabase/supabase-js";
 import ImageUploadComponent from "../image_component";
 import "./style.css";
@@ -158,7 +158,7 @@ export default function AddDormPage() {
         )
         .then((res) => {
           setIsFormSubmitted(true);
-          window.location.href = "/dorms/detail/" + res.data.id;
+          window.location.href = `${NEXT_PUBLIC_BASE_WEB_URL}/dorms/detail/${res.data.id}`;
         })
         .catch((err) => {
           alert(err);
