@@ -65,11 +65,19 @@ const Details = () => {
 
 
   // ระบบ like และ dislike
+  const [loading, setLoading] = useState(false);
+
   const handleLikeClick = async () => {
-    const liked = like.some(({ id }) => id === user?.id);
+    // Prevent multiple clicks while a request is in progress
+    if (loading) {
+      return;
+    }
+  
+    setLoading(true); // Set loading state to true
   
     // Optimistically update the UI before the server response
     setLike((currentLikes) => {
+      const liked = currentLikes.some(({ id }) => id === user?.id);
       if (liked) {
         // If already liked, remove the like
         return currentLikes.filter((like) => like.id !== user?.id);
@@ -80,27 +88,34 @@ const Details = () => {
     });
   
     // Perform the server request based on the like status
-    if (liked) {
-      try {
+    try {
+      if (liked) {
         await axios.delete(`${REACT_APP_BASE_API_URL}/unlike?id=${user?.id}&id_post=${id}`);
-      } catch (err) {
-        console.error(err);
-        // Rollback the UI update if the request fails
-        setLike((currentLikes) => [...currentLikes, { id: user?.id }]);
-      }
-    } else {
-      try {
+      } else {
         await axios.post(`${REACT_APP_BASE_API_URL}/likepost`, {
           id_post: id,
           id: user?.id,
         });
-      } catch (err) {
-        console.error(err);
-        // Rollback the UI update if the request fails
-        setLike((currentLikes) => currentLikes.filter((like) => like.id !== user?.id));
       }
+      
+      // Update the UI after the server response
+      setLike((currentLikes) => {
+        const liked = currentLikes.some(({ id }) => id === user?.id);
+        if (liked) {
+          // If already liked, return current likes
+          return currentLikes;
+        } else {
+          // If not liked, add the like
+          return [...currentLikes, { id: user?.id }];
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false); // Reset loading state regardless of success or failure
     }
   };
+  
   
 
   const isLikedByUser = like.some(({ id }) => id === user?.id);

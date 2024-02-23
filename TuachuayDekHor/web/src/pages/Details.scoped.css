@@ -124,6 +124,10 @@ img{
     display: flex;
 }
 
+.heart:hover{
+    transform: scale(1.15);
+}
+
 .heart p{
     margin-left: 0.5rem;
 }
