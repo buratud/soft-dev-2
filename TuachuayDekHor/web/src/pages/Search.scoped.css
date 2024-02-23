@@ -11,7 +11,7 @@ font-family: "Poppins", sans-serif;
     align-items: center;
     background-color: #eceff1;
     overflow-x: hidden;
-    font-family: 'Poppins';
+    font-family: var(--font-Poppins);
 }
 
 
