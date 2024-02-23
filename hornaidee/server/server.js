@@ -142,6 +142,71 @@ app.post('/dorms', async (req, res) => {
     }
 });
 
+app.put('/dorms/:id', async (req, res) => {
+    try {
+        const data = PutDormRequest.parse(req.body);
+        const { facilities, photos, ...dormData } = data;
+        res.status(200).json(dormData);
+        const { data: result, error } = await supabase.schema('dorms').from('dorms')
+            .update(dormData)
+            .eq('owner', req.params.owner)
+            .eq('name', req.params.name)
+            .eq('address', req.params.address)
+            .eq('property_number', req.params.property_number)
+            .eq('city', req.params.city)
+            .eq('province', req.params.province)
+            .eq('zip_code', req.params.zip_code)
+            .eq('rent_price', req.params.rent_price)
+            .eq('facilities', req.params.facilities)
+            .eq('photos', req.params.photos)
+            .select('id');
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        for (const facility of facilities) {
+            const { error } = await supabase.schema('dorms').from('dorms_facilities').insert({
+                dorm_id: result[0].id,
+                facility_id: facility
+            });
+            if (error) {
+                logger.error(error);
+                res.status(500).send();
+                return;
+            }
+        }
+        for (let i = 0; i < photos.length; i++) {
+            const photo = photos[i];
+            const base64 = getRawBase64(photo);
+            const decodedData = Buffer.from(base64, 'base64');
+            const mimeType = getMimeTypeFromBase64(photo);
+            const fileExtension = getFileExtensionFromMimeType(mimeType);
+            if (!isImage(mimeType)) {
+                res.status(400).send({ message: 'Only images are allowed' });
+                return;
+            }
+            const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms').upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, {
+                contentType: mimeType
+            });
+            if (uploadError) {
+                logger.error(uploadError);
+                res.status(500).send();
+                return;
+            }
+            const { data: pictureMetadata } = supabase.storage.from('dorms').getPublicUrl(uploadData.path);
+        }
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            logger.debug(error.errors);
+            res.status(400).json(error.errors);
+            return;
+        }
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
 app.get('/dorms/:id/review', async (req, res) => {
     try {
         const { data: review, error } = await supabase.schema('dorms').from('reviews').select('user_id, stars, short_review, review').eq('dorm_id', req.params.id).eq('user_id', req.user.sub);
