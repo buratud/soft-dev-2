@@ -167,11 +167,23 @@ img{
     scale: 1.2;
 }
 
+.edit{
+    display: flex;
+}
+
+.edit p{
+    margin-left: 0.35rem;
+    font-size: 4.5mm;
+}
+
 .icon-Edit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #D9C029;
     border: none;
     border-radius: 5px;
-    width: 40px;
+    width: 100px;
     height: 35px;
     margin-right: 0.7rem;
     padding: 0.2rem;
@@ -188,14 +200,23 @@ img{
 }
 
 .icon-delete{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     background-color: rgb(209, 89, 89);
     color: #f8f8f8;
-    width: 40px;
+    width: 100px;
     height: 35px;
     padding: 0.2rem;
     border-radius: 5px;
     cursor: pointer;
     border: none;
+}
+
+.icon-delete P{
+    margin-left: 0.35rem;
+    font-size: 4.5mm;
 }
 
 .nolike{

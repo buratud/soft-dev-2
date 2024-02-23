@@ -27,7 +27,7 @@ p{
 .btn:hover{
     color: black;
     scale: 1.15;
-    transition: 0.5s;
+    transition: 0.48s;
 }
 
 .btn p{

@@ -172,7 +172,7 @@ const Details = () => {
                   <div className="edit">
                     {/* edit อยู่ตรงนี้คับ */}
                     <Link to={'/writeblog'}><button className='icon-Edit'>
-                      <FaRegEdit size={25} />
+                      <FaRegEdit size={25} /> <p>Edit</p>
                     </button></Link>
                     <button className='icon-delete'>
                       <CheckDelete></CheckDelete>
