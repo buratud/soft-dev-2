@@ -23,6 +23,7 @@ function Search() {
         })
         .then(res => {
             setData(res.data);
+            console.log('blog search',res.data)
             if (searchQuery === prevSearchQuery.current) {
                 setSearchResult(res.data);
                 setNoResults(false);
@@ -36,7 +37,7 @@ function Search() {
     useEffect(() => {
         const results = data.filter(card => 
             card.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-            card.user.username.toLowerCase().includes(searchQuery.toLowerCase())
+            card.users.username.toLowerCase().includes(searchQuery.toLowerCase())
         );
         setSearchResult(results);
         setNoResults(results.length === 0);
@@ -51,7 +52,7 @@ function Search() {
                         e.preventDefault();
                         const results = data.filter(card => 
                             card.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            card.user.username.toLowerCase().includes(searchQuery.toLowerCase())
+                            card.users.username.toLowerCase().includes(searchQuery.toLowerCase())
                         );
                         setSearchResult(results);
                         setNoResults(results.length === 0);
@@ -76,11 +77,11 @@ function Search() {
                         {searchResult.map((card, index) => (
                             <Card
                                 key={index}
-                                img={card.image_link ?? img1}
+                                img={card.cover_img ?? img1}
                                 title={card.title}
-                                Blogger={card.user.username}
-                                Categories={card.category}
-                                id={card.id_post}
+                                Blogger={card.users.username}
+                                Categories={card.blog_category.category}
+                                id={card.blog_id}
                             />
                         ))}
                     </div>
