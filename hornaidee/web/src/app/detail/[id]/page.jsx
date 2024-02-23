@@ -42,6 +42,7 @@ export default function DormDetails() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [data, setData] = useState({}); // [dorm, address, property_number, city, province, zip_code, rent_price, facilities, host, nearby_university
   const [user, setUser] = useState({});
+  const [rate, setRate] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   const falicititesIconMap = {
@@ -114,6 +115,13 @@ export default function DormDetails() {
     });
   }, []);
 
+  useEffect(() => {
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}/reviews`).then((res) => {
+      console.log(res.data);
+      setRate(res.data);
+    });
+  }, []);
+
   if (isLoading) {
     return (
       <div className="loading-container">
@@ -155,11 +163,10 @@ export default function DormDetails() {
               {data.zip_code}
             </h3>
           </div>
-          <div className="address">
+          {/* <div className="address">
             <FaSchool />
-            <h3>University Name Here</h3>
-            {/* needs to be dynamically changed */}
-          </div>
+            <h3>University Name Here</h3> {/* needs to be dynamically changed
+          </div> */}
         </div>
       </div>
 
@@ -189,7 +196,7 @@ export default function DormDetails() {
           <div className="bigRatingbox">
             <h3>Overall Rating</h3>
             <div className="ratingnumbox">
-              <h3>-.-</h3> {/* needs to be dynamically changed */}
+              <h3>{rate.average !== null ? rate.average.toFixed(1) : "_._"}</h3>
             </div>
           </div>
           <div className="bigPricebox">

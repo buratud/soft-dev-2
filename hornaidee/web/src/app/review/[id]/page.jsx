@@ -31,6 +31,7 @@ export default function DormReview() {
     review: "",
   });
   const [session, setSession] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     supabase.auth.getSession().then((result) => {
@@ -55,51 +56,59 @@ export default function DormReview() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
+    // Reset error message
+    setErrorMessage(null);
+
     // Check if all fields are filled
-    if (!reviewForm.stars || !reviewForm.short_review) {
-      alert("Please fill in all fields");
+    if (!reviewForm.stars || !reviewForm.short_review || !reviewForm.review) {
+      setErrorMessage("Please fill in all fields");
       return;
     }
-  
+
     // Check if session token is available
     if (!session) {
-      alert("Authentication token is missing");
+      setErrorMessage("Authentication token is missing");
       return;
     }
-  
-    axios.post(
-      `${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}/review`,
-      {
-        ...reviewForm,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${session}`,
+
+    axios
+      .post(
+        `${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}/review`,
+        {
+          ...reviewForm,
         },
-      }
-    ).then(response => {
-      if (response.status === 201) {
-        // Review added successfully
-        alert("Review added successfully");
-        // Redirect to dorm detail page
-        window.location.href = `${NEXT_PUBLIC_BASE_WEB_PATH}/detail/${params.id}`;
-      }
-    }).catch(error => {
-      if (error.response) {
-        if (error.response.status === 409) {
-          // Conflict error
-          alert("Cannot add review due to conflicts");
-        } else {
-          // Other errors
-          alert("An error occurred while adding the review");
+        {
+          headers: {
+            Authorization: `Bearer ${session}`,
+          },
         }
-      } else {
-        // Network errors
-        alert("Network error occurred, please try again");
-      }
-    });
-  };  
+      )
+      .then((response) => {
+        if (response.status === 201) {
+          // Review added successfully
+          setErrorMessage("Review added successfully. Redirecting...");
+          // Add a delay of 2 seconds before redirecting
+          setTimeout(() => {
+            window.location.href = `${NEXT_PUBLIC_BASE_WEB_PATH}/detail/${params.id}`;
+          }, 2000);
+        }
+      })      
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.status === 409) {
+            // Conflict error
+            setErrorMessage("Cannot add review due to conflicts.");
+          } else {
+            // Other errors
+            setErrorMessage("An error occurred while adding the review.");
+          }
+        } else {
+          // Network errors
+          setErrorMessage("Network error occurred, please try again.");
+        }
+      });
+  };
 
   useEffect(() => {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
@@ -122,7 +131,7 @@ export default function DormReview() {
       {/* dorm name */}
       <div className="titlecontainer">
         <div className="title">
-          <h1>Review {data.name}</h1>
+          <h1>Review: {data.name}</h1>
         </div>
       </div>
 
@@ -180,6 +189,16 @@ export default function DormReview() {
           </div>
         </div>
       </div>
+
+      {/* alert */}
+      <div className="alertcontainer">
+        {errorMessage && (
+          <div className={`alert ${errorMessage.startsWith('Review added') ? 'success' : 'error'}`}>
+            <h3>{errorMessage}</h3>
+          </div>
+        )}
+      </div>
+      
     </div>
   );
 }
