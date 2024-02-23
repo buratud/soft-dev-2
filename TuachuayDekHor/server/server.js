@@ -198,6 +198,42 @@ api.post("/randompost", async (req, res) => {
     }
 })
 
+api.post("/preview-blog", async (req, res) => {
+    const { amount } = req.body || 6;
+    try {
+        const { data, error } = await supabase.from('blog').select('*')
+            .order('likes', { ascending: false })
+            .order('date', { ascending: true })
+            .limit(amount);
+
+        for (let post of data) {
+            const { data: userData, error: userError } = await supabase
+                .from('users')
+                .select('username')
+                .eq('id', post.blogger)
+                .single();
+
+            if (userError) {
+                throw userError;
+            }
+
+            post.user = userData; // Add user information to each blog post
+        }
+
+        if (error) {
+            console.log(error);
+            res.status(200).json({ success: false });
+        } else {
+            res.status(200).json({ data, success: true });
+        }
+
+    } catch (userError) {
+        console.error("Error fetching user data:", userError);
+        // Handle user data fetch error here
+    }
+
+})
+
 
 //show_like
 api.get("/showlike", async (req, res) => {
