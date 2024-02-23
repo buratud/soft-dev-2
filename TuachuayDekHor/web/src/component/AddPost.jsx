@@ -56,7 +56,7 @@ function AddPost() {
         const getUserID = async() => {
             const {data,error} = await supabase.auth.getSession();
             const user = data?.session?.user;
-            console.log(user);
+            //console.log(user);
             if(user){
                 setUserID(user.id);
             }
