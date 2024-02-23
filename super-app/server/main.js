@@ -1,6 +1,5 @@
 const express = require("express");
 const { createClient } = require("@supabase/supabase-js");
-require("dotenv").config();
 const { PORT } = require("./config");
 const { BASE_SERVER_PATH, SUPABASE_URL, SUPABASE_KEY } = require("./config");
 const cors = require("cors");
@@ -16,6 +15,23 @@ app.use(BASE_SERVER_PATH, api);
 
 api.get("/", (req, res) => {
   res.send(JSON.stringify(req));
+});
+
+api.get('/users/:id', async (req, res) => {
+  try {
+    const { data: users, error } = await supabase.from('users').select().eq('id', req.params.id);
+    if (error) {
+      res.status(500).send();
+      return;
+    }
+    if (users.length === 0) {
+      res.status(404).send();
+      return;
+    }
+    res.json(users[0]);
+  } catch (error) {
+    res.status(500).send();
+  }
 });
 
 //Authentication
