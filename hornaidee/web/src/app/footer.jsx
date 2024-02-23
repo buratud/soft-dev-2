@@ -1,7 +1,7 @@
 // Footer.js
 import Image from "next/image";
 import "./footer.scoped.css";
-import { NEXT_PUBLIC_BASE_WEB_PATH } from "../../config";
+import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_MAIN_URL } from "../../config";
 
 export default function Footer() {
     return (
@@ -9,11 +9,11 @@ export default function Footer() {
             <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/DekhorlogoTrans.png`} width={96} height={96} alt="logo" />
             <div className={"footercontent"}> 
                 <div className={"footernavbox"}>
-                    <a className={"footernav"} href={`${NEXT_PUBLIC_BASE_WEB_PATH}/`}>Home</a>
-                    <a className={"footernav"} href={`${NEXT_PUBLIC_BASE_WEB_PATH}/blogs`}>Blogs</a>
-                    <a className={"footernav"} href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms`}>Dorms</a>
-                    <a className={"footernav"} href={`${NEXT_PUBLIC_BASE_WEB_PATH}/eats`}>Eats</a>
-                    <a className={"footernav"} href={`${NEXT_PUBLIC_BASE_WEB_PATH}/markets`}>Markets</a>
+                    <a className={"footernav"} href={`${NEXT_PUBLIC_MAIN_URL}/`}>Home</a>
+                    <a className={"footernav"} href={`${NEXT_PUBLIC_MAIN_URL}/blogs`}>Blogs</a>
+                    <a className={"footernav"} href={`${NEXT_PUBLIC_MAIN_URL}/dorms`}>Dorms</a>
+                    <a className={"footernav"} href={`${NEXT_PUBLIC_MAIN_URL}/eats`}>Eats</a>
+                    <a className={"footernav"} href={`${NEXT_PUBLIC_MAIN_URL}/markets`}>Markets</a>
                 </div>
                 <div className={"footercontactbox"}>
                     <b>Contact Us</b>
