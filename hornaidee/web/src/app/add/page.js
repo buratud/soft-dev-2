@@ -1,7 +1,5 @@
 "use client"
 import { AiOutlineHome, AiOutlineTag, AiOutlineEnvironment } from "react-icons/ai";
-"use client"
-import { AiOutlineHome, AiOutlineTag, AiOutlineEnvironment } from "react-icons/ai";
 import { BsBuildings, Bs123, BsHouse } from "react-icons/bs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -10,15 +8,7 @@ import { NEXT_PUBLIC_BASE_WEB_URL, NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_SUPABAS
 import { createClient } from "@supabase/supabase-js";
 import ImageUploadComponent from "../image_component";
 import "./style.css";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { NEXT_PUBLIC_BASE_WEB_URL, NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY } from "../../../config";
-import { createClient } from "@supabase/supabase-js";
-import ImageUploadComponent from "../image_component";
-import "./style.css";
 
-const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
 export default function AddDormPage() {
@@ -89,23 +79,11 @@ export default function AddDormPage() {
       .catch((error) => {
         console.log(error);
       });
-    supabase.auth
-      .getSession()
-      .then((result) => {
-        if (result.data) {
-          setSession(result.data.session);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   }, []);
-
 
   const toggleFacility = (facility) => {
     if (facilities.includes(facility)) {
       // Facility already selected, remove it
-      setFacilities(facilities.filter((f) => f !== facility));
       setFacilities(facilities.filter((f) => f !== facility));
     } else {
       // Facility not selected, add it
@@ -316,124 +294,6 @@ export default function AddDormPage() {
               />
             </div>
           </div>
-      <div className="flex flex-col justify-center items-center w-full md:w-3/4 lg:w-full gap-4">
-        <form className="flex flex-col md:flex-row gap-36 font-Poppins flex-grow">
-          <div className="flex flex-col w-full self-end">
-            <div className="text-[#092F88] font-bold text-4xl font-Poppins mb-4">
-              List New Property
-            </div>
-            <div>Tell us your property name.</div>
-            <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.name ? "glow" : ""
-              }`}
-            >
-              <BsBuildings className="input-icon ml-4 mr-1" />
-              <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Name"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.name ? "border-red-500" : ""
-                }`}
-              />
-            </div>
-
-            <div className="pt-10 pb-2">
-              Where is the property you are listing?
-            </div>
-            <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.address ? "glow" : ""
-              }`}
-            >
-              <AiOutlineHome className="input-icon ml-4 mr-1" />
-              <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
-              <input
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="Street Address"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.address ? "border-red-500" : ""
-                }`}
-              />
-            </div>
-
-            <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.property_number ? "glow" : ""
-              }`}
-            >
-              <BsHouse className="input-icon ml-4 mr-1" />
-              <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
-              <input
-                type="text"
-                value={property_number}
-                onChange={(e) => setPropertyNumber(e.target.value)}
-                placeholder="Property Number"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.property_number ? "border-red-500" : ""
-                }`}
-              />
-            </div>
-
-            <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.city ? "glow" : ""
-              }`}
-            >
-              <AiOutlineEnvironment className="input-icon ml-4 mr-1" />
-              <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
-              <input
-                type="text"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                placeholder="City"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.city ? "border-red-500" : ""
-                }`}
-              />
-            </div>
-
-            <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.province ? "glow" : ""
-              }`}
-            >
-              <AiOutlineEnvironment className="input-icon ml-4 mr-1" />
-              <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
-              <input
-                type="text"
-                value={province}
-                onChange={(e) => setProvince(e.target.value)}
-                placeholder="Province"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.province ? "border-red-500" : ""
-                }`}
-              />
-            </div>
-
-            <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.zip_code ? "glow" : ""
-              }`}
-            >
-              <Bs123 className="input-icon ml-4 mr-1" />
-              <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
-              <input
-                type="text"
-                value={zip_code}
-                onChange={(e) => setZipCode(e.target.value)}
-                placeholder="Zip Code"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.zip_code ? "border-red-500" : ""
-                }`}
-              />
-            </div>
-          </div>
 
           <div className="w-full self-end">
             <div className="pb-1">Add some pictures of your property.</div>
@@ -511,44 +371,7 @@ export default function AddDormPage() {
                 </label>
               </div>
             </div>
-              <div className="flex flex-col gap-4 py-2 my-3">
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    onChange={() => toggleFacility(5)}
-                    checked={facilities.includes(5)}
-                    className="form-checkbox h-6 w-6 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-                  />
-                  Free WiFi
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    onChange={() => toggleFacility(4)}
-                    checked={facilities.includes(4)}
-                    className="form-checkbox h-6 w-6 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-                  />
-                  Pet-friendly
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    onChange={() => toggleFacility(8)}
-                    checked={facilities.includes(8)}
-                    className="form-checkbox h-6 w-6 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-                  />
-                  Near Shopping Malls
-                </label>
-              </div>
-            </div>
 
-            <div>
-              <div>How much do you want to charge per month?</div>
-              <div
-                className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9]  ${
-                  inputStates.rent_price ? "glow" : ""
-                }`}
-              >
             <div>
               <div>How much do you want to charge per month?</div>
               <div
@@ -558,15 +381,6 @@ export default function AddDormPage() {
               >
                 <AiOutlineTag className="input-icon ml-4 mr-1" />
                 <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
-                <input
-                  type="number"
-                  value={rent_price}
-                  onChange={(e) => setRentPrice(e.target.value)}
-                  placeholder="Price per month (in THB)"
-                  className={`input-field ml-2 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                    errors.rent_price ? "border-red-500" : ""
-                  }`}
-                />
                 <input
                   type="number"
                   value={rent_price}
