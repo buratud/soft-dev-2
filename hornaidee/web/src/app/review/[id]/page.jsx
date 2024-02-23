@@ -131,7 +131,7 @@ export default function DormReview() {
       {/* dorm name */}
       <div className="titlecontainer">
         <div className="title">
-          <h1>Review {data.name}</h1>
+          <h1>Review: {data.name}</h1>
         </div>
       </div>
 
