@@ -214,6 +214,22 @@ api.get("/showlike", async (req, res) => {
     }
 })
 
+api.post("/isliked", async (req, res) => {
+    const { user, blog } = req.body;
+    const { data, error } = await supabase
+        .from('like_blog')
+        .select('*')
+        .eq("user_id", user)
+        .eq("blog_id", blog)
+    if (error) {
+        console.log(error)
+        res.status(400).json(error);
+    }
+    else {
+        res.status(200).json(data.length !== 0); //true = ไลค์แล้ว false = ยังไม่ไลค์
+    }
+})
+
 //post_to_profile
 api.get("/posttoprofile", async (req, res) => {
     const { id } = req.query;
