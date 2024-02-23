@@ -72,7 +72,8 @@ function OffCanvasExample({ name, ...props }) {
   return (
     <>
       <div className="btn" onClick={handleShow} >
-        <CiChat1 size={28} className='comment-icon' /><p>{commentElements.length}</p>
+        <CiChat1 size={28} className='comment-icon' />
+        <p>{commentElements.length}</p>
       </div>
       <Offcanvas show={show} onHide={handleClose} {...props}>
         <Offcanvas.Header closeButton style={{ backgroundColor: 'rgb(64, 102, 156)' }}>

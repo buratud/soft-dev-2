@@ -126,10 +126,12 @@ img{
 
 .heart:hover{
     transform: scale(1.15);
+    color: #ff0000;
 }
 
 .heart p{
     margin-left: 0.5rem;
+    color: #808080;
 }
 
 .comment__icon{
