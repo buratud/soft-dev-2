@@ -168,8 +168,7 @@ const Details = () => {
               </div>
               <div className="last">
                 {/* เช็คว่า Authen รึยัง ถ้า authen แล้วจะเปลี่ยนเป็น edit กับ delete  */}
-                {(user?.user_metadata.username !== data.name?.username) ?
-                  <RiFlag2Line size={25} className='icon-report'></RiFlag2Line> :
+                {(user?.user_metadata.username !== data.name?.username) ? "" :
                   <div className="edit">
                     {/* edit อยู่ตรงนี้คับ */}
                     <Link to={'/writeblog'}><button className='icon-Edit'>
