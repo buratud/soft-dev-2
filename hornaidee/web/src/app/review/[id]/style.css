@@ -129,6 +129,43 @@ textarea {
   background-color: #3d5eff; /* Darker Green */
 }
 
+/* Styles for error message */
+
+.alertcontainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.alert {
+  padding: 0.5rem 0.8rem;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.error h3 {
+  font-size: 18px;
+}
+
+.success {
+  background-color: #d4d4ed;
+  color: #161557;
+  border: 1px solid #c3c5e6;
+}
+
+.success h3 {
+  font-size: 18px;
+}
+
 /* Styles for loading */
 
 .loading-container {
