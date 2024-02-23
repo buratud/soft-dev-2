@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
 *{
     margin:0;
     padding: 0;
@@ -11,7 +12,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    font-family: 'Poppins';
+    font-family: 'Poppins',sans-serif;
 }
 
 
@@ -53,7 +54,7 @@
     font-size: 1rem;
     padding: 0.2rem;
     border: 0.2px solid rgba(0, 0, 0, 0.151);
-    border-radius: 5px;
+    border-radius: 1rem;
     width: 100%;
 }
 
@@ -100,42 +101,46 @@
 .Post-btn{
     width: max-content;
     margin: 1em;
-    padding: 0.5rem;
+    padding: 0.7rem;
     padding-left: 1rem;
     padding-right: 1rem;
     position: relative;
     cursor: pointer;
     background-color: #D9C029;
     color: #000;
-    font-size: 16px;
+    font-size: 18px;
     text-align: center;
     border: none;
-    border-radius: 10px;
+    border-radius: 1rem;
 }
 
 .Post-btn:hover{
     background-color: #d7b90e;
+    scale: 1.2;
+    transition: 0.5s;
 }
 
 .Cancel{
     width: max-content;
     margin: 1em;
-    padding: 0.5rem;
+    padding: 0.7rem;
     padding-left: 1rem;
     padding-right: 1rem;
     position: relative;
     cursor: pointer;
-    background-color: #D9C029;
+    background-color: rgba(227, 61, 61, 0.861);
     color: #000;
-    font-size: 16px;
+    font-size: 18px;
     text-align: center;
     border: none;
-    border-radius: 10px;
+    border-radius: 1rem;
 }
 
 .Cancel:hover{
-    background-color: #D9C029;
-    color: rgba(227, 61, 61, 0.861);
+    background-color: rgba(227, 61, 61, 0.861);
+    color: white;
+    scale: 1.2;
+    transition: 0.5s;
 }
 
 .button__Blog{
@@ -153,28 +158,35 @@
 h1{
     font-family: 'Galindo';
     font-size: 4rem;
-    margin-left: 1rem;
-    padding-top: 1rem;
+    margin-left: 1.5rem;
+    padding-top: 2rem;
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
 }
 
 .image-preview {
     max-width: 100%; 
-    max-height: 200px; 
+    max-height: 300px; 
     object-fit: cover;
     margin-top: 1rem;
-    border-radius: 10px; 
+    border: none;
+    border-radius: 1rem; 
   }
-  
-  .image-loading {
+
+.image-loading {
     width: 100%;
     text-align: center;
     margin-top: 1rem;
   }
-  
-  /* Simple loading animation */
-  @keyframes spin {
+
+label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #000;
+    padding-left: 0.2rem;
+}
+
+@keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
