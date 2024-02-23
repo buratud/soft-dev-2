@@ -7,6 +7,7 @@ import Reccommend from "../component/Reccommend";
 import { Link } from "react-router-dom";
 import SlidePost from "../component/SlidePost";
 import {BsArrowRight} from "react-icons/bs";
+import { SlLike } from "react-icons/sl";
 import Footer from "../component/footer";
 import { REACT_APP_BASE_API_URL } from "../config";
 

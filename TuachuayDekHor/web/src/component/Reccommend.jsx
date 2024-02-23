@@ -41,10 +41,10 @@ function Reccommend() {
                     <h4>{title}</h4> 
                   </div>
                 </div>
-                <div className="userwrite">
-                  <div className="name">
+                  <div className="userwrite">
+                    <div className="name">
                     <BiSolidPencil size={20} className="icon_pencil" />
-                    {username}
+                      {username}
                   </div>
                 </div>
               </Link>
