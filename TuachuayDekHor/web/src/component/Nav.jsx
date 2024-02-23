@@ -126,44 +126,6 @@ const Navbar = () => {
                 </span>
               </div>
             </a>
-            <div>
-              <button className="subdropdown" onClick={() => setIsOpen_Categories((prev) => !prev)}>
-                <span>Categories</span>
-                {!isOpen_Categories ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}
-              </button>
-              {isOpen_Categories && (
-                <div className="subdropdownContent">
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/cleaning`}>
-                    <div>
-                      <span>
-                        Cleaning
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/decoration`}>
-                    <div>
-                      <span>
-                        Decorations
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/cooking`}>
-                    <div>
-                      <span>
-                        Cooking
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/story`}>
-                    <div>
-                      <span>
-                        Story's DekHor
-                      </span>
-                    </div>
-                  </a>
-                </div>
-              )}
-            </div>
             <a href={`${REACT_APP_MAIN_URL}/blogs/writeblog`}>
               <div>
                 <span>
