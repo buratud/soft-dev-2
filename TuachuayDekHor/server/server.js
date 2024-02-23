@@ -5,6 +5,7 @@ const { createClient } = require('@supabase/supabase-js');
 require("dotenv").config();
 
 const { BASE_SERVER_PATH, PORT, SUPABASE_URL, SUPABASE_KEY } = require('./config');
+const { configDotenv } = require('dotenv');
 
 const app = express();
 const api = express.Router();
@@ -105,7 +106,38 @@ api.post("/creatpost", async (req, res) => {
 //delete
 api.delete("/deletepost", async (req, res) => {
     const { id_post } = req.query;
-    const { error } = await supabase.from("Create_Post").delete().eq('id_post', id_post)
+    const { error } = await supabase
+        .from("Create_Post")
+        .delete()
+        .eq('id_post', id_post)
+    if (error) {
+        res.status(500).json(error);
+    }
+    else {
+        res.status(200).json({ msg: "success" })
+    }
+})
+
+api.delete("/deletepost", async (req, res) => {
+    const { blog } = req.query;
+    const { error } = await supabase
+        .from("blog")
+        .delete()
+        .eq('id', blog)
+    if (error) {
+        res.status(500).json(error);
+    }
+    else {
+        res.status(200).json({ msg: "success" })
+    }
+})
+
+api.delete("/deleteblog", async (req, res) => {
+    const { blog } = req.body;
+    const { error } = await supabase
+        .from("blog")
+        .delete()
+        .eq('blog_id', blog)
     if (error) {
         res.status(500).json(error);
     }
