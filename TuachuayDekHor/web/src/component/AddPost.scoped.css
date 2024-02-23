@@ -158,3 +158,25 @@ h1{
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
 }
+
+.image-preview {
+    max-width: 100%; 
+    max-height: 200px; 
+    object-fit: cover;
+    margin-top: 1rem;
+    border-radius: 10px; 
+  }
+  
+  .image-loading {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  /* Simple loading animation */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+

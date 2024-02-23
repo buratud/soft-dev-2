@@ -131,6 +131,23 @@ function AddPost() {
         // })
     }
 
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [imageLoading, setImageLoading] = useState(false);
+
+    const handleImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+          setImageLoading(true); // Start the loading animation
+          const reader = new FileReader();
+          
+          reader.onload = (event) => {
+            setSelectedImage(event.target.result); // Set the preview image
+            setImageLoading(false); // Stop the loading animation
+          };
+      
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      };
+      
     return (
         <div className="wrapper">
             <Card>
@@ -147,8 +164,11 @@ function AddPost() {
                                     type="file"
                                     id='Photo'
                                     className='rounded-2'
+                                    onChange={handleImageChange}
                                 >
                                 </Input>
+                                {imageLoading && <div className="image-loading"><div className="spinner"></div></div>}
+                                {selectedImage && !imageLoading && <img src={selectedImage} alt="Cover" className="image-preview"/>}
                             </div>
                             <div className='title__head'>
                                 <Label for='title'>Title</Label>
