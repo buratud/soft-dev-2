@@ -101,14 +101,14 @@ export default function DormDetails() {
 
   useEffect(() => {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
-      //console.log(res.data);
+      console.log(res.data);
       setData(res.data);
       console.log(res.data.owner);
       setOwner_id(res.data.owner); // Update owner_id using setState
       axios
         .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${res.data.owner}`)
         .then((res) => {
-          //console.log(res.data);
+          console.log(res.data);
           setUser(res.data);
           setIsLoading(false);
         });
@@ -163,11 +163,10 @@ export default function DormDetails() {
               {data.zip_code}
             </h3>
           </div>
-          <div className="address">
+          {/* <div className="address">
             <FaSchool />
-            <h3>University Name Here</h3>
-            {/* needs to be dynamically changed */}
-          </div>
+            <h3>University Name Here</h3> {/* needs to be dynamically changed
+          </div> */}
         </div>
       </div>
 
