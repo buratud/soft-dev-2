@@ -18,8 +18,8 @@ function SlidePost() {
        
     })
     .then(res => {
-      console.log(res.data)
-      setData(res.data);
+      console.log(res.data.data)
+      setData(res.data.data);
     })
     .catch((err) => {
         alert(err)
@@ -38,12 +38,12 @@ function SlidePost() {
     <div>
       <Slider {...settings}>
         {
-          data.map(({ user: { username, id }, image: { avatar_url } },index) => {
+          data.map(({ user: { username, id }, image: { picture } },index) => {
             return (
               <Link to={`/profile/${id}`} >
                 <div className="box" >
                   <div className="singleDest" key = {index}>
-                    <img src={avatar_url??img1} alt=""/>
+                    <img src={picture??img1} alt=""/>
                   </div>
                   <div className="userwrite">
                     <Link to={`/profile/${id}`}>{username}</Link>

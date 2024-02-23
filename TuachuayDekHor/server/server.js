@@ -316,13 +316,38 @@ api.get("/idtopic", async (req, res) => {
 
 //blogger
 api.post("/blogger", async (req, res) => {
-    const { data, error } = await supabase.from('distinct_id').select('user:profiles(id, username),image: profiles(avatar_url)');
-    if (error) {
-        console.error(error);
-        res.status(400).json(error);
-    } else {
-        res.status(200).json(data);
+    const { data, error } = await supabase.from('blog').select('blogger');
+    const uniqueBloggerIds = [...new Set(data.map(item => item.blogger))];
+    const formattedBloggers = uniqueBloggerIds.map(bloggerId => ({ blogger: bloggerId }));
+
+    for (let post of formattedBloggers) {
+        const { data: userData, error: userError } = await supabase
+            .from('users')
+            .select('username')
+            .eq('id', post.blogger)
+            .single();
+
+        const { data: imgData, error: imgError } = await supabase
+            .from('users')
+            .select('picture')
+            .eq('id', post.blogger)
+            .single();
+
+        if (userError || imgError) {
+            console.log(userError);
+            console.log(imgError);
+        }
+        post.user = userData;
+        post.image = imgData;
     }
+
+    if (error) {
+        console.log(error);
+        res.status(200).json({ success: false });
+    } else {
+        res.status(200).json({ data: formattedBloggers, success: true });
+    }
+
 });
 
 //search
