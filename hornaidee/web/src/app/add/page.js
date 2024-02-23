@@ -24,6 +24,7 @@ export default function AddDormPage() {
   const [session, setSession] = useState(null);
   const [errors, setErrors] = useState({});
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [imageErrors, setImageErrors] = useState(null);
   const [inputStates, setInputStates] = useState({
     name: false,
     address: false,
@@ -92,27 +93,27 @@ export default function AddDormPage() {
 
   const validateForm = () => {
     const errors = {};
-
+  
     if (!name.trim()) {
       errors.name = "Name is required";
     }
-
+  
     if (!address.trim()) {
       errors.address = "Address is required";
     }
-
+  
     if (!property_number.trim()) {
       errors.property_number = "Property number is required";
     }
-
+  
     if (!city.trim()) {
       errors.city = "City is required";
     }
-
+  
     if (!province.trim()) {
       errors.province = "Province is required";
     }
-
+  
     if (
       !zip_code.trim() ||
       zip_code.trim().length !== 5 ||
@@ -120,21 +121,25 @@ export default function AddDormPage() {
     ) {
       errors.zip_code = "Zip code must be 5 digits";
     }
-
-    if (!rent_price.toString().trim() || isNaN(rent_price)) {
-      errors.rent_price = "Rent price must be a number";
+  
+     if (rent_price === "" || rent_price < 0) {
+    if (rent_price === "") {
+      errors.rent_price = "Rent price is required";
+    } else {
+      errors.rent_price = "Rent price must be a non-negative number";
     }
-
+  }
+  
     if (facilities.length === 0) {
       errors.facilities = "Select at least one facility";
     }
-
+  
     if (photos.length === 0) {
       errors.photos = "Upload at least one photo";
     }
-
+  
     return errors;
-  };
+  };  
 
   const submitForm = () => {
     const errors = validateForm();
@@ -158,7 +163,7 @@ export default function AddDormPage() {
         )
         .then((res) => {
           setIsFormSubmitted(true);
-          window.location.href = `${NEXT_PUBLIC_BASE_WEB_URL}/dorms/detail/${res.data.id}`;
+          window.location.href = `${NEXT_PUBLIC_BASE_WEB_URL}/detail/${res.data.id}`;
         })
         .catch((err) => {
           alert(err);
@@ -292,7 +297,7 @@ export default function AddDormPage() {
 
           <div className="w-full self-end">
             <div className="pb-1">Add some pictures of your property.</div>
-            <ImageUploadComponent photos={photos} setPhotos={setPhotos} />
+            <ImageUploadComponent photos={photos} setPhotos={setPhotos} setImageErrors={setImageErrors} />
             <div className="pt-2">
               What facilities and filters do your property provide?
             </div>
@@ -390,7 +395,12 @@ export default function AddDormPage() {
           </div>
         </form>
 
-        {Object.values(errors).some((error) => !!error) && (
+        {imageErrors && (
+          <div className="flex flex-col items-center gap-1 text-red-600 font-Poppins font-semibold">
+            <span>{imageErrors}</span>
+          </div>
+        )}
+        {Object.values(errors).some((error) => !!error) &&(
           <div className="flex flex-col items-center gap-1 text-red-500 mb-2 font-Poppins font-semibold">
             {Object.values(errors).map(
               (error, index) =>

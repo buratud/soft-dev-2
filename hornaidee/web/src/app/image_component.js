@@ -6,8 +6,9 @@ import Image from 'next/image';
 import { NEXT_PUBLIC_BASE_WEB_PATH } from '../../config';
 import styles from './image_component.module.css';
 
-export default function ImageUploadComponent({ photos, setPhotos }) {
-  const [images, setImages] = useState([]);;
+export default function ImageUploadComponent({ photos, setPhotos, setImageErrors }) {
+  const [images, setImages] = useState([]);
+  const [error, setError] = useState(false);
 
   // Reset photos on component mount
   useEffect(() => {
@@ -17,7 +18,7 @@ export default function ImageUploadComponent({ photos, setPhotos }) {
   const handleImageUpload = async (e) => {
     const files = e.target.files;
     if (!files) return;
-  
+    
     try {
       const base64Array = [];
       for (let i = 0; i < files.length; i++) {
@@ -33,9 +34,11 @@ export default function ImageUploadComponent({ photos, setPhotos }) {
               setImages((prevImages) => [...prevImages, ...files]);
             }
           };
+          setError(false);
+          setImageErrors('');
         } else {
-          // If it's not a picture file, alert the user
-          alert(`${file.name} is not a picture file. Please upload a picture file.`);
+          setError(true);
+          setImageErrors(`${file.name} is not a picture file.`);
         }
       }
     } catch (error) {
@@ -87,7 +90,9 @@ export default function ImageUploadComponent({ photos, setPhotos }) {
               accept="image/*"
               multiple
             />
-            <div className="bg-gray-200 p-4 rounded-lg hover:transition-all hover:scale-110 duration-300"><BsPlusLg /></div>
+            <div className={`bg-gray-200 p-4 rounded-lg hover:transition-all hover:scale-110 duration-300 ${error ? 'bg-red-500' : ''}`}>
+              <BsPlusLg className={error ? 'text-white' : 'text-black'} />
+            </div>
           </label>
         </div>
       </div>
