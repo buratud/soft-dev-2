@@ -1,0 +1,75 @@
+.singleDest{
+    position: relative;
+    height: 350px;
+    overflow: hidden;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+    margin: 1.2rem;
+    cursor: pointer;
+    background-color: white;
+    
+}
+
+.singleDest:hover{
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.74);
+    scale: 1.1;
+}
+
+.dastImage{
+    position: relative;
+    width: 100%;
+    height: 60%;
+    overflow: hidden;
+}
+
+.dastFooter{
+    position: relative;
+    padding: 2rem; 
+}
+
+.heart{
+    position: relative;
+    float: right;
+    width: max-content;
+    padding: 0.5rem;
+}
+
+.destText{
+    color: black;
+    justify-content: space-between; 
+    padding: 1rem; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 18px;
+}
+
+.destText p{
+    color: black;
+    font-family:'Poppins' ;
+    font-weight: 500;
+}
+
+.icon{
+    position: relative;
+    color: #3D39BD ;
+}
+
+.userwrite{
+    display: flex;
+}
+
+
+.name{
+    margin-top: 2rem;
+}
+
+img{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}

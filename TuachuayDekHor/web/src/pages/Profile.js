@@ -8,13 +8,13 @@ import Avatar from "../component/Avatar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Editprofile from "../component/EditProfile";
 import ContactModal from "../component/ContactModel";
-import { General } from '../App';
+import { AuthContext } from '../App';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 
 const Profile = () => {
   const {userId} = useParams();
-  const {supabase_for_use : supabase,session,user} = useContext(General);
+  const {supabase_for_use : supabase,session,user} = useContext(AuthContext);
   const [data, setData] = useState({});
   useEffect(() => {
     if (userId) {
