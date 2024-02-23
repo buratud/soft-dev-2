@@ -7,7 +7,7 @@
 .container {
   background-color: #f6f6fb;
   max-width: 100vw;
-  min-height: 100vh;
+  min-height: 80vh;
 }
 
 /* Styles for title */
@@ -41,6 +41,7 @@ h3 {
     margin-left: auto;
     margin-right: auto;
     max-width: 1200px;
+    padding-bottom: 20vh;
 }
 
 /* styles for review card */

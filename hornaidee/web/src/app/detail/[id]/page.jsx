@@ -22,6 +22,7 @@ import { MdElevator } from "react-icons/md";
 import { IoLogoNoSmoking, IoIosFitness } from "react-icons/io";
 import "./style.css";
 import "./overlay.css";
+import Footer from "../../footer";
 
 import {
   NEXT_PUBLIC_SUPABASE_URL,
@@ -249,6 +250,7 @@ export default function DormDetails() {
           </div>
         </div>
       </div>
+      <Footer />
       {showOverlay && <Overlay />}
     </div>
   );

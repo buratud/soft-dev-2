@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Footer from "../../footer";
 import ReactStars from "react-stars";
 import "./style.css";
 import axios from "axios";
@@ -198,7 +199,7 @@ export default function DormReview() {
           </div>
         )}
       </div>
-      
+      <Footer />
     </div>
   );
 }
