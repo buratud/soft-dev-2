@@ -11,11 +11,11 @@ const { log } = require('console');
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const logger = require('pino')({ level: LOG_LEVEL || 'info' });
+const cors = require('cors');
 
 const app = express.Router();
 
-const cors = require('cors');
-app.use(cors())
+app.use(cors());
 
 app.use(bodyParser.json({ limit: '50mb' }))
 
