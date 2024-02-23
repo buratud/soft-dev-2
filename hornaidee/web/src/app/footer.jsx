@@ -12,7 +12,6 @@ export default function Footer() {
                     <a className={"footernav"} href={`${NEXT_PUBLIC_MAIN_URL}/`}>Home</a>
                     <a className={"footernav"} href={`${NEXT_PUBLIC_MAIN_URL}/blogs`}>Blogs</a>
                     <a className={"footernav"} href={`${NEXT_PUBLIC_MAIN_URL}/dorms`}>Dorms</a>
-                    <a className={"footernav"} href={`${NEXT_PUBLIC_MAIN_URL}/eats`}>Eats</a>
                     <a className={"footernav"} href={`${NEXT_PUBLIC_MAIN_URL}/markets`}>Markets</a>
                 </div>
                 <div className={"footercontactbox"}>
