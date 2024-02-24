@@ -32,6 +32,7 @@ body {
 .box_container {
   display: flex;
   justify-content: center;
+  padding-bottom: 20vh;
 }
 
 /* Styling for the contact box */
@@ -316,4 +317,8 @@ textarea {
   to {
     transform: rotate(360deg);
   }
+}
+
+h2 {
+  margin-bottom: 1.5rem;
 }
