@@ -72,7 +72,7 @@ export default function ReviewComponent({ user_id, stars, short_review, review }
           <div className="ml-2 text-gray-500 self-center">{stars}</div>
         </div>
 
-        <div className="mt-2 h-0 max-w-[880px] my-4">
+        <div className="mt-2 overflow-y-auto max-w-[880px] my-4">
           <div className="text-black font-semibold text-lg break-words">
             {short_review}
           </div>
