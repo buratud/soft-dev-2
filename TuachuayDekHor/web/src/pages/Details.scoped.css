@@ -182,20 +182,20 @@ img{
     align-items: center;
     background-color: #D9C029;
     border: none;
-    border-radius: 5px;
-    width: 100px;
-    height: 35px;
+    border-radius: 1rem;
+    width: 120px;
+    height: 45px;
     margin-right: 0.7rem;
     padding: 0.2rem;
     cursor: pointer;
 }
 
 .icon-Edit:hover{
-    scale: 1.2;
+    scale: 1.15;
 }
 
 .icon-delete:hover{
-    scale: 1.2;
+    scale: 1.15;
     background-color: rgb(176, 74, 74);
 }
 
@@ -206,10 +206,10 @@ img{
     text-align: center;
     background-color: rgb(209, 89, 89);
     color: #f8f8f8;
-    width: 100px;
-    height: 35px;
+    width: 120px;
+    height: 45px;
     padding: 0.2rem;
-    border-radius: 5px;
+    border-radius: 1rem;
     cursor: pointer;
     border: none;
 }
