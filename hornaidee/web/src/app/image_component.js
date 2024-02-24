@@ -6,15 +6,54 @@ import Image from 'next/image';
 import { NEXT_PUBLIC_BASE_WEB_PATH } from '../../config';
 import styles from './image_component.module.css';
 
-export default function ImageUploadComponent({ photos, setPhotos, setImageErrors }) {
-  const [images, setImages] = useState([]);
+export default function ImageUploadComponent({ photos: initialPhotos, setPhotos, setImageErrors }) {
+  const [photos, setLocalPhotos] = useState(initialPhotos);
   const [error, setError] = useState(false);
-
+  
   // Reset photos on component mount
   useEffect(() => {
-    setPhotos([]);
-  }, []);
+    setLocalPhotos(initialPhotos);
+  }, [initialPhotos]);
 
+  // Convert initialPhotos from URL to base64 on component mount
+  useEffect(() => {
+    const convertPhotosToBase64 = async () => {
+      const base64Photos = await Promise.all(initialPhotos.map(async (photo) => {
+        if (typeof photo === 'string') {
+          // If photo is a URL, convert it to base64
+          const base64 = await imageUrlToBase64(photo);
+          return base64;
+        } else {
+          return photo;
+        }
+      }));
+      setLocalPhotos(base64Photos);
+    };
+    convertPhotosToBase64();
+  }, [initialPhotos]);
+  
+  async function imageUrlToBase64(url) {
+    try {
+      // Fetch the image data as a binary blob
+      const response = await fetch(url);
+      const blob = await response.blob();
+  
+      // Convert the binary blob to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      return new Promise((resolve, reject) => {
+        reader.onloadend = () => {
+          // The result will be the base64 string
+          resolve(reader.result);
+        };
+        reader.onerror = reject;
+      });
+    } catch (error) {
+      console.error('Error converting image to base64:', error);
+      return null;
+    }
+  }  
+  
   const handleImageUpload = async (e) => {
     const files = e.target.files;
     if (!files) return;
@@ -24,16 +63,15 @@ export default function ImageUploadComponent({ photos, setPhotos, setImageErrors
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         if (file.type.startsWith('image/')) {
-          // If it's a picture file, convert it to base64
           const reader = new FileReader();
-          reader.readAsDataURL(file);
           reader.onload = () => {
             base64Array.push(reader.result);
             if (base64Array.length === files.length) {
               setPhotos((prevPhotos) => [...prevPhotos, ...base64Array]);
-              setImages((prevImages) => [...prevImages, ...files]);
+              setLocalPhotos((prevPhotos) => [...prevPhotos, ...files]);
             }
           };
+          reader.readAsDataURL(file);
           setError(false);
           setImageErrors('');
         } else {
@@ -46,21 +84,22 @@ export default function ImageUploadComponent({ photos, setPhotos, setImageErrors
     }
   };  
 
+
   const removeImage = (index, e) => {
     e.preventDefault();
     const updatedPhotos = [...photos];
     updatedPhotos.splice(index, 1);
     setPhotos(updatedPhotos);
   
-    const updatedImages = [...images];
-    updatedImages.splice(index, 1);
-    setImages(updatedImages);
+    const updatedLocalPhotos = [...photos];
+    updatedLocalPhotos.splice(index, 1);
+    setLocalPhotos(updatedLocalPhotos);
   };
 
   return (
     <main className="w-96">
       <div className="flex overflow-x-auto">
-        {images.map((image, index) => (
+        {photos.map((photo, index) => (
           <div key={index} className={`relative flex-shrink-0 flex justify-center m-1 ${styles.imageContainer}`}>
             <button
               className="absolute top-1 right-1 text-black bg-white p-[1px] rounded-md z-10 hover:transition-all hover:scale-110 duration-300"
@@ -70,7 +109,7 @@ export default function ImageUploadComponent({ photos, setPhotos, setImageErrors
             </button>
             <div className='relative w-[100px] h-[100px]'>
               <Image
-                src={URL.createObjectURL(image)}
+                src={typeof photo === 'string' ? photo : URL.createObjectURL(photo)}
                 alt={`Image ${index + 1}`}
                 width={100}
                 height={100}

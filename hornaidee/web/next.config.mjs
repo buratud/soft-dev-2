@@ -7,7 +7,7 @@ const nextConfig = {
         remotePatterns: [
           {
             protocol: 'https',
-            hostname: 'linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com',
+            hostname: 'linux-vm-southeastasia-4.southeastasia.cloudapp.azure.com',
             port: '',
             pathname: '/**',
           },
