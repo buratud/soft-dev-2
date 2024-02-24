@@ -181,7 +181,7 @@ api.post('/set-profile', async (req, res) => {
       if (imageURL && username) {
         const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
         const oldFilename = oldPicture.substring(oldPicture.lastIndexOf('/') + 1);
-        if (oldFilename || oldFilename !== 'PersonCircle.svg') {
+        if (oldFilename && oldFilename !== 'PersonCircle.svg') {
           await supabase.storage.from('Profile_User').remove(oldFilename);
         }
         const { error } = await supabase.from('users').update({ username: username, picture: imageURL }).eq('id', userID)
@@ -200,7 +200,7 @@ api.post('/set-profile', async (req, res) => {
       else if (imageURL) {
         const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
         const oldFilename = oldPicture.substring(oldPicture.lastIndexOf('/') + 1);
-        if (oldFilename || oldFilename !== 'PersonCircle.svg') {
+        if (oldFilename && oldFilename !== 'PersonCircle.svg') {
           await supabase.storage.from('Profile_User').remove(oldFilename);
         }
         const { error } = await supabase.from('users').update({ picture: imageURL }).eq('id', userID)
