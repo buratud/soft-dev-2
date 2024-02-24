@@ -69,6 +69,20 @@ api.get("/getprofile/:id", async (req, res) => {
     }
 })
 
+//-----------------------------Profile-----------------------------------
+
+api.post('/profile-picture', async (req, res) => {
+  const { userID } = req.body;
+  if (userID) {
+    const { data } = await supabase
+      .from("users")
+      .select("picture")
+      .eq("id", userID);
+    const picture = data[0]?.picture;
+    res.status(200).json({ picture });
+  }
+})
+
 
 //edit_profile
 api.post("/edit_profile", async (req, res) => {
