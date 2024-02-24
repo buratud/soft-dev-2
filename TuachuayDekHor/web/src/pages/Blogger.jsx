@@ -37,12 +37,12 @@ function Blogger() {
             data.map(({blogger ,user: { username }, image: {picture}},index) => {
               return (
                 <div className="box">
-                  <Link to={`/profile/${blogger}`}>
+                  <Link href={`${REACT_APP_MAIN_URL}/profile/${username}`}>
                     <div className="singleDest" key={index}>
                       <img src={picture??img1} alt=""/>
                     </div>
                     <div className="userwrite">
-                      <Link to={`/profile/${blogger}`}>{username}</Link>
+                      <Link href={`${REACT_APP_MAIN_URL}/profile/${username}`}>{username}</Link>
                     </div>
                   </Link>
                 </div>
