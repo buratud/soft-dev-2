@@ -129,7 +129,7 @@ const Navbar = () => {
             <a href={`${REACT_APP_MAIN_URL}/blogs/blogger`}>
               <div>
                 <span>
-                  Blogger
+                  Bloggers
                 </span>
               </div>
             </a>
