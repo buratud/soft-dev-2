@@ -142,8 +142,11 @@ api.post('/get-userID-from-username', async (req, res) => {
       console.log(error);
       res.status(400).json({success : false});
     }else{
-      res.status(200).json({userID , success: true});
+      res.status(200).json({user: userID , success: true});
     }
+  }
+  else{
+    res.status(400).json({success : false});
   }
 })
 

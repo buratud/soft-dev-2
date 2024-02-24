@@ -68,7 +68,7 @@ const BlogsCards = ({ params }) => {
 
                 }
                 else {
-                    setIsUserLoggedIn(false);
+                    //setIsUserLoggedIn(false);
                 }
             } catch (error) {
                 console.error('Error checking login status:', error);
@@ -236,29 +236,27 @@ export default function Profile({ params }) {
     };
 
     useEffect(() => {
-        const getProfile = async () => {
+        const getProfile = () => {
             try {
-                const { data, error } = await supabase.auth.getSession();
-                if (error || !data || !data.session || !data.session.user) {
-                    router.push('/');
-                    return;
-                }
-
-                const user = data.session.user;
-
-                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`, {
-                    userID: user.id
+                setProfileUsername(params.username);
+                
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
+                    username: params.username
                 })
                     .then(res => {
-                        setProfileImage(res.data.picture);
+                        
+                        const user = res?.data?.user;
+
+                        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`, {
+                            userID: user.id
+                        })
+                            .then(res => {
+                                setProfileImage(res.data.picture);
+                            });
                     });
 
-                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-username`, {
-                    userID: user.id
-                })
-                    .then(res => {
-                        setProfileUsername(res.data.username);
-                    });
+
+                
             } catch (error) {
                 console.error('Error getting profile:', error);
             }
