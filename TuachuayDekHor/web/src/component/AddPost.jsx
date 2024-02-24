@@ -143,6 +143,23 @@ function AddPost() {
         // })
     }
 
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [imageLoading, setImageLoading] = useState(false);
+
+    const handleImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+          setImageLoading(true); // Start the loading animation
+          const reader = new FileReader();
+          
+          reader.onload = (event) => {
+            setSelectedImage(event.target.result); // Set the preview image
+            setImageLoading(false); // Stop the loading animation
+          };
+      
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      };
+      
     return (
         <div className="wrapper">
             <Card>
@@ -159,8 +176,11 @@ function AddPost() {
                                     type="file"
                                     id='Photo'
                                     className='rounded-2'
+                                    onChange={handleImageChange}
                                 >
                                 </Input>
+                                {imageLoading && <div className="image-loading"><div className="spinner"></div></div>}
+                                {selectedImage && !imageLoading && <img src={selectedImage} alt="Cover" className="image-preview"/>}
                             </div>
                             <div className='title__head'>
                                 <Label for='title'>Title</Label>
@@ -185,7 +205,7 @@ function AddPost() {
                                     onChange={fieldChanged}
                                     defaultValue={0}
                                 >
-                                    <option disabled value={0}>--Select category--</option>
+                                    <option disabled value={0}>-- Select category --</option>
                                     <option>
                                         decoration
                                     </option>
@@ -221,6 +241,8 @@ function AddPost() {
                                     value={post.content}
                                     // config={config}
                                     // tabIndex={1} // tabIndex of textarea
+                                    // Cursor moves to beginning of document after typing pls help me co-pilot
+                                    onBlur={newContent => contentFieldChanged(newContent)}
                                     onChange={contentFieldChanged}
                                 />
                                 {/* <Input 
