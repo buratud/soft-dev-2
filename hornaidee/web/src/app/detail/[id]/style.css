@@ -194,6 +194,26 @@ h3 {
   background-color: #ff0000; /* Darker Green */
 }
 
+
+/* Styles for review container */
+
+.reviewsbox {
+  display: flex;
+  flex-direction: column; /* Change flex direction to column */
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px; /* Set max-width */
+  padding-bottom: 4rem; /* Add padding */
+}
+
+.reviewsbox h3 {
+  padding-top: 0.5rem; /* Add padding */
+  padding-bottom: 0.5rem; /* Add padding */
+  font-size: 26px; /* Font size */
+  font-weight: 600;
+  color: #000000; /* Text color */
+}
+
 /* Styles for facilities and host container */
 
 .facilitiesandhost {
