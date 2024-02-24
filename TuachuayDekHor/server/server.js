@@ -200,6 +200,52 @@ api.post("/randompost", async (req, res) => {
     }
 })
 
+api.post("/preview-blog", async (req, res) => {
+    const { amount } = req.body || 6;
+    try {
+        const { data, error } = await supabase.from('blog').select('*')
+            .order('likes', { ascending: false })
+            .order('date', { ascending: true })
+            .limit(amount);
+
+        
+
+        for (let post of data) {
+            const { data: userData, error: userError } = await supabase
+                .from('users')
+                .select('username')
+                .eq('id', post.blogger)
+                .single();
+
+            const { data: categoryData, error: categoryError } = await supabase
+                .from('blog_category')
+                .select('category')
+                .eq('id', post.category)
+                .single();
+
+            if (userError || categoryError) {
+                console.log(userError);
+                console.log(categoryError);
+            }
+
+            post.user = userData; // Add user information to each blog post
+            post.category = categoryData?.category;
+        }
+
+        if (error) {
+            console.log(error);
+            res.status(200).json({ success: false });
+        } else {
+            res.status(200).json({ data, success: true });
+        }
+
+    } catch (userError) {
+        console.error("Error fetching user data:", userError);
+        // Handle user data fetch error here
+    }
+
+})
+
 
 //show_like
 api.get("/showlike", async (req, res) => {
@@ -282,13 +328,38 @@ api.get("/idtopic", async (req, res) => {
 
 //blogger
 api.post("/blogger", async (req, res) => {
-    const { data, error } = await supabase.from('distinct_id').select('user:profiles(id, username),image: profiles(avatar_url)');
-    if (error) {
-        console.error(error);
-        res.status(400).json(error);
-    } else {
-        res.status(200).json(data);
+    const { data, error } = await supabase.from('blog').select('blogger');
+    const uniqueBloggerIds = [...new Set(data.map(item => item.blogger))];
+    const formattedBloggers = uniqueBloggerIds.map(bloggerId => ({ blogger: bloggerId }));
+
+    for (let post of formattedBloggers) {
+        const { data: userData, error: userError } = await supabase
+            .from('users')
+            .select('username')
+            .eq('id', post.blogger)
+            .single();
+
+        const { data: imgData, error: imgError } = await supabase
+            .from('users')
+            .select('picture')
+            .eq('id', post.blogger)
+            .single();
+
+        if (userError || imgError) {
+            console.log(userError);
+            console.log(imgError);
+        }
+        post.user = userData;
+        post.image = imgData;
     }
+
+    if (error) {
+        console.log(error);
+        res.status(200).json({ success: false });
+    } else {
+        res.status(200).json({ data: formattedBloggers, success: true });
+    }
+
 });
 
 //search

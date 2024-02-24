@@ -5,7 +5,7 @@ import img1 from '../../src/Assets/person-circle-outline.svg'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import { AuthContext } from '../App';
-import { REACT_APP_BASE_API_URL } from '../config'
+import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config'
 
 function Blogger() {
   const [data, setData] = useState([]);
@@ -15,8 +15,8 @@ function Blogger() {
 
       })
       .then(res => {
-        console.log(res.data)
-        setData(res.data);
+        console.log(res.data.data)
+        setData(res.data.data);
       })
       .catch((err) => {
           alert(err)
@@ -34,15 +34,15 @@ function Blogger() {
         {/* <p>Something</p> */}
         <div className="blogger_wrapper">
         {
-            data.map(({user: { username, id }, image: {avatar_url}},index) => {
+            data.map(({blogger ,user: { username }, image: {picture}},index) => {
               return (
                 <div className="box">
-                  <Link to={`/profile/${id}`}>
+                  <Link to={`${REACT_APP_MAIN_URL}/profile/${username}`}>
                     <div className="singleDest" key={index}>
-                      <img src={avatar_url??img1} alt=""/>
+                      <img src={picture??img1} alt=""/>
                     </div>
                     <div className="userwrite">
-                      <Link to={`/profile/${id}`}>{username}</Link>
+                      <Link to={`${REACT_APP_MAIN_URL}/profile/${username}`}>{username}</Link>
                     </div>
                   </Link>
                 </div>

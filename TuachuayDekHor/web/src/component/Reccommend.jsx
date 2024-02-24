@@ -12,33 +12,34 @@ function Reccommend() {
   const countToShow = 6;
   const limitedData = data.slice(0, countToShow);
 
-    useState(()=>{
-        axios.post(`${REACT_APP_BASE_API_URL}/randompost`,{
-        
-        })
-        .then((res) => {
-        setData(res.data);
-        })
-        .catch((error) => {
-        console.error(error);
-        });
-
-    },[])
+    useState(() => {
+      axios.post(`${REACT_APP_BASE_API_URL}/preview-blog`,{
+        amount : countToShow
+      })
+      .then((res) => {
+        if(res?.data.success){
+          setData(res.data.data);
+        }
+      })
+      .catch((error) => {
+      console.error(error);
+      });
+    }, []);
 
 
   return (
     <div className="content">
       <div className="main_content">
-        {limitedData.map(({ id_post: id, title, category, user: { username }, image_link }, index) => {
+        {limitedData.map(({ blog_id, title, category, user: { username }, cover_img }, index) => {
           return (
             <div className="singleDest" key={index}>
               <div className="dastImage">
-                <img src={image_link??img1} alt="" />
+                <img src={cover_img??img1} alt="" />
               </div>
               <div className="destFooter">
                 <div className="destText">
                   <h4>
-                    <Link to={`/${category}/${id}`}>{title}</Link>
+                    <Link to={`/${category}/${blog_id}`}>{title}</Link>
                   </h4>
                 </div>
               </div>
