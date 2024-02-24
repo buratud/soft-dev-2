@@ -74,7 +74,7 @@ function Blogger() {
             {/* ข้อมูล backend ใส่ตรงนี้ */}
             {filteredData.map(({ blogger,id,picture }, index) => (
               <div className="box" key={index}>
-                <Link to={`${REACT_APP_MAIN_URL}/profile/${id}`} className="Blog1">
+                <Link to={`${REACT_APP_MAIN_URL}/profile/${blogger}`} className="Blog1">
                   <div className="singleDest">
                     <img src={picture ?? img1} alt="" />
                   </div>
