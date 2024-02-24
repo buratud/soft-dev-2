@@ -7,12 +7,12 @@ import { Link } from "react-router-dom";
 import { BiSolidPencil } from "react-icons/bi";
 import axios from 'axios';
 import CheckDelete from './CheckDelete'
-import { General } from '../App';
+import { AuthContext } from '../App';
 import { REACT_APP_BASE_API_URL } from '../config'
 
 
 function PostSlide(props){
-    const { supabase_for_use: supabase, session, user } = useContext(General);
+    const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
     const [data, setData] = useState([]);
     console.log(props.id)
     useEffect(() => {

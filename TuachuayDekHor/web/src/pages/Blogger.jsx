@@ -4,12 +4,12 @@ import Navbar from '../component/Nav'
 import img1 from '../../src/Assets/person-circle-outline.svg'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-import { General } from '../App';
+import { AuthContext } from '../App';
 import { REACT_APP_BASE_API_URL } from '../config'
 
 function Blogger() {
   const [data, setData] = useState([]);
-  const { supabase_for_use: supabase, session, user } = useContext(General);
+  const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
   useEffect(() => {
       axios.post(`${REACT_APP_BASE_API_URL}/blogger`,{
 

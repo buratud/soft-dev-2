@@ -90,16 +90,18 @@ api.post("/edit_profile", async (req, res) => {
 })
 
 //createpost
-api.post("/creatpost", async (req, res) => {
-    const { title, content, category, email, id, image_title, image_link } = req.body;
-    const { data, error } = await supabase.from("Create_Post").insert({ title: title, content: content, category: category, email: email, id: id, image_title: image_title, image_link: image_link })
-    if (error) {
-        res.status(500).json(error);
+api.post("/createpost", async (req, res) => {
+    const { title, category , image_link , user_id , content} = req.body;
+    const {data} = await supabase.from("blog_category").select("id").eq("category", category);
+    if(data){
+        const { error } = await supabase.from("blog").insert({ title: title, category: data[0].id, body: content, cover_img: image_link, blogger : user_id })
+        if (error) {
+            res.status(500).json(error);
+        }
+        else {
+            res.status(200).json({message : 'Create Post Success' , notError : true});
+        }
     }
-    else {
-        res.status(200).json(data);
-    }
-
 })
 
 //delete
@@ -353,7 +355,9 @@ api.post("/blogger", async (req, res) => {
 //search
 api.post("/search", async (req, res) => {
     // const {id} = req.query;
-    const { data, error } = await supabase.from("Create_Post").select('title,user:profiles!Create_Post_id_fkey(username),category,id_post,image_link')
+    const { data, error } = await supabase
+        .from("blog")
+        .select('*,blog_category(category),users(username)')
     if (error) {
         console.log(error)
         res.status(400).json(error);
@@ -362,6 +366,7 @@ api.post("/search", async (req, res) => {
         res.status(200).json(data);
     }
 })
+
 //login
 // api.post("/login",async (req,res) => {
 //     const{email,password} = req.body;

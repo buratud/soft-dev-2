@@ -15,7 +15,7 @@
 .titlecontainer {
   display: flex;
   justify-content: space-between;
-  padding-top: 6.5rem; /* previously 3rem */
+  padding-top: 4.5rem; /* previously 3rem */
   padding-bottom: 2.5rem;
   margin-left: auto;
   margin-right: auto;
