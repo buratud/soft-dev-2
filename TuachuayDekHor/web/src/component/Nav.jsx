@@ -188,27 +188,27 @@ const Navbar = () => {
             {!isOpen_3 ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}</button>
 
           {isOpen_3 && <div className="dropdownContent">
-            <Link to={`/home`}>
+            <a href={`${REACT_APP_MAIN_URL}/markets/home`}>
               <div>
                 <span>
                   Main
                 </span>
               </div>
-            </Link>
-            <Link to={`/food`}>
+            </a>
+            <a href={`${REACT_APP_MAIN_URL}/markets/food`}>
               <div>
                 <span>
                   All Products
                 </span>
               </div>
-            </Link>
-            <Link to={`/manage`}>
+            </a>
+            <a href={`${REACT_APP_MAIN_URL}/markets/manage`}>
               <div>
                 <span>
                   Manage Product
                 </span>
               </div>
-            </Link>
+            </a>
           </div>}
         </div>
 
