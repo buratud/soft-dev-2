@@ -241,6 +241,8 @@ function AddPost() {
                                     value={post.content}
                                     // config={config}
                                     // tabIndex={1} // tabIndex of textarea
+                                    // Cursor moves to beginning of document after typing pls help me co-pilot
+                                    onBlur={newContent => contentFieldChanged(newContent)}
                                     onChange={contentFieldChanged}
                                 />
                                 {/* <Input 
