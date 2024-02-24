@@ -54,7 +54,7 @@ export default function ReviewComponent({ user_id, stars, short_review, review }
       </div>
 
       {/* Review */}
-      <div className="flex flex-col ml-4">
+      <div className="flex flex-col ml-4 break-words min-w-[880px]">
         {/* Star */}
         <div className="flex items-center">
           {[...Array(5)].map((_, index) => {
@@ -69,14 +69,13 @@ export default function ReviewComponent({ user_id, stars, short_review, review }
               />
             );
           })}
-          <div className="ml-2 text-gray-500 self-center">{stars}</div>
         </div>
 
         <div className="mt-2 overflow-y-auto max-w-[880px] my-4">
-          <div className="text-black font-semibold text-lg break-words">
+          <div className="text-black font-semibold text-lg">
             {short_review}
           </div>
-          <div className="text-black pt-2 break-words">{review}</div>
+          <div className="text-black pt-2 ">{review}</div>
         </div>
       </div>
     </main>
