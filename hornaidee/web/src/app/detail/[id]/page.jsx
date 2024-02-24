@@ -69,7 +69,7 @@ export default function DormDetails() {
   useEffect(() => {
     supabase.auth.getSession().then((result) => {
       setSession(result.data.session.user.id);
-      console.log(result.data.session.user.id);
+      // console.log(result.data.session.user.id);
       setUser_id(result.data.session.user.id);
     });
   }, []);
@@ -103,14 +103,14 @@ export default function DormDetails() {
 
   useEffect(() => {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setData(res.data);
-      console.log(res.data.owner);
+      // console.log(res.data.owner);
       setOwner_id(res.data.owner); // Update owner_id using setState
       axios
         .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${res.data.owner}`)
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           setUser(res.data);
           setIsLoading(false);
         });
@@ -119,7 +119,7 @@ export default function DormDetails() {
 
   useEffect(() => {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}/reviews`).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setRate(res.data);
     });
   }, []);
