@@ -5,7 +5,7 @@ import img1 from '../../src/Assets/person-circle-outline.svg'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import { AuthContext } from '../App';
-import { REACT_APP_BASE_API_URL } from '../config'
+import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config'
 
 function Blogger() {
   const [data, setData] = useState([]);

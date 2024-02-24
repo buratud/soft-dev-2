@@ -30,7 +30,7 @@ function Reccommend() {
   return (
     <div className="content">
       <div className="main_content">
-        {limitedData.map(({ id_post: id, title, category, user: { username }, cover_img }, index) => {
+        {limitedData.map(({ id_post: blog_id, title, category, user: { username }, cover_img }, index) => {
           return (
             <div className="singleDest" key={index}>
               <div className="dastImage">
@@ -39,7 +39,7 @@ function Reccommend() {
               <div className="destFooter">
                 <div className="destText">
                   <h4>
-                    <Link to={`/${category}/${id}`}>{title}</Link>
+                    <Link to={`/${category}/${blog_id}`}>{title}</Link>
                   </h4>
                 </div>
               </div>

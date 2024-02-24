@@ -9,7 +9,7 @@ import {BiSolidPencil} from "react-icons/bi";
 import img1 from '../../src/Assets/person-circle-outline.svg'
 import "./SlidePost.scoped.css"
 import axios from "axios";
-import { REACT_APP_BASE_API_URL } from '../config'
+import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config'
 
 function SlidePost() {
   const [data, setData] = useState([]);
@@ -38,7 +38,7 @@ function SlidePost() {
     <div>
       <Slider {...settings}>
         {
-          data.map(({ user: { username, id }, image: { picture } },index) => {
+          data.map(({ user: { username }, image: { picture } },index) => {
             return (
               <Link href={`${REACT_APP_MAIN_URL}/profile/${username}`} >
                 <div className="box" >
