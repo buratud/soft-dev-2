@@ -24,12 +24,7 @@ const Navbar = () => {
     //เรียกใช้ isLoggedIn เพื่อตรวจสอบสถานะการเข้าสู่ระบบ
     const checkLoginStatus = async () => {
       try {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) {
-          console.log(error);
-        }
-        const user = data?.session?.user;
-        console.log(user);
+        const user = session.user;
 
         if (user) {
           axios.post(`${REACT_APP_MAIN_API_URL}/profile-picture`,
@@ -37,13 +32,11 @@ const Navbar = () => {
               userID: user.id
             }).then(res => {
               const { picture } = res.data;
-              console.log(res);
               setProfileImage(picture);
               setIsUserLoggedIn(true);
             });
         }
         else {
-          console.log('Test False ??')
           setIsUserLoggedIn(false);
         }
       } catch (error) {
