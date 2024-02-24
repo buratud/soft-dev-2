@@ -1,538 +1,307 @@
-const express = require("express");
-const app = express();
-const mysql = require("mysql");
-const cors = require("cors");
-var jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
-const { Server } = require('socket.io');
-const http = require("http");
-const { BASE_SERVER_PATH, JWT_KEY, MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, PORT, WEB_URL } = require("./config");
+const express = require('express');
+const jsonwebtoken = require('jsonwebtoken');
+const bodyParser = require('body-parser')
+const { createClient } = require('@supabase/supabase-js');
+const { z } = require('zod');
+const { CreateDormRequest, CreateReviewRequest, PutReviewRequest } = require('./type');
+
+const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET, LOG_LEVEL } = require('./config');
+const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage } = require('./util');
+const { log } = require('console');
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const logger = require('pino')({ level: LOG_LEVEL || 'info' });
+const cors = require('cors');
+
+const app = express.Router();
+
 app.use(cors());
-app.use(express.json());
-const api = express.Router();
-app.use(BASE_SERVER_PATH, api);
-const db = mysql.createConnection({
-  user: MYSQL_USER,
-  host: MYSQL_HOST,
-  password: MYSQL_PASSWORD,
-  database: MYSQL_DATABASE,
-  multipleStatements: true,
+
+app.use(bodyParser.json({ limit: '50mb' }))
+
+app.get('/users/:id', async (req, res) => {
+    try {
+        const { data: user, error } = await supabase.from('users').select().eq('id', req.params.id);
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        if (user.length === 0) {
+            res.status(404).send();
+            return;
+        }
+        res.json(user[0]);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
 });
 
+app.get('/dorms/:id', async (req, res) => {
+    try {
+        const { data: dorm, error } = await supabase.schema('dorms').from('dorms').select().eq('id', req.params.id).single();
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        if (dorm.length === 0) {
+            res.status(404).send();
+            return;
+        }
+        const { data: facilities, error: facilitiesError } = await supabase.schema('dorms').from('dorms_facilities').select('facility_id, facilities(name)').eq('dorm_id', dorm.id);
+        if (facilitiesError) {
+            logger.error(facilitiesError);
+            res.status(500).send();
+            return;
+        }
+        const { data: photos, error: photosError } = await supabase.schema('dorms').from('photos').select('photo_url').eq('dorm_id', dorm.id);
+        if (photosError) {
+            logger.error(photosError);
+            res.status(500).send();
+            return;
+        }
+        dorm.facilities = facilities.map(f => ({ id: f.facility_id, name: f.facilities.name }));
+        dorm.photos = photos.map(p => p.photo_url);
+        res.json(dorm);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
 
-// app.listen(3001, () => {
-//   console.log("Yey, your server is running on port 3001");
-// });
+app.get('/dorms/:id/reviews', async (req, res) => {
+    try {
+        const { data: reviews, error: reviewsError } = await supabase.schema('dorms').from('reviews').select('user_id, stars, short_review, review').eq('dorm_id', req.params.id);
+        if (reviewsError) {
+            logger.error(reviewsError);
+            res.status(500).send();
+            return;
+        }
+        const { data: avg, error: avgError } = await supabase.schema('dorms').from('average_stars').select('*').eq('dorm_id', req.params.id);
+        if (avgError) {
+            logger.error(avgError);
+            res.status(500).send();
+            return;
+        }
+        let average = null;
+        if (avg.length === 1) {
+            average = avg[0].average;
+        }
+        res.json({ reviews, average });
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
 
-const server = http.createServer(app);
-
-//socket
-const io = new Server(server, {
-  cors: {
-    origin: WEB_URL,
-    methods: ["GET", "POST"],
-  }
-})
-io.on("disconnection", (socket) => { console.log("disconnect") })
-
-io.on('connection', (socket) => {
-  console.log('a user connected');
-
-  socket.on("join_ticket", (data) => {
-    console.log(data)
-    socket.join("ticket" + data)
-  });
-
-  socket.on("join_chanel", (data) => {
-    socket.join(data)
-  });
-
-  socket.on("send message", (data) => {
-    console.log(data);
-    db.query(
-      "INSERT INTO chat (chanel_id, sender_id, receiver_id, message_text) VALUES(?,?,?,?)",
-      [data.chanel, data.sender_id, data.receiver_id, data.message],
-      (err, result) => {
+app.use((req, res, next) => {
+    const { authorization } = req.headers;
+    const token = authorization?.split(' ')[1];
+    jsonwebtoken.verify(token, SUPABASE_JWT_SECRET, (err, decoded) => {
         if (err) {
-          console.log(err);
+            logger.error(err);
+            res.status(401).send({ message: 'Unauthorized' });
         } else {
-          db.query(
-            `SELECT chat.*,sender.user_name as sender,receiver.user_name as receiver FROM chat
-            join user_data as sender on chat.sender_id = sender.id
-            join user_data as receiver on chat.receiver_id = receiver.id
-            WHERE chanel_id = ?
-            ORDER BY time ASC;
-          `,
-            [data.chanel],
-            (err, result) => {
-              if (err) {
-                console.log(err);
-              } else {
-                socket.to(data.chanel).emit("receive_message", result)
-                console.log(data.chanel)
-              }
-            }
-          );
+            req.user = decoded;
+            next();
         }
-      }
-    );
-
-  })
-
-  socket.on("send ticket message", (data) => {
-    db.query(
-      "INSERT INTO ticket_message (ticket_id, sender_id, receiver_id, message_text) VALUES(?,?,?,?)",
-      [data.ticket_id, data.sender_id, data.receiver_id, data.message],
-      (err, result) => {
-        if (err) {
-          console.log(err);
-        } else {
-          db.query(
-            `SELECT ticket_message.*,sender.user_name as sender,receiver.user_name as receiver FROM ticket_message
-            join user_data as sender on ticket_message.sender_id = sender.id
-            join user_data as receiver on ticket_message.receiver_id = receiver.id
-              WHERE ticket_id = ?
-              ORDER BY time ASC;`,
-            [data.ticket_id],
-            (err, result) => {
-              console.log(result)
-              if (typeof result == "undefined") {
-                socket.to("ticket" + data.ticket_id).emit("receive message ticket", "")
-              } else {
-                socket.to("ticket" + data.ticket_id).emit("receive message ticket", result)
-              }
-            }
-          );
-        }
-      }
-    );
-  })
-
-});
-
-//server
-server.listen(PORT, () => {
-  console.log(`Yey, your server is running on port ${PORT}`);
-});
-
-// App (get)
-api.get("/", (req, res) => {
-  db.query("SELECT* FROM dorm_detail", (err, result) => {
-    res.send(result);
-  });
-});
-
-//filter(get)
-api.get("/filter", (req, res) => {
-  console.log(req.query)
-  db.query(`SELECT * FROM dorm_detail 
-  WHERE min_price >= ? and max_price <= ?
-  and  distance >= ? and distance <= ?;`,
-    [req.query.minPrice, req.query.maxPrice, req.query.minDistance, req.query.maxDistance],
-    (err, result) => {
-      if (err) {
-        console.log(err)
-      } else {
-        res.send(result);
-      }
-    })
-})
-
-// Dorm Detail (get)
-api.get("/detail/:dormID", (req, res) => {
-  db.query(
-    `SELECT* FROM dorm_detail
-            JOIN facility ON dorm_detail.dorm_id = facility.dorm_id
-            JOIN safety ON dorm_detail.dorm_id = safety.dorm_id
-            WHERE dorm_detail.dorm_id = ?`,
-    [req.params.dormID],
-    (err, result) => {
-      if (typeof result[0] == "undefined") {
-        res.status(404).send();
-      } else {
-        res.send(result[0]);
-      }
-    }
-  );
-});
-
-//review (get)
-api.get("/review/:dormID", (req, res) => {
-  db.query(`
-  SELECT review.*,writer.user_name as writer FROM review 
-join user_data as writer on review.writer_id = writer.id
-WHERE  dorm_id = ?;
-  `,
-    [req.params.dormID],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  )
-})
-
-//review (post)
-api.post("/write_review", (req, res) => {
-  const dorm_id = req.body.dorm_id
-  const writer_id = req.body.writer_id
-  const star = req.body.star
-  const comment = req.body.comment
-  db.query("INSERT INTO review (dorm_id,writer_id,star,comment) VALUES(?,?,?,?)",
-    [dorm_id, writer_id, star, comment],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    })
-})
-
-// Chat (get chat data)
-api.get("/chat/:chanel", (req, res) => {
-  db.query(
-    `SELECT chat.*,sender.user_name as sender,receiver.user_name as receiver FROM chat
-    join user_data as sender on chat.sender_id = sender.id
-    join user_data as receiver on chat.receiver_id = receiver.id
-    WHERE chanel_id = ?
-    ORDER BY time ASC;
-  `,
-    [req.params.chanel],
-    (err, result) => {
-      if (typeof result == "undefined") {
-        res.status(404).send();
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
-
-
-
-// Chat (get person)
-api.get("/person/:user", (req, res) => {
-  db.query(
-    `SELECT chanel.*,user1.user_name as user1,user2.user_name as user2,user1.profile as profile1 ,user2.profile as profile2 FROM chanel
-    JOIN user_data AS user1 ON chanel.member1 = user1.id
-    JOIN user_data AS user2 ON chanel.member2 = user2.id
-    WHERE chanel.member1 = ? OR chanel.member2 = ?;`,
-    [[req.params.user], [req.params.user]],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    }
-  );
-});
-
-// Chat (post send message)
-api.post("/send_message", (req, res) => {
-  console.log(req.body)
-  chanel = req.body.chanel
-  sender = req.body.sender_id
-  receiver = req.body.receiver_id
-  message = req.body.message
-  db.query(
-    "INSERT INTO chat (chanel_id, sender_id, receiver_id, message_text) VALUES(?,?,?,?)",
-    [chanel, sender, receiver, message],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("add message success");
-        res.send(result);
-      }
-    }
-  );
-})
-
-
-//Register (post)
-api.post("/creat_user", (req, res) => {
-  const user_name = req.body.user_name;
-  const email = req.body.email;
-  const password = req.body.password;
-  const profile = req.body.profile;
-  const actor = "user";
-  console.log(req.body);
-  bcrypt.hash(password, saltRounds, function (err, hash) {
-    db.query(
-      "INSERT INTO user_data (user_name, email, password,profile,actor) VALUES(?,?,?,?,?)",
-      [user_name, email, hash, profile, actor],
-      (err, result) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("add user success");
-          res.send(result);
-        }
-      }
-    );
-  });
-});
-
-
-
-//login
-api.post("/login", (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  console.log(req.query);
-  db.query("SELECT * FROM user_data WHERE email=?;", [email], (err, user) => {
-    if (user[0] !== undefined) {
-      bcrypt.compare(password, user[0].password, function (err, result) {
-        if (result) {
-          var token = jwt.sign(
-            {
-              id: user[0].id,
-              username: user[0].user_name,
-              profile: user[0].profile,
-              actor: user[0].actor,
-            },
-            JWT_KEY,
-            {
-              expiresIn: "1h",
-            }
-          );
-          res.json({ token, user });
-        } else {
-          res.status(400).json({ status: "err2" });
-          console.log(err);
-        }
-      });
-    } else {
-      res.status(400).json({ status: "err" });
-      console.log(err);
-    }
-  });
-});
-
-//auten
-api.post("/auten", (req, res) => {
-  const token = req.headers.authorization.split(" ")[1];
-  try {
-    const decoded = jwt.verify(token, JWT_KEY);
-    res.json({ decoded, status: "ok" });
-  } catch (err) {
-    res.status(400).json({ status: "err", token });
-    console.log(err);
-  }
-});
-
-//Manage (post) 
-api.put("/update", (req, res) => {
-  _ = req.body.dorm.dorm_id;
-  dorm_name = req.body.dorm.dorm_name;
-  min = req.body.dorm.min_price;
-  max = req.body.dorm.max_price;
-  distance = req.body.dorm.distance;
-  url = req.body.dorm.url;
-  wifi = req.body.dorm.wifi;
-  address = req.body.dorm.address;
-  moreinfo = req.body.dorm.more_info;
-  size = req.body.dorm.size;
-  heater = req.body.dorm.water_heater;
-  tv = req.body.dorm.TV;
-  air = req.body.dorm.air;
-  fridge = req.body.dorm.fridge;
-  bike = req.body.dorm.bike;
-  car = req.body.dorm.car;
-  fitness = req.body.dorm.fitness;
-  washer = req.body.dorm.washer;
-  pool = req.body.dorm.pool;
-  key = req.body.dorm.dorm_key;
-  key_card = req.body.dorm.key_card;
-  camera = req.body.dorm.camera;
-  guard = req.body.dorm.guard;
-  finger_print = req.body.dorm.finger_print;
-  db.query(
-    `
-  UPDATE dorm_detail
-  SET dorm_name = ?,min_price = ?,max_price = ?,distance = ?,url = ?,wifi = ?,address = ?,more_info = ?,size = ?
-  WHERE dorm_id = ?;
-
-  UPDATE facility
-  SET water_heater =?, TV =?, air =?, fridge =?, bike =?, car =?, fitness =?, washer =?, pool =?
-  WHERE dorm_id = ?;
-
-  UPDATE safety
-  SET dorm_key = ?,key_card = ?,camera = ?,guard = ?,finger_print = ?
-  WHERE dorm_id = ?;
-  `,
-    [
-      dorm_name, min, max, distance, url, wifi, address, moreinfo, size, id,
-      heater, tv, air, fridge, bike, car, fitness, washer, pool, id,
-      key, key_card, camera, guard, finger_print, id,
-    ],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("add user success");
-        res.send(result);
-      }
-    }
-  );
-});
-
-//Delete dorm(delete)
-api.delete("/delete/:id", (req, res) => {
-  console.log(typeof req.params.id)
-  const id = req.params.id;
-  db.query(`
-  DELETE FROM dorm_detail
-  WHERE dorm_id = ?;
-
-  DELETE FROM facility
-  WHERE dorm_id = ?;
-
-  DELETE FROM safety
-  WHERE dorm_id = ?;
-  `, [id, id, id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("delet dorm success");
-        res.send(result);
-      }
     });
 })
 
-
-
-
-//Help  ticket(get)
-api.get("/ticket", (req, res) => {
-  const user_id = req.query.user_id
-  console.log("user_id", typeof user_id)
-  var filter = "WHERE user_id = " + user_id + ";"
-  if (user_id === "0") {
-    filter = ";"
-  }
-  console.log("filter", filter)
-  db.query("SELECT * FROM ticket " + filter, (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-      console.log(result);
-    }
-  });
-});
-//Help message(get)
-api.get("/ticketMessage", (req, res) => {
-  console.log(req.query)
-  db.query(
-    `SELECT ticket_message.*,sender.user_name as sender,receiver.user_name as receiver FROM ticket_message
-    join user_data as sender on ticket_message.sender_id = sender.id
-    join user_data as receiver on ticket_message.receiver_id = receiver.id
-      WHERE ticket_id = ?
-      ORDER BY time ASC;
-  `,
-    [req.query.ticket_id, req.query.user_id, req.query.user_id],
-    (err, result) => {
-      if (typeof result == "undefined") {
-        res.send("");
-      } else {
-        console.log(result)
-        res.send(result);
-      }
-    }
-  );
-});
-
-//Help (update status)
-api.put("/update_ticket_status", (req, res) => {
-  console.log(req.body)
-  new_status = req.body.new_status
-  ticket_id = req.body.ticket_id
-  db.query(`UPDATE ticket
-  SET status = ?
-  WHERE ticket_id = ?;`, [new_status, ticket_id],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    })
-});
-
-api.post("/example", (req, res) => {
-  console.log(req.body)
-})
-
-api.get("/get_chanel", (req, res) => {
-  const person1 = req.query.user1
-  const person2 = req.query.user2
-  console.log("get chanel")
-  db.query(`SELECT * FROM hornai_d.chanel 
-  where (member1 = ? or member2 = ?)
-  and (member1 = ? or member2 = ?);
-  `, [person1, person1, person2, person2],
-    (err, result) => {
-      if (result[0] === undefined) {
-        console.log("dont have")
-        db.query("INSERT INTO chanel (member1,member2) VALUE(?,?)", [person1, person2])
-        db.query(`SELECT * FROM hornai_d.chanel 
-      where (member1 = ? or member2 = ?)
-      and (member1 = ? or member2 = ?);
-      `, [person1, person1, person2, person2],
-          (err, result) => {
-            if (err) {
-              console.log(err);
-            } else {
-              res.send(result[0]);
+app.post('/dorms', async (req, res) => {
+    try {
+        req.body.owner = req.user.sub;
+        const data = CreateDormRequest.parse(req.body);
+        const { facilities, photos, ...dormData } = data;
+        const { data: result, error } = await supabase.schema('dorms').from('dorms').insert(dormData).select('id');
+        logger.debug(result);
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        for (const facility of facilities) {
+            const { error } = await supabase.schema('dorms').from('dorms_facilities').insert({
+                dorm_id: result[0].id,
+                facility_id: facility
+            });
+            if (error) {
+                logger.error(error);
+                res.status(500).send();
+                return;
             }
-          })
-      } else {
-        console.log("have")
-        res.send(result[0]);
-      }
-    })
-})
+        }
+        for (let i = 0; i < photos.length; i++) {
+            const photo = photos[i];
+            const base64 = getRawBase64(photo);
+            const decodedData = Buffer.from(base64, 'base64');
+            const mimeType = getMimeTypeFromBase64(photo);
+            const fileExtension = getFileExtensionFromMimeType(mimeType);
+            if (!isImage(mimeType)) {
+                res.status(400).send({ message: 'Only images are allowed' });
+                return;
+            }
+            const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms').upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, {
+                contentType: mimeType
+            });
+            if (uploadError) {
+                logger.error(uploadError);
+                res.status(500).send();
+                return;
+            }
+            const { data: pictureMetadata } = supabase.storage.from('dorms').getPublicUrl(uploadData.path);
+            const { error: insertError } = await supabase.schema('dorms').from('photos').insert({
+                dorm_id: result[0].id,
+                photo_url: pictureMetadata.publicUrl
+            })
+            if (insertError) {
+                logger.error(insertError);
+                res.status(500).send();
+                return;
+            }
+        }
+        res.status(201).json(result[0]);
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            logger.debug(error.errors);
+            res.status(400).json(error.errors);
+            return;
+        }
+        logger.error(error);
+        res.status(500).send();
+    }
+});
 
-api.get("/profile", (req, res) => {
-  db.query("SELECT * FROM hornai_d.user_data WHERE id = ?;",
-    [req.query.user_id], (err, result) => {
-      if (err) {
-        res.send("unknow");
-      } else {
-        res.send(result)
-      }
-    })
-})
+app.get('/dorms/:id/review', async (req, res) => {
+    try {
+        const { data: review, error } = await supabase.schema('dorms').from('reviews').select('user_id, stars, short_review, review').eq('dorm_id', req.params.id).eq('user_id', req.user.sub);
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        if (review.length === 0) {
+            res.status(404).send();
+            return;
+        }
+        res.json(review[0]);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
 
-//creat ticket
-api.post("/creat_ticket", (req, res) => {
-  const subject = req.body.subject
-  const message = req.body.message
-  const user_id = req.body.user_id
-  db.query("INSERT INTO ticket (user_id,subject,status) VALUE(?,?,?);",
-    [user_id, subject, "on hold"], (err, result) => {
-      db.query("INSERT INTO ticket_message (ticket_id, sender_id, receiver_id, message_text) value(?,?,?,?);",
-        [result.insertId, user_id, 0, message])
-    });
-})
+app.post('/dorms/:id/review', async (req, res) => {
+    try {
+        const data = CreateReviewRequest.parse(req.body);
+        const { status, error } = await supabase.schema('dorms').from('reviews').insert({
+            user_id: req.user.sub,
+            dorm_id: req.params.id,
+            stars: data.stars,
+            short_review: data.short_review,
+            review: data.review
+        });
+        if (status === 409) {
+            res.status(409).send();
+            return;
+        }
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        res.status(201).send();
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            logger.debug(error.errors);
+            res.status(400).json(error.errors);
+            return;
+        }
+        logger.error(error);
+        res.status(500).send();
+    }
+});
 
-api.get("/dorm_id", (req, res) => {
-  db.query(`SELECT dorm_id FROM user_data
-  JOIN dorm_detail ON user_data.user_name = dorm_detail.dorm_name
-  WHERE user_name = ?;`
-    , [req.query.username], (err, result) => {
-      if (err) {
-        console.log(err)
+app.put('/dorms/:id/review', async (req, res) => {
+    try {
+        const data = PutReviewRequest.parse(req.body);
+        if (!data.review) {
+            data.review = null;
+        }
+        const { data: result, error } = await supabase.schema('dorms').from('reviews')
+            .update(data)
+            .eq('dorm_id', req.params.id)
+            .eq('user_id', req.user.sub).select('user_id');
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        if (result.length === 0) {
+            res.status(404).send();
+            return;
+        }
+        res.status(200).send();
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            logger.debug(error.errors);
+            res.status(400).json(error.errors);
+            return;
+        }
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.delete('/dorms/:id/review', async (req, res) => {
+    try {
+        const { error } = await supabase.schema('dorms').from('reviews').delete().eq('user_id', req.user.sub).eq('dorm_id', req.params.id);
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        res.status(204).send();
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+//-----------------------------Blogger-----------------------------------
+
+app.post('/blogger_list', async (req, res) => {
+    try {
+      const { data, error } = await supabase
+        .from('blogger')
+        .select('*')
+      if (error) {
+        throw error;
       } else {
-        console.log(result)
-        res.send(result)
+        res.status(200).json(data);
       }
-    })
-})
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  })
+  
+  // api.post('/search_blogger', async (req, res) => {
+  //   try {
+  //     const { data, error } = await supabase
+  //       .from('blog.blog')
+  //       .select('users(id)')
+  //     if (error) {
+  //       console.log(error)
+  //       throw error;
+  //     } else {
+  //       res.status(200).json(data);
+  //     }
+  //   } catch (err) {
+  //     console.log(err)
+  //     res.status(500).json({ error: 'Internal Server Error' });
+  //   }
+  // })
+
+module.exports = app;

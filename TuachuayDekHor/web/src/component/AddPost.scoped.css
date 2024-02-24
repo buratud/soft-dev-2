@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
 *{
     margin:0;
     padding: 0;
@@ -11,7 +12,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    font-family: 'Poppins';
+    font-family: 'Poppins',sans-serif;
 }
 
 
@@ -34,7 +35,7 @@
 }
 
 .img_cover Input{
-    padding: 0.2rem;
+    padding: 0.35rem;
     width: 100%;
 }
 
@@ -51,22 +52,65 @@
 
 .title__head Input{
     font-size: 1rem;
-    padding: 0.2rem;
+    padding: 0.5rem;
     border: 0.2px solid rgba(0, 0, 0, 0.151);
-    border-radius: 5px;
+    border-radius: 1rem;
     width: 100%;
 }
 
-.Catagory{
+.Catagory {
     width: 50%;
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.Catagory Label{
+.Catagory Label {
     width: 100%;
-    text-align: left;
     padding-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #333; 
+    font-weight: 600;
 }
+
+.Catagory .rounded-2 {
+    width: 100%; 
+    padding: 0.5rem 1rem; 
+    border: 1px solid #ccc; 
+    border-radius: 0.5rem; 
+    font-size: 1rem; 
+    color: #333; 
+    background-color: #fff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    appearance: none; 
+    cursor: pointer;
+}
+
+/* Hide the default arrow in Internet Explorer (เผื่อมีคนยังใช้) */
+.Catagory select::-ms-expand {
+    display: none;
+}
+
+.Catagory select {
+    /* Removes default styling for WebKit browsers */
+    -webkit-appearance: none;
+    /* Removes default styling for Mozilla browsers */
+    -moz-appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+}
+
+.Catagory select:focus {
+    border-color: #0066ff; 
+    outline: none; 
+}
+
+.Catagory select:hover {
+    background-color: #f8f8f8;
+}
+
 
 .choose{
     width: 50%;
@@ -96,53 +140,100 @@
     text-align: left;
     padding-bottom: 1rem;
 }
-
-.Post-btn{
+/* ปุ่มสุดอลังการ T_T */
+.Post-btn,
+.Cancel {
     width: max-content;
     margin: 1em;
-    padding: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 0.8rem 1.1rem;
     position: relative;
     cursor: pointer;
-    background-color: #D9C029;
-    color: #000;
-    font-size: 16px;
+    color: #fff;
+    font-size: 18px;
     text-align: center;
     border: none;
-    border-radius: 10px;
+    border-radius: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    outline: none;
+    overflow: hidden;
+    z-index: 1;
 }
 
-.Post-btn:hover{
-    background-color: #d7b90e;
+.Post-btn::before,
+.Cancel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    transition: all 0.4s ease;
+    z-index: 0;
+    transform: skewX(-20deg);
 }
 
-.Cancel{
-    width: max-content;
-    margin: 1em;
-    padding: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    position: relative;
-    cursor: pointer;
+.Post-btn:hover::before,
+.Cancel:hover::before {
+    left: 100%;
+}
+
+.Post-btn {
     background-color: #D9C029;
-    color: #000;
-    font-size: 16px;
-    text-align: center;
-    border: none;
-    border-radius: 10px;
 }
 
-.Cancel:hover{
+.Post-btn:hover,
+.Post-btn:focus {
     background-color: #D9C029;
-    color: rgba(227, 61, 61, 0.861);
+    box-shadow: 0px 5px 15px rgba(217, 192, 41, 0.4);
+    transform: scale(1.05);
 }
 
-.button__Blog{
+.Cancel {
+    background-color: rgba(227, 61, 61, 0.861);
+}
+
+.Cancel:hover,
+.Cancel:focus {
+    background-color: rgba(227, 61, 61, 0.861);
+    box-shadow: 0px 5px 15px rgba(227, 61, 61, 0.4);
+    transform: scale(1.05);
+}
+
+.button__Blog {
     align-items: flex-end;
     display: flex;
     justify-content: center;
 }
+
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(10);
+        opacity: 0;
+    }
+}
+
+.Post-btn:active::after,
+.Cancel:active::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    padding: 50%;
+    width: 20px;
+    height: 20px;
+    animation: ripple 0.6s linear;
+}
+
+
 
 .img_cover{
     width: 50%;
@@ -153,8 +244,37 @@
 h1{
     font-family: 'Galindo';
     font-size: 4rem;
-    margin-left: 1rem;
-    padding-top: 1rem;
+    margin-left: 1.5rem;
+    padding-top: 2rem;
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
 }
+
+.image-preview {
+    max-width: 100%; 
+    max-height: 300px; 
+    object-fit: cover;
+    margin-top: 1rem;
+    border: none;
+    border-radius: 1rem; 
+  }
+
+.image-loading {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #000;
+    padding-left: 0.2rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+

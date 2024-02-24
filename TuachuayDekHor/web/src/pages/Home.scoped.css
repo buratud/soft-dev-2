@@ -10,18 +10,18 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins',sans-serif;
+    
 }
 
-header{
+/* header{
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background: #3D39BD;
     display: flex;
     align-items: center;
     z-index: 99;
-} 
+}  */   
 
 main{
     width: 100%;
@@ -30,7 +30,6 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 2rem;
     background: linear-gradient(#35477dde,#546baf65),url(../../src/Assets/S__37699588.jpg);
     background-position: center;
     background-repeat: no-repeat;
