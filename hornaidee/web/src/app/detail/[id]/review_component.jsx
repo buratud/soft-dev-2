@@ -50,11 +50,11 @@ export default function ReviewComponent({ user_id, stars, short_review, review }
             />
           )}
         </div>
-        <div className="font-bold px-4 w-60">{user.username}</div>
+        <div className="font-bold px-4 w-60 text-2xl">{user.username}</div>
       </div>
 
       {/* Review */}
-      <div className="flex flex-col ml-4 break-words min-w-[880px]">
+      <div className="flex flex-col ml-4 pt-6 break-words min-w-[880px]">
         {/* Star */}
         <div className="flex items-center">
           {[...Array(5)].map((_, index) => {
@@ -65,17 +65,17 @@ export default function ReviewComponent({ user_id, stars, short_review, review }
                 className={
                   ratingValue <= stars ? "text-[#E5C000]" : "text-gray-300"
                 }
-                size={20}
+                size={32}
               />
             );
           })}
         </div>
 
         <div className="mt-2 overflow-y-auto max-w-[880px] my-4">
-          <div className="text-black font-semibold text-lg">
+          <div className="text-black font-semibold text-2xl">
             {short_review}
           </div>
-          <div className="text-black pt-2 ">{review}</div>
+          <div className="text-black pt-2 text-xl">{review}</div>
         </div>
       </div>
     </main>

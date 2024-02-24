@@ -258,11 +258,11 @@ export default function DormDetails() {
       {/* Reviews Component */}
       <div className="reviewsbox">
         <div className="flex justify-between">
-          <h3>All Reviews</h3>
+          <h3 className="font-semibold">All Reviews</h3>
           {/* Add review button */}
           <div>
               <button
-                className="bg-[#092F88] hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-[15px] mt-2 mb-2 transition-all"
+                className="bg-[#092F88] hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-[15px] text-xl mt-2 mb-2 transition-all"
                 onClick={() => {
                   router.push(`/review/${params.id}`);
                 }}
@@ -272,6 +272,9 @@ export default function DormDetails() {
             </div>
           </div>
         <div>
+        {rate.reviews.length === 0 && (
+          <p className="text-center font-medium text-xl pt-6">No reviews yet</p>
+        )}
         {!isLoading && rate.reviews.map((review, index) => (
           <ReviewComponent
             key={index}
