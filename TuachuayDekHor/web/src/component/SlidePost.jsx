@@ -40,13 +40,13 @@ function SlidePost() {
         {
           data.map(({ user: { username }, image: { picture } },index) => {
             return (
-              <Link href={`${REACT_APP_MAIN_URL}/profile/${username}`} >
+              <Link to={`${REACT_APP_MAIN_URL}/profile/${username}`} >
                 <div className="box" >
                   <div className="singleDest" key = {index}>
                     <img src={picture??img1} alt=""/>
                   </div>
                   <div className="userwrite">
-                    <Link href={`${REACT_APP_MAIN_URL}/profile/${username}`}>{username}</Link>
+                    <Link to={`${REACT_APP_MAIN_URL}/profile/${username}`}>{username}</Link>
                   </div>
                 </div>
               </Link>

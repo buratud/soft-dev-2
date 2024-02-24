@@ -30,7 +30,7 @@ function Reccommend() {
   return (
     <div className="content">
       <div className="main_content">
-        {limitedData.map(({ id_post: blog_id, title, category, user: { username }, cover_img }, index) => {
+        {limitedData.map(({ blog_id, title, category, user: { username }, cover_img }, index) => {
           return (
             <div className="singleDest" key={index}>
               <div className="dastImage">
