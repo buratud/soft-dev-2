@@ -90,16 +90,18 @@ api.post("/edit_profile", async (req, res) => {
 })
 
 //createpost
-api.post("/creatpost", async (req, res) => {
-    const { title, content, category, email, id, image_title, image_link } = req.body;
-    const { data, error } = await supabase.from("Create_Post").insert({ title: title, content: content, category: category, email: email, id: id, image_title: image_title, image_link: image_link })
-    if (error) {
-        res.status(500).json(error);
+api.post("/createpost", async (req, res) => {
+    const { title, category , image_link , user_id , content} = req.body;
+    const {data} = await supabase.from("blog_category").select("id").eq("category", category);
+    if(data){
+        const { error } = await supabase.from("blog").insert({ title: title, category: data[0].id, body: content, cover_img: image_link, blogger : user_id })
+        if (error) {
+            res.status(500).json(error);
+        }
+        else {
+            res.status(200).json({message : 'Create Post Success' , notError : true});
+        }
     }
-    else {
-        res.status(200).json(data);
-    }
-
 })
 
 //delete
