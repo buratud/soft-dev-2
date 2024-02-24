@@ -193,7 +193,7 @@ function AddPost() {
                                     onChange={fieldChanged}
                                     defaultValue={0}
                                 >
-                                    <option disabled value={0}>--Select category--</option>
+                                    <option disabled value={0}>-- Select category --</option>
                                     <option>
                                         decoration
                                     </option>

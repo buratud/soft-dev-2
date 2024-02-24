@@ -35,7 +35,7 @@
 }
 
 .img_cover Input{
-    padding: 0.2rem;
+    padding: 0.35rem;
     width: 100%;
 }
 
@@ -52,7 +52,7 @@
 
 .title__head Input{
     font-size: 1rem;
-    padding: 0.2rem;
+    padding: 0.5rem;
     border: 0.2px solid rgba(0, 0, 0, 0.151);
     border-radius: 1rem;
     width: 100%;
@@ -99,7 +99,7 @@
     -moz-appearance: none;
     background-repeat: no-repeat;
     background-position: right 1rem center;
-    background-size: 1.5rem;
+    background-size: 1rem;
 }
 
 .Catagory select:focus {
@@ -145,7 +145,7 @@
 .Cancel {
     width: max-content;
     margin: 1em;
-    padding: 0.7rem 1rem;
+    padding: 0.8rem 1.1rem;
     position: relative;
     cursor: pointer;
     color: #fff;
