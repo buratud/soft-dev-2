@@ -4,6 +4,7 @@
 }
 .main {
     display: flex;
+    /* This is the first edit */
     width: 100%;
     top: 0;
     left: 0;
@@ -27,7 +28,6 @@
 }
 
 .middle {
-    margin-left: 5vw;
     width: 30vw;
     display: flex;
     justify-content: space-between;
