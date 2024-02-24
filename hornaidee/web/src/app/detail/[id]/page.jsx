@@ -23,6 +23,7 @@ import { IoLogoNoSmoking, IoIosFitness } from "react-icons/io";
 import "./style.css";
 import "./overlay.css";
 import Footer from "../../footer";
+import ReviewComponent from "./review_component";
 
 import {
   NEXT_PUBLIC_SUPABASE_URL,
@@ -250,6 +251,25 @@ export default function DormDetails() {
           </div>
         </div>
       </div>
+      
+      {/* Reviews Component */}
+      <div className="reviewsbox">
+        <h3>Reviews</h3>
+        <div>
+        {!isLoading && rate.reviews.map((review, index) => (
+          <ReviewComponent
+            key={index}
+            user_id={review.user_id}
+            stars={review.stars}
+            short_review={review.short_review}
+            review={review.review}
+            className=''
+          />
+        ))}
+        </div>
+      </div>
+
+
       <Footer />
       {showOverlay && <Overlay />}
     </div>
