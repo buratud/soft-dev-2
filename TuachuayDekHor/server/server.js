@@ -208,6 +208,8 @@ api.post("/preview-blog", async (req, res) => {
             .order('date', { ascending: true })
             .limit(amount);
 
+        
+
         for (let post of data) {
             const { data: userData, error: userError } = await supabase
                 .from('users')
@@ -215,11 +217,19 @@ api.post("/preview-blog", async (req, res) => {
                 .eq('id', post.blogger)
                 .single();
 
-            if (userError) {
-                throw userError;
+            const { data: categoryData, error: categoryError } = await supabase
+                .from('blog_category')
+                .select('category')
+                .eq('id', post.category)
+                .single();
+
+            if (userError || categoryError) {
+                console.log(userError);
+                console.log(categoryError);
             }
 
             post.user = userData; // Add user information to each blog post
+            post.category = categoryData?.category;
         }
 
         if (error) {
