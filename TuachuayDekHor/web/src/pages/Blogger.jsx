@@ -16,7 +16,7 @@ function Blogger() {
 
   // Back
   useEffect(() => {
-    axios.post(`${REACT_APP_BASE_API_URL}/blogger`)
+    axios.post(`${REACT_APP_BASE_API_URL}/bloggerlist`)
       .then(res => {
         console.log('blogger',res.data);
         setData(res.data);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import "./Search.scoped.css";
 import Navbar from '../component/Nav';
 import img1 from '../../src/Assets/slide1.png';
@@ -15,41 +15,48 @@ function Search() {
     const [searchResult, setSearchResult] = useState([]);
     const [noResults, setNoResults] = useState(false);
     const location = useLocation();
+    const prevSearchQuery = useRef("");
 
     useEffect(() => {
         axios.post(`${REACT_APP_BASE_API_URL}/search`, {
             query: searchQuery
         })
-            .then(res => {
-                setData(res.data);
+        .then(res => {
+            setData(res.data);
+            console.log('blog search',res.data)
+            if (searchQuery === prevSearchQuery.current) {
+                setSearchResult(res.data);
                 setNoResults(false);
-            })
-            .catch(err => {
-                alert(err);
-            });
-    }, [searchQuery]);
+            }
+        })
+        .catch(err => {
+            alert(err);
+        });
+    }, [searchQuery, prevSearchQuery]);
 
-    const handleSearch = (e) => {
-        e.preventDefault();
-        const results = data.filter(card =>
-            card.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            card.user.username.toLowerCase().includes(searchQuery.toLowerCase())
+    useEffect(() => {
+        const results = data.filter(card => 
+            card.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            card.users.username.toLowerCase().includes(searchQuery.toLowerCase())
         );
         setSearchResult(results);
         setNoResults(results.length === 0);
-    };
-
-    useEffect(() => {
-        setSearchResult(data);
-        setNoResults(false);
-    }, [data]);
+    }, [searchQuery, data]);
 
     return (
         <div className="search">
             <Navbar />
             <div className="mainSearch">
                 <div className='Search_Wrapper'>
-                    <form className='SearchBox' onSubmit={handleSearch}>
+                    <form className='SearchBox' onSubmit={(e) => {
+                        e.preventDefault();
+                        const results = data.filter(card => 
+                            card.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            card.users.username.toLowerCase().includes(searchQuery.toLowerCase())
+                        );
+                        setSearchResult(results);
+                        setNoResults(results.length === 0);
+                    }}>
                         <div className='Search_inside'>
                             <IoSearch size={25} className="icon_Search" type='submit' />
                             <input
@@ -65,16 +72,16 @@ function Search() {
                 </div>
 
                 <div className="AllBlogs">
-                    {noResults && <p className="noResults">No results found. Please try another search.</p>}
+                    {noResults && searchQuery !== '' && <p className="noResults">No results found. Please try another search.</p>}
                     <div className="grid-container">
                         {searchResult.map((card, index) => (
                             <Card
                                 key={index}
-                                img={card.image_link ?? img1}
+                                img={card.cover_img ?? img1}
                                 title={card.title}
-                                Blogger={card.user.username}
-                                Categories={card.category}
-                                id={card.id_post}
+                                Blogger={card.users.username}
+                                Categories={card.blog_category.category}
+                                id={card.blog_id}
                             />
                         ))}
                     </div>

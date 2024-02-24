@@ -15,12 +15,12 @@ const Card = (props) => {
                     <p>
                         {title}
                     </p>
-                    <span className="userwrite">
-                        <span className="name"><BiSolidPencil size={20} className="icon_pencil" />
-                            {Blogger}
-                        </span>
-                    </span>
                 </div>
+                <span className="userwrite">
+                    <span className="name"><BiSolidPencil size={20} className="icon_pencil" />
+                        {Blogger}
+                    </span>
+                </span>
             </div>
         </Link>
     )
