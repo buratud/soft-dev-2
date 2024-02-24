@@ -16,7 +16,7 @@ const Navbar = () => {
   const [profileImage, setProfileImage] = useState('');
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-  const { session } = useContext(AuthContext);
+  const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
 
   useEffect(() => {
     //console.log('session', session)
