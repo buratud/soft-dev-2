@@ -43,7 +43,7 @@ const BlogsCards = ({ params }) => {
 
                 if (user) {
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
-                        user: params,
+                        user: params.userID,
                         // params: params // ส่ง params ไปยัง API เพื่อให้เรียกข้อมูล Blogs ตาม params ที่ส่งมา
                     })
                         .then(res => {
@@ -154,8 +154,7 @@ const ProductCards = ({ params }) => {
 
                 if (user) {
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
-                        user: user,
-                        params: params
+                        user: params.userID,
                     })
                         .then(res => {
                             setyourproduct(res.data);
