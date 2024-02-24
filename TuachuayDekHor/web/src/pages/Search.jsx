@@ -58,14 +58,14 @@ function Search() {
                         setNoResults(results.length === 0);
                     }}>
                         <div className='Search_inside'>
-                            <IoSearch size={25} className="icon_Search" />
+                            <IoSearch size={25} className="icon_Search" type='submit' />
                             <input
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Search here..."
                                 className='inputSearch'
-                            /> 
+                            />
                         </div>
                         <button type='submit' className='SearchBox_btn'>Search</button>
                     </form>

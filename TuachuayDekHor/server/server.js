@@ -362,6 +362,24 @@ api.post("/blogger", async (req, res) => {
 
 });
 
+api.post("/bloggerlist", async (req, res) => {
+    try {
+        const { data, error } = await supabase
+        .rpc('get_blogger')
+    
+        if (error) {
+        console.error(error);
+        res.status(400).json(error);
+        } else {
+        const distinctBloggers = [...new Set(data.map(entry => entry))];
+        res.status(200).json(distinctBloggers);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 //search
 api.post("/search", async (req, res) => {
     // const {id} = req.query;
