@@ -10,12 +10,12 @@ import Fakedata from "../../data.js";
 import test_data_dorm from '../../test_data_dorm';
 import CardDorm from '../../../../components/CardDorm';
 import { FaCircle } from 'react-icons/fa';
-import { NEXT_PUBLIC_BASE_WEB_PATH,NEXT_PUBLIC_BASE_API_URL } from '../../../../config';
+import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_BASE_API_URL } from '../../../../config';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { General, supabase } from '../../../../session'
 
-const BlogsCards = () => {
+const BlogsCards = ({ params }) => {
 
     const [showLikes, setShowLikes] = useState(false);
     const [showYourBlogs, setShowYourBlogs] = useState(false);
@@ -28,11 +28,11 @@ const BlogsCards = () => {
         setShowYourBlogs(false);
     }, []);
 
-    
+
     const [Likes, setLikes] = useState([]);
     const [yourblog, setyourblog] = useState([]);
 
-    useState(()=>{
+    useState(() => {
         const checkLoginStatus = async () => {
             try {
                 const { data, error } = await supabase.auth.getSession();
@@ -43,27 +43,29 @@ const BlogsCards = () => {
 
                 if (user) {
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
-                        user: user,
+                        user: params,
+                        // params: params // ส่ง params ไปยัง API เพื่อให้เรียกข้อมูล Blogs ตาม params ที่ส่งมา
                     })
-                    .then(res => {
-                        setLikes(res.data)
-                        console.log('likes',res.data)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
+                        .then(res => {
+                            setLikes(res.data)
+                            console.log('likes', res.data)
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
 
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_blog`, {
-                        user: user,
+                        user: params,
+                        // params: params // ส่ง params ไปยัง API เพื่อให้เรียกข้อมูล Blogs ตาม params ที่ส่งมา
                     })
-                    .then(res => {
-                        setyourblog(res.data)
-                        console.log('your blog',res.data)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                    
+                        .then(res => {
+                            setyourblog(res.data)
+                            console.log('your blog', res.data)
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+
                 }
                 else {
                     setIsUserLoggedIn(false);
@@ -135,12 +137,13 @@ const BlogsCards = () => {
     )
 }
 
-const ProductCards = () => {
+const ProductCards = ({ params }) => {
 
     const { session } = useContext(General);
     const [yourproduct, setyourproduct] = useState([]);
+    const [isUserOwner, setIsUserOwner] = useState(false);
 
-    useState(()=>{
+    useEffect(() => {
         const checkLoginStatus = async () => {
             try {
                 const { data, error } = await supabase.auth.getSession();
@@ -152,17 +155,22 @@ const ProductCards = () => {
                 if (user) {
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
                         user: user,
+                        params: params
                     })
-                    .then(res => {
-                        setyourproduct(res.data)
-                        console.log('your product',res.data)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                }
-                else {
-                    setIsUserLoggedIn(false);
+                        .then(res => {
+                            setyourproduct(res.data);
+                            console.log('your product', res.data);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+
+                    // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
+                    if (user === params.userID) {
+                        setIsUserOwner(true);
+                    }
+                } else {
+                    setIsUserOwner(false);
                 }
             } catch (error) {
                 console.error('Error checking login status:', error);
@@ -172,10 +180,10 @@ const ProductCards = () => {
         checkLoginStatus();
     }, [session]);
 
+
     return (
         <div>
-            <div className={style.blogs_btn} >
-                {/* เหลือใส่ Link manage products link */}
+            {isUserOwner ? <div className={style.blogs_btn}>
                 <Link href={`/markets/manage`} style={{ textDecoration: 'none' }}>
                     <button className={style.yourblogs_btn}>
                         <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Products.svg`} alt="" className={style.img_likes} />
@@ -183,6 +191,9 @@ const ProductCards = () => {
                     </button>
                 </Link>
             </div>
+                :
+                " "
+            }
             {/* ดึงข้อมูล Product ของตัวเองตรงนี้*/}
             <card>
                 {yourproduct.map((card) => (
@@ -194,32 +205,31 @@ const ProductCards = () => {
     )
 }
 
-const DormCards = () =>{
+const DormCards = () => {
     const dorms = test_data_dorm.map((dorm, index) => (
         <CardDorm
             key={index}
-            img = {dorm.img}
-            dorm_name = {dorm.dorm_name}
-            price = {dorm.price}
-            id = {dorm.id}
-            facilities = {dorm.facilities}
-            star = {dorm.star}
+            img={dorm.img}
+            dorm_name={dorm.dorm_name}
+            price={dorm.price}
+            id={dorm.id}
+            facilities={dorm.facilities}
+            star={dorm.star}
         />
     ))
 
-    return(
-        <div style={{paddingTop:'40px',display:'grid',gridTemplateColumns:'1fr 1fr',justifyItems:'center',rowGap:'30px'}}>
+    return (
+        <div style={{ paddingTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center', rowGap: '30px' }}>
             {dorms}
         </div>
     )
 }
 
-export default function Profile() {
+export default function Profile({ params }) {
 
     const [selectedOption, setSelectedOption] = useState('blogs'); // สร้าง state เพื่อเก็บค่า option ที่ถูกเลือก
     const [profileImage, setProfileImage] = useState('');
     const [profileUsername, setProfileUsername] = useState('XXXXX');
-
     const router = useRouter();
 
     const handleChange = (event) => {
@@ -227,33 +237,37 @@ export default function Profile() {
     };
 
     useEffect(() => {
-        const getProfile = async () =>{
-            const {data} = await supabase.auth.getSession();
-            const user = data?.session?.user;
+        const getProfile = async () => {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                if (error || !data || !data.session || !data.session.user) {
+                    router.push('/');
+                    return;
+                }
 
-            if(user){
+                const user = data.session.user;
 
-                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`,{
-                    userID:user.id
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`, {
+                    userID: user.id
                 })
-                .then(res =>{
-                    setProfileImage(res.data.picture);
-                });
+                    .then(res => {
+                        setProfileImage(res.data.picture);
+                    });
 
-                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-username`,{
-                    userID:user.id
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-username`, {
+                    userID: user.id
                 })
-                .then(res =>{
-                    setProfileUsername(res.data.username);
-                });
-
-            }else{
-                router.push('/');
+                    .then(res => {
+                        setProfileUsername(res.data.username);
+                    });
+            } catch (error) {
+                console.error('Error getting profile:', error);
             }
         }
 
         getProfile();
-    },[]);
+    }, [router]);
+
 
     return (
 
@@ -264,10 +278,11 @@ export default function Profile() {
                 <div className={style.profile}>Profile</div>
 
                 <div className={style.user}>
+                    {/* ดึงรูป Username */}
                     <img className={style.user_img} src={profileImage} />
                     <div className={style.user_info}>
-                        <div className={style.username}>{profileUsername}</div>
-                         {/* เหลือใส่ Link edit profile link */}
+                        <div className={style.username}>{params.username}</div>
+                        {/* เหลือใส่ Link edit profile link */}
                         <Link href={'/profile-edit'} className={style.edit_profile_button}>
                             <div className={style.edit_profile_img}>
                                 <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/edit_profile.png`} />
@@ -284,10 +299,10 @@ export default function Profile() {
                 </div>
 
                 <div className={style.data}>
-                    {selectedOption === 'blogs' && <BlogsCards />} {/* ถ้า option เป็น blogs แสดง BlogsCards */}
-                    {selectedOption === 'markets' && <ProductCards />} {/* ถ้า option เป็น markets แสดง ProductCards */}
-                    {selectedOption === 'dorms' && <DormCards/>} {/* ถ้า option เป็น dorms แสดง DormCards */}
-                    
+                    {selectedOption === 'blogs' && <BlogsCards params={params} />} {/* ถ้า option เป็น blogs แสดง BlogsCards */}
+                    {selectedOption === 'markets' && <ProductCards params={params} />} {/* ถ้า option เป็น markets แสดง ProductCards */}
+                    {selectedOption === 'dorms' && <DormCards params={params} />} {/* ถ้า option เป็น dorms แสดง DormCards */}
+
                 </div>
             </div>
             <Footer />
