@@ -29,6 +29,7 @@ const Navbar = () => {
           console.log(error);
         }
         const user = data?.session?.user;
+        console.log(user);
 
         if (user) {
           axios.post(`${REACT_APP_MAIN_API_URL}/profile-picture`,
@@ -36,18 +37,19 @@ const Navbar = () => {
               userID: user.id
             }).then(res => {
               const { picture } = res.data;
+              console.log(res);
               setProfileImage(picture);
               setIsUserLoggedIn(true);
             });
         }
         else {
+          console.log('Test False ??')
           setIsUserLoggedIn(false);
         }
       } catch (error) {
         console.error('Error checking login status:', error);
       }
     };
-    console.log('session', session)
     checkLoginStatus();
   }, [session]);
 
