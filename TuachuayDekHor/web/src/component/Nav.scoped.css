@@ -13,6 +13,7 @@
     background-color: white;
     box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
     position: sticky;
+    overflow-x: hidden;
 }
 
 .main a {
