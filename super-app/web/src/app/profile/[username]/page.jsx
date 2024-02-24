@@ -32,19 +32,16 @@ const BlogsCards = ({ params }) => {
     const [Likes, setLikes] = useState([]);
     const [yourblog, setyourblog] = useState([]);
 
-    useState(() => {
-        const checkLoginStatus = async () => {
-            try {
-                const { data, error } = await supabase.auth.getSession();
-                if (error) {
-                    console.log(error);
-                }
-                const user = data?.session?.user?.id;
+    useEffect(() => {
 
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
+            username: params.username
+        })
+            .then(res => {
+                const user = res.data.user.id;
                 if (user) {
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
-                        user: params.userID,
-                        // params: params // ส่ง params ไปยัง API เพื่อให้เรียกข้อมูล Blogs ตาม params ที่ส่งมา
+                        user: user
                     })
                         .then(res => {
                             setLikes(res.data)
@@ -53,10 +50,9 @@ const BlogsCards = ({ params }) => {
                         .catch((err) => {
                             console.log(err)
                         })
-
+            
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_blog`, {
-                        user: params.userID,
-                        // params: params // ส่ง params ไปยัง API เพื่อให้เรียกข้อมูล Blogs ตาม params ที่ส่งมา
+                        user: user
                     })
                         .then(res => {
                             setyourblog(res.data)
@@ -65,18 +61,14 @@ const BlogsCards = ({ params }) => {
                         .catch((err) => {
                             console.log(err)
                         })
-
                 }
-                else {
-                    //setIsUserLoggedIn(false);
-                }
-            } catch (error) {
-                console.error('Error checking login status:', error);
-            }
-        };
+                    
+            })
+            .catch((err) => {
+                console.log(err)
+            })
 
-        checkLoginStatus();
-    }, [session]);
+    }, []);
 
     const handleLikesClick = () => {
         setShowLikes(true);
@@ -144,40 +136,40 @@ const ProductCards = ({ params }) => {
     const [isUserOwner, setIsUserOwner] = useState(false);
 
     useEffect(() => {
-        const checkLoginStatus = async () => {
-            try {
-                const { data, error } = await supabase.auth.getSession();
-                if (error) {
-                    console.log(error);
-                }
-                const user = data?.session?.user?.id;
 
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
+            username: params.username
+        })
+            .then(res => {
+                const user = res.data.user.id;
                 if (user) {
-                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
-                        user: params.userID,
-                    })
-                        .then(res => {
-                            setyourproduct(res.data);
-                            console.log('your product', res.data);
+                    if (user) {
+                        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
+                            user: user
                         })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-
-                    // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
-                    if (user === params.userID) {
-                        setIsUserOwner(true);
+                            .then(res => {
+                                setyourproduct(res.data);
+                                console.log('your product', res.data);
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
+    
+                        // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
+                        if (user === params.userID) {
+                            setIsUserOwner(true);
+                        }
+                    } else {
+                        setIsUserOwner(false);
                     }
-                } else {
-                    setIsUserOwner(false);
                 }
-            } catch (error) {
-                console.error('Error checking login status:', error);
-            }
-        };
+                    
+            })
+            .catch((err) => {
+                console.log(err)
+            })
 
-        checkLoginStatus();
-    }, [session]);
+    }, []);
 
 
     return (
