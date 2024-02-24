@@ -130,6 +130,23 @@ api.post("/recommended-product", async (req, res) => {
 
 //-----------------------------Profile-----------------------------------
 
+api.post('/get-userID-from-username', async (req, res) => {
+  const { username } = req.body;
+  if(username){
+    const {data: userID , error} = await supabase
+      .from('users')
+      .select('id')
+      .eq('username',username)
+      .single();
+    if(error){
+      console.log(error);
+      res.status(400).json({success : false});
+    }else{
+      res.status(200).json({userID , success: true});
+    }
+  }
+})
+
 api.post('/profile-picture', async (req, res) => {
   const { userID } = req.body;
   if (userID) {
