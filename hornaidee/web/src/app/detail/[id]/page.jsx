@@ -233,10 +233,13 @@ export default function DormDetails() {
           <h3>Hosted By</h3>
           <div className="hostinfo">
             <div className="hostprofile">
-              <img
+              <Image
                 src={user.picture || "https://images.macrumors.com/t/XjzsIpBxeGphVqiWDqCzjDgY4Ck=/800x0/article-new/2019/04/guest-user-250x250.jpg?lossy"}
                 alt="Host"
                 className="hostavatar"
+                style={{width: '100px', height: 'auto'}}
+                width={1}
+                height={1}
               />
               <div className="hostdetails">
                 <h3>{user.username}</h3>
@@ -254,7 +257,20 @@ export default function DormDetails() {
       
       {/* Reviews Component */}
       <div className="reviewsbox">
-        <h3>Reviews</h3>
+        <div className="flex justify-between">
+          <h3>All Reviews</h3>
+          {/* Add review button */}
+          <div>
+              <button
+                className="bg-[#092F88] hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-[15px] mt-2 mb-2 transition-all"
+                onClick={() => {
+                  router.push(`/review/${params.id}`);
+                }}
+              >
+                Add A Review
+              </button>
+            </div>
+          </div>
         <div>
         {!isLoading && rate.reviews.map((review, index) => (
           <ReviewComponent
