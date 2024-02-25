@@ -235,12 +235,12 @@ export default function DormDetails() {
           <div className="hostinfo">
             <div className="hostprofile">
               <Image
-                src={user.picture || "https://images.macrumors.com/t/XjzsIpBxeGphVqiWDqCzjDgY4Ck=/800x0/article-new/2019/04/guest-user-250x250.jpg?lossy"}
+                src={user.picture}
                 alt="Host"
                 className="hostavatar"
                 style={{width: '100px', height: 'auto'}}
-                width={1}
-                height={1}
+                width={80}
+                height={80}
               />
               <div className="hostdetails">
                 <h3>{user.username}</h3>
