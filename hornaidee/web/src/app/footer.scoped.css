@@ -48,9 +48,14 @@
     align-items: end;
 }
 
-.footercontact{
-    padding: 2.34375px;
-    padding-right: 0%;
+.footercontact {
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Align items vertically center */
+    margin-bottom: 7px; /* Add margin bottom for spacing */
+}
+
+.footercontact img {
+    margin-right: 10px; /* Add margin right for spacing */
 }
 
 .footerline{

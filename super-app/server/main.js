@@ -130,6 +130,27 @@ api.post("/recommended-product", async (req, res) => {
 
 //-----------------------------Profile-----------------------------------
 
+api.post('/get-userID-from-username', async (req, res) => {
+  const { username } = req.body;
+  if(username){
+    const {data: userID , error} = await supabase
+      .from('users')
+      .select('id')
+      .eq('username',username)
+      .single();
+    if(error){
+      console.log(error);
+      res.status(400).json({success : false});
+    }else{
+      console.log(userID)
+      res.status(200).json({user: userID , success: true});
+    }
+  }
+  else{
+    res.status(400).json({success : false});
+  }
+})
+
 api.post('/profile-picture', async (req, res) => {
   const { userID } = req.body;
   if (userID) {
@@ -181,7 +202,7 @@ api.post('/set-profile', async (req, res) => {
       if (imageURL && username) {
         const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
         const oldFilename = oldPicture.substring(oldPicture.lastIndexOf('/') + 1);
-        if (oldFilename || oldFilename !== 'PersonCircle.svg') {
+        if (oldFilename && oldFilename !== 'PersonCircle.svg') {
           await supabase.storage.from('Profile_User').remove(oldFilename);
         }
         const { error } = await supabase.from('users').update({ username: username, picture: imageURL }).eq('id', userID)
@@ -200,7 +221,7 @@ api.post('/set-profile', async (req, res) => {
       else if (imageURL) {
         const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
         const oldFilename = oldPicture.substring(oldPicture.lastIndexOf('/') + 1);
-        if (oldFilename || oldFilename !== 'PersonCircle.svg') {
+        if (oldFilename && oldFilename !== 'PersonCircle.svg') {
           await supabase.storage.from('Profile_User').remove(oldFilename);
         }
         const { error } = await supabase.from('users').update({ picture: imageURL }).eq('id', userID)

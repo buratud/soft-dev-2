@@ -9,7 +9,7 @@ import {BiSolidPencil} from "react-icons/bi";
 import img1 from '../../src/Assets/person-circle-outline.svg'
 import "./SlidePost.scoped.css"
 import axios from "axios";
-import { REACT_APP_BASE_API_URL } from '../config'
+import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config'
 
 function SlidePost() {
   const [data, setData] = useState([]);
@@ -18,8 +18,8 @@ function SlidePost() {
        
     })
     .then(res => {
-      console.log(res.data)
-      setData(res.data);
+      console.log(res.data.data)
+      setData(res.data.data);
     })
     .catch((err) => {
         alert(err)
@@ -38,15 +38,15 @@ function SlidePost() {
     <div>
       <Slider {...settings}>
         {
-          data.map(({ user: { username, id }, image: { avatar_url } },index) => {
+          data.map(({ user: { username }, image: { picture } },index) => {
             return (
-              <Link to={`/profile/${id}`} >
+              <Link to={`${REACT_APP_MAIN_URL}/profile/${username}`} >
                 <div className="box" >
                   <div className="singleDest" key = {index}>
-                    <img src={avatar_url??img1} alt=""/>
+                    <img src={picture??img1} alt=""/>
                   </div>
                   <div className="userwrite">
-                    <Link to={`/profile/${id}`}>{username}</Link>
+                    <Link to={`${REACT_APP_MAIN_URL}/profile/${username}`}>{username}</Link>
                   </div>
                 </div>
               </Link>
