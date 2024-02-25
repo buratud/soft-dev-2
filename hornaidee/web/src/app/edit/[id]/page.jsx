@@ -87,7 +87,7 @@ export default function EditDormPage() {
   useEffect(() => {
     if (session) {
       axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setName(res.data.name);
         setAddress(res.data.address);
         setPropertyNumber(res.data.property_number);
@@ -172,32 +172,30 @@ export default function EditDormPage() {
   const submitForm = () => {
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
-      // axios
-      //   .post(
-      //     `${NEXT_PUBLIC_BASE_API_URL}/dorms`,
-      //     {
-      //       owner: session.user.id,
-      //       name: name,
-      //       address: address,
-      //       property_number: property_number,
-      //       city: city,
-      //       province: province,
-      //       zip_code: zip_code,
-      //       rent_price: parseFloat(rent_price),
-      //       facilities: facilities,
-      //       photos: photos,
-      //     },
-      //     { headers: { Authorization: `Bearer ${session.access_token}` } }
-      //   )
-      //   .then((res) => {
-      //     setIsFormSubmitted(true);
-      //     router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/detail/${res.data.id}`);
-      //   })
-      //   .catch((err) => {
-      //     alert(err);
-      //   });
-      alert("Backend is not available :(");
-      router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/detail/${params.id}`);
+      axios
+        .put(
+          `${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`,
+          {
+            owner: session.user.id,
+            name: name,
+            address: address,
+            property_number: property_number,
+            city: city,
+            province: province,
+            zip_code: zip_code,
+            rent_price: parseFloat(rent_price),
+            facilities: facilities,
+            photos: photos,
+          },
+          { headers: { Authorization: `Bearer ${session.access_token}` } }
+        )
+        .then((res) => {
+          setIsFormSubmitted(true);
+          router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/detail/${params.id}`);
+        })
+        .catch((err) => {
+          alert(err);
+        });
     } else {
       setErrors(errors);
     }
@@ -443,7 +441,7 @@ export default function EditDormPage() {
 
         {isFormSubmitted && (
           <div className="flex flex-col items-center gap-1 text-green-500 mb-2 font-Poppins font-semibold">
-            <span>Dorm added successfully</span>
+            <span>Dorm updated successfully</span>
           </div>
         )}
 
@@ -452,7 +450,7 @@ export default function EditDormPage() {
             className="bg-[#092F88] font-bold text-[#FFFFFF] px-6 py-2 rounded-2xl mr-4 hover:transition-all hover:scale-110 duration-300"
             onClick={submitForm}
           >
-            Add Your Property
+            Save Changes
           </button>
           <button 
             className="bg-[#C10206] font-bold text-[#FFFFFF] px-6 py-2 rounded-2xl hover:transition-all hover:scale-110 duration-300"
