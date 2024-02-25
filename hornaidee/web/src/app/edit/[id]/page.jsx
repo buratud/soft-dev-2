@@ -28,6 +28,8 @@ export default function EditDormPage() {
   const [errors, setErrors] = useState({});
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [imageErrors, setImageErrors] = useState(null);
+  const [user_id, setUser_id] = useState("");
+  const [owner_id, setOwner_id] = useState("");
   const [inputStates, setInputStates] = useState({
     name: false,
     address: false,
@@ -77,12 +79,36 @@ export default function EditDormPage() {
       .then((result) => {
         if (result.data) {
           setSession(result.data.session);
+          setUser_id(result.data.session.user.id);
         }
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  useEffect(() => {
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
+      // console.log(res.data);
+      setData(res.data);
+      // console.log(res.data.owner);
+      setOwner_id(res.data.owner); // Update owner_id using setState
+      axios
+        .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${res.data.owner}`)
+        .then((res) => {
+          // console.log(res.data);
+          setUser(res.data);
+          setIsLoading(false);
+        });
+    });
+  }, []);
+
+  useEffect(() => {
+    // if user is not the owner, redirect to the detail page
+    if (user_id !== owner_id) {
+      router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/detail/${params.id}`);
+    }
+  }, [user_id, owner_id]);
 
   async function imageUrlToBase64(url) {
     try {
@@ -102,7 +128,7 @@ export default function EditDormPage() {
       return null;
     }
   }  
-  
+
   useEffect(() => {
     if (session) {
       axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
