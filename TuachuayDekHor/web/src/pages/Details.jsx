@@ -19,7 +19,7 @@ import { REACT_APP_BASE_API_URL } from '../config'
 const Details = () => {
   const { id } = useParams();
   // const {username} = useParams();
-  const { user } = useContext(AuthContext);
+  const { user, session } = useContext(AuthContext);
   const [like, setLike] = useState([]);
   const [data, setData] = useState([]);
   const [likeyet, setLikeyet] = useState([]);
@@ -33,7 +33,7 @@ const Details = () => {
       })
   }, [id]);
 
-  console.log(data.id)
+  console.log('data.id',data.id)
 
   const id_user = data.id
   const [pic, setPic] = useState([]);
@@ -41,7 +41,7 @@ const Details = () => {
     axios.get(`${REACT_APP_BASE_API_URL}/idtopic?id=` + id_user)
       .then((res) => {
         setPic(res.data[0]);
-        console.log(pic);
+        console.log('pic',pic);
       })
       .catch((error) => {
         console.error(error);
@@ -75,40 +75,46 @@ const Details = () => {
   
     setLoading(true); // Set loading state to true
   
-    // Optimistically update the UI before the server response
-    setLike((currentLikes) => {
-      const liked = currentLikes.some(({ id }) => id === user?.id);
-      if (liked) {
-        // If already liked, remove the like
-        return currentLikes.filter((like) => like.id !== user?.id);
-      } else {
-        // If not liked, add the like
-        return [...currentLikes, { id: user?.id }];
-      }
-    });
+    console.log('param', id, 'session', session?.user?.id);
+
+axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
+  user: session?.user?.id,
+  blog: id,
+})
+  .then(res => {
+    const liked = res.data;
+
+    if (liked) {
+      axios.post(`${REACT_APP_BASE_API_URL}/unlike`, {
+        user: session?.user?.id,
+        blog: id,
+      })
+        .then(res => {
+          setLike(false); // ตั้งค่าเป็น false หลังจากกด Unlike
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    } else {
+      axios.post(`${REACT_APP_BASE_API_URL}/like`, {
+        user: session?.user?.id,
+        blog: id,
+      })
+        .then(res => {
+          setLike(true); // ตั้งค่าเป็น true หลังจากกด Like
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
+  })
+  .catch((err) => {
+    alert(err);
+  });
+
   
     // Perform the server request based on the like status
     try {
-      if (liked) {
-        await axios.delete(`${REACT_APP_BASE_API_URL}/unlike?id=${user?.id}&id_post=${id}`);
-      } else {
-        await axios.post(`${REACT_APP_BASE_API_URL}/likepost`, {
-          id_post: id,
-          id: user?.id,
-        });
-      }
-      
-      // Update the UI after the server response
-      setLike((currentLikes) => {
-        const liked = currentLikes.some(({ id }) => id === user?.id);
-        if (liked) {
-          // If already liked, return current likes
-          return currentLikes;
-        } else {
-          // If not liked, add the like
-          return [...currentLikes, { id: user?.id }];
-        }
-      });
     } catch (err) {
       console.error(err);
     } finally {
@@ -118,7 +124,7 @@ const Details = () => {
   
   
 
-  const isLikedByUser = like.some(({ id }) => id === user?.id);
+  const isLikedByUser = like;
   
   return (
     <div className="story">

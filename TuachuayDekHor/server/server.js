@@ -309,9 +309,10 @@ api.post("/like", async (req, res) => {
     }
 })
 
-api.delete("/unlike", async (req, res) => {
+api.post("/unlike", async (req, res) => {
     const { user, blog } = req.body;
-    const { data, error } = await supabase
+    console.log('user, blog',user, blog)
+    const { error } = await supabase
         .from('like_blog')
         .delete()
         .eq('user_id', user)
@@ -321,7 +322,7 @@ api.delete("/unlike", async (req, res) => {
         res.status(400).json(error);
     }
     else {
-        res.status(200).json(data);
+        res.status(200).json({message: 'success'});
     }
 })
 
