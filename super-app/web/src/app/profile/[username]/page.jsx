@@ -131,63 +131,51 @@ const BlogsCards = ({ params }) => {
 }
 
 const ProductCards = ({ params }) => {
-
-    const { session } = useContext(General);
+    
     const [yourproduct, setyourproduct] = useState([]);
     const [isUserOwner, setIsUserOwner] = useState(false);
 
     useEffect(() => {
-
         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
             username: params.username
         })
-            .then(res => {
-                const isOwner = async () => {
-                    const user = res.data.user.id;
-                    if (user) {
-                        if (user) {
-                            axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
-                                user: user
-                            })
-                                .then(res => {
-                                    setyourproduct(res.data);
-                                    console.log('your product', res.data);
-                                })
-                                .catch((err) => {
-                                    console.log(err);
-                                });
-
-                            // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
-                            const { data: { session } } = await supabase.auth.getSession();
-                            if (user === session?.user?.id) {
-                                setIsUserOwner(true);
-                            }
-                        } else {
-                            setIsUserOwner(false);
-                        }
-                    }
-                    isOwner();
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-
+        .then(async res => {
+            const user = res.data.user.id;
+            if (user) {
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
+                    user: user
+                })
+                .then(res => {
+                    setyourproduct(res.data);
+                    console.log('your product', res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+    
+                // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
+                const { data: { session } } = await supabase.auth.getSession();
+                setIsUserOwner(user === session?.user?.id);
+            } 
+        })
+        .catch((err) => {
+            console.log(err)
+        });
     }, []);
+    
 
 
     return (
         <div>
-            {isUserOwner ? <div className={style.blogs_btn}>
-                <Link href={`/markets/manage`} style={{ textDecoration: 'none' }}>
-                    <button className={style.yourblogs_btn}>
-                        <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Products.svg`} alt="" className={style.img_likes} />
-                        <p style={{ textDecoration: 'none' }}>Manage your Products</p>
-                    </button>
-                </Link>
-            </div>
-                :
-                " "
+            {isUserOwner &&
+                <div className={style.blogs_btn}>
+                    <Link href={`/markets/manage`} style={{ textDecoration: 'none' }}>
+                        <button className={style.yourblogs_btn}>
+                            <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Products.svg`} alt="" className={style.img_likes} />
+                            <p style={{ textDecoration: 'none' }}>Manage your Products</p>
+                        </button>
+                    </Link>
+                </div>
             }
             {/* ดึงข้อมูล Product ของตัวเองตรงนี้*/}
             <card>
