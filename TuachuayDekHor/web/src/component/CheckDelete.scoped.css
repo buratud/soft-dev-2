@@ -6,13 +6,18 @@
     /* padding: 0.2rem; */
     border-radius: 5px;
     cursor: pointer;
-    /* margin: 1em; */
+    margin: 1rem;
     border: none;
-    margin-left: 1rem;
 }
 
 .Delete_btn:hover{
     scale: 1.2;
+}
+
+.deleteText{
+    padding-top: 0.95rem;
+    margin-left: 0.35rem;
+    font-size: 4.5mm;
 }
 
 .Close_btn{
@@ -38,7 +43,6 @@
     font-size: 18px;
     margin-top: 1rem;
 }
-
 
 .text-wraning{
     width: 100%;
