@@ -40,7 +40,7 @@ jobs:
 
       - name: Build and push image
         run: |
-          docker build super-app/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }} --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg SUPERAPP_SUPABASE_URL=$SUPERAPP_SUPABASE_URL --build-arg SUPERAPP_SUPABASE_ANON_KEY=$SUPERAPP_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL
+          docker build super-app/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }} --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg SUPERAPP_SUPABASE_URL=$SUPERAPP_SUPABASE_URL --build-arg SUPERAPP_SUPABASE_ANON_KEY=$SUPERAPP_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL --build-arg SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
           docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
         env:
           MAIN_URL: ${{ env.MAIN_URL }}
@@ -49,6 +49,7 @@ jobs:
           BASE_SUPERAPP_SERVER_PATH: ${{ env.BASE_SUPERAPP_SERVER_PATH }}
           SUPERAPP_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPERAPP_SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+
 
   superapp_server:
     name: Superapp Server
