@@ -50,7 +50,6 @@ jobs:
           SUPERAPP_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPERAPP_SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
 
-
   superapp_server:
     name: Superapp Server
     runs-on: ubuntu-latest
@@ -105,7 +104,7 @@ jobs:
       - name: Build and push image
         run: |
           docker build MarketConnect/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }} --build-arg BASE_MARKET_WEB_PATH=$BASE_MARKET_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_MARKET_SERVER_PATH=$BASE_MARKET_SERVER_PATH --build-arg MARKET_SUPABASE_URL=$MARKET_SUPABASE_URL --build-arg MARKET_SUPABASE_ANON_KEY=$MARKET_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH
-          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }}
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }} --build-arg MARKETS_WEB_SENTRY_AUTH_TOKEN=${{ secrets.MARKETS_WEB_SENTRY_AUTH_TOKEN }}
         env:
           MAIN_URL: ${{ env.MAIN_URL }}
           BASE_MARKET_WEB_PATH: ${{ env.BASE_MARKET_WEB_PATH }}
