@@ -3,15 +3,37 @@ const { createClient } = require("@supabase/supabase-js");
 const { PORT } = require("./config");
 const { BASE_SERVER_PATH, SUPABASE_URL, SUPABASE_KEY } = require("./config");
 const cors = require("cors");
-
+const Sentry = require("@sentry/node");
 const app = express();
 const api = express.Router();
 
+Sentry.init({
+  dsn: "https://855f86989b23867e7eeccee682fbc826@linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com/3",
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Sentry.Integrations.Express({ app }),
+  ],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+});
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler());
+
+// TracingHandler creates a trace for every incoming request
+app.use(Sentry.Handlers.tracingHandler());
 
 app.use(cors());
 app.use(express.json());
 app.use(BASE_SERVER_PATH, api);
+
+api.get("/debug-sentry", function mainHandler(req, res) {
+  throw new Error("My first Sentry error!");
+});
 
 api.get("/", (req, res) => {
   res.send(JSON.stringify(req));
@@ -294,6 +316,9 @@ api.post('/your_product', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 })
+
+// The error handler must be registered before any other error middleware and after all controllers
+app.use(Sentry.Handlers.errorHandler());
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
