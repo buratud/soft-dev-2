@@ -160,16 +160,16 @@ api.get("/countlike", async (req, res) => {
 })
 
 //unlike
-api.delete("/unlike", async (req, res) => {
-    const { id_post, id } = req.query;
-    const { error } = await supabase.from("likes").delete().eq('id', id).eq('id_post', id_post)
-    if (error) {
-        res.status(500).json(error);
-    }
-    else {
-        res.status(200).json({ msg: "success" })
-    }
-})
+// api.delete("/unlike", async (req, res) => {
+//     const { id_post, id } = req.query;
+//     const { error } = await supabase.from("likes").delete().eq('id', id).eq('id_post', id_post)
+//     if (error) {
+//         res.status(500).json(error);
+//     }
+//     else {
+//         res.status(200).json({ msg: "success" })
+//     }
+// })
 
 //comment
 api.post("/commentpost", async (req, res) => {
@@ -273,6 +273,56 @@ api.get("/showlike", async (req, res) => {
     }
     else {
         res.status(200).json(data);
+    }
+})
+
+api.post("/isliked", async (req, res) => {
+    const { user, blog } = req.body;
+    const { data, error } = await supabase
+        .from('like_blog')
+        .select('*')
+        .eq("user_id", user)
+        .eq("blog_id", blog)
+    if (error) {
+        console.log(error)
+        res.status(400).json(error);
+    }
+    else {
+        res.status(200).json(data.length !== 0); //true = ไลค์แล้ว false = ยังไม่ไลค์
+    }
+})
+
+api.post("/like", async (req, res) => {
+    const { user, blog } = req.body;
+    const { data, error } = await supabase
+        .from('like_blog')
+        .insert([
+            { user_id: user, blog_id: blog },
+        ])
+        .select()
+    if (error) {
+        console.log(error)
+        res.status(400).json(error);
+    }
+    else {
+        res.status(200).json(data);
+    }
+})
+
+api.post("/unlike", async (req, res) => {
+    const { user, blog } = req.body;
+    console.log('user, blog',user, blog)
+    const { error } = await supabase
+        .from('like_blog')
+        .delete()
+        .eq('user_id', user)
+        .eq('blog_id', blog)
+    if (error) {
+        console.log(error)
+        res.status(400).json(error);
+    }
+    else {
+        res.status(200).json({message: 'success'});
     }
 })
 
