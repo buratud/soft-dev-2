@@ -96,13 +96,6 @@ function AddPost(params) {
         }
     }, [data]);
 
-    useEffect (() => {
-        // console.log('category',data.blog_category)
-        console.log('setpost',post)
-    },[post]);
-
-
-
     // create post function
     const createPost = async(event) => {
         // console.log(user?.email)
@@ -126,7 +119,7 @@ function AddPost(params) {
             return;
         }
 
-        let img = data.cover_img
+        let img = data.cover_img ?? ''
         const file = event.target[0]?.files[0]
         console.log('file',file !== undefined)
         if (file !== undefined) {  
@@ -151,6 +144,12 @@ function AddPost(params) {
 
             img = image_link
         }
+        
+        if (img == '') {
+            setLoading(false)
+            alert('select some picture !!')
+            return;
+        }
 
         if (edit){
             axios.post(`${REACT_APP_BASE_API_URL}/editblog`, {
@@ -174,7 +173,7 @@ function AddPost(params) {
                 content: post.content,
                 category: post.category,
                 user_id: userID,
-                image_link : image_link,
+                image_link : img,
             })
             .then(res => {
                 setLoading(false)
