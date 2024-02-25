@@ -21,8 +21,8 @@ function makeid(length) {
     }
     return result;
 }
-function AddPost({params}) {
-    const {id} = params;
+function AddPost(params) {
+    const blog_id = params.id;
     const navigate = useNavigate()
     const [userID,setUserID] = useState();
 
@@ -69,11 +69,9 @@ function AddPost({params}) {
 
     const [data, setData] = useState([]);
     const edit = true;
-    const blog_id = 'bbb0f45f-5120-483a-849c-e95d24f21d89'
+    // const blog_id = 'bbb0f45f-5120-483a-849c-e95d24f21d89'
     let category;
     useState (() => {
-        // const {param} = useParams()
-        // console.log('param',param)
         console.log('edit',edit)
         if (edit) {
             axios.post(`${REACT_APP_BASE_API_URL}/detailpost`, {
