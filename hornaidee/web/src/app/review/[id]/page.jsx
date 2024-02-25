@@ -33,6 +33,7 @@ export default function DormReview() {
   });
   const [session, setSession] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [submitting, setSubmitting] = useState(false); // State variable to track submission status
 
   useEffect(() => {
     supabase.auth.getSession().then((result) => {
@@ -58,18 +59,23 @@ export default function DormReview() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Set submitting to true to change button text
+    setSubmitting(true);
+
     // Reset error message
     setErrorMessage(null);
 
     // Check if all fields are filled
     if (!reviewForm.stars || !reviewForm.short_review || !reviewForm.review) {
       setErrorMessage("Please fill in all fields");
+      setSubmitting(false); // Reset submitting status
       return;
     }
 
     // Check if session token is available
     if (!session) {
       setErrorMessage("Authentication token is missing");
+      setSubmitting(false); // Reset submitting status
       return;
     }
 
@@ -108,6 +114,10 @@ export default function DormReview() {
           // Network errors
           setErrorMessage("Network error occurred, please try again.");
         }
+      })
+      .finally(() => {
+        // Reset submitting status regardless of success or failure
+        setSubmitting(false);
       });
   };
 
@@ -184,8 +194,9 @@ export default function DormReview() {
             />
           </div>
           <div className="reviewButtonContainer">
-            <button className="reviewButton" onClick={handleSubmit}>
-              Review Property
+            {/* Render button text based on submitting status */}
+            <button className="reviewButton" onClick={handleSubmit} disabled={submitting}>
+              {submitting ? "Submitting..." : "Review Property"}
             </button>
           </div>
         </div>
