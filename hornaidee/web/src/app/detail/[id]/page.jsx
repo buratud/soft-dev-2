@@ -30,6 +30,7 @@ import {
   NEXT_PUBLIC_SUPABASE_ANON_KEY,
   NEXT_PUBLIC_BASE_API_URL,
   NEXT_PUBLIC_BASE_WEB_PATH,
+  NEXT_PUBLIC_BASE_WEB_URL,
 } from "../../../../config";
 import { createClient } from "@supabase/supabase-js";
 
@@ -93,7 +94,7 @@ export default function DormDetails() {
 
   const router = useRouter();
   const handleEditButtonClick = () => {
-    router.push(`/edit/${params.id}`);
+    router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/edit/${params.id}`);
   };
 
   useEffect(() => {
