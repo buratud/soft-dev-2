@@ -3,19 +3,16 @@ import { useState, useEffect } from 'react';
 import { BsPlusLg } from "react-icons/bs";
 import { RxCross1 } from "react-icons/rx";
 import Image from 'next/image';
-import { NEXT_PUBLIC_BASE_WEB_PATH } from '../../config';
 import styles from './image_component.module.css';
 
 export default function ImageUploadComponent({ photos: initialPhotos, setPhotos, setImageErrors }) {
-  const [photos, setLocalPhotos] = useState(initialPhotos);
+  const [photos, setLocalPhotos] = useState([]);
   const [error, setError] = useState(false);
-  
-  // Reset photos on component mount
+
   useEffect(() => {
     setLocalPhotos(initialPhotos);
   }, [initialPhotos]);
 
-  // Convert initialPhotos from URL to base64 on component mount
   useEffect(() => {
     const convertPhotosToBase64 = async () => {
       const base64Photos = await Promise.all(initialPhotos.map(async (photo) => {
@@ -31,19 +28,16 @@ export default function ImageUploadComponent({ photos: initialPhotos, setPhotos,
     };
     convertPhotosToBase64();
   }, [initialPhotos]);
-  
+
   async function imageUrlToBase64(url) {
     try {
-      // Fetch the image data as a binary blob
       const response = await fetch(url);
       const blob = await response.blob();
   
-      // Convert the binary blob to base64
       const reader = new FileReader();
       reader.readAsDataURL(blob);
       return new Promise((resolve, reject) => {
         reader.onloadend = () => {
-          // The result will be the base64 string
           resolve(reader.result);
         };
         reader.onerror = reject;
@@ -53,11 +47,11 @@ export default function ImageUploadComponent({ photos: initialPhotos, setPhotos,
       return null;
     }
   }  
-  
+
   const handleImageUpload = async (e) => {
     const files = e.target.files;
     if (!files) return;
-    
+  
     try {
       const base64Array = [];
       for (let i = 0; i < files.length; i++) {
@@ -66,12 +60,13 @@ export default function ImageUploadComponent({ photos: initialPhotos, setPhotos,
           const reader = new FileReader();
           reader.onload = () => {
             base64Array.push(reader.result);
+            // Check if all files have been processed
             if (base64Array.length === files.length) {
-              setPhotos((prevPhotos) => [...prevPhotos, ...base64Array]);
-              setLocalPhotos((prevPhotos) => [...prevPhotos, ...files]);
+              setPhotos((prevPhotos) => [...prevPhotos, ...base64Array]); // Concatenate new images with previous ones
+              setLocalPhotos((prevPhotos) => [...prevPhotos, ...base64Array]);
             }
           };
-          reader.readAsDataURL(file);
+          reader.readAsDataURL(file); // Read file as base64
           setError(false);
           setImageErrors('');
         } else {
@@ -83,7 +78,7 @@ export default function ImageUploadComponent({ photos: initialPhotos, setPhotos,
       console.error('Error uploading image:', error);
     }
   };  
-
+  
 
   const removeImage = (index, e) => {
     e.preventDefault();
@@ -109,7 +104,7 @@ export default function ImageUploadComponent({ photos: initialPhotos, setPhotos,
             </button>
             <div className='relative w-[100px] h-[100px]'>
               <Image
-                src={typeof photo === 'string' ? photo : URL.createObjectURL(photo)}
+                src={photo}
                 alt={`Image ${index + 1}`}
                 width={100}
                 height={100}

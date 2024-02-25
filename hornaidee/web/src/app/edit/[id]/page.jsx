@@ -84,6 +84,25 @@ export default function EditDormPage() {
       });
   }, []);
 
+  async function imageUrlToBase64(url) {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+  
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      return new Promise((resolve, reject) => {
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+        reader.onerror = reject;
+      });
+    } catch (error) {
+      console.error('Error converting image to base64:', error);
+      return null;
+    }
+  }  
+  
   useEffect(() => {
     if (session) {
       axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
@@ -97,10 +116,21 @@ export default function EditDormPage() {
         setRentPrice(res.data.rent_price);
         const facilityIds = res.data.facilities.map(facility => facility.id);
         setFacilities(facilityIds);
-        setPhotos(res.data.photos);
+  
+        // Convert image URLs to base64
+        const convertPhotosToBase64 = async () => {
+          const base64Photos = await Promise.all(res.data.photos.map(async (photo) => {
+            const base64 = await imageUrlToBase64(photo);
+            return base64;
+          }));
+          setPhotos(base64Photos);
+        };
+  
+        convertPhotosToBase64();
       });
     }
   }, [session]);
+  
 
   // Fetch ImageUploadComponent from photos
   const handleUpdatePhotos = (updatedPhotos) => {
