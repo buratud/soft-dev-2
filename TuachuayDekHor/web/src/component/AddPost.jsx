@@ -27,6 +27,7 @@ function AddPost(params) {
     const [userID,setUserID] = useState();
 
     const [loading,setLoading] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const editor = useRef(null);
     // const [content, setContent] = useState('')
@@ -79,11 +80,13 @@ function AddPost(params) {
             .then(res => {
                 setData(res.data[0]);
                 console.log('blog detail',res.data[0])
+                setSelectedImage(res.data[0].cover_img)
             })
             .catch((err) => {
                 console.log(err)
             })
         }
+        
     })
 
     useEffect(() => {
@@ -196,7 +199,6 @@ function AddPost(params) {
         // })
     }
 
-    const [selectedImage, setSelectedImage] = useState(null);
     const [imageLoading, setImageLoading] = useState(false);
 
     const handleImageChange = (e) => {
@@ -261,10 +263,10 @@ function AddPost(params) {
                                 >
                                     <option disabled value={0}>-- Select category --</option>
                                     <option value={1}>
-                                        decoration
+                                        cooking
                                     </option>
                                     <option value={2}>
-                                        cooking
+                                        decoration
                                     </option>
                                     <option value={3}>
                                         cleaning
