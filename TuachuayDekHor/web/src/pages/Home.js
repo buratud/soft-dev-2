@@ -6,24 +6,22 @@ import ContentSlide from "../component/ContentSlide";
 import Reccommend from "../component/Reccommend";
 import { Link } from "react-router-dom";
 import SlidePost from "../component/SlidePost";
-import {BsArrowRight} from "react-icons/bs";
+import { BsArrowRight } from "react-icons/bs";
 import Footer from "../component/footer";
 import { REACT_APP_BASE_API_URL } from "../config";
 
 const Home = () => {
-  console.log(REACT_APP_BASE_API_URL)
+  console.log(REACT_APP_BASE_API_URL);
   return (
-    <div className="home">
-      <header>
+      <div className="home">
         <Navbar />
-      </header>
-      <main>
-        {/* เป็นไปได้อยากกลับมาแก้ */}
-        <h1 className="title">Let's know how to be a professional DekHor</h1>
-        {/* <Link to={"/signup"}>
+        <main>
+          {/* เป็นไปได้อยากกลับมาแก้ */}
+          <h1 className="title">Let's know how to be a professional DekHor</h1>
+          {/* <Link to={"/signup"}>
           <button className="start-btn">Get Started</button>
         </Link> */}
-      </main>
+        </main>
       <body>
         <div className="Container">
           <div className="titleblog">

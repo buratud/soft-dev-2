@@ -8,7 +8,7 @@ import Avatar from '../component/Avatar';
 import Comments from '../component/Comments';
 import "./Details.scoped.css"
 import axios from 'axios';
-import { General } from '../App';
+import { AuthContext } from '../App';
 import CheckDelete from '../component/CheckDelete';
 import img1 from '../../src/Assets/slide1.png'
 import { FaRegEdit } from "react-icons/fa";
@@ -19,7 +19,7 @@ import { REACT_APP_BASE_API_URL } from '../config'
 const Details = () => {
   const { id } = useParams();
   // const {username} = useParams();
-  const { user } = useContext(General);
+  const { user } = useContext(AuthContext);
   const [like, setLike] = useState([]);
   const [data, setData] = useState([]);
   const [likeyet, setLikeyet] = useState([]);

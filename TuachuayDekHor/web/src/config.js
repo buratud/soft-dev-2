@@ -8,3 +8,4 @@ export const REACT_APP_BASE_API_URL = `${REACT_APP_BASE_API_DOMAIN_WITH_PROTOCOL
 export const REACT_APP_SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
 export const REACT_APP_SUPABASE_ANON_KEY = process.env.REACT_APP_SUPABASE_ANON_KEY;
 export const REACT_APP_MAIN_URL = process.env.REACT_APP_MAIN_URL || 'https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com';
+export const REACT_APP_MAIN_API_URL = REACT_APP_MAIN_URL ? `${REACT_APP_MAIN_URL}/api` : 'http://localhost:4000';

@@ -17,6 +17,7 @@
     "@types/react-dom": "^18.0.11",
     "base64-arraybuffer": "^1.0.2",
     "axios": "^1.5.0",
+    "base64-arraybuffer": "^1.0.2",
     "bootstrap": "^5.3.2",
     "cors": "^2.8.5",
     "craco-plugin-scoped-css": "^1.1.1",
