@@ -104,8 +104,8 @@ jobs:
 
       - name: Build and push image
         run: |
-          docker build MarketConnect/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }} --build-arg BASE_MARKET_WEB_PATH=$BASE_MARKET_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_MARKET_SERVER_PATH=$BASE_MARKET_SERVER_PATH --build-arg MARKET_SUPABASE_URL=$MARKET_SUPABASE_URL --build-arg MARKET_SUPABASE_ANON_KEY=$MARKET_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH
-          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }} --build-arg SENTRY_AUTH_TOKEN
+          docker build MarketConnect/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }} --build-arg BASE_MARKET_WEB_PATH=$BASE_MARKET_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_MARKET_SERVER_PATH=$BASE_MARKET_SERVER_PATH --build-arg MARKET_SUPABASE_URL=$MARKET_SUPABASE_URL --build-arg MARKET_SUPABASE_ANON_KEY=$MARKET_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH --build-arg SENTRY_AUTH_TOKEN
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }}
         env:
           MAIN_URL: ${{ env.MAIN_URL }}
           BASE_MARKET_WEB_PATH: ${{ env.BASE_MARKET_WEB_PATH }}
@@ -156,8 +156,8 @@ jobs:
 
       - name: Build and push image
         run: |
-          docker build hornaidee/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-web:${{ github.sha }} --build-arg BASE_DORM_WEB_PATH=$BASE_DORM_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_DORM_SERVER_PATH=$BASE_DORM_SERVER_PATH --build-arg DORM_SUPABASE_URL=$DORM_SUPABASE_URL --build-arg DORM_SUPABASE_ANON_KEY=$DORM_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH
-          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-web:${{ github.sha }} --build-arg SENTRY_AUTH_TOKEN
+          docker build hornaidee/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-web:${{ github.sha }} --build-arg BASE_DORM_WEB_PATH=$BASE_DORM_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_DORM_SERVER_PATH=$BASE_DORM_SERVER_PATH --build-arg DORM_SUPABASE_URL=$DORM_SUPABASE_URL --build-arg DORM_SUPABASE_ANON_KEY=$DORM_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH  --build-arg SENTRY_AUTH_TOKEN
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-web:${{ github.sha }}
         env:
           MAIN_URL: ${{ env.MAIN_URL }}
           BASE_DORM_WEB_PATH: ${{ env.BASE_DORM_WEB_PATH }}
@@ -208,8 +208,8 @@ jobs:
 
       - name: Build and push image
         run: |
-          docker build TuachuayDekHor/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/blogs-web:${{ github.sha }} --build-arg BASE_BLOG_WEB_PATH=$BASE_BLOG_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_BLOG_SERVER_PATH=$BASE_BLOG_SERVER_PATH --build-arg BLOG_SUPABASE_URL=$BLOG_SUPABASE_URL --build-arg BLOG_SUPABASE_ANON_KEY=$BLOG_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH
-          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/blogs-web:${{ github.sha }} --build-arg SENTRY_AUTH_TOKEN
+          docker build TuachuayDekHor/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/blogs-web:${{ github.sha }} --build-arg BASE_BLOG_WEB_PATH=$BASE_BLOG_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_BLOG_SERVER_PATH=$BASE_BLOG_SERVER_PATH --build-arg BLOG_SUPABASE_URL=$BLOG_SUPABASE_URL --build-arg BLOG_SUPABASE_ANON_KEY=$BLOG_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH --build-arg SENTRY_AUTH_TOKEN
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/blogs-web:${{ github.sha }}
         env:
           MAIN_URL: ${{ env.MAIN_URL }}
           BASE_BLOG_WEB_PATH: ${{ env.BASE_BLOG_WEB_PATH }}
@@ -260,4 +260,3 @@ jobs:
           kubeconfig: "${{ secrets.KUBE_CONFIG }}"
         env:
           GIT_REF: ${{ env.GIT_REF }}
-
