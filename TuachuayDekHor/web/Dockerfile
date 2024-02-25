@@ -18,7 +18,8 @@ ARG BASE_SUPERAPP_WEB_PATH
 ENV REACT_APP_BASE_SUPERAPP_WEB_PATH=${BASE_SUPERAPP_WEB_PATH}
 ARG BASE_SUPERAPP_SERVER_PATH
 ENV REACT_APP_BASE_SUPERAPP_SERVER_PATH=${BASE_SUPERAPP_SERVER_PATH}
-
+ARG BLOGS_WEB_SENTRY_AUTH_TOKEN
+ENV SENTRY_AUTH_TOKEN=${BLOGS_WEB_SENTRY_AUTH_TOKEN}
 # Separating the copy of package.json can save time on rebuilding the image if the package.json file is not changed
 COPY package.json .
 RUN npm install --omit=dev --legacy-peer-deps
