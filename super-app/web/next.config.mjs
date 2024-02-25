@@ -13,7 +13,7 @@ export default withSentryConfig(nextConfig, {
 silent: true,
 org: "soft-dev-2",
 project: "superapp-web",
-url: "https://linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com/"
+url: "https://linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com"
 }, {
 // For all available options, see:
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
