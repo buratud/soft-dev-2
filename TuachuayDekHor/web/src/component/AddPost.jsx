@@ -34,21 +34,19 @@ function AddPost() {
         title: '',
         content: '',
         category: '',
+        image: ''
     })
 
 
     // fieldChanged function
     const fieldChanged = (event) => {
-
         // console.log(event)
         setPost({ ...post, [event.target.name]: event.target.value })
 
     }
 
     const contentFieldChanged = (data) => {
-
         setPost({ ...post, 'content': data })
-
     }
 
     useEffect(() => {
@@ -70,10 +68,11 @@ function AddPost() {
 
     const [data, setData] = useState([]);
     const edit = true;
+    const blog_id = 'bbb0f45f-5120-483a-849c-e95d24f21d89'
+    let category;
     useState (() => {
         // const {param} = useParams()
         // console.log('param',param)
-        const blog_id = 'bbb0f45f-5120-483a-849c-e95d24f21d89'
         console.log('edit',edit)
         if (edit) {
             axios.post(`${REACT_APP_BASE_API_URL}/detailpost`, {
@@ -89,9 +88,21 @@ function AddPost() {
         }
     })
 
+    useEffect(() => {
+        if (data && edit) {
+            setPost({
+                title: data.title ?? '',
+                content: data.body ?? '',
+                category: data.category ?? '',
+                image: data.cover_img ?? ''
+            });
+        }
+    }, [data]);
+
     useEffect (() => {
-        console.log('category',data.category)
-    },[data]);
+        console.log('category',data.blog_category)
+        console.log('setpost',post)
+    },[data,post]);
 
 
 
@@ -102,10 +113,6 @@ function AddPost() {
         event.preventDefault();
         setLoading(true);
 
-        // console.log(post)
-        // if (edit) {
-        //     const post.title = data?title
-        // }
         if (post.title.trim() == '') {
             setLoading(false)
             alert('post is required!!')
@@ -122,25 +129,31 @@ function AddPost() {
             return;
         }
 
-        const file = event.target[0].files[0]
-        const image_title =`${makeid(10)}.${file.type.replace(/(.*)\//g, '')}`
+        const file = event.target[0]?.files[0]
+        if (file) {  
+            const image_title =`${makeid(10)}.${file.type.replace(/(.*)\//g, '')}`
 
-        const { error } = await supabase
-        .storage
-        .from('postthumnail')
-        .upload(image_title, file, {
-            cacheControl: '3600',
-            upsert: false
-        })
-        if (error){
-            setLoading(false)
-            return alert(error)
+            const { error } = await supabase
+            .storage
+            .from('postthumnail')
+            .upload(image_title, file, {
+                cacheControl: '3600',
+                upsert: false
+            })
+            if (error){
+                setLoading(false)
+                return alert(error)
+            }
+
+            const { data:{publicUrl:image_link} } = supabase
+            .storage
+            .from('postthumnail')
+            .getPublicUrl(image_title)
+
+            setPost({
+                image: image_link ?? data.cover_img
+            });
         }
-
-        const { data:{publicUrl:image_link} } = supabase
-        .storage
-        .from('postthumnail')
-        .getPublicUrl(image_title)
 
         if (edit){
             axios.post(`${REACT_APP_BASE_API_URL}/editblog`, {
@@ -148,7 +161,7 @@ function AddPost() {
                 title: post.title,
                 category: post.category,
                 body: post.content,
-                cover_img: image_link
+                cover_img: post.image
             })
             .then(res => {
                 // setData(res.data[0]);

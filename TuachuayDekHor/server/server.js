@@ -440,7 +440,7 @@ api.get("/posttocategory", async (req, res) => {
 //detailpost
 api.post("/detailpost", async (req, res) => {
     const { id } = req.body;
-    const { data, error } = await supabase.from("blog").select('*').eq("blog_id", id);
+    const { data, error } = await supabase.from("blog").select('*,blog_category(category)').eq("blog_id", id);
     if (error) {
         res.status(400).json(error);
     }
