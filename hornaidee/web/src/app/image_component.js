@@ -9,6 +9,11 @@ export default function ImageUploadComponent({ photos: initialPhotos, setPhotos,
   const [photos, setLocalPhotos] = useState([]);
   const [error, setError] = useState(false);
 
+  // useEffect(() => {
+  //   console.log('initialPhotos: ', initialPhotos);
+  //   console.log('photos: ', photos);
+  // }, [initialPhotos, photos]);
+
   useEffect(() => {
     setLocalPhotos(initialPhotos);
   }, [initialPhotos]);
