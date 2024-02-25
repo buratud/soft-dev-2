@@ -28,7 +28,7 @@ const Details = () => {
       id
     })
       .then((res) => {
-        
+
         setData(res.data[0]);
       })
       .catch((error) => {
@@ -39,8 +39,8 @@ const Details = () => {
   const id_user = data.blogger
   const [userData, setUserData] = useState([]);
   useEffect(() => {
-    axios.post(`${REACT_APP_BASE_API_URL}/idtopic` ,{
-      id : id_user
+    axios.post(`${REACT_APP_BASE_API_URL}/idtopic`, {
+      id: id_user
     })
       .then((res) => {
         setUserData(res.data[0]);
@@ -55,13 +55,22 @@ const Details = () => {
   }
 
   useEffect(() => {
-    axios.get(`${REACT_APP_BASE_API_URL}/countlike?id_post=` + id)
+    axios.post(`${REACT_APP_BASE_API_URL}/countlike`, {
+      id
+    })
       .then((res) => {
-        setLike(res.data);
+        setLike(res.data[0].likes);
       })
       .catch((error) => {
         console.error(error);
-      })
+      });
+
+    axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
+      user: session?.user?.id,
+      blog: id,
+    }).then(res => {
+      setLikeyet(res.data);
+    })
 
   }, [id]);
 
@@ -74,47 +83,47 @@ const Details = () => {
     if (loading) {
       return;
     }
-  
+
     setLoading(true); // Set loading state to true
-  
+
     console.log('param', id, 'session', session?.user?.id);
 
-axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
-  user: session?.user?.id,
-  blog: id,
-})
-  .then(res => {
-    const liked = res.data;
+    axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
+      user: session?.user?.id,
+      blog: id,
+    })
+      .then(res => {
+        const liked = res.data;
 
-    if (liked) {
-      axios.post(`${REACT_APP_BASE_API_URL}/unlike`, {
-        user: session?.user?.id,
-        blog: id,
+        if (liked) {
+          axios.post(`${REACT_APP_BASE_API_URL}/unlike`, {
+            user: session?.user?.id,
+            blog: id,
+          })
+            .then(res => {
+              setLikeyet(false); // ตั้งค่าเป็น false หลังจากกด Unlike
+            })
+            .catch((err) => {
+              alert(err);
+            });
+        } else {
+          axios.post(`${REACT_APP_BASE_API_URL}/like`, {
+            user: session?.user?.id,
+            blog: id,
+          })
+            .then(res => {
+              setLikeyet(true); // ตั้งค่าเป็น true หลังจากกด Like
+            })
+            .catch((err) => {
+              alert(err);
+            });
+        }
       })
-        .then(res => {
-          setLike(false); // ตั้งค่าเป็น false หลังจากกด Unlike
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    } else {
-      axios.post(`${REACT_APP_BASE_API_URL}/like`, {
-        user: session?.user?.id,
-        blog: id,
-      })
-        .then(res => {
-          setLike(true); // ตั้งค่าเป็น true หลังจากกด Like
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    }
-  })
-  .catch((err) => {
-    alert(err);
-  });
+      .catch((err) => {
+        alert(err);
+      });
 
-  
+
     // Perform the server request based on the like status
     try {
     } catch (err) {
@@ -123,11 +132,11 @@ axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
       setLoading(false); // Reset loading state regardless of success or failure
     }
   };
-  
-  
 
-  const isLikedByUser = like;
-  
+
+
+  const isLikedByUser = likeyet;
+
   return (
     <div className="story">
       <header>
@@ -158,16 +167,16 @@ axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
             </div>
             <div className="menu__icon">
               <div className="first">
-              <div className="like__box">
-                <div className="heart">
-                  {isLikedByUser ? (
-                    <BsHeartFill size={25} className='heart liked' onClick={handleLikeClick} />
-                  ) : (
-                    <BsHeart size={25} className='heart' onClick={handleLikeClick} />
-                  )}
-                  <p>{like.length}</p>
+                <div className="like__box">
+                  <div className="heart">
+                    {isLikedByUser ? (
+                      <BsHeartFill size={25} className='heart liked' onClick={handleLikeClick} />
+                    ) : (
+                      <BsHeart size={25} className='heart' onClick={handleLikeClick} />
+                    )}
+                    <p>{like}</p>
+                  </div>
                 </div>
-              </div>
 
                 {/* comment อยู่ตรงนี้นะ */}
                 <div className="comment__icon">

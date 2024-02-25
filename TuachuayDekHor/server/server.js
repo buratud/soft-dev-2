@@ -144,12 +144,12 @@ api.post("/likepost", async (req, res) => {
 })
 
 //count_like
-api.get("/countlike", async (req, res) => {
-    const { id_post } = req.query;
+api.post("/countlike", async (req, res) => {
+    const { id } = req.body;
     const { data, error } = await supabase
-        .from("likes")
-        .select('*', { count: 'exact' })
-        .eq("id_post", id_post)
+        .from("blog")
+        .select('likes')
+        .eq("blog_id", id)
     if (error) {
         res.status(500).json(error);
     }
