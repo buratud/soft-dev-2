@@ -68,9 +68,8 @@ function AddPost(params) {
     },[]);
 
     const [data, setData] = useState([]);
-    const edit = true;
+    const edit = blog_id !== undefined;
     // const blog_id = 'bbb0f45f-5120-483a-849c-e95d24f21d89'
-    let category;
     useState (() => {
         console.log('edit',edit)
         if (edit) {
@@ -93,15 +92,15 @@ function AddPost(params) {
                 title: data.title ?? '',
                 content: data.body ?? '',
                 category: data.category ?? '',
-                image: data.cover_img ?? ''
+                // image: data.cover_img ?? ''
             });
         }
     }, [data]);
 
     useEffect (() => {
-        console.log('category',data.blog_category)
+        // console.log('category',data.blog_category)
         console.log('setpost',post)
-    },[data,post]);
+    },[post]);
 
 
 
@@ -128,8 +127,10 @@ function AddPost(params) {
             return;
         }
 
+        let img = data.cover_img
         const file = event.target[0]?.files[0]
-        if (file) {  
+        console.log('file',file !== undefined)
+        if (file !== undefined) {  
             const image_title =`${makeid(10)}.${file.type.replace(/(.*)\//g, '')}`
 
             const { error } = await supabase
@@ -149,18 +150,18 @@ function AddPost(params) {
             .from('postthumnail')
             .getPublicUrl(image_title)
 
-            setPost({
-                image: image_link ?? data.cover_img
-            });
+            img = image_link
+            
         }
 
         if (edit){
+            console.log('image',img)
             axios.post(`${REACT_APP_BASE_API_URL}/editblog`, {
                 blog: blog_id,
                 title: post.title,
                 category: post.category,
                 body: post.content,
-                cover_img: post.image
+                cover_img: img
             })
             .then(res => {
                 // setData(res.data[0]);
