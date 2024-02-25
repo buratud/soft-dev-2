@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./global.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { REACT_APP_BASE_WEB_PATH } from "./config";
-import Sentry from "@sentry/react";
+import * as Sentry from "@sentry/react";
 
 Sentry.init({
   dsn: "https://1c251de7913758fa91758f808f62458b@linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com/7",
