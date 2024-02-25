@@ -196,16 +196,16 @@ app.put('/dorms/:id', async (req, res) => {
         }
         const facilitiesList = facilitiesID.map(object => object.facility_id)
         for (const facility of facilities) {
-            if (facilitiesList.includes(facility)) {
-                const position = facilitiesList.indexOf(facility)
-                facilitiesList.splice(position, position + 1)
-                continue
-            }
             const { error } = await supabase.schema('dorms').from('dorms_facilities').insert({
                 dorm_id: result[0].id,
                 facility_id: facility
             });
             if (error) {
+                if (error.statusCode === "409") {
+                    const position = facilitiesList.indexOf(facility)
+                    facilitiesList.splice(position, position + 1)
+                    continue
+                }
                 logger.error(error);
                 res.status(500).send();
                 return;
