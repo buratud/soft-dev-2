@@ -197,8 +197,7 @@ app.put('/dorms/:id', async (req, res) => {
             res.status(500).send();
             return;
         }
-        const photosList = photosURL.map(object => object.photo_url.split('/').splice(-1)[0])
-        // res.status(200).json(photosList);
+        const photosList = photosURL.map(object => object.photo_url)
 
         for (let i = 0; i < photos.length; i++) {
             const photo = photos[i];
@@ -213,17 +212,17 @@ app.put('/dorms/:id', async (req, res) => {
             const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms')
                 .upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, {contentType: mimeType});
 
-            if (uploadError.statusCode === "409") {
-                // res.status(200).json(`dorms/${result[0].id}/${i}.${fileExtension}`)
-                const position = photosList.indexOf(`${i}.${fileExtension}`)
-                photosList.splice(position, position + 1)
-                continue
-            } else if (uploadError) {
+            if (uploadError) {
+                if (uploadError.statusCode === "409") {
+                    const pic = `https://linux-vm-southeastasia-4.southeastasia.cloudapp.azure.com/storage/v1/object/public/dorms/dorms/${result[0].id}/${i}.${fileExtension}`
+                    const position = photosList.indexOf(pic)
+                    photosList.splice(position, position + 1)
+                    continue
+                }
                 logger.error(uploadError);
                 res.status(500).send();
                 return;
             }
-            res.status(200).json(position);
 
             const { data: pictureMetadata } = supabase.storage.from('dorms').getPublicUrl(uploadData.path);
             const { error: insertError } = await supabase.schema('dorms').from('photos').insert({
@@ -236,7 +235,20 @@ app.put('/dorms/:id', async (req, res) => {
                 return;
             }
         }
-        // res.status(200).send({ message: "Update sucessfully" });
+
+        for (const photo of photosList) {
+            const { error } = await supabase.schema('dorms').from('photos').delete()
+                .eq('dorm_id', req.params.id)
+                .eq('photo_url', photo)
+            const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms')
+                .remove([photo.split('/public/dorms/')[1]]);
+            if (error) {
+                logger.error(error);
+                res.status(500).send();
+                return;
+            }
+        }        
+        res.status(200).send({ message: "Update sucessfully" });
 
     } catch (error) {
         if (error instanceof z.ZodError) {
