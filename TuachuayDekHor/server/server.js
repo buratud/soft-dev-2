@@ -303,11 +303,10 @@ api.get("/posttocategory", async (req, res) => {
 })
 
 //detailpost
-api.get("/detailpost", async (req, res) => {
-    const { id_post } = req.query;
-    const { data, error } = await supabase.from("Create_Post").select('id,title,name:profiles!Create_Post_id_fkey(username),content,image_link').eq("id_post", id_post)
+api.post("/detailpost", async (req, res) => {
+    const { id } = req.body;
+    const { data, error } = await supabase.from("blog").select('*').eq("blog_id", id);
     if (error) {
-        console.log(data)
         res.status(400).json(error);
     }
     else {
@@ -328,9 +327,9 @@ api.get("/nameprofile", async (req, res) => {
 })
 
 //id_to_pic
-api.get("/idtopic", async (req, res) => {
-    const { id } = req.query;
-    const { data, error } = await supabase.from("profiles").select('avatar_url').eq("id", id);
+api.post("/idtopic", async (req, res) => {
+    const { id } = req.body;
+    const { data, error } = await supabase.from("users").select('picture , username').eq("id", id);
     if (error) {
         console.log(data)
         res.status(400).json(error);

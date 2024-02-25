@@ -24,8 +24,11 @@ const Details = () => {
   const [data, setData] = useState([]);
   const [likeyet, setLikeyet] = useState([]);
   useEffect(() => {
-    axios.get(`${REACT_APP_BASE_API_URL}/detailpost?id_post=` + id)
+    axios.post(`${REACT_APP_BASE_API_URL}/detailpost`, {
+      id
+    })
       .then((res) => {
+        
         setData(res.data[0]);
       })
       .catch((error) => {
@@ -33,15 +36,14 @@ const Details = () => {
       })
   }, [id]);
 
-  console.log(data.id)
-
-  const id_user = data.id
-  const [pic, setPic] = useState([]);
+  const id_user = data.blogger
+  const [userData, setUserData] = useState([]);
   useEffect(() => {
-    axios.get(`${REACT_APP_BASE_API_URL}/idtopic?id=` + id_user)
+    axios.post(`${REACT_APP_BASE_API_URL}/idtopic` ,{
+      id : id_user
+    })
       .then((res) => {
-        setPic(res.data[0]);
-        console.log(pic);
+        setUserData(res.data[0]);
       })
       .catch((error) => {
         console.error(error);
@@ -133,10 +135,10 @@ const Details = () => {
             </div>
             <div className="writer">
               <div className="user__photo">
-                <Avatar src={pic.avatar_url} />
+                <Avatar src={userData.picture} />
               </div>
               <div className="name">
-                <h6>{data.name?.username}</h6>
+                <h6>{userData.username}</h6>
                 <div />
 
                 {/* <div className="heart">
@@ -182,9 +184,9 @@ const Details = () => {
             </div>
           </div>
           <div className="img__box">
-            <img src={data.image_link ?? img1} alt="" />
+            <img src={data.cover_img ?? img1} alt="" />
           </div>
-          <div className="content" dangerouslySetInnerHTML={{ __html: data.content }} />
+          <div className="content" dangerouslySetInnerHTML={{ __html: data.body }} />
         </Card>
       </div >
       <Footer></Footer>
