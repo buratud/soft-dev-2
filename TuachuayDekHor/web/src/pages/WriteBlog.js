@@ -1,6 +1,5 @@
 import "./WriteBlog.scoped.css";
 import React from 'react';
-import NavHead from "../component/Nav";
 import AddPost from "../component/AddPost";
 import {Container} from 'reactstrap';
 import Navbar from "../component/Nav";

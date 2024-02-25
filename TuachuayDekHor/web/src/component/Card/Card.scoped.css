@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
 .singleDest{
+    font-family: 'Poppins',sans-serif;
     position: relative;
-    height: 350px;
+    height: 400px;
     overflow: hidden;
     border-radius: 1rem;
     padding: 1rem;
@@ -43,12 +45,14 @@
     flex-direction: column;
     align-items: flex-start;
     font-size: 18px;
+    padding-bottom: 3rem;
 }
 
 .destText p{
     color: black;
     font-family:'Poppins' ;
     font-weight: 500;
+    height: 2rem;
 }
 
 .icon{
@@ -57,13 +61,11 @@
 }
 
 .userwrite{
+    color: black;
     display: flex;
 }
 
 
-.name{
-    margin-top: 2rem;
-}
 
 img{
     position: relative;

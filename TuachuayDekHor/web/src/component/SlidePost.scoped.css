@@ -34,28 +34,24 @@ img{
     font-family:'Poppins' ;
 }
 
-.icon{
-    position: relative;
-    color: #3D39BD ;
-}
-
 .userwrite{
-    background-color: #3D39BD;
+    background-color:rgba(103, 133, 176, 1);
     height: 30px;
-    width: 60%;
-    /* color: aliceblue; */
+    width: max-content;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: aliceblue;
     font-size: 18px;
-    width: 100%;
     text-align: center;
-    justify-content: center;
+    justify-self: center;
     align-items: center;
     border-radius: 50px;
+    margin-top: 0.5rem;
 }
 
 .userwrite a{
     color: rgb(255, 255, 255);
 }
-
 
 .box{
     justify-content: center;
