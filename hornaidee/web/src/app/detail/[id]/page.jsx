@@ -23,12 +23,14 @@ import { IoLogoNoSmoking, IoIosFitness } from "react-icons/io";
 import "./style.css";
 import "./overlay.css";
 import Footer from "../../footer";
+import ReviewComponent from "./review_component";
 
 import {
   NEXT_PUBLIC_SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY,
   NEXT_PUBLIC_BASE_API_URL,
   NEXT_PUBLIC_BASE_WEB_PATH,
+  NEXT_PUBLIC_BASE_WEB_URL,
 } from "../../../../config";
 import { createClient } from "@supabase/supabase-js";
 
@@ -68,7 +70,7 @@ export default function DormDetails() {
   useEffect(() => {
     supabase.auth.getSession().then((result) => {
       setSession(result.data.session.user.id);
-      console.log(result.data.session.user.id);
+      // console.log(result.data.session.user.id);
       setUser_id(result.data.session.user.id);
     });
   }, []);
@@ -92,7 +94,7 @@ export default function DormDetails() {
 
   const router = useRouter();
   const handleEditButtonClick = () => {
-    router.push(`/edit/${params.id}`);
+    router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/edit/${params.id}`);
   };
 
   useEffect(() => {
@@ -102,14 +104,14 @@ export default function DormDetails() {
 
   useEffect(() => {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setData(res.data);
-      console.log(res.data.owner);
+      // console.log(res.data.owner);
       setOwner_id(res.data.owner); // Update owner_id using setState
       axios
         .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${res.data.owner}`)
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           setUser(res.data);
           setIsLoading(false);
         });
@@ -118,7 +120,7 @@ export default function DormDetails() {
 
   useEffect(() => {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}/reviews`).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setRate(res.data);
     });
   }, []);
@@ -232,10 +234,13 @@ export default function DormDetails() {
           <h3>Hosted By</h3>
           <div className="hostinfo">
             <div className="hostprofile">
-              <img
+              <Image
                 src={user.picture || "https://images.macrumors.com/t/XjzsIpBxeGphVqiWDqCzjDgY4Ck=/800x0/article-new/2019/04/guest-user-250x250.jpg?lossy"}
                 alt="Host"
                 className="hostavatar"
+                style={{width: '100px', height: 'auto'}}
+                width={1}
+                height={1}
               />
               <div className="hostdetails">
                 <h3>{user.username}</h3>
@@ -250,6 +255,41 @@ export default function DormDetails() {
           </div>
         </div>
       </div>
+      
+      {/* Reviews Component */}
+      <div className="reviewsbox">
+        <div className="flex justify-between">
+          <h3 className="font-semibold">All Reviews</h3>
+          {/* Add review button */}
+          <div>
+              <button
+                className="bg-[#092F88] hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-[15px] text-xl mt-2 mb-2 transition-all"
+                onClick={() => {
+                  router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/review/${params.id}`);
+                }}
+              >
+                Add A Review
+              </button>
+            </div>
+          </div>
+        <div>
+        {rate.reviews.length === 0 && (
+          <p className="text-center font-medium text-xl pt-6">No reviews yet</p>
+        )}
+        {!isLoading && rate.reviews.map((review, index) => (
+          <ReviewComponent
+            key={index}
+            user_id={review.user_id}
+            stars={review.stars}
+            short_review={review.short_review}
+            review={review.review}
+            className=''
+          />
+        ))}
+        </div>
+      </div>
+
+
       <Footer />
       {showOverlay && <Overlay />}
     </div>

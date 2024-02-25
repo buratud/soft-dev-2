@@ -5,7 +5,7 @@ import Footer from "../../footer";
 import ReactStars from "react-stars";
 import "./style.css";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 //im dumb
 import {
@@ -23,6 +23,7 @@ const supabase = createClient(
 
 export default function DormReview() {
   const params = useParams();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
   const [user, setUser] = useState({});
@@ -33,6 +34,7 @@ export default function DormReview() {
   });
   const [session, setSession] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [submitting, setSubmitting] = useState(false); // State variable to track submission status
 
   useEffect(() => {
     supabase.auth.getSession().then((result) => {
@@ -58,18 +60,23 @@ export default function DormReview() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Set submitting to true to change button text
+    setSubmitting(true);
+
     // Reset error message
     setErrorMessage(null);
 
     // Check if all fields are filled
     if (!reviewForm.stars || !reviewForm.short_review || !reviewForm.review) {
       setErrorMessage("Please fill in all fields");
+      setSubmitting(false); // Reset submitting status
       return;
     }
 
     // Check if session token is available
     if (!session) {
       setErrorMessage("Authentication token is missing");
+      setSubmitting(false); // Reset submitting status
       return;
     }
 
@@ -91,7 +98,7 @@ export default function DormReview() {
           setErrorMessage("Review added successfully. Redirecting...");
           // Add a delay of 2 seconds before redirecting
           setTimeout(() => {
-            window.location.href = `${NEXT_PUBLIC_BASE_WEB_PATH}/detail/${params.id}`;
+            router.push(`${NEXT_PUBLIC_BASE_WEB_PATH}/detail/${params.id}`);
           }, 2000);
         }
       })      
@@ -108,12 +115,16 @@ export default function DormReview() {
           // Network errors
           setErrorMessage("Network error occurred, please try again.");
         }
+      })
+      .finally(() => {
+        // Reset submitting status regardless of success or failure
+        setSubmitting(false);
       });
   };
 
   useEffect(() => {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setData(res.data);
       setIsLoading(false);
     });
@@ -184,8 +195,9 @@ export default function DormReview() {
             />
           </div>
           <div className="reviewButtonContainer">
-            <button className="reviewButton" onClick={handleSubmit}>
-              Review Property
+            {/* Render button text based on submitting status */}
+            <button className="reviewButton" onClick={handleSubmit} disabled={submitting}>
+              {submitting ? "Submitting..." : "Review Property"}
             </button>
           </div>
         </div>

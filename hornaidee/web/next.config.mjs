@@ -10,7 +10,7 @@ const nextConfig = {
             hostname: 'linux-vm-southeastasia-4.southeastasia.cloudapp.azure.com',
             port: '',
             pathname: '/**',
-          },
+          }
         ],
     },
     basePath: NEXT_PUBLIC_BASE_WEB_PATH
