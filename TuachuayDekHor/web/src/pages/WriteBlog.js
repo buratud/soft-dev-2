@@ -4,7 +4,7 @@ import AddPost from "../component/AddPost";
 import {Container} from 'reactstrap';
 import Navbar from "../component/Nav";
 
-const WriteBlog = ({params}) =>{
+const WriteBlog = () =>{
     return (
         <div className="writting">
             <Navbar/>
