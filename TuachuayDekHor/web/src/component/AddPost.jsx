@@ -91,8 +91,7 @@ function AddPost(params) {
             setPost({
                 title: data.title ?? '',
                 content: data.body ?? '',
-                category: data.category ?? '',
-                // image: data.cover_img ?? ''
+                category: data.category ?? ''
             });
         }
     }, [data]);
@@ -151,11 +150,9 @@ function AddPost(params) {
             .getPublicUrl(image_title)
 
             img = image_link
-            
         }
 
         if (edit){
-            console.log('image',img)
             axios.post(`${REACT_APP_BASE_API_URL}/editblog`, {
                 blog: blog_id,
                 title: post.title,
