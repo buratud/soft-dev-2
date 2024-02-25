@@ -6,10 +6,6 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    colors: {
-      '092F88' : '#092F88',
-    },
-
     extend: {
       fontFamily: {
         'Poppins': ["Poppins", "sans-serif"],
