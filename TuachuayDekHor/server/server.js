@@ -142,9 +142,9 @@ api.post("/editblog", async (req, res) => {
 api.delete("/deletepost", async (req, res) => {
     const { id_post } = req.query;
     const { error } = await supabase
-        .from("Create_Post")
+        .from("blog")
         .delete()
-        .eq('id_post', id_post)
+        .eq('blog_id', blog)
     if (error) {
         res.status(500).json(error);
     }
@@ -153,8 +153,9 @@ api.delete("/deletepost", async (req, res) => {
     }
 })
 
-api.post("/deleteblog", async (req, res) => {
+api.delete("/deleteblog", async (req, res) => {
     const { blog } = req.body;
+    console.log(blog)
     const { error } = await supabase
         .from("blog")
         .delete()

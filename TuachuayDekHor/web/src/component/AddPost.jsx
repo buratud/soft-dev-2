@@ -4,7 +4,7 @@ import "./AddPost.scoped.css"
 import JoditEditor from 'jodit-react';
 import { AuthContext } from '../App';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { REACT_APP_BASE_API_URL , REACT_APP_MAIN_URL } from '../config';
 const { createClient } = require("@supabase/supabase-js");
 const {REACT_APP_SUPABASE_URL,REACT_APP_SUPABASE_ANON_KEY} = require("../config");
@@ -68,6 +68,31 @@ function AddPost() {
         getUserID();
     },[]);
 
+    const [data, setData] = useState([]);
+    const edit = true;
+    useState (() => {
+        // const {param} = useParams()
+        // console.log('param',param)
+        const blog_id = 'bbb0f45f-5120-483a-849c-e95d24f21d89'
+        console.log('edit',edit)
+        if (edit) {
+            axios.post(`${REACT_APP_BASE_API_URL}/detailpost`, {
+                id: blog_id
+            })
+            .then(res => {
+                setData(res.data[0]);
+                console.log('blog detail',res.data[0])
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
+    })
+
+    useEffect (() => {
+        console.log('category',data.category)
+    },[data]);
+
 
 
     // create post function
@@ -78,6 +103,9 @@ function AddPost() {
         setLoading(true);
 
         // console.log(post)
+        // if (edit) {
+        //     const post.title = data?title
+        // }
         if (post.title.trim() == '') {
             setLoading(false)
             alert('post is required!!')
@@ -114,24 +142,40 @@ function AddPost() {
         .from('postthumnail')
         .getPublicUrl(image_title)
 
-        axios.post(`${REACT_APP_BASE_API_URL}/createpost`, {
-            title: post.title,
-            content: post.content,
-            category: post.category,
-            user_id: userID,
-            image_link : image_link,
-        })
-        .then(res => {
-            setLoading(false)
-            alert(res.data.message);
-            navigate('/home')
-        })
-        .catch((err) => {
-            setLoading(false)
-            alert(err)
-        })
-
-        
+        if (edit){
+            axios.post(`${REACT_APP_BASE_API_URL}/editblog`, {
+                blog: blog_id,
+                title: post.title,
+                category: post.category,
+                body: post.content,
+                cover_img: image_link
+            })
+            .then(res => {
+                // setData(res.data[0]);
+                console.log('editblog',res)
+                navigate('/home')
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        } else {
+            axios.post(`${REACT_APP_BASE_API_URL}/createpost`, {
+                title: post.title,
+                content: post.content,
+                category: post.category,
+                user_id: userID,
+                image_link : image_link,
+            })
+            .then(res => {
+                setLoading(false)
+                alert(res.data.message);
+                navigate('/home')
+            })
+            .catch((err) => {
+                setLoading(false)
+                alert(err)
+            })
+        }
 
         // submit the form 
         // createPost(post).then(data =>{
@@ -190,6 +234,7 @@ function AddPost() {
                                     placeholder='Type your title blog...'
                                     className='rounded-2'
                                     name="title"
+                                    defaultValue={data?.title}
                                     onChange={fieldChanged}
                                 />
                             </div>
@@ -203,19 +248,19 @@ function AddPost() {
                                     className='rounded-2'
                                     name='category'
                                     onChange={fieldChanged}
-                                    defaultValue={0}
+                                    defaultValue={data.category ?? 0}
                                 >
                                     <option disabled value={0}>-- Select category --</option>
-                                    <option>
+                                    <option value={1}>
                                         decoration
                                     </option>
-                                    <option>
+                                    <option value={2}>
                                         cooking
                                     </option>
-                                    <option>
+                                    <option value={3}>
                                         cleaning
                                     </option>
-                                    <option>
+                                    <option value={4}>
                                         story
                                     </option>
                                 </Input>
@@ -238,7 +283,7 @@ function AddPost() {
                                 <Label for='content'>Content</Label>
                                 <JoditEditor
                                     ref={editor}
-                                    value={post.content}
+                                    value={data.body ?? post.content}
                                     // config={config}
                                     // tabIndex={1} // tabIndex of textarea
                                     // Cursor moves to beginning of document after typing pls help me co-pilot
