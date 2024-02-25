@@ -13,6 +13,7 @@ import "./style.css";
 const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
 export default function EditDormPage() {
+  const router = useRouter();
   const params = useParams();
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -171,30 +172,32 @@ export default function EditDormPage() {
   const submitForm = () => {
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
-      axios
-        .post(
-          `${NEXT_PUBLIC_BASE_API_URL}/dorms`,
-          {
-            owner: session.user.id,
-            name: name,
-            address: address,
-            property_number: property_number,
-            city: city,
-            province: province,
-            zip_code: zip_code,
-            rent_price: parseFloat(rent_price),
-            facilities: facilities,
-            photos: photos,
-          },
-          { headers: { Authorization: `Bearer ${session.access_token}` } }
-        )
-        .then((res) => {
-          setIsFormSubmitted(true);
-          window.location.href = `${NEXT_PUBLIC_BASE_WEB_URL}/detail/${res.data.id}`;
-        })
-        .catch((err) => {
-          alert(err);
-        });
+      // axios
+      //   .post(
+      //     `${NEXT_PUBLIC_BASE_API_URL}/dorms`,
+      //     {
+      //       owner: session.user.id,
+      //       name: name,
+      //       address: address,
+      //       property_number: property_number,
+      //       city: city,
+      //       province: province,
+      //       zip_code: zip_code,
+      //       rent_price: parseFloat(rent_price),
+      //       facilities: facilities,
+      //       photos: photos,
+      //     },
+      //     { headers: { Authorization: `Bearer ${session.access_token}` } }
+      //   )
+      //   .then((res) => {
+      //     setIsFormSubmitted(true);
+      //     router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/detail/${res.data.id}`);
+      //   })
+      //   .catch((err) => {
+      //     alert(err);
+      //   });
+      alert("Backend is not available :(");
+      router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/detail/${params.id}`);
     } else {
       setErrors(errors);
     }
@@ -451,11 +454,12 @@ export default function EditDormPage() {
           >
             Add Your Property
           </button>
-          <Link href="/dorms">
-            <button className="bg-[#C10206] font-bold text-[#FFFFFF] px-6 py-2 rounded-2xl hover:transition-all hover:scale-110 duration-300">
-              Cancel
-            </button>
-          </Link>
+          <button 
+            className="bg-[#C10206] font-bold text-[#FFFFFF] px-6 py-2 rounded-2xl hover:transition-all hover:scale-110 duration-300"
+            onClick={() => router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/detail/${params.id}`)}
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </main>
