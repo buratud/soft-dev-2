@@ -150,6 +150,23 @@ textarea {
   background-color: #ff3d3d; /* Darker Green */
 }
 
+/* styles for caution message */
+
+.cautioncontainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.cautioncontainer h3{
+  font-size: 18px;
+  color: rgb(154, 0, 0);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
 /* Styles for error message */
 
 .alertcontainer {
@@ -157,7 +174,7 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 3rem;
+  margin-top: 1.5rem;
   padding-bottom: 20vh;
 }
 

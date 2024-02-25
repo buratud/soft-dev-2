@@ -106,7 +106,7 @@ export default function DormReview() {
         if (error.response) {
           if (error.response.status === 409) {
             // Conflict error
-            setErrorMessage("Cannot add review due to conflicts.");
+            setErrorMessage("Already reviewed this property.");
           } else {
             // Other errors
             setErrorMessage("An error occurred while adding the review.");
@@ -204,6 +204,13 @@ export default function DormReview() {
               Cancel
             </button>
           </div>
+        </div>
+      </div>
+
+  {/* alert */}
+      <div className="cautioncontainer">
+        <div>
+          <h3>The submitted review cannot be deleted or edited. Proceed with caution.</h3>
         </div>
       </div>
 
