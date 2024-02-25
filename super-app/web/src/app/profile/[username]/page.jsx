@@ -39,6 +39,7 @@ const BlogsCards = ({ params }) => {
         })
             .then(res => {
                 const user = res.data.user.id;
+
                 if (user) {
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
                         user: user
@@ -220,6 +221,8 @@ const DormCards = () => {
 }
 
 export default function Profile({ params }) {
+
+    const { session } = useContext(General);
 
     const [selectedOption, setSelectedOption] = useState('blogs'); // สร้าง state เพื่อเก็บค่า option ที่ถูกเลือก
     const [profileImage, setProfileImage] = useState('');
