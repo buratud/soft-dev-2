@@ -118,6 +118,25 @@ api.post("/createpost", async (req, res) => {
     }
 })
 
+//edit blog
+api.post("/editblog", async (req, res) => {
+    const { blog,title,category,body,cover_img } = req.body
+    const { data, error } = await supabase
+        .from('blog')
+        .update({  'title' : title,
+                'category' : category,
+                'body' : body,
+                'cover_img': cover_img })
+        .eq('blog_id', blog)
+        .select()
+    if (error) {
+        console.error(error);
+        res.status(400).json(error);
+    } else {
+        res.status(200).json(data);
+    }
+});
+
 //delete
 api.delete("/deletepost", async (req, res) => {
     const { id_post } = req.query;
@@ -406,25 +425,6 @@ api.post("/bloggerlist", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
-    }
-});
-
-//edit blog
-api.post("/editblog", async (req, res) => {
-    const { blog,title,category,body,cover_img } = req.body
-    const { error } = await supabase
-        .from('blog')
-        .update({  'title' : title,
-                'category' : category,
-                'body' : body,
-                'cover_img': cover_img })
-        .eq('blog_id', blog)
-        .select()
-    if (error) {
-        console.error(error);
-        res.status(400).json(error);
-    } else {
-        res.status(200).json(data);
     }
 });
 
