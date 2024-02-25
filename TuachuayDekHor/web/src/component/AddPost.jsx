@@ -262,16 +262,16 @@ function AddPost(params) {
                                     defaultValue={data.category ?? 0}
                                 >
                                     <option disabled value={0}>-- Select category --</option>
-                                    <option value={1}>
+                                    <option value={1} selected={data.category === 1}>
                                         cooking
                                     </option>
-                                    <option value={2}>
+                                    <option value={2} selected={data.category === 2}>
                                         decoration
                                     </option>
-                                    <option value={3}>
+                                    <option value={3} selected={data.category === 3}>
                                         cleaning
                                     </option>
-                                    <option value={4}>
+                                    <option value={4} selected={data.category === 4}>
                                         story
                                     </option>
                                 </Input>
