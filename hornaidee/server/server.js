@@ -227,6 +227,19 @@ app.put('/dorms/:id', async (req, res) => {
         }
         const photosList = photosURL.map(object => object.photo_url)
 
+        for (const photo of photosList) {
+            const { error } = await supabase.schema('dorms').from('photos').delete()
+                .eq('dorm_id', req.params.id)
+                .eq('photo_url', photo)
+            const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms')
+                .remove([photo.split('/public/dorms/')[1]]);
+            if (error) {
+                logger.error(error);
+                res.status(500).send();
+                return;
+            }
+        }
+
         for (let i = 0; i < photos.length; i++) {
             const photo = photos[i];
             const base64 = getRawBase64(photo);
@@ -264,18 +277,6 @@ app.put('/dorms/:id', async (req, res) => {
             }
         }
 
-        for (const photo of photosList) {
-            const { error } = await supabase.schema('dorms').from('photos').delete()
-                .eq('dorm_id', req.params.id)
-                .eq('photo_url', photo)
-            const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms')
-                .remove([photo.split('/public/dorms/')[1]]);
-            if (error) {
-                logger.error(error);
-                res.status(500).send();
-                return;
-            }
-        }        
         res.status(200).send({ message: "Update sucessfully" });
 
     } catch (error) {
