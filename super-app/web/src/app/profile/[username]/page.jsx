@@ -39,6 +39,7 @@ const BlogsCards = ({ params }) => {
         })
             .then(res => {
                 const user = res.data.user.id;
+
                 if (user) {
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
                         user: user
@@ -50,7 +51,7 @@ const BlogsCards = ({ params }) => {
                         .catch((err) => {
                             console.log(err)
                         })
-            
+
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_blog`, {
                         user: user
                     })
@@ -62,7 +63,7 @@ const BlogsCards = ({ params }) => {
                             console.log(err)
                         })
                 }
-                    
+
             })
             .catch((err) => {
                 console.log(err)
@@ -154,16 +155,16 @@ const ProductCards = ({ params }) => {
                             .catch((err) => {
                                 console.log(err);
                             });
-    
+                            
                         // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
-                        if (user ===  session?.user?.id ) {
+                        if (user === session?.user?.id) {
                             setIsUserOwner(true);
                         }
                     } else {
                         setIsUserOwner(false);
                     }
                 }
-                    
+
             })
             .catch((err) => {
                 console.log(err)
@@ -218,6 +219,8 @@ const DormCards = () => {
 
 export default function Profile({ params }) {
 
+    const { session } = useContext(General);
+
     const [selectedOption, setSelectedOption] = useState('blogs'); // สร้าง state เพื่อเก็บค่า option ที่ถูกเลือก
     const [profileImage, setProfileImage] = useState('');
     const [profileUsername, setProfileUsername] = useState('XXXXX');
@@ -233,17 +236,18 @@ export default function Profile({ params }) {
         const getProfile = () => {
             try {
                 setProfileUsername(params.username);
-                
+
                 axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
                     username: params.username
                 })
                     .then(res => {
-                        
+
                         const user = res?.data?.user;
 
                         if (user) {
                             // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
-                            setIsUserOwner(user.id === session?.user?.id );
+                            setIsUserOwner(user.id === session?.user?.id);
+                            console.log(session)
                         }
 
                         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`, {
@@ -255,7 +259,7 @@ export default function Profile({ params }) {
                     });
 
 
-                
+
             } catch (error) {
                 console.error('Error getting profile:', error);
             }
@@ -285,7 +289,7 @@ export default function Profile({ params }) {
                             </div>
                             <div className={style.edit_profile}>Edit profile</div>
                         </Link> : " "}
-                        <div className={style.line}/>
+                        <div className={style.line} />
                         <select className={style.dropdown} value={selectedOption} onChange={handleChange}>
                             <option value="blogs">DekHor Blogs</option>
                             <option value="dorms">DekHor Dorms</option>
