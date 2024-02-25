@@ -13,7 +13,7 @@ export default function ReviewComponent({ user_id, stars, short_review, review }
     // Fetch user data
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/users/${user_id}`)
       .then((res) => {
-        console.log("user data: ", res.data);
+        // console.log("user data: ", res.data);
         setUser(res.data);
         setIsLoading(false);
       });

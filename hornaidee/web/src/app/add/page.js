@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { NEXT_PUBLIC_BASE_WEB_URL, NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY } from "../../../config";
 import { createClient } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 import ImageUploadComponent from "../image_component";
 import "./style.css";
 
 const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
 export default function AddDormPage() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [property_number, setPropertyNumber] = useState("");
@@ -163,7 +165,7 @@ export default function AddDormPage() {
         )
         .then((res) => {
           setIsFormSubmitted(true);
-          window.location.href = `${NEXT_PUBLIC_BASE_WEB_URL}/detail/${res.data.id}`;
+          router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/detail/${res.data.id}`);
         })
         .catch((err) => {
           alert(err);

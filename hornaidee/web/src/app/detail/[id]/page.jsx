@@ -265,7 +265,7 @@ export default function DormDetails() {
               <button
                 className="bg-[#092F88] hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-[15px] text-xl mt-2 mb-2 transition-all"
                 onClick={() => {
-                  router.push(`/review/${params.id}`);
+                  router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/review/${params.id}`);
                 }}
               >
                 Add A Review

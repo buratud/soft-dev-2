@@ -5,7 +5,7 @@ import Footer from "../../footer";
 import ReactStars from "react-stars";
 import "./style.css";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 //im dumb
 import {
@@ -23,6 +23,7 @@ const supabase = createClient(
 
 export default function DormReview() {
   const params = useParams();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
   const [user, setUser] = useState({});
@@ -97,7 +98,7 @@ export default function DormReview() {
           setErrorMessage("Review added successfully. Redirecting...");
           // Add a delay of 2 seconds before redirecting
           setTimeout(() => {
-            window.location.href = `${NEXT_PUBLIC_BASE_WEB_PATH}/detail/${params.id}`;
+            router.push(`${NEXT_PUBLIC_BASE_WEB_PATH}/detail/${params.id}`);
           }, 2000);
         }
       })      
@@ -123,7 +124,7 @@ export default function DormReview() {
 
   useEffect(() => {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setData(res.data);
       setIsLoading(false);
     });
