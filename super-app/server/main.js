@@ -3,7 +3,7 @@ const { createClient } = require("@supabase/supabase-js");
 const { PORT } = require("./config");
 const { BASE_SERVER_PATH, SUPABASE_URL, SUPABASE_KEY } = require("./config");
 const cors = require("cors");
-
+const Sentry = require("@sentry/node");
 const app = express();
 const api = express.Router();
 
