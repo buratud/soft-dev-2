@@ -102,6 +102,7 @@ const Details = () => {
           })
             .then(res => {
               setLikeyet(false); // ตั้งค่าเป็น false หลังจากกด Unlike
+              setLike(res.data.likes);
             })
             .catch((err) => {
               alert(err);
@@ -113,6 +114,7 @@ const Details = () => {
           })
             .then(res => {
               setLikeyet(true); // ตั้งค่าเป็น true หลังจากกด Like
+              setLike(res.data.likes);
             })
             .catch((err) => {
               alert(err);
