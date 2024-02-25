@@ -201,7 +201,7 @@ app.put('/dorms/:id', async (req, res) => {
                 facility_id: facility
             });
             if (error) {
-                if (error.statusCode === "409") {
+                if (error.statusCode === "23505") {
                     const position = facilitiesList.indexOf(facility)
                     facilitiesList.splice(position, position + 1)
                     continue
