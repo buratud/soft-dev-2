@@ -50,7 +50,7 @@ const BlogsCards = ({ params }) => {
                         .catch((err) => {
                             console.log(err)
                         })
-            
+
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_blog`, {
                         user: user
                     })
@@ -62,7 +62,7 @@ const BlogsCards = ({ params }) => {
                             console.log(err)
                         })
                 }
-                    
+
             })
             .catch((err) => {
                 console.log(err)
@@ -141,29 +141,32 @@ const ProductCards = ({ params }) => {
             username: params.username
         })
             .then(res => {
-                const user = res.data.user.id;
-                if (user) {
+                const isOwner = async () => {
+                    const user = res.data.user.id;
                     if (user) {
-                        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
-                            user: user
-                        })
-                            .then(res => {
-                                setyourproduct(res.data);
-                                console.log('your product', res.data);
+                        if (user) {
+                            axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
+                                user: user
                             })
-                            .catch((err) => {
-                                console.log(err);
-                            });
-    
-                        // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
-                        if (user ===  session?.user?.id ) {
-                            setIsUserOwner(true);
+                                .then(res => {
+                                    setyourproduct(res.data);
+                                    console.log('your product', res.data);
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                });
+
+                            // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
+                            const { data: { session } } = await supabase.auth.getSession();
+                            if (user === session?.user?.id) {
+                                setIsUserOwner(true);
+                            }
+                        } else {
+                            setIsUserOwner(false);
                         }
-                    } else {
-                        setIsUserOwner(false);
                     }
+                    isOwner();
                 }
-                    
             })
             .catch((err) => {
                 console.log(err)
@@ -233,18 +236,21 @@ export default function Profile({ params }) {
         const getProfile = () => {
             try {
                 setProfileUsername(params.username);
-                
+
                 axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
                     username: params.username
                 })
                     .then(res => {
-                        
+
                         const user = res?.data?.user;
 
-                        if (user) {
+                        const isOwner = async () => {
                             // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
-                            setIsUserOwner(user.id === session?.user?.id );
+                            const { data: { session } } = await supabase.auth.getSession();
+                            setIsUserOwner(user.id === session?.user?.id);
                         }
+
+                        isOwner();
 
                         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`, {
                             userID: user.id
@@ -255,7 +261,7 @@ export default function Profile({ params }) {
                     });
 
 
-                
+
             } catch (error) {
                 console.error('Error getting profile:', error);
             }
@@ -285,7 +291,7 @@ export default function Profile({ params }) {
                             </div>
                             <div className={style.edit_profile}>Edit profile</div>
                         </Link> : " "}
-                        <div className={style.line}/>
+                        <div className={style.line} />
                         <select className={style.dropdown} value={selectedOption} onChange={handleChange}>
                             <option value="blogs">DekHor Blogs</option>
                             <option value="dorms">DekHor Dorms</option>
