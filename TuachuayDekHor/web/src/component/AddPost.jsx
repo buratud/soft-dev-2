@@ -21,7 +21,8 @@ function makeid(length) {
     }
     return result;
 }
-function AddPost() {
+function AddPost({params}) {
+    const {id} = params;
     const navigate = useNavigate()
     const [userID,setUserID] = useState();
 
