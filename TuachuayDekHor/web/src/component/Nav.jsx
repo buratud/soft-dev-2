@@ -4,6 +4,7 @@ import { REACT_APP_MAIN_URL, REACT_APP_MAIN_API_URL } from "../config";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext, Usesupabase } from "../App";
 import axios from "axios";
+import img1 from '../../src/Assets/person-circle-outline.svg'
 
 
 const Navbar = () => {
@@ -11,12 +12,11 @@ const Navbar = () => {
   const [isOpen_2, setIsOpen_2] = useState(false);
   const [isOpen_3, setIsOpen_3] = useState(false);
   const [isOpen_Profile, setIsOpen_Profile] = useState(false);
-  const [isOpen_Categories, setIsOpen_Categories] = useState(false);
   // ส่วนของโปรไฟล์และทำการตรวจสอบว่า User ได้ทำการ login หรือยัง
   const [profileImage, setProfileImage] = useState('');
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
-  const { session } = useContext(AuthContext);
+  const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
 
   useEffect(() => {
     //console.log('session', session)
@@ -24,11 +24,7 @@ const Navbar = () => {
     //เรียกใช้ isLoggedIn เพื่อตรวจสอบสถานะการเข้าสู่ระบบ
     const checkLoginStatus = async () => {
       try {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) {
-          console.log(error);
-        }
-        const user = data?.session?.user;
+        const user = session.user;
 
         if (user) {
           axios.post(`${REACT_APP_MAIN_API_URL}/profile-picture`,
@@ -47,7 +43,6 @@ const Navbar = () => {
         console.error('Error checking login status:', error);
       }
     };
-    console.log('session', session)
     checkLoginStatus();
   }, [session]);
 
@@ -74,7 +69,6 @@ const Navbar = () => {
         setIsOpen_2(false);
         setIsOpen_3(false);
         setIsOpen_Profile(false);
-        setIsOpen_Categories(false);
       }
     };
 
@@ -104,14 +98,13 @@ const Navbar = () => {
               setIsOpen_2(false);
               setIsOpen_3(false);
               setIsOpen_Profile(false);
-              setIsOpen_Categories(false);
             }}>
             <div className="dropdown_text">
               Blogs
             </div>
             {!isOpen_1 ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}</button>
 
-          {isOpen_1 && <div className="dropdownContent">
+          {isOpen_1 && <div className="dropdownContent_blog">
             <a href={`${REACT_APP_MAIN_URL}/blogs`}>
               <div>
                 <span>
@@ -119,44 +112,13 @@ const Navbar = () => {
                 </span>
               </div>
             </a>
-            <div>
-              <button className="subdropdown" onClick={() => setIsOpen_Categories((prev) => !prev)}>
-                <span>Categories</span>
-                {!isOpen_Categories ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}
-              </button>
-              {isOpen_Categories && (
-                <div className="subdropdownContent">
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/cleaning`}>
-                    <div>
-                      <span>
-                        Cleaning
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/decoration`}>
-                    <div>
-                      <span>
-                        Decorations
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/cooking`}>
-                    <div>
-                      <span>
-                        cooking
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/story`}>
-                    <div>
-                      <span>
-                        Story's DekHor
-                      </span>
-                    </div>
-                  </a>
-                </div>
-              )}
-            </div>
+            <a href={`${REACT_APP_MAIN_URL}/blogs/search`}>
+              <div>
+                <span>
+                  All Blogs
+                </span>
+              </div>
+            </a>
             <a href={`${REACT_APP_MAIN_URL}/blogs/writeblog`}>
               <div>
                 <span>
@@ -167,7 +129,7 @@ const Navbar = () => {
             <a href={`${REACT_APP_MAIN_URL}/blogs/blogger`}>
               <div>
                 <span>
-                  Blogger
+                  Bloggers
                 </span>
               </div>
             </a>
@@ -226,32 +188,32 @@ const Navbar = () => {
             {!isOpen_3 ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}</button>
 
           {isOpen_3 && <div className="dropdownContent">
-            <Link to={`/home`}>
+            <a href={`${REACT_APP_MAIN_URL}/markets/home`}>
               <div>
                 <span>
                   Main
                 </span>
               </div>
-            </Link>
-            <Link to={`/food`}>
+            </a>
+            <a href={`${REACT_APP_MAIN_URL}/markets/food`}>
               <div>
                 <span>
                   All Products
                 </span>
               </div>
-            </Link>
-            <Link to={`/manage`}>
+            </a>
+            <a href={`${REACT_APP_MAIN_URL}/markets/manage`}>
               <div>
                 <span>
                   Manage Product
                 </span>
               </div>
-            </Link>
+            </a>
           </div>}
         </div>
 
       </div>
-
+      {/* isUserLoggedIn  */}
       <div className="rightside">
         {isUserLoggedIn ? (
           <button
@@ -262,7 +224,7 @@ const Navbar = () => {
               setIsOpen_1(false);
             }}>
             {/* ตัวแปรโปรไฟล์อยู่ตรงนี้ใน src */}
-            <img alt="Profile" src={profileImage} className="ProfileImage" />
+            <img alt="Profile" src={profileImage ?? img1} className="ProfileImage" />
           </button>
         ) : (
           <div className="btn_wrap">

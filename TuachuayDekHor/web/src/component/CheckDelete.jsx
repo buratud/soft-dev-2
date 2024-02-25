@@ -33,9 +33,10 @@ function CheckDelete(){
   return (
     <>
       <BsFillTrashFill size={25} onClick={handleShow}/>
+      <p className="deleteText" onClick={handleShow}>Delete</p>
       <Modal show={show} onHide={handleClose}>
         {/* <Modal.Header className='modal-header'closeButton> */}
-        <Modal.Header className='modal-header'>
+        <Modal.Header className='modal-header' style={{ backgroundColor: 'rgb(64, 102, 156)' }}>
             <h1 className='text-wraning'>Warning!</h1>
             <BsXLg size={25} id="icon-close" onClick={handleClose} />
         </Modal.Header>

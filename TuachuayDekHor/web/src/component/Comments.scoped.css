@@ -2,6 +2,11 @@ p{
     margin-left: 0.5rem;
 }
 
+.p2, p2{
+    font-size: 26px;
+    font-weight: 500;
+}
+
 .comment-icon{
     color: rgba(0, 0, 0, 0.402);
     cursor: pointer;
@@ -9,20 +14,35 @@ p{
 
 .comment-icon:hover{
     color: black;
-    scale: 1.2;
+    scale: 1.15;
 }
 
 .btn{
     display: flex;
+    justify-content: center;
     padding: 0;
+    margin-top: 0.1rem;
+}
+
+.btn:hover{
+    color: black;
+    scale: 1.15;
+    transition: 0.48s;
+}
+
+.btn p{
+    align-items: center;
+    margin-left: 0.5rem;
+    margin-top: 0.05rem;
+    color: #808080;
 }
 
 .title{
-    width:100%;
-    padding-top: 1rem;
+    width: 100%;
+    padding: 0.75rem 0.5rem;
     display: flex ;
-    color: black;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.402) ;
+    color: rgb(255, 255, 255);
+    border-bottom: 3px solid rgba(217, 192, 41, 1) ;
 }
 
 textarea {
@@ -53,7 +73,8 @@ textarea {
 }
 
 .send__btn:hover{
-    background-color: #cdaf07;
+    background-color: #ecc901;
+    transform: scale(1.1);
 }
 
 .comments_wrap{
@@ -77,11 +98,18 @@ textarea {
 }
 
 .h5, h5{
-    font-size: 17px;
-    font-weight: 500;
-    padding-top: 0.5rem;
+    width: max-content;
+    background-color: #40669C;
+    color: white;
+    font-size: 1.85vh;
+    padding: 0.5rem 1rem;
+    border-radius: 2vh;
 }
 
+.p1, p1{
+    padding-left: 2rem;
+    padding-bottom: 0.5rem;
+}
 .comment-text{
     width: 100%;
     font-size: 16px;
@@ -111,4 +139,5 @@ textarea {
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid rgba(178, 178, 178, 0.779);
+    margin-bottom: 0.85rem;
 }

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Galindo:wght@400&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Galindo&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Hubballi:wght@400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Gaegu:wght@400&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
@@ -25,7 +25,8 @@ body {
 }
 
 #root{
-  width: 100vw;
+    /* This is the second edit */
+  width: 100%;
   height: 100vh;
 }
 
