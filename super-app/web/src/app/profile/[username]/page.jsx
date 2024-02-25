@@ -156,7 +156,7 @@ const ProductCards = ({ params }) => {
                             });
     
                         // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
-                        if (user === params.userID) {
+                        if (user ===  session?.user?.id ) {
                             setIsUserOwner(true);
                         }
                     } else {
@@ -222,6 +222,8 @@ export default function Profile({ params }) {
     const [profileImage, setProfileImage] = useState('');
     const [profileUsername, setProfileUsername] = useState('XXXXX');
     const router = useRouter();
+    const [isUserOwner, setIsUserOwner] = useState(false);
+
 
     const handleChange = (event) => {
         setSelectedOption(event.target.value); // เมื่อเลือก option ใหม่ เปลี่ยนค่า state
@@ -238,6 +240,11 @@ export default function Profile({ params }) {
                     .then(res => {
                         
                         const user = res?.data?.user;
+
+                        if (user) {
+                            // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
+                            setIsUserOwner(user.id === session?.user?.id );
+                        }
 
                         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`, {
                             userID: user.id
@@ -272,13 +279,13 @@ export default function Profile({ params }) {
                     <div className={style.user_info}>
                         <div className={style.username}>{params.username}</div>
                         {/* เหลือใส่ Link edit profile link */}
-                        <Link href={'/profile-edit'} className={style.edit_profile_button}>
+                        {isUserOwner ? <Link href={'/profile-edit'} className={style.edit_profile_button}>
                             <div className={style.edit_profile_img}>
                                 <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/edit_profile.png`} />
                             </div>
                             <div className={style.edit_profile}>Edit profile</div>
-                        </Link>
-                        <div className={style.line} />
+                        </Link> : " "}
+                        <div className={style.line}/>
                         <select className={style.dropdown} value={selectedOption} onChange={handleChange}>
                             <option value="blogs">DekHor Blogs</option>
                             <option value="dorms">DekHor Dorms</option>

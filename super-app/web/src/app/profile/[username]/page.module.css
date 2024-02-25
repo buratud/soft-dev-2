@@ -112,7 +112,7 @@
 
 .data {
     width: 100%;
-    height: auto;
+    height: 100%;
     background-color: white;
     margin-bottom: 70px;
     border-radius: 50px;
@@ -123,10 +123,10 @@
 .data card{
     display: grid;
     justify-items: center;
-    column-gap: 50px;
-    grid-template-columns: auto auto auto;
-    padding: 10px;
-    
+    gap: 30px;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding-left: 5rem;
+    padding-right: 5rem;
 }
 
 .blogs_btn{
