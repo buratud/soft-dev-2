@@ -252,7 +252,7 @@ export default function EditDormPage() {
         )
         .then((res) => {
           setIsFormSubmitted(true);
-          router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/detail/${params.id}`);
+          window.location.href = `${NEXT_PUBLIC_BASE_WEB_URL}/detail/${params.id}`;
         })
         .catch((err) => {
           alert(err);
