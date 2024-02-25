@@ -8,7 +8,7 @@ import { createClient } from "@supabase/supabase-js";
 
 import "./style.css";
 import Navbar from "../../../components/nav.jsx";
-import Footer from "../../../components/Footer/Footer.jsx";
+import Footer from "../../../components/footer/Footer.jsx";
 import {NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY} from "../../../config.js"; // Import config.js
 
 // Define the main component
