@@ -100,7 +100,7 @@ textarea {
   padding-right: 0.3rem;
 }
 
- /* Styles for edit button */
+ /* Styles for review and cancel button */
 
  .reviewButtonContainer {
   display: flex;
@@ -128,6 +128,26 @@ textarea {
 
 .reviewButton:hover {
   background-color: #3d5eff; /* Darker Green */
+}
+
+.cancelButton {
+  background-color: rgb(154, 0, 0);
+  box-shadow: 0px 2px 8.6px 0px rgba(7, 46, 104, 0.36);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bolder;
+  cursor: pointer;
+  border-radius: 15px;
+  transition: background-color 0.3s ease; /* Add transition for background-color */
+  margin-left: 2rem;
+}
+
+.cancelButton:hover {
+  background-color: #ff3d3d; /* Darker Green */
 }
 
 /* Styles for error message */
