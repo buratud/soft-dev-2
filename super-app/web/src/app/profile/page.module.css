@@ -123,8 +123,10 @@
 .data card{
     display: grid;
     justify-items: center;
-    row-gap: 10px;
+    gap: 30px;
     grid-template-columns: 1fr 1fr 1fr;
+    padding-left: 5rem;
+    padding-right: 5rem;
 }
 
 .blogs_btn{
