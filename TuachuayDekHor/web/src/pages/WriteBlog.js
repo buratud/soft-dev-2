@@ -9,7 +9,7 @@ const WriteBlog = () =>{
         <div className="writting">
             <Navbar/>
             <Container>
-                <AddPost></AddPost>
+                <AddPost params = {params}/>
             </Container>
         </div>
     );
