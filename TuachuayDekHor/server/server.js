@@ -134,21 +134,7 @@ api.delete("/deletepost", async (req, res) => {
     }
 })
 
-api.delete("/deletepost", async (req, res) => {
-    const { blog } = req.query;
-    const { error } = await supabase
-        .from("blog")
-        .delete()
-        .eq('id', blog)
-    if (error) {
-        res.status(500).json(error);
-    }
-    else {
-        res.status(200).json({ msg: "success" })
-    }
-})
-
-api.delete("/deleteblog", async (req, res) => {
+api.post("/deleteblog", async (req, res) => {
     const { blog } = req.body;
     const { error } = await supabase
         .from("blog")

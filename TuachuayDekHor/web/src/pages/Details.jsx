@@ -28,7 +28,6 @@ const Details = () => {
       id
     })
       .then((res) => {
-
         setData(res.data[0]);
       })
       .catch((error) => {
@@ -70,7 +69,9 @@ const Details = () => {
       blog: id,
     }).then(res => {
       setLikeyet(res.data);
-    })
+    }).catch((error) => {
+      console.error(error);
+    });
 
   }, [id]);
 
@@ -185,7 +186,7 @@ const Details = () => {
               </div>
               <div className="last">
                 {/* เช็คว่า Authen รึยัง ถ้า authen แล้วจะเปลี่ยนเป็น edit กับ delete  */}
-                {(user?.user_metadata.username !== data.name?.username) ? "" :
+                {(data.blogger !== session?.user?.id) ? "" :
                   <div className="edit">
                     {/* edit อยู่ตรงนี้คับ */}
                     <Link to={'/writeblog'}><button className='icon-Edit'>
