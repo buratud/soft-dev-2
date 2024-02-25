@@ -23,8 +23,9 @@ header{
 
 
 .writting{
-    width: 100vw;
-    min-height: 100vh;
+    /* Finally here */
+    width: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     background-color: #eceff1;
