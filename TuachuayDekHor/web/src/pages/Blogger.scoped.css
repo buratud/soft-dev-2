@@ -144,6 +144,7 @@ img{
     font-style: normal;
     font-weight: 400;
     color: black ;
+    background-color: transparent;
 }
 
 .inputSearch::placeholder{
