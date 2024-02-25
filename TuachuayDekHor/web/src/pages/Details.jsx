@@ -19,13 +19,16 @@ import { REACT_APP_BASE_API_URL } from '../config'
 const Details = () => {
   const { id } = useParams();
   // const {username} = useParams();
-  const { user } = useContext(AuthContext);
+  const { user, session } = useContext(AuthContext);
   const [like, setLike] = useState([]);
   const [data, setData] = useState([]);
   const [likeyet, setLikeyet] = useState([]);
   useEffect(() => {
-    axios.get(`${REACT_APP_BASE_API_URL}/detailpost?id_post=` + id)
+    axios.post(`${REACT_APP_BASE_API_URL}/detailpost`, {
+      id
+    })
       .then((res) => {
+
         setData(res.data[0]);
       })
       .catch((error) => {
@@ -33,15 +36,14 @@ const Details = () => {
       })
   }, [id]);
 
-  console.log(data.id)
-
-  const id_user = data.id
-  const [pic, setPic] = useState([]);
+  const id_user = data.blogger
+  const [userData, setUserData] = useState([]);
   useEffect(() => {
-    axios.get(`${REACT_APP_BASE_API_URL}/idtopic?id=` + id_user)
+    axios.post(`${REACT_APP_BASE_API_URL}/idtopic`, {
+      id: id_user
+    })
       .then((res) => {
-        setPic(res.data[0]);
-        console.log(pic);
+        setUserData(res.data[0]);
       })
       .catch((error) => {
         console.error(error);
@@ -53,13 +55,22 @@ const Details = () => {
   }
 
   useEffect(() => {
-    axios.get(`${REACT_APP_BASE_API_URL}/countlike?id_post=` + id)
+    axios.post(`${REACT_APP_BASE_API_URL}/countlike`, {
+      id
+    })
       .then((res) => {
-        setLike(res.data);
+        setLike(res.data[0].likes);
       })
       .catch((error) => {
         console.error(error);
-      })
+      });
+
+    axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
+      user: session?.user?.id,
+      blog: id,
+    }).then(res => {
+      setLikeyet(res.data);
+    })
 
   }, [id]);
 
@@ -72,54 +83,62 @@ const Details = () => {
     if (loading) {
       return;
     }
-  
+
     setLoading(true); // Set loading state to true
-  
-    // Optimistically update the UI before the server response
-    setLike((currentLikes) => {
-      const liked = currentLikes.some(({ id }) => id === user?.id);
-      if (liked) {
-        // If already liked, remove the like
-        return currentLikes.filter((like) => like.id !== user?.id);
-      } else {
-        // If not liked, add the like
-        return [...currentLikes, { id: user?.id }];
-      }
-    });
-  
+
+    console.log('param', id, 'session', session?.user?.id);
+
+    axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
+      user: session?.user?.id,
+      blog: id,
+    })
+      .then(res => {
+        const liked = res.data;
+
+        if (liked) {
+          axios.post(`${REACT_APP_BASE_API_URL}/unlike`, {
+            user: session?.user?.id,
+            blog: id,
+          })
+            .then(res => {
+              setLikeyet(false); // ตั้งค่าเป็น false หลังจากกด Unlike
+              setLike(res.data.likes);
+            })
+            .catch((err) => {
+              alert(err);
+            });
+        } else {
+          axios.post(`${REACT_APP_BASE_API_URL}/like`, {
+            user: session?.user?.id,
+            blog: id,
+          })
+            .then(res => {
+              setLikeyet(true); // ตั้งค่าเป็น true หลังจากกด Like
+              setLike(res.data.likes);
+            })
+            .catch((err) => {
+              alert(err);
+            });
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+
+
     // Perform the server request based on the like status
     try {
-      if (liked) {
-        await axios.delete(`${REACT_APP_BASE_API_URL}/unlike?id=${user?.id}&id_post=${id}`);
-      } else {
-        await axios.post(`${REACT_APP_BASE_API_URL}/likepost`, {
-          id_post: id,
-          id: user?.id,
-        });
-      }
-      
-      // Update the UI after the server response
-      setLike((currentLikes) => {
-        const liked = currentLikes.some(({ id }) => id === user?.id);
-        if (liked) {
-          // If already liked, return current likes
-          return currentLikes;
-        } else {
-          // If not liked, add the like
-          return [...currentLikes, { id: user?.id }];
-        }
-      });
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false); // Reset loading state regardless of success or failure
     }
   };
-  
-  
 
-  const isLikedByUser = like.some(({ id }) => id === user?.id);
-  
+
+
+  const isLikedByUser = likeyet;
+
   return (
     <div className="story">
       <header>
@@ -133,10 +152,10 @@ const Details = () => {
             </div>
             <div className="writer">
               <div className="user__photo">
-                <Avatar src={pic.avatar_url} />
+                <Avatar src={userData.picture} />
               </div>
               <div className="name">
-                <h6>{data.name?.username}</h6>
+                <h6>{userData.username}</h6>
                 <div />
 
                 {/* <div className="heart">
@@ -150,16 +169,16 @@ const Details = () => {
             </div>
             <div className="menu__icon">
               <div className="first">
-              <div className="like__box">
-                <div className="heart">
-                  {isLikedByUser ? (
-                    <BsHeartFill size={25} className='heart liked' onClick={handleLikeClick} />
-                  ) : (
-                    <BsHeart size={25} className='heart' onClick={handleLikeClick} />
-                  )}
-                  <p>{like.length}</p>
+                <div className="like__box">
+                  <div className="heart">
+                    {isLikedByUser ? (
+                      <BsHeartFill size={25} className='heart liked' onClick={handleLikeClick} />
+                    ) : (
+                      <BsHeart size={25} className='heart' onClick={handleLikeClick} />
+                    )}
+                    <p>{like}</p>
+                  </div>
                 </div>
-              </div>
 
                 {/* comment อยู่ตรงนี้นะ */}
                 <div className="comment__icon">
@@ -182,9 +201,9 @@ const Details = () => {
             </div>
           </div>
           <div className="img__box">
-            <img src={data.image_link ?? img1} alt="" />
+            <img src={data.cover_img ?? img1} alt="" />
           </div>
-          <div className="content" dangerouslySetInnerHTML={{ __html: data.content }} />
+          <div className="content" dangerouslySetInnerHTML={{ __html: data.body }} />
         </Card>
       </div >
       <Footer></Footer>
