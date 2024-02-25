@@ -17,6 +17,23 @@ api.get("/", (req, res) => {
   res.send(JSON.stringify(req));
 });
 
+api.get('/users/:id', async (req, res) => {
+  try {
+    const { data: users, error } = await supabase.from('users').select().eq('id', req.params.id);
+    if (error) {
+      res.status(500).send();
+      return;
+    }
+    if (users.length === 0) {
+      res.status(404).send();
+      return;
+    }
+    res.json(users[0]);
+  } catch (error) {
+    res.status(500).send();
+  }
+});
+
 //Authentication
 
 api.put("/login", async (req, res) => {
@@ -74,14 +91,10 @@ api.put('/update-username', async (req) => {
 api.post("/recommended-blog", async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from("randomblog")
-      // .select('*');
-      .select("blog_id,title,category,body,blogger,date,cover_img");
-    // .limit(3);
+      .rpc('get_random_blog')
     if (error) {
       throw error;
     } else {
-      //console.log('data', data)
       res.status(200).json(data);
     }
   } catch (error) {
@@ -168,7 +181,7 @@ api.post('/set-profile', async (req, res) => {
       if (imageURL && username) {
         const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
         const oldFilename = oldPicture.substring(oldPicture.lastIndexOf('/') + 1);
-        if (oldFilename || oldFilename !== 'PersonCircle.svg') {
+        if (oldFilename && oldFilename !== 'PersonCircle.svg') {
           await supabase.storage.from('Profile_User').remove(oldFilename);
         }
         const { error } = await supabase.from('users').update({ username: username, picture: imageURL }).eq('id', userID)
@@ -187,7 +200,7 @@ api.post('/set-profile', async (req, res) => {
       else if (imageURL) {
         const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
         const oldFilename = oldPicture.substring(oldPicture.lastIndexOf('/') + 1);
-        if (oldFilename || oldFilename !== 'PersonCircle.svg') {
+        if (oldFilename && oldFilename !== 'PersonCircle.svg') {
           await supabase.storage.from('Profile_User').remove(oldFilename);
         }
         const { error } = await supabase.from('users').update({ picture: imageURL }).eq('id', userID)
@@ -233,8 +246,8 @@ api.post('/liked_blog', async (req, res) => {
   const { user } = req.body;
   try {
     const { data, error } = await supabase
-      .from('likedblog')
-      .select('*')
+      .from('like_blog')
+      .select('*,blog(*,blog_category(category)),users(username)')
       .eq('user_id', user)
     if (error) {
       throw error;
@@ -250,9 +263,9 @@ api.post('/your_blog', async (req, res) => {
   const { user } = req.body;
   try {
     const { data, error } = await supabase
-      .from('yourblog')
-      .select('blog_id,title,category,body,blogger,date,cover_img')
-      .eq('user_id', user)
+      .from('blog')
+      .select('*,users(username),blog_category(category)')
+      .eq('blogger', user)
     if (error) {
       throw error;
     } else {
@@ -269,9 +282,9 @@ api.post('/your_product', async (req, res) => {
   const { user } = req.body;
   try {
     const { data, error } = await supabase
-      .from('yourproduct')
+      .from('MarketConnect_Food')
       .select('*')
-      .eq('user_id', user)
+      .eq('Shopkeeper_Id', user)
     if (error) {
       throw error;
     } else {
@@ -281,7 +294,6 @@ api.post('/your_product', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 })
-
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);

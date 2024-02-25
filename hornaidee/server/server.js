@@ -11,10 +11,32 @@ const { log } = require('console');
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const logger = require('pino')({ level: LOG_LEVEL || 'info' });
+const cors = require('cors');
 
 const app = express.Router();
 
+app.use(cors());
+
 app.use(bodyParser.json({ limit: '50mb' }))
+
+app.get('/users/:id', async (req, res) => {
+    try {
+        const { data: user, error } = await supabase.from('users').select().eq('id', req.params.id);
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        if (user.length === 0) {
+            res.status(404).send();
+            return;
+        }
+        res.json(user[0]);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
 
 app.get('/dorms/:id', async (req, res) => {
     try {
@@ -51,13 +73,23 @@ app.get('/dorms/:id', async (req, res) => {
 
 app.get('/dorms/:id/reviews', async (req, res) => {
     try {
-        const { data: reviews, error } = await supabase.schema('dorms').from('reviews').select('user_id, stars, short_review, review').eq('dorm_id', req.params.id);
-        if (error) {
-            logger.error(error);
+        const { data: reviews, error: reviewsError } = await supabase.schema('dorms').from('reviews').select('user_id, stars, short_review, review').eq('dorm_id', req.params.id);
+        if (reviewsError) {
+            logger.error(reviewsError);
             res.status(500).send();
             return;
         }
-        res.json(reviews);
+        const { data: avg, error: avgError } = await supabase.schema('dorms').from('average_stars').select('*').eq('dorm_id', req.params.id);
+        if (avgError) {
+            logger.error(avgError);
+            res.status(500).send();
+            return;
+        }
+        let average = null;
+        if (avg.length === 1) {
+            average = avg[0].average;
+        }
+        res.json({ reviews, average });
     } catch (error) {
         logger.error(error);
         res.status(500).send();
@@ -356,5 +388,39 @@ app.delete('/dorms/:id/review', async (req, res) => {
         res.status(500).send();
     }
 });
+
+//-----------------------------Blogger-----------------------------------
+
+app.post('/blogger_list', async (req, res) => {
+    try {
+      const { data, error } = await supabase
+        .from('blogger')
+        .select('*')
+      if (error) {
+        throw error;
+      } else {
+        res.status(200).json(data);
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  })
+  
+  // api.post('/search_blogger', async (req, res) => {
+  //   try {
+  //     const { data, error } = await supabase
+  //       .from('blog.blog')
+  //       .select('users(id)')
+  //     if (error) {
+  //       console.log(error)
+  //       throw error;
+  //     } else {
+  //       res.status(200).json(data);
+  //     }
+  //   } catch (err) {
+  //     console.log(err)
+  //     res.status(500).json({ error: 'Internal Server Error' });
+  //   }
+  // })
 
 module.exports = app;

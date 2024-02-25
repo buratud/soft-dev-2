@@ -7,13 +7,13 @@ import {BsHeartFill,BsBookmarkFill} from "react-icons/bs";
 import { Link } from "react-router-dom";
 import {BiSolidPencil} from "react-icons/bi";
 import './LikeSlide.scoped.css'
-import { General } from '../App';
+import { AuthContext } from '../App';
 import axios from 'axios';
 import { REACT_APP_BASE_API_URL } from '../config'
 
 
 function LikeSlide (props){
-    const { supabase_for_use: supabase, session, user } = useContext(General);
+    const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
     const [data, setData] = useState([]);
     console.log(props.id)
     useEffect(() => {
