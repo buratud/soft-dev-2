@@ -3,10 +3,11 @@ import { AiOutlineHome, AiOutlineTag, AiOutlineEnvironment } from "react-icons/a
 import { BsBuildings, Bs123, BsHouse } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { NEXT_PUBLIC_BASE_WEB_URL, NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY } from "../../../../config";
+import { NEXT_PUBLIC_BASE_WEB_URL, NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_BASE_WEB_PATH } from "../../../../config";
 import { createClient } from "@supabase/supabase-js";
 import ImageUploadComponent from "../../image_component";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 import "./style.css";
 
 const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
@@ -29,6 +30,7 @@ export default function EditDormPage() {
   const [imageErrors, setImageErrors] = useState(null);
   const [user_id, setUser_id] = useState("");
   const [owner_id, setOwner_id] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [inputStates, setInputStates] = useState({
     name: false,
     address: false,
@@ -88,26 +90,16 @@ export default function EditDormPage() {
 
     // Check if user is the owner of the dorm
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
-      // console.log(res.data);
-      setData(res.data);
-      // console.log(res.data.owner);
-      setOwner_id(res.data.owner); // Update owner_id using setState
-      axios
-        .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${res.data.owner}`)
-        .then((res) => {
-          // console.log(res.data);
-          setUser(res.data);
-          setIsLoading(false);
-        });
+      setOwner_id(res.data.owner);
     });
   }, []);
 
   useEffect(() => {
     // if user is not the owner, redirect to the detail page
-    if (user_id !== owner_id) {
-      router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/detail/${params.id}`);
+    if (user_id !== owner_id && !isLoading) {
+        router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/detail/${params.id}`);
     }
-  }, [user_id, owner_id]);
+  }, [user_id, owner_id, isLoading]);
 
   async function imageUrlToBase64(url) {
     try {
@@ -152,10 +144,24 @@ export default function EditDormPage() {
         };
   
         convertPhotosToBase64();
+        setIsLoading(false);
       });
     }
   }, [session]);
   
+  if (isLoading) {
+    return (
+      <div className="loading-container">
+        <Image
+          alt="logo"
+          src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`}
+          height={70}
+          width={80}
+          className="loading-image spinning"
+        />
+      </div>
+    );
+  }
 
   // Fetch ImageUploadComponent from photos
   const handleUpdatePhotos = (updatedPhotos) => {
