@@ -207,10 +207,10 @@ function AddPost() {
                                 >
                                     <option disabled value={0}>-- Select category --</option>
                                     <option>
-                                        decoration
+                                        cooking
                                     </option>
                                     <option>
-                                        cooking
+                                        decoration
                                     </option>
                                     <option>
                                         cleaning
