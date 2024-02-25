@@ -199,6 +199,10 @@ export default function DormReview() {
             <button className="reviewButton" onClick={handleSubmit} disabled={submitting}>
               {submitting ? "Submitting..." : "Review Property"}
             </button>
+            {/* Cancel button */}
+            <button className="cancelButton" onClick={() => router.back()}>
+              Cancel
+            </button>
           </div>
         </div>
       </div>
