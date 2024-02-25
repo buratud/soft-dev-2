@@ -69,6 +69,20 @@ api.get("/getprofile/:id", async (req, res) => {
     }
 })
 
+//-----------------------------Profile-----------------------------------
+
+api.post('/profile-picture', async (req, res) => {
+  const { userID } = req.body;
+  if (userID) {
+    const { data } = await supabase
+      .from("users")
+      .select("picture")
+      .eq("id", userID);
+    const picture = data[0]?.picture;
+    res.status(200).json({ picture });
+  }
+})
+
 
 //edit_profile
 api.post("/edit_profile", async (req, res) => {
@@ -360,6 +374,24 @@ api.post("/blogger", async (req, res) => {
         res.status(200).json({ data: formattedBloggers, success: true });
     }
 
+});
+
+api.post("/bloggerlist", async (req, res) => {
+    try {
+        const { data, error } = await supabase
+        .rpc('get_blogger')
+    
+        if (error) {
+        console.error(error);
+        res.status(400).json(error);
+        } else {
+        const distinctBloggers = [...new Set(data.map(entry => entry))];
+        res.status(200).json(distinctBloggers);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 });
 
 //search
