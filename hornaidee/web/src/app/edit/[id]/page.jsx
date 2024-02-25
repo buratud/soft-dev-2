@@ -1,7 +1,6 @@
 "use client"
 import { AiOutlineHome, AiOutlineTag, AiOutlineEnvironment } from "react-icons/ai";
 import { BsBuildings, Bs123, BsHouse } from "react-icons/bs";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { NEXT_PUBLIC_BASE_WEB_URL, NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY } from "../../../../config";
@@ -74,6 +73,7 @@ export default function EditDormPage() {
   }, [errors]);
 
   useEffect(() => {
+    // Get session
     supabase.auth
       .getSession()
       .then((result) => {
@@ -85,9 +85,8 @@ export default function EditDormPage() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
 
-  useEffect(() => {
+    // Check if user is the owner of the dorm
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${params.id}`).then((res) => {
       // console.log(res.data);
       setData(res.data);
