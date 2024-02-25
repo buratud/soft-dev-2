@@ -31,6 +31,10 @@ app.use(cors());
 app.use(express.json());
 app.use(BASE_SERVER_PATH, api);
 
+api.get("/debug-sentry", function mainHandler(req, res) {
+  throw new Error("My first Sentry error!");
+});
+
 api.get("/", (req, res) => {
   res.send(JSON.stringify(req));
 });
