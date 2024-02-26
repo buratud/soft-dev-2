@@ -1,6 +1,7 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const firefox = require('selenium-webdriver/firefox');
 const delay = ms => new Promise(res => setTimeout(res, ms));
+const path = require('path');
 var assert = require('assert');
 
 // Set the path to the Firefox executable 
@@ -41,10 +42,39 @@ const driver = new Builder()
     await driver.findElement(By.xpath('//span[text()="Main"]')).click();
     console.log('Click main Market in Navbar');
     await delay(1000);
+
     await driver.wait(until.titleIs('MarketConnect'), 3000);
     console.log('Successfully redirected to Markets.');
+
+    await driver.findElement(By.className('middle')).findElement(By.xpath('//div[text()="Markets"]')).click();
+    await delay(1000);
+    await driver.findElement(By.xpath('//span[text()="Manage Product"]')).click();
+    await delay(1000);
+    await driver.findElement(By.className('add-product')).click();
+    await delay(1000);
+    //await driver.findElement(By.className('form-box-right')).findElement(By.xpath('//label[text()="Food Name"]')).findElement(By.tagName('input')).sendKeys('EWGF');
+    await driver.findElement(By.className('form-box-right')).findElement(By.xpath('/html/body/div/div/form/div[1]/div[2]/input[1]')).sendKeys('EWGF');
+    await driver.findElement(By.className('form-box-right')).findElement(By.xpath('/html/body/div/div/form/div[1]/div[2]/input[2]')).sendKeys('666');
+    await driver.findElement(By.className('form-box-right')).findElement(By.id('category')).findElement(By.xpath('//option[text()="Japan-Food"]')).click();
+    await driver.findElement(By.className('form-box-right')).findElement(By.xpath('/html/body/div/div/form/div[1]/div[2]/input[3]')).sendKeys('LineID');
+    await driver.findElement(By.className('description')).findElement(By.className('center-textarea')).sendKeys("I'm not gonna sugarcoat it.");
+
+    //const filePath = path.join(__dirname, '/home/stz/Desktop/soft-dev-2/Testcase/Liveserver_Test/EWGF.jpeg');
+    const filePath = path.join(__dirname, 'EWGF.jpeg');
+    //let fileInput = await driver.findElement(By.className('form-box-left')).findElement(By.className('upload-button'));
+    let fileInput = await driver.findElement(By.className('form-box-left')).findElement(By.css('input[type="file"]'));
+    await fileInput.sendKeys(filePath);
+
+    //await driver.findElement(By.className('form-box-left')).findElement(By.className('upload-button')).click(); 
     await delay(3000);
 
+    await driver.findElement(By.className('send-button')).click();
+
+    await delay(3000);
+
+    //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop/markets/manage');
+
+    //await delay(3000);
 
   } finally {
     // Close the browser
