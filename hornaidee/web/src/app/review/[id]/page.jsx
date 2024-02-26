@@ -12,7 +12,8 @@ import {
   NEXT_PUBLIC_SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY,
   NEXT_PUBLIC_BASE_API_URL,
-  NEXT_PUBLIC_BASE_WEB_PATH
+  NEXT_PUBLIC_BASE_WEB_PATH,
+  NEXT_PUBLIC_BASE_WEB_URL
 } from "../../../../config";
 import { createClient } from "@supabase/supabase-js";
 
@@ -98,7 +99,7 @@ export default function DormReview() {
           setErrorMessage("Review added successfully. Redirecting...");
           // Add a delay of 2 seconds before redirecting
           setTimeout(() => {
-            router.push(`${NEXT_PUBLIC_BASE_WEB_PATH}/detail/${params.id}`);
+            router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/detail/${params.id}`);
           }, 2000);
         }
       })      
