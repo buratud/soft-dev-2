@@ -264,7 +264,7 @@ export default function NavBar() {
                     {isAdminLoggedIn ? (
                         <Link href={`/admin`}> {/* ตั้ง Link ไปยังหน้า Admin */}
                             <div>
-                                <Image alt="Admin" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
+                                <Image alt="Admin" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Admin.png`} height={30} width={30} />
                                 <span>
                                     Admin
                                 </span>
