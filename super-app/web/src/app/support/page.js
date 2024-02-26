@@ -9,26 +9,46 @@ import { createClient } from "@supabase/supabase-js";
 import "./style.css";
 import Navbar from "../../../components/nav.jsx";
 import Footer from "../../../components/footer/Footer.jsx";
-import {NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY} from "../../../config.js"; // Import config.js
+import {
+  NEXT_PUBLIC_SUPABASE_URL,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  NEXT_PUBLIC_BASE_API_URL,
+} from "../../../config";
+import axios from "axios";
 
 // Define the main component
 export default function ContactSupport() {
-
   // State variables
   const [feedbackData, setFeedbackData] = useState(""); // State for storing feedback input
   const [selectedType, setSelectedType] = useState(""); // State for storing selected problem type
   const [historyData, setHistoryData] = useState([]); // State for storing transmission history data
   const [loading, setLoading] = useState(false); // State for tracking loading status
   const [setUnsend, setUnsendLoading] = useState(false); // State for tracking unsend operation loading status
+  const [user, setUser] = useState({});
   const [feedbackSent, setFeedbackSent] = useState(false); // State for tracking feedback sent status
   const [unsendSuccess, setUnsendSuccess] = useState(false); // State for tracking unsend success status
   const [error, setError] = useState(null); // State for storing error messages
   const [unsendClickedIndex, setUnsendClickedIndex] = useState(null); // State for tracking the index of the clicked row for unsend
-  const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  const supabase = createClient(
+    NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
 
-  // dummy user_id and email
-  const user_id = "AA000001";
-  const email = "example@domain.com";
+  useEffect(() => {
+    supabase.auth.getSession().then((result) => {
+      axios
+      .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${result.data.session.user.id}`)
+      .then((res) => {
+        console.log(res.data);
+        setUser(res.data);
+      });
+    });
+  }, []);
+
+  // user_id and email
+  const user_id = user?.id;
+  const email = user?.email;
+  console.log(user_id, email);
 
   // Function to get unsend icon based on the unsend status
   const getUnsendIcon = (unsend) => {
@@ -71,7 +91,8 @@ export default function ContactSupport() {
           lastRow.classList.remove("feedback-success");
           setFeedbackSent(false);
         }, 1400);
-      } if (unsendSuccess && feedbackSent != true) {
+      }
+      if (unsendSuccess && feedbackSent != true) {
         lastRow.classList.add("unsend-success");
         setTimeout(() => {
           lastRow.classList.remove("unsend-success");
@@ -99,8 +120,14 @@ export default function ContactSupport() {
     }
   }, [feedbackData, feedbackSent]);
 
+  useEffect(() => {
+    if (user?.id && user?.email) {
+      fetchDataFromSupabase(user.id, user.email);
+    }
+  }, [user]); // Run this effect whenever user object changes
+
   // Function to fetch data from Supabase
-  const fetchDataFromSupabase = async () => {
+  const fetchDataFromSupabase = async (userId, userEmail) => {
     try {
       setLoading(true);
 
@@ -108,8 +135,8 @@ export default function ContactSupport() {
       const { data, error } = await supabase
         .from("problems")
         .select("*")
-        .eq("user_id", user_id)
-        .eq("email", email)
+        .eq("user_id", userId)
+        .eq("email", userEmail)
         .order("date_create");
 
       if (error) {
@@ -118,7 +145,7 @@ export default function ContactSupport() {
 
       setHistoryData(data);
     } catch (err) {
-      setError("Fetching data failed.");
+      setError("Fetching data failed: " + err.message);
     } finally {
       setLoading(false);
     }
@@ -131,7 +158,7 @@ export default function ContactSupport() {
 
   // Function to handle unsend button click
   const handleUnsendClick = async (index) => {
-    const feedbackId = historyData[index].unique_id; // Get the unique identifier for the selected feedback
+    const feedbackId = historyData[index].id; // Get the unique identifier for the selected feedback
 
     setUnsendLoading(true); // Set unsend loading status to true
 
@@ -140,22 +167,17 @@ export default function ContactSupport() {
       const { error } = await supabase
         .from("problems")
         .update({ status: "Unsent", unsend: "Yes" }, { returning: "minimal" })
-        .eq("unique_id", feedbackId);
+        .eq("id", feedbackId);
 
       if (error) {
-        throw new Error(
-          "Unsending problem failed."
-        ); // Throw an error if unsend operation fails
+        throw new Error("Unsending problem failed."); // Throw an error if unsend operation fails
       }
 
       setUnsendClickedIndex(index); // Set the index of the row clicked for unsend
 
       await fetchDataFromSupabase(); // Refresh data from Supabase after unsend operation
     } catch (err) {
-      setError(
-        err.message ||
-          "Unsending problem failed."
-      ); // Set error message if an error occurs during unsend operation
+      setError(err.message || "Unsending problem failed."); // Set error message if an error occurs during unsend operation
     } finally {
       setUnsendLoading(false); // Set unsend loading status to false after unsend operation completion (success or failure)
     }
@@ -178,17 +200,15 @@ export default function ContactSupport() {
       console.log("Data sent:", feedbackDataToSend); // Log the data being sent for feedback
 
       try {
-        // Upsert the feedback data into the Supabase table, using "unique_id" and "date_create" as conflict resolution criteria
+        // Upsert the feedback data into the Supabase table, using "id" and "date_create" as conflict resolution criteria
         const { data, error } = await supabase
           .from("problems")
           .upsert([feedbackDataToSend], {
-            onConflict: ["unique_id", "date_create"],
+            onConflict: ["id", "date_create"],
           });
 
         if (error) {
-          throw new Error(
-            "Sending problem failed."
-          ); // Throw an error if feedback submission fails
+          throw new Error("Sending problem failed."); // Throw an error if feedback submission fails
         }
 
         setHistoryData([...historyData, feedbackDataToSend]); // Manually update the state to avoid additional API call
@@ -265,7 +285,7 @@ export default function ContactSupport() {
                               index === unsendClickedIndex || unsendSuccess
                                 ? "unsend-success"
                                 : index === historyData.length - 1 &&
-                                feedbackSent
+                                  feedbackSent
                                 ? "feedback-success"
                                 : ""
                             }
