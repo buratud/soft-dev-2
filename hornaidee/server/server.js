@@ -176,7 +176,6 @@ app.post('/dorms', async (req, res) => {
 
 app.put('/dorms/:id', async (req, res) => {
     try {
-        req.body.owner = req.user.sub;
         const data = PutDormRequest.parse(req.body);
         const { facilities, photos, ...dormData } = data;
         const user = req.user.sub;
