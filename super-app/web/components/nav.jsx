@@ -13,10 +13,11 @@ export default function NavBar() {
     const [isOpen_2, setIsOpen_2] = useState(false);
     const [isOpen_3, setIsOpen_3] = useState(false);
     const [isOpen_Profile, setIsOpen_Profile] = useState(false);
-    const [isOpen_Categories, setIsOpen_Categories] = useState(false); 
+    const [isOpen_Categories, setIsOpen_Categories] = useState(false);
     // ส่วนของโปรไฟล์และทำการตรวจสอบว่า User ได้ทำการ login หรือยัง
     const [profileImage, setProfileImage] = useState('');
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+    const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
     const { session } = useContext(General);
 
@@ -33,6 +34,9 @@ export default function NavBar() {
                 const user = data?.session?.user;
 
                 if (user) {
+
+                    const isAdmin = user.email === 'admin@example.com'; // แทน 'admin@example.com' ด้วยอีเมลล์ของ Admin
+
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`,
                         {
                             userID: user.id
@@ -40,6 +44,7 @@ export default function NavBar() {
                             const { picture } = res.data;
                             setProfileImage(picture);
                             setIsUserLoggedIn(true);
+                            setIsAdminLoggedIn(isAdmin);
                         });
                 }
                 else {
@@ -256,14 +261,25 @@ export default function NavBar() {
                 )}
 
                 {isOpen_Profile && <div className={styles.dropdownContentProfile}>
-                    <Link href={`/profile`}>
-                        <div>
-                            <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
-                            <span>
-                                My Profile
-                            </span>
-                        </div>
-                    </Link>
+                    {isAdminLoggedIn ? (
+                        <Link href={`/admin`}> {/* ตั้ง Link ไปยังหน้า Admin */}
+                            <div>
+                                <Image alt="Admin" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
+                                <span>
+                                    Admin
+                                </span>
+                            </div>
+                        </Link>
+                    ) : (
+                        <Link href={`/profile`}>
+                            <div>
+                                <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
+                                <span>
+                                    My Profile
+                                </span>
+                            </div>
+                        </Link>
+                    )}
                     <Link href={`/support`}>
                         <div>
                             <Image alt="Support" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`} height={30} width={30} />
