@@ -176,19 +176,21 @@ app.post('/dorms', async (req, res) => {
 
 app.put('/dorms/:id', async (req, res) => {
     try {
+        req.body.owner = req.user.sub;
         const data = PutDormRequest.parse(req.body);
         const { facilities, photos, ...dormData } = data;
+        const user = req.user.sub;
 
         const { data: dormInfo, error: InfoError } = await supabase.schema('dorms').from('dorms').select('owner').eq('id', req.params.id);
-        const dormOwner = dormInfo.map(object => object.owner)[0]
         if (InfoError) {
             logger.error(InfoError);
             res.status(500).send();
             return;
         }
+        const dormOwner = dormInfo.map(object => object.owner)[0]
 
-        if (dormOwner != dormData.owner) {
-            res.status(403).json({ message: 'You are not the owner of this dorm'});
+        if (user != dormOwner) {
+            res.status(403).json({message: 'You are not the owner of this dorm'});
             return;
         }
 
