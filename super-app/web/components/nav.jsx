@@ -113,7 +113,7 @@ export default function NavBar() {
                         </div>
                         {!isOpen_1 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
-                    {isOpen_1 && <div className={styles.dropdownContent}>
+                    {isOpen_1 && <div className={styles.dropdownContent_blog}>
                         <Link href={`/blogs`}>
                             <div>
                                 <span>
