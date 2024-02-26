@@ -121,45 +121,13 @@ export default function NavBar() {
                                 </span>
                             </div>
                         </Link>
-                        <div>
-                            <button className={styles.subdropdown} onClick={() => setIsOpen_Categories((prev) => !prev)}>
-                                <span>Categories</span>
-                                {!isOpen_Categories ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}
-                            </button>
-                            {isOpen_Categories && (
-                                <div className={styles.subdropdownContent}>
-                                    <Link href={`/blogs/cleaning`}>
-                                        <div>
-                                            <span>
-                                                Cleaning
-                                            </span>
-                                        </div>
-                                    </Link>
-                                    <Link href={`/blogs/decoration`}>
-                                        <div>
-                                            <span>
-                                                Decorations
-                                            </span>
-                                        </div>
-                                    </Link>
-                                    <Link href={`/blogs/cooking`}>
-                                        <div>
-                                            <span>
-                                                Cooking
-                                            </span>
-                                        </div>
-                                    </Link>
-
-                                    <Link href={`/blogs/story`}>
-                                        <div>
-                                            <span>
-                                                Story's DekHor
-                                            </span>
-                                        </div>
-                                    </Link>
-                                </div>
-                            )}
-                        </div>
+                        <Link href={`/blogs/search`}>
+                            <div>
+                                <span>
+                                    All Blogs
+                                </span>
+                            </div>
+                        </Link>
                         <Link href={`/blogs/writeblog`}>
                             <div>
                                 <span>
@@ -170,7 +138,7 @@ export default function NavBar() {
                         <Link href={`/blogs/blogger`}>
                             <div>
                                 <span>
-                                    Blogger
+                                    Bloggers
                                 </span>
                             </div>
                         </Link>
