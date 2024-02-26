@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sentry/node": "^7.102.1",
     "@supabase/supabase-js": "^2.39.3",
     "base64-arraybuffer": "^1.0.2",
     "cors": "^2.8.5",
