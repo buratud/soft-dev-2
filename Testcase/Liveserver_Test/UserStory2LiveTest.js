@@ -30,11 +30,20 @@ const driver = new Builder()
     await driver.findElement(By.name('password')).sendKeys('123456');
     await driver.findElement(By.tagName('button')).click();
     console.log('Fill in login info and click login.');
+    await delay(3000);
 
-
-    
-    await delay(5000);
-
+    await driver.wait(until.titleIs('Create Next App'), 3000);
+    console.log('Wait for login and redirect to home page');
+    await driver.findElement(By.className('nav_dropdown__8bw8j')).findElement(By.xpath('//div[text()="Markets"]')).click();
+    //await driver.wait(until.elementIsVisible('nav_dropdownContent__FrZ4s'), 3000); 
+    await delay(1000);
+    console.log('Wait for drop bar to appear');
+    await driver.findElement(By.xpath('//span[text()="Main"]')).click();
+    console.log('Click main Market in Navbar');
+    await delay(1000);
+    await driver.wait(until.titleIs('MarketConnect'), 3000);
+    console.log('Successfully redirected to Markets.');
+    await delay(3000);
 
 
   } finally {

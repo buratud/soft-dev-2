@@ -38,7 +38,7 @@ const driver = new Builder()
     await delay(5000);
     //await driver.findElement(By.tagName('a')).click();
 
-    //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop/register');
+    //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop/register'); 
     await driver.wait(until.titleIs('DekHor | Register'), 3000);
     console.log('Successfully opened Dekhor register page.');
     // Can't use duplicate email/user have to change every time.
