@@ -13,13 +13,13 @@ import {
   NEXT_PUBLIC_SUPABASE_ANON_KEY,
   NEXT_PUBLIC_BASE_API_URL,
   NEXT_PUBLIC_BASE_WEB_PATH,
-  NEXT_PUBLIC_BASE_WEB_URL
+  NEXT_PUBLIC_BASE_WEB_URL,
 } from "../../../../config";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   NEXT_PUBLIC_SUPABASE_URL,
-  NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
 export default function DormReview() {
@@ -67,6 +67,13 @@ export default function DormReview() {
     // Reset error message
     setErrorMessage(null);
 
+    // Check if review length exceeds 4095 characters
+    if (reviewForm.review.length > 4095) {
+      setErrorMessage("Ayo! Too looooooooooooooooooooooooooong. Chill down to 4095 characters.");
+      setSubmitting(false); // Reset submitting status
+      return;
+    }
+
     // Check if all fields are filled
     if (!reviewForm.stars || !reviewForm.short_review || !reviewForm.review) {
       setErrorMessage("Please fill in all fields");
@@ -102,7 +109,7 @@ export default function DormReview() {
             router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/detail/${params.id}`);
           }, 2000);
         }
-      })      
+      })
       .catch((error) => {
         if (error.response) {
           if (error.response.status === 409) {
@@ -134,7 +141,13 @@ export default function DormReview() {
   if (isLoading) {
     return (
       <div className="loading-container">
-        <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} height={70} width={80} className="loading-image spinning" />
+        <Image
+          alt="logo"
+          src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`}
+          height={70}
+          width={80}
+          className="loading-image spinning"
+        />
       </div>
     );
   }
@@ -197,7 +210,11 @@ export default function DormReview() {
           </div>
           <div className="reviewButtonContainer">
             {/* Render button text based on submitting status */}
-            <button className="reviewButton" onClick={handleSubmit} disabled={submitting}>
+            <button
+              className="reviewButton"
+              onClick={handleSubmit}
+              disabled={submitting}
+            >
               {submitting ? "Submitting..." : "Review Property"}
             </button>
             {/* Cancel button */}
@@ -208,17 +225,24 @@ export default function DormReview() {
         </div>
       </div>
 
-  {/* alert */}
+      {/* alert */}
       <div className="cautioncontainer">
         <div>
-          <h3>The submitted review cannot be deleted or edited. Proceed with caution.</h3>
+          <h3>
+            The submitted review cannot be deleted or edited. Proceed with
+            caution.
+          </h3>
         </div>
       </div>
 
       {/* alert */}
       <div className="alertcontainer">
         {errorMessage && (
-          <div className={`alert ${errorMessage.startsWith('Review added') ? 'success' : 'error'}`}>
+          <div
+            className={`alert ${
+              errorMessage.startsWith("Review added") ? "success" : "error"
+            }`}
+          >
             <h3>{errorMessage}</h3>
           </div>
         )}
