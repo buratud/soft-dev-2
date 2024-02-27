@@ -41,21 +41,26 @@ app.get('/users/:id', async (req, res) => {
 
 app.get('/dorms/search', async (req, res) => {
     try {
-        
-        const { data: dorms, error } = await supabase.schema('dorms').from('dorms').select('id, name, rent_price');
+        const {name: searchTerm, filter:facilityFilter, range: priceRange} = req.body;
+        const { data: dormsList, error } = await supabase.schema('dorms').from('dorms').select();
         if (error) {
             logger.error(error);
             res.status(500).send();
             return;
         }
+        logger.debug(dormsList.length)
+        for (const dorm of dormsList) {
+            if (dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]) {
+                const index = dormsList.indexOf(dorm)
+                dormsList.splice(index, index + 1)
+                continue
+            }
+            logger.debug([dorm.rent_price, priceRange[0], priceRange[1], dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]])
 
-        const result = search(req.body.name, dorms);
-
-        if (result.notFound) {
-            res.status(404).send();
         }
-
-        for (const dorm of result.response) {
+        
+        logger.debug(dormsList.length)
+        for (const dorm of dormsList) {
             const { data: facilities, error: facilitiesError } = await supabase.schema('dorms').from('dorms_facilities').select('facility_id').eq('dorm_id', dorm.id);
             if (facilitiesError) {
                 logger.error(facilitiesError);
@@ -63,9 +68,23 @@ app.get('/dorms/search', async (req, res) => {
                 return;
             }
             const facilitiesID = facilities.map(object => object.facility_id)
-            logger.debug(req.body.filter)
-            // logger.debug({msg: [dorm.id, facilitiesID, req.body.filter == facilitiesID]});
+
+            for (const facility of facilityFilter) {
+                if (facilitiesID.includes(facility) == false) {
+                    const index = dormsList.indexOf(dorm)
+                    dormsList.splice(index, index + 1)
+                    continue
+                }
+                // logger.debug([facility, facilitiesID])
+            }
         }
+        logger.debug(dormsList.length)
+
+        const result = search(searchTerm, dormsList);
+        if (result.notFound) {
+            res.status(404).json({message: 'There are no matching dorms'});
+        }
+
         res.json(result);
     } catch (error) {
         logger.error(error);
