@@ -4,6 +4,7 @@ import AddPost from "../component/AddPost";
 import {Container} from 'reactstrap';
 import Navbar from "../component/Nav";
 import { useParams } from 'react-router-dom';
+import Footer from "../component/footer";
 
 const WriteBlog = () =>{
     const { id } = useParams();
@@ -13,7 +14,11 @@ const WriteBlog = () =>{
             <Container>
                 <AddPost id = {id}/>
             </Container>
+            <div className="footer">
+               <Footer/> 
+            </div>
         </div>
+        
     );
 };
 
