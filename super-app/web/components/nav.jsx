@@ -35,7 +35,7 @@ export default function NavBar() {
 
                 if (user) {
 
-                    const isAdmin = user.email === 'admin@example.com'; // แทน 'admin@example.com' ด้วยอีเมลล์ของ Admin
+                    const isAdmin = user.email === 'Admin@admin.com'; // แทน 'admin@example.com' ด้วยอีเมลล์ของ Admin
 
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`,
                         {
