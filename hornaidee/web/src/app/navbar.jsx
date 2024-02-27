@@ -251,7 +251,7 @@ export default function NavBar() {
                             </Link>
                         </div>
                         <div>
-                            <Link href={`${NEXT_PUBLIC_MAIN_URL}/login`}>
+                            <Link href={`${NEXT_PUBLIC_MAIN_URL}/login?redirect=${window.location.href}`}>
                                 <button className={styles.login_btn} >
                                     Login
                                 </button>
