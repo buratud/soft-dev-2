@@ -178,7 +178,6 @@ app.put('/dorms/:id', async (req, res) => {
     try {
         const data = PutDormRequest.parse(req.body);
         const { facilities, photos, ...dormData } = data;
-        const user = req.user.sub;
 
         const { data: dormInfo, error: InfoError } = await supabase.schema('dorms').from('dorms').select('owner').eq('id', req.params.id);
         if (InfoError) {
@@ -188,7 +187,7 @@ app.put('/dorms/:id', async (req, res) => {
         }
         const dormOwner = dormInfo.map(object => object.owner)[0]
 
-        if (user != dormOwner) {
+        if (req.user.sub != dormOwner) {
             res.status(403).json({message: 'You are not the owner of this dorm'});
             return;
         }
