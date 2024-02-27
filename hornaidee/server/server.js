@@ -3,6 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const bodyParser = require('body-parser')
 const { createClient } = require('@supabase/supabase-js');
 const { z } = require('zod');
+const { search } = require("./search");
 const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest} = require('./type');
 
 const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET, LOG_LEVEL } = require('./config');
@@ -32,6 +33,40 @@ app.get('/users/:id', async (req, res) => {
             return;
         }
         res.json(user[0]);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.get('/dorms/search', async (req, res) => {
+    try {
+        
+        const { data: dorms, error } = await supabase.schema('dorms').from('dorms').select('id, name, rent_price');
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+
+        const result = search(req.body.name, dorms);
+
+        if (result.notFound) {
+            res.status(404).send();
+        }
+
+        for (const dorm of result.response) {
+            const { data: facilities, error: facilitiesError } = await supabase.schema('dorms').from('dorms_facilities').select('facility_id').eq('dorm_id', dorm.id);
+            if (facilitiesError) {
+                logger.error(facilitiesError);
+                res.status(500).send();
+                return;
+            }
+            const facilitiesID = facilities.map(object => object.facility_id)
+            logger.debug(req.body.filter)
+            // logger.debug({msg: [dorm.id, facilitiesID, req.body.filter == facilitiesID]});
+        }
+        res.json(result);
     } catch (error) {
         logger.error(error);
         res.status(500).send();
