@@ -19,15 +19,26 @@ function CheckDelete(){
   const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
   const handledelete = () => {
   // const [data,setData] = useState([]);
-    axios.delete(`${REACT_APP_BASE_API_URL}/deletepost?id_post=` + id)
+    console.log('blog id',id)
+    axios.post(`${REACT_APP_BASE_API_URL}/deleteblog`, {
+      blog: id
+    })
     .then(res => {
-      navigate(`/profile/${user?.id}`)
+      if (navigate(-1)) {
+        navigate(-1)
+      } else {
+        navigate(`/profile`)
+      }
+      
     })
     .catch((err) => {
         alert(err)
     })
   }
 
+  useState(() => {
+    
+  })
   
 
   return (

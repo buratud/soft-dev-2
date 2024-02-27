@@ -1,6 +1,6 @@
 import { Link,NavLink } from "react-router-dom";
 import "./Nav.scoped.css";
-import { REACT_APP_MAIN_URL, REACT_APP_MAIN_API_URL } from "../config";
+import { REACT_APP_MAIN_URL, REACT_APP_BASE_API_URL } from "../config";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext, Usesupabase } from "../App";
 import axios from "axios";
@@ -27,7 +27,7 @@ const Navbar = () => {
         const user = session.user;
 
         if (user) {
-          axios.post(`${REACT_APP_MAIN_API_URL}/profile-picture`,
+          axios.post(`${REACT_APP_BASE_API_URL}/profile-picture`,
             {
               userID: user.id
             }).then(res => {

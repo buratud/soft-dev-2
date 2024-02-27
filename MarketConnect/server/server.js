@@ -4,11 +4,29 @@ const { decode } = require("base64-arraybuffer");
 const { createClient } = require("@supabase/supabase-js");
 const { SUPABASE_URL, SUPABASE_KEY, PORT, BASE_SERVER_PATH } = require("./config");
 const { search } = require("./search");
-
+const Sentry = require("@sentry/node");
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const app = express();
 const api = express.Router();
+
+Sentry.init({
+  dsn: "https://384213f7f34ec9e89507ec28fbb51094@linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com/5",
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Sentry.Integrations.Express({ app }),
+  ],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+});
+
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler());
+
+// TracingHandler creates a trace for every incoming request
+app.use(Sentry.Handlers.tracingHandler());
 
 app.use(BASE_SERVER_PATH, api);
 
@@ -305,5 +323,8 @@ api.post("/manageproduct", async (req, res) => {
     res.status(200).json(data);
   }
 });
+
+// The error handler must be registered before any other error middleware and after all controllers
+app.use(Sentry.Handlers.errorHandler());
 
 app.listen(PORT, () => console.log(`Express app running on port ${PORT}`));
