@@ -3,11 +3,30 @@ const cors = require('cors');
 // const mysql = require('mysql');
 const { createClient } = require('@supabase/supabase-js');
 require("dotenv").config();
-
+const Sentry = require("@sentry/node");
 const { BASE_SERVER_PATH, PORT, SUPABASE_URL, SUPABASE_KEY } = require('./config');
+const { configDotenv } = require('dotenv');
 
 const app = express();
 const api = express.Router();
+
+Sentry.init({
+    dsn: "https://606bd57329db8498f61cab466b96bb80@linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com/8",
+    integrations: [
+        // enable HTTP calls tracing
+        new Sentry.Integrations.Http({ tracing: true }),
+        // enable Express.js middleware tracing
+        new Sentry.Integrations.Express({ app }),
+    ],
+    // Performance Monitoring
+    tracesSampleRate: 1.0, //  Capture 100% of the transactions
+});
+
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler());
+
+// TracingHandler creates a trace for every incoming request
+app.use(Sentry.Handlers.tracingHandler());
 
 app.use(cors());
 app.use(express.json());
@@ -106,22 +125,59 @@ api.post("/edit_profile", async (req, res) => {
 //createpost
 api.post("/createpost", async (req, res) => {
     const { title, category, image_link, user_id, content } = req.body;
-    const { data } = await supabase.from("blog_category").select("id").eq("category", category);
-    if (data) {
-        const { error } = await supabase.from("blog").insert({ title: title, category: data[0].id, body: content, cover_img: image_link, blogger: user_id })
+    // const { data } = await supabase.from("blog_category").select("id").eq("category", category);
+    // if (data) {
+        const { error } = await supabase.from("blog").insert({ title: title, category, body: content, cover_img: image_link, blogger: user_id })
         if (error) {
             res.status(500).json(error);
         }
         else {
             res.status(200).json({ message: 'Create Post Success', notError: true });
         }
-    }
+    // }
 })
+
+//edit blog
+api.post("/editblog", async (req, res) => {
+    const { blog,title,category,body,cover_img } = req.body
+    const { data, error } = await supabase
+        .from('blog')
+        .update({  'title' : title,
+                'category' : category,
+                'body' : body,
+                'cover_img': cover_img })
+        .eq('blog_id', blog)
+        .select()
+    if (error) {
+        console.error(error);
+        res.status(400).json(error);
+    } else {
+        res.status(200).json(data);
+    }
+});
 
 //delete
 api.delete("/deletepost", async (req, res) => {
     const { id_post } = req.query;
-    const { error } = await supabase.from("Create_Post").delete().eq('id_post', id_post)
+    const { error } = await supabase
+        .from("blog")
+        .delete()
+        .eq('blog_id', blog)
+    if (error) {
+        res.status(500).json(error);
+    }
+    else {
+        res.status(200).json({ msg: "success" })
+    }
+})
+
+api.post("/deleteblog", async (req, res) => {
+    const { blog } = req.body;
+    console.log(blog)
+    const { error } = await supabase
+        .from("blog")
+        .delete()
+        .eq('blog_id', blog)
     if (error) {
         res.status(500).json(error);
     }
@@ -387,7 +443,7 @@ api.get("/posttocategory", async (req, res) => {
 //detailpost
 api.post("/detailpost", async (req, res) => {
     const { id } = req.body;
-    const { data, error } = await supabase.from("blog").select('*').eq("blog_id", id);
+    const { data, error } = await supabase.from("blog").select('*,blog_category(category)').eq("blog_id", id);
     if (error) {
         res.status(400).json(error);
     }
@@ -740,5 +796,8 @@ api.patch("/writeblog/edited_food", async (req, res) => {
 api.get("/", (req, res) => {
     res.send("Hello World");
 });
+
+// The error handler must be registered before any other error middleware and after all controllers
+app.use(Sentry.Handlers.errorHandler());
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

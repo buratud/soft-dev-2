@@ -178,6 +178,21 @@ app.put('/dorms/:id', async (req, res) => {
     try {
         const data = PutDormRequest.parse(req.body);
         const { facilities, photos, ...dormData } = data;
+        const user = req.user.sub;
+
+        const { data: dormInfo, error: InfoError } = await supabase.schema('dorms').from('dorms').select('owner').eq('id', req.params.id);
+        if (InfoError) {
+            logger.error(InfoError);
+            res.status(500).send();
+            return;
+        }
+        const dormOwner = dormInfo.map(object => object.owner)[0]
+
+        if (user != dormOwner) {
+            res.status(403).json({message: 'You are not the owner of this dorm'});
+            return;
+        }
+
         const { data: result, error } = await supabase.schema('dorms').from('dorms')
             .update(dormData)
             .eq('id', req.params.id)
@@ -195,29 +210,25 @@ app.put('/dorms/:id', async (req, res) => {
             return;
         }
         const facilitiesList = facilitiesID.map(object => object.facility_id)
-        for (const facility of facilities) {
-            if (facilitiesList.includes(facility)) {
-                const position = facilitiesList.indexOf(facility)
-                facilitiesList.splice(position, position + 1)
-                continue
-            }
-            const { error } = await supabase.schema('dorms').from('dorms_facilities').insert({
-                dorm_id: result[0].id,
-                facility_id: facility
-            });
-            if (error) {
-                logger.error(error);
-                res.status(500).send();
-                return;
-            }
-        }
-        
+
         for (const facility of facilitiesList) {
             const { error } = await supabase.schema('dorms').from('dorms_facilities').delete()
                 .eq('dorm_id', req.params.id)
                 .eq('facility_id', facility)
             if (error) {
                 logger.error(error);
+                res.status(500).send();
+                return;
+            }
+        }
+
+        for (const facility of facilities) {
+            const { insertError } = await supabase.schema('dorms').from('dorms_facilities').insert({
+                dorm_id: result[0].id,
+                facility_id: facility
+            });
+            if (insertError) {
+                logger.error(insertError);
                 res.status(500).send();
                 return;
             }
@@ -230,6 +241,19 @@ app.put('/dorms/:id', async (req, res) => {
             return;
         }
         const photosList = photosURL.map(object => object.photo_url)
+
+        for (const photo of photosList) {
+            const { error } = await supabase.schema('dorms').from('photos').delete()
+                .eq('dorm_id', req.params.id)
+                .eq('photo_url', photo)
+            const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms')
+                .remove([photo.split('/public/dorms/')[1]]);
+            if (error) {
+                logger.error(error);
+                res.status(500).send();
+                return;
+            }
+        }
 
         for (let i = 0; i < photos.length; i++) {
             const photo = photos[i];
@@ -268,18 +292,6 @@ app.put('/dorms/:id', async (req, res) => {
             }
         }
 
-        for (const photo of photosList) {
-            const { error } = await supabase.schema('dorms').from('photos').delete()
-                .eq('dorm_id', req.params.id)
-                .eq('photo_url', photo)
-            const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms')
-                .remove([photo.split('/public/dorms/')[1]]);
-            if (error) {
-                logger.error(error);
-                res.status(500).send();
-                return;
-            }
-        }        
         res.status(200).send({ message: "Update sucessfully" });
 
     } catch (error) {
