@@ -21,13 +21,18 @@ function ContentSlide(props) {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        axios.get(`${REACT_APP_BASE_API_URL}/posttocategory?category=` + props.name)
-        .then(res => {
-            setData(res.data);
-            console.log(data)
+        axios.post(`${REACT_APP_BASE_API_URL}/get-blog`, {
+            category : props.name
         })
-        .catch((err) => {
-            alert(err);
+        .then( res => {
+            if(res.data?.success){
+                console.log(res.data.data);
+                setData(res.data.data);
+            }
+                
+        })
+        .catch(err => {
+            console.log(err);
         });
     }, [props.name]);
     const category = props.name
@@ -39,16 +44,16 @@ function ContentSlide(props) {
         <div className="content">
             <div className="main_content">
                 {
-                    data.map(({ id_post:id, title, user: { username },image_link }, index) => {
+                    data.map(({ blog_id, title, user: {username},cover_img }, index) => {
                         return (
                             <div className="singleDest" key={index}>
                                 <div className="dastImage">
-                                    <img src={image_link??img1} alt="" />
+                                    <img src={cover_img??img1} alt="" />
                                 </div>
                                 <div className="destFooter">
                                     <div className="destText">
                                         <h4>
-                                            <Link to={`/${category}/${id}`}>{title}</Link>
+                                            <Link to={`/${category}/${blog_id}`}>{title}</Link>
                                         </h4>
                                     </div>
                                 </div>

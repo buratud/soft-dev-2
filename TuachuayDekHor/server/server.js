@@ -338,6 +338,20 @@ api.post('/get-blog',async(req, res) => {
     
     const {data, error : blog_error} = await supabase.from('blog').select('*').eq('category',category_id);
 
+    for (let post of data) {
+        const { data: userData, error: userError } = await supabase
+            .from('users')
+            .select('username')
+            .eq('id', post.blogger)
+            .single();
+
+        if (userError) {
+            console.log(userError);
+        }
+
+        post.user = userData;
+    }
+
     if(category_id_error || blog_error){
         console.log(category_id_error);
         console.log(blog_error);
