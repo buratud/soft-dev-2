@@ -8,6 +8,7 @@
 .blogger_wrapper{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 3.5rem;
     align-items: center;
     justify-items: center;
     padding-bottom: 6rem;
