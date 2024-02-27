@@ -41,13 +41,14 @@ app.get('/users/:id', async (req, res) => {
 
 app.get('/dorms/search', async (req, res) => {
     try {
-        const {name: searchTerm, filter:facilityFilter, range: priceRange} = req.body;
+        const { name: searchTerm, filter:facilityFilter, range: priceRange } = req.body;
         const { data: dormsList, error } = await supabase.schema('dorms').from('dorms').select();
         if (error) {
             logger.error(error);
             res.status(500).send();
             return;
         }
+
         logger.debug(dormsList.length)
         for (const dorm of dormsList) {
             if (dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]) {
@@ -69,6 +70,10 @@ app.get('/dorms/search', async (req, res) => {
             }
             const facilitiesID = facilities.map(object => object.facility_id)
 
+            if (facilityFilter == []) {
+                break
+            }
+
             for (const facility of facilityFilter) {
                 if (facilitiesID.includes(facility) == false) {
                     const index = dormsList.indexOf(dorm)
@@ -80,12 +85,15 @@ app.get('/dorms/search', async (req, res) => {
         }
         logger.debug(dormsList.length)
 
-        const result = search(searchTerm, dormsList);
-        if (result.notFound) {
-            res.status(404).json({message: 'There are no matching dorms'});
+        if (searchTerm != "") {
+            const result = search(searchTerm, dormsList);
+            if (result.notFound) {
+                res.status(404).json({message: 'There are no matching dorms'});
+            }
+            res.json(result);
+        } else {
+            res.json(dormsList);
         }
-
-        res.json(result);
     } catch (error) {
         logger.error(error);
         res.status(500).send();
