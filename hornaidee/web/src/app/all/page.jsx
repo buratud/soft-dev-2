@@ -31,8 +31,8 @@ export default function DormReview() {
   const [maxValue, setMaxValue] = useState(10000);
   const [facilities, setFacilities] = useState([]);
 
-  const [Data, setData] = useState([]);
-
+  const [Data, setData] = useState([]);//เอาไว้ใช้เก็บข้อมูลที่ดึงมาแต่ตอนนี้ยังใช้ fake data ไปก่อน
+ 
   useEffect(() => {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms`)
       .then(res => {
@@ -66,7 +66,6 @@ export default function DormReview() {
     // ตั้งค่าผลการค้นหาให้กับ state searchResults
     setSearchResults(results);
     // ล้างค่า searchText หลังจากค้นหาเสร็จสิ้น
-    setSearchText('');
   }
 
   useEffect(() => {
