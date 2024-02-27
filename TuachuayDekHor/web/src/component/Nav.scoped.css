@@ -290,23 +290,6 @@
     color: #C10206;
 }
 
-.dropdownContent_blog{
-    display: flex;
-    font-family: Poppins ;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 300;
-    flex-direction: column;
-    position: absolute;
-    margin-top: 0.5rem;
-    padding: 1rem;
-    width: max-content;
-    border-bottom-left-radius: 1rem;
-    border-bottom-right-radius: 1rem;
-    background-color: white;
-    box-shadow:  0px 8px 2px rgba(178, 178, 178, 0.189)
-}
-
 
 .dropdownContent_blog {
     display: flex;
