@@ -426,7 +426,7 @@ export default function AddDormPage() {
           >
             Add Your Property
           </button>
-          <Link href="/dorms">
+          <Link href="/">
             <button className="bg-[#C10206] font-bold text-[#FFFFFF] px-6 py-2 rounded-2xl hover:transition-all hover:scale-110 duration-300">
               Cancel
             </button>
