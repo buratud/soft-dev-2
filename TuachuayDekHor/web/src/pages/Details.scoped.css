@@ -17,7 +17,7 @@ header{
 } 
 .story{
     padding-top: 5rem;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background-color: #eceff1;
     font-family: 'Poppins',sans-serif;
