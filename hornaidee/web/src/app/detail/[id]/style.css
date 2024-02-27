@@ -185,13 +185,34 @@ h3 {
   text-align: center;
   text-decoration: none;
   font-size: 18px;
+  font-weight: bolder;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 15px;
   transition: background-color 0.3s ease; /* Add transition for background-color */
 }
 
 .editButton:hover {
   background-color: #ff0000; /* Darker Green */
+}
+
+
+/* Styles for review container */
+
+.reviewsbox {
+  display: flex;
+  flex-direction: column; /* Change flex direction to column */
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px; /* Set max-width */
+  padding-bottom: 4rem; /* Add padding */
+}
+
+.reviewsbox h3 {
+  padding-top: 0.5rem; /* Add padding */
+  padding-bottom: 0.5rem; /* Add padding */
+  font-size: 26px; /* Font size */
+  font-weight: 600;
+  color: #000000; /* Text color */
 }
 
 /* Styles for facilities and host container */

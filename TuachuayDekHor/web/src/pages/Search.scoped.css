@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
+
 .search{
     width: 100vw;
     height: 100vh;
@@ -5,6 +7,7 @@
     align-items: center;
     background-color: #eceff1;
     overflow-x: hidden;
+    font-family: 'Poppins' , sans-serif;
 }
 
 
@@ -27,6 +30,7 @@
 }
 
 .Search_Wrapper{
+    font-family: 'Poppins',sans-serif;
     padding-top: 1rem;
     padding-bottom: 1rem;
     justify-content: center;
@@ -35,6 +39,7 @@
 }
 
 .SearchBox{
+    font-family: 'Poppins',sans-serif;
     display: flex;
     width: 100%;
     height: 100%;
@@ -52,6 +57,7 @@
 }
 
 .inputSearch{
+    font-family: 'Poppins',sans-serif;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     width: 100%;
@@ -61,14 +67,16 @@
     font-style: normal;
     font-weight: 400;
     color: black ;
+
 }
 
 .inputSearch::placeholder{
-    font-family: Poppins;
+    font-family: 'Poppins',sans-serif;
     font-style: normal;
     font-weight: 600;
     color: rgba(120, 117, 117, 0.21) ;
 }
+
 
 
 .inputSearch:focus{
@@ -77,8 +85,9 @@
 
 .Search_inside{
     display: flex;
+    font-family: 'Poppins',sans-serif;
     justify-content: center;
-    background-color: white;
+    background-color: #eceff1;
     width: 100%;
     padding: 0.5rem;
     margin-left: 2rem;
@@ -87,13 +96,19 @@
     padding-left: 0.5rem;
 }
 
+.Search_inside input{
+    background-color: #eceff1;
+}
+
 .icon_Search{
+    font-family: 'Poppins',sans-serif;
     align-items: center;
     justify-self: center;
     margin-right: 0.5rem;
 }
 
 .SearchBox_btn{
+    font-family: 'Poppins',sans-serif;
     border-radius: 1rem;
     background: #F7C951;
     width: max-content;
@@ -103,7 +118,6 @@
     padding-bottom: 0.5rem;
     border: none;
     justify-content: center;
-    font-family: Poppins;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -116,9 +130,9 @@
 }
 
 .noResults{
+    font-family: 'Poppins',sans-serif;
     padding: 1rem;
     padding-left: 5rem;
-    font-family: Poppins;
     font-style: italic;
     font-weight: 400;
     color:black ;
