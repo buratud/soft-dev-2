@@ -15,6 +15,7 @@ const Navbar = () => {
   // ส่วนของโปรไฟล์และทำการตรวจสอบว่า User ได้ทำการ login หรือยัง
   const [profileImage, setProfileImage] = useState('');
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
   const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
 
@@ -27,6 +28,9 @@ const Navbar = () => {
         const user = session.user;
 
         if (user) {
+
+          const isAdmin = user.email == 'admin@admin.com'; // แทน 'admin@example.com' ด้วยอีเมลล์ของ Admin
+
           axios.post(`${REACT_APP_BASE_API_URL}/profile-picture`,
             {
               userID: user.id
@@ -34,6 +38,7 @@ const Navbar = () => {
               const { picture } = res.data;
               setProfileImage(picture);
               setIsUserLoggedIn(true);
+              setIsAdminLoggedIn(isAdmin);
             });
         }
         else {
@@ -246,14 +251,24 @@ const Navbar = () => {
         )}
 
         {isOpen_Profile && <div className="dropdownContentProfile">
-          <a href={`${REACT_APP_MAIN_URL}/profile`}>
-            <div>
-              <img alt="Profile" src={`${REACT_APP_MAIN_URL}/images/PersonCircle.svg`} height={30} width={30} />
-              <span>
-                My Profile
-              </span>
-            </div>
-          </a>
+          {isAdminLoggedIn ?
+            (<a href={`${REACT_APP_MAIN_URL}/admin`}>
+              <div>
+                <img alt="Admin" src={`${REACT_APP_MAIN_URL}/images/Admin.png`} height={30} width={30} />
+                <span>
+                  Admin
+                </span>
+              </div>
+            </a>
+            ) : (
+              <a href={`${REACT_APP_MAIN_URL}/profile`}>
+                <div>
+                  <img alt="Profile" src={`${REACT_APP_MAIN_URL}/images/PersonCircle.svg`} height={30} width={30} />
+                  <span>
+                    My Profile
+                  </span>
+                </div>
+              </a>)}
           <a href={`${REACT_APP_MAIN_URL}/support`}>
             <div>
               <img alt="Support" src={`${REACT_APP_MAIN_URL}/images/support.png`} height={30} width={30} />
