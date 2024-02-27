@@ -1,6 +1,6 @@
-import { Link,NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./Nav.scoped.css";
-import { REACT_APP_MAIN_URL, REACT_APP_MAIN_API_URL } from "../config";
+import { REACT_APP_MAIN_URL, REACT_APP_BASE_API_URL } from "../config";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext, Usesupabase } from "../App";
 import axios from "axios";
@@ -27,7 +27,7 @@ const Navbar = () => {
         const user = session.user;
 
         if (user) {
-          axios.post(`${REACT_APP_MAIN_API_URL}/profile-picture`,
+          axios.post(`${REACT_APP_BASE_API_URL}/profile-picture`,
             {
               userID: user.id
             }).then(res => {
@@ -246,18 +246,22 @@ const Navbar = () => {
         )}
 
         {isOpen_Profile && <div className="dropdownContentProfile">
-          <div>
-            <img alt="Profile" src={`${REACT_APP_MAIN_URL}/images/PersonCircle.svg`} height={30} width={30} />
-            <span>
-              <a href={`${REACT_APP_MAIN_URL}/profile`}>My Profile</a>
-            </span>
-          </div>
-          <div>
-            <img alt="Support" src={`${REACT_APP_MAIN_URL}/images/support.png`} height={30} width={30} />
-            <span>
-              <a href={`${REACT_APP_MAIN_URL}/support`}>Support</a>
-            </span>
-          </div>
+          <a href={`${REACT_APP_MAIN_URL}/profile`}>
+            <div>
+              <img alt="Profile" src={`${REACT_APP_MAIN_URL}/images/PersonCircle.svg`} height={30} width={30} />
+              <span>
+                My Profile
+              </span>
+            </div>
+          </a>
+          <a href={`${REACT_APP_MAIN_URL}/support`}>
+            <div>
+              <img alt="Support" src={`${REACT_APP_MAIN_URL}/images/support.png`} height={30} width={30} />
+              <span>
+                Support
+              </span>
+            </div>
+          </a>
 
           <div onClick={SignOut}>
             <img alt="logout" src={`${REACT_APP_MAIN_URL}/images/BoxArrowLeft.svg`} height={30} width={30} className="logout" />
