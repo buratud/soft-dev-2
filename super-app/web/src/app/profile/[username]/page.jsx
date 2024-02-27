@@ -103,7 +103,7 @@ const BlogsCards = ({ params }) => {
                             key={index}
                             img={card.blog.cover_img}
                             title={card.blog.title}
-                            Blogger={card.users.username}
+                            Blogger={card.blog.users.username}
                             Categories={card.blog.blog_category.category}
                             id={card.blog.blog_id}
                         />
