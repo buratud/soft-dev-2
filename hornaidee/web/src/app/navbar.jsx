@@ -2,10 +2,10 @@
 import Image from 'next/image'
 import { useState, useEffect, useContext } from 'react'
 import { General, supabase } from '../../session'
-import axios from 'axios'
-import Link from 'next/link'
-import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../config'
 import styles from './nav.module.css'
+import Link from 'next/link'
+import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_MAIN_API_URL, NEXT_PUBLIC_MAIN_URL } from '../../config'
+import axios from 'axios'
 
 
 export default function NavBar() {
@@ -13,10 +13,11 @@ export default function NavBar() {
     const [isOpen_2, setIsOpen_2] = useState(false);
     const [isOpen_3, setIsOpen_3] = useState(false);
     const [isOpen_Profile, setIsOpen_Profile] = useState(false);
-    const [isOpen_Categories, setIsOpen_Categories] = useState(false); 
+    const [isOpen_Categories, setIsOpen_Categories] = useState(false);
     // ส่วนของโปรไฟล์และทำการตรวจสอบว่า User ได้ทำการ login หรือยัง
     const [profileImage, setProfileImage] = useState('');
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+    const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
     const { session } = useContext(General);
 
@@ -33,13 +34,17 @@ export default function NavBar() {
                 const user = data?.session?.user;
 
                 if (user) {
-                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`,
+
+                    const isAdmin = user.email == 'admin@admin.com'; // แทน 'admin@example.com' ด้วยอีเมลล์ของ Admin
+
+                    axios.post(`${NEXT_PUBLIC_MAIN_API_URL}/profile-picture`,
                         {
                             userID: user.id
                         }).then(res => {
                             const { picture } = res.data;
                             setProfileImage(picture);
                             setIsUserLoggedIn(true);
+                            setIsAdminLoggedIn(isAdmin);
                         });
                 }
                 else {
@@ -92,7 +97,7 @@ export default function NavBar() {
         <main id="main" className={styles.main}>
             <div className={styles.leftside}>
                 <div className={styles.logo}>
-                    <Link href={`/`}>
+                    <Link href={`${NEXT_PUBLIC_MAIN_URL}/`}>
                         <Image alt="logo" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/logo.png`} height={70} width={80} />
                     </Link>
                 </div>
@@ -114,60 +119,28 @@ export default function NavBar() {
                         {!isOpen_1 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
                     {isOpen_1 && <div className={styles.dropdownContent}>
-                        <Link href={`/blogs`}>
+                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/blogs`}>
                             <div>
                                 <span>
                                     Main
                                 </span>
                             </div>
                         </Link>
-                        <div>
-                            <button className={styles.subdropdown} onClick={() => setIsOpen_Categories((prev) => !prev)}>
-                                <span>Categories</span>
-                                {!isOpen_Categories ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}
-                            </button>
-                            {isOpen_Categories && (
-                                <div className={styles.subdropdownContent}>
-                                    <Link href={`/blogs/cleaning`}>
-                                        <div>
-                                            <span>
-                                                Cleaning
-                                            </span>
-                                        </div>
-                                    </Link>
-                                    <Link href={`/blogs/decoration`}>
-                                        <div>
-                                            <span>
-                                                Decorations
-                                            </span>
-                                        </div>
-                                    </Link>
-                                    <Link href={`/blogs/cooking`}>
-                                        <div>
-                                            <span>
-                                                Cooking
-                                            </span>
-                                        </div>
-                                    </Link>
-
-                                    <Link href={`/blogs/story`}>
-                                        <div>
-                                            <span>
-                                                Story's DekHor
-                                            </span>
-                                        </div>
-                                    </Link>
-                                </div>
-                            )}
-                        </div>
-                        <Link href={`/blogs/writeblog`}>
+                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/blogs/search`}>
+                            <div>
+                                <span>
+                                    All Blogs
+                                </span>
+                            </div>
+                        </Link>
+                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/blogs/writeblog`}>
                             <div>
                                 <span>
                                     Blogging
                                 </span>
                             </div>
                         </Link>
-                        <Link href={`/blogs/blogger`}>
+                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/blogs/blogger`}>
                             <div>
                                 <span>
                                     Blogger
@@ -191,14 +164,14 @@ export default function NavBar() {
                         {!isOpen_2 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
                     {isOpen_2 && <div className={styles.dropdownContent}>
-                        <Link href={`/dorms`}>
+                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/dorms`}>
                             <div>
                                 <span>
                                     Main
                                 </span>
                             </div>
                         </Link>
-                        <Link href={`/dorms`}>
+                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/dorms/search`}>
                             <div>
                                 <span>
                                     All Dorms
@@ -206,7 +179,7 @@ export default function NavBar() {
                             </div>
                         </Link>
 
-                        <Link href={`/dorms`}>
+                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/dorms/add`}>
                             <div>
                                 <span>
                                     Add Dorm
@@ -230,21 +203,21 @@ export default function NavBar() {
                         {!isOpen_3 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
                     {isOpen_3 && <div className={styles.dropdownContent}>
-                        <Link href={`/markets`}>
+                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/markets/home`}>
                             <div>
                                 <span>
                                     Main
                                 </span>
                             </div>
                         </Link>
-                        <Link href={`/markets/food`}>
+                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/markets/food`}>
                             <div>
                                 <span>
                                     All Products
                                 </span>
                             </div>
                         </Link>
-                        <Link href={`/markets/manage`}>
+                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/markets/manage`}>
                             <div>
                                 <span>
                                     Manage Product
@@ -271,14 +244,14 @@ export default function NavBar() {
                 ) : (
                     <div className={styles.btn_wrap}>
                         <div className={styles.btn}>
-                            <Link href={`/register`}>
+                            <Link href={`${NEXT_PUBLIC_MAIN_URL}/register`}>
                                 <button className={styles.signup_btn} >
                                     Sign up
                                 </button>
                             </Link>
                         </div>
                         <div>
-                            <Link href={`/login`}>
+                            <Link href={`${NEXT_PUBLIC_MAIN_URL}/login?redirect=${window.location.href}`}>
                                 <button className={styles.login_btn} >
                                     Login
                                 </button>
@@ -288,7 +261,7 @@ export default function NavBar() {
                 )}
 
                 {isOpen_Profile && <div className={styles.dropdownContentProfile}>
-                    <Link href={`/profile`}>
+                    <Link href={`${NEXT_PUBLIC_MAIN_URL}/profile`}>
                         <div>
                             <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
                             <span>
@@ -296,7 +269,7 @@ export default function NavBar() {
                             </span>
                         </div>
                     </Link>
-                    <Link href={`/support`}>
+                    <Link href={`${NEXT_PUBLIC_MAIN_URL}/support`}>
                         <div>
                             <Image alt="Support" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`} height={30} width={30} />
                             <span>
