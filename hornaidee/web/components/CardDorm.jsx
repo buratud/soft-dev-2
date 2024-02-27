@@ -23,7 +23,7 @@ const CardDorm = (props) => {
                     <p className={styles.facilities}>{facilities}</p>
                     <p className={styles.price}> THB{price}/mo.</p>
                 </div>
-                <Link href={''} style={{textDecoration:'none'}}>
+                <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms/detail/${id}`} style={{textDecoration:'none'}}>
                     <div className={styles.see_info_button}>
                         <p className={styles.see_info}>See Info</p>
                         <img src="image/arrow_right.png"/>
