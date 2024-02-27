@@ -165,6 +165,7 @@ function AddPost(params) {
             .then(res => {
                 // setData(res.data[0]);
                 console.log('editblog',res)
+                alert('Edit Success !!')
                 navigate('/home')
             })
             .catch((err) => {
