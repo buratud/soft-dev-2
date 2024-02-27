@@ -127,6 +127,8 @@ const Details = () => {
                 alert(err);
               });
           }
+        } else {
+          alert('please logged in before like')
         }
       })
       .catch((err) => {
