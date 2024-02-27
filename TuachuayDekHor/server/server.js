@@ -3,12 +3,30 @@ const cors = require('cors');
 // const mysql = require('mysql');
 const { createClient } = require('@supabase/supabase-js');
 require("dotenv").config();
-
+const Sentry = require("@sentry/node");
 const { BASE_SERVER_PATH, PORT, SUPABASE_URL, SUPABASE_KEY } = require('./config');
 const { configDotenv } = require('dotenv');
 
 const app = express();
 const api = express.Router();
+
+Sentry.init({
+    dsn: "https://606bd57329db8498f61cab466b96bb80@linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com/8",
+    integrations: [
+        // enable HTTP calls tracing
+        new Sentry.Integrations.Http({ tracing: true }),
+        // enable Express.js middleware tracing
+        new Sentry.Integrations.Express({ app }),
+    ],
+    // Performance Monitoring
+    tracesSampleRate: 1.0, //  Capture 100% of the transactions
+});
+
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler());
+
+// TracingHandler creates a trace for every incoming request
+app.use(Sentry.Handlers.tracingHandler());
 
 app.use(cors());
 app.use(express.json());
@@ -793,5 +811,8 @@ api.patch("/writeblog/edited_food", async (req, res) => {
 api.get("/", (req, res) => {
     res.send("Hello World");
 });
+
+// The error handler must be registered before any other error middleware and after all controllers
+app.use(Sentry.Handlers.errorHandler());
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

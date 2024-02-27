@@ -41,7 +41,6 @@ h3 {
     margin-left: auto;
     margin-right: auto;
     max-width: 1200px;
-    padding-bottom: 20vh;
 }
 
 /* styles for review card */
@@ -101,7 +100,7 @@ textarea {
   padding-right: 0.3rem;
 }
 
- /* Styles for edit button */
+ /* Styles for review and cancel button */
 
  .reviewButtonContainer {
   display: flex;
@@ -121,13 +120,51 @@ textarea {
   text-align: center;
   text-decoration: none;
   font-size: 18px;
+  font-weight: bolder;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 15px;
   transition: background-color 0.3s ease; /* Add transition for background-color */
 }
 
 .reviewButton:hover {
   background-color: #3d5eff; /* Darker Green */
+}
+
+.cancelButton {
+  background-color: rgb(154, 0, 0);
+  box-shadow: 0px 2px 8.6px 0px rgba(7, 46, 104, 0.36);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bolder;
+  cursor: pointer;
+  border-radius: 15px;
+  transition: background-color 0.3s ease; /* Add transition for background-color */
+  margin-left: 2rem;
+}
+
+.cancelButton:hover {
+  background-color: #ff3d3d; /* Darker Green */
+}
+
+/* styles for caution message */
+
+.cautioncontainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.cautioncontainer h3{
+  font-size: 18px;
+  color: rgb(154, 0, 0);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
 }
 
 /* Styles for error message */
@@ -137,7 +174,8 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 3rem;
+  margin-top: 1.5rem;
+  padding-bottom: 20vh;
 }
 
 .alert {
