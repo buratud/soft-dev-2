@@ -172,7 +172,7 @@ export default function NavBar() {
                                 </span>
                             </div>
                         </Link>
-                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/dorms/search`}>
+                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/dorms/all`}>
                             <div>
                                 <span>
                                     All Dorms
