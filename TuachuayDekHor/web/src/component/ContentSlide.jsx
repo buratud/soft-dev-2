@@ -46,15 +46,13 @@ function ContentSlide(props) {
                 {
                     data.map(({ blog_id, title, user: {username},cover_img }, index) => {
                         return (
-                            <div className="singleDest" key={index}>
+                            <Link to={`/${category}/${blog_id}`} className="singleDest" key={index}>
                                 <div className="dastImage">
                                     <img src={cover_img??img1} alt="" />
                                 </div>
                                 <div className="destFooter">
                                     <div className="destText">
-                                        <h4>
-                                            <Link to={`/${category}/${blog_id}`}>{title}</Link>
-                                        </h4>
+                                        <h4> {title} </h4>
                                     </div>
                                 </div>
                                 <div className="userwrite">
@@ -62,7 +60,7 @@ function ContentSlide(props) {
                                         {username}
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         )
                     })
                 }
