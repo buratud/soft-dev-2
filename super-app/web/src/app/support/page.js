@@ -27,6 +27,7 @@ export default function ContactSupport() {
   const [unsendSuccess, setUnsendSuccess] = useState(false); // State for tracking unsend success status
   const [error, setError] = useState(null); // State for storing error messages
   const [unsendClickedIndex, setUnsendClickedIndex] = useState(null); // State for tracking the index of the clicked row for unsend
+  const [problemAdded, setProblemAdded] = useState(false); // State for tracking if a problem is added
 
   const supabase = createClient(
     NEXT_PUBLIC_SUPABASE_URL,
@@ -168,7 +169,6 @@ export default function ContactSupport() {
 
       setUnsendClickedIndex(index); // Set the index of the row clicked for unsend
 
-      await fetchDataFromSupabase(); // Refresh data from Supabase after unsend operation
     } catch (err) {
       setError(
         err.message ||
@@ -176,6 +176,7 @@ export default function ContactSupport() {
       ); // Set error message if an error occurs during unsend operation
     } finally {
       setUnsendLoading(false); // Set unsend loading status to false after unsend operation completion (success or failure)
+      await fetchDataFromSupabase(); // Refresh data from Supabase after unsend operation
     }
   };
 
@@ -214,6 +215,7 @@ export default function ContactSupport() {
         setSelectedType(""); // Reset selectedType state
         setFeedbackData(""); // Reset feedbackData state
         setFeedbackSent(true); // Set feedbackSent status to true
+        setProblemAdded(true); // Set problemAdded to true after successfully adding a problem
 
         const lastRow = document.querySelector(
           ".history_table tbody tr:last-child"
@@ -225,6 +227,7 @@ export default function ContactSupport() {
         setError("Sending problem failed."); // Set error message if an error occurs during feedback submission
       } finally {
         setLoading(false); // Set loading status to false after feedback submission completion (success or failure)
+        await fetchDataFromSupabase(); // Refresh data from Supabase after unsend operation
       }
     }
   };
@@ -280,10 +283,9 @@ export default function ContactSupport() {
                           <tr
                             key={index}
                             className={
-                              index === unsendClickedIndex || unsendSuccess
+                              (index === unsendClickedIndex && !problemAdded) || unsendSuccess
                                 ? "unsend-success"
-                                : index === historyData.length - 1 &&
-                                feedbackSent
+                                : index === historyData.length - 1 && feedbackSent
                                 ? "feedback-success"
                                 : ""
                             }
