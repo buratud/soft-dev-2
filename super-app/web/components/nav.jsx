@@ -171,7 +171,7 @@ export default function NavBar() {
                                 </span>
                             </div>
                         </Link>
-                        <Link href={`/dorms`}>
+                        <Link href={`/dorms/all`}>
                             <div>
                                 <span>
                                     All Dorms
@@ -179,7 +179,7 @@ export default function NavBar() {
                             </div>
                         </Link>
 
-                        <Link href={`/dorms`}>
+                        <Link href={`/dorms/add`}>
                             <div>
                                 <span>
                                     Add Dorm
