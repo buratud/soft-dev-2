@@ -1,0 +1,28 @@
+name: Build and deploy
+
+permissions:
+  contents: read
+  actions: read
+
+on:
+  pull_request:
+    types:
+      - "closed"
+    branches:
+      - "main"
+      - "release"
+      - "develop"
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: self-hosted
+    steps:
+      - name: Set environment
+        run: bash ./env.sh >> "$GITHUB_ENV"
+
+      - name: Deploy to Kubernetes with Helm
+        uses: "WyriHaximus/github-action-helm3@v3"
+        with:
+          exec: helm delete $GIT_REF --purge
+          kubeconfig: "${{ secrets.KUBE_CONFIG }}"
