@@ -2,3 +2,6 @@ node_modules/
 build/
 debug.log
 .env
+
+# Sentry Config File
+.sentryclirc

@@ -20,10 +20,10 @@ const Home = () => {
         </section>
         <section id="new-box">
           <h1>NEW ARRIVALS</h1>
-            <NewArrivals />
+          <NewArrivals />
         </section>
         <section id="rec-box">
-            <Random />
+          <Random />
         </section>
       </main>
       <Footer />
@@ -48,7 +48,7 @@ const PromotionItems = () => {
     };
     fetchProFood();
   }, []); // Empty dependency array means this effect runs only once after the initial render
-  
+
 
   useEffect(() => {
     // Auto change image
@@ -60,13 +60,13 @@ const PromotionItems = () => {
     return () => clearTimeout(timer);
   }, [currentIndex, profood.length]);
 
-    // Go to previous image
-    const goToPrevious = () => {
+  // Go to previous image
+  const goToPrevious = () => {
     setCurrentIndex(currentIndex === 0 ? profood.length - 1 : currentIndex - 1);
   };
 
-    // Go to next image
-    const goToNext = () => {
+  // Go to next image
+  const goToNext = () => {
     setCurrentIndex(currentIndex === profood.length - 1 ? 0 : currentIndex + 1);
   };
 
@@ -108,7 +108,7 @@ const NewArrivals = () => {
           </div>
           <div className="card-content">
             <div className="card-title">{item.Food_Name}</div>
-            <div className="card-price">{item.Price? item.Price.toFixed(2) : '0.00'} ฿</div>
+            <div className="card-price">{item.Price ? item.Price.toFixed(2) : '0.00'} ฿</div>
           </div>
         </Link>
       ))}
@@ -128,7 +128,7 @@ const Random = () => {
       for (let i = 0; i < 8; i++) {
         var randomIndex = Math.floor(Math.random() * food.length);
         randomFood.push(food[randomIndex]);
-        food.splice(randomIndex, 1); 
+        food.splice(randomIndex, 1);
       }
       setRanFood(randomFood);
     } catch (err) {
@@ -147,16 +147,18 @@ const Random = () => {
     <>
       <div className="title-with-button">
         <h1>RANDOM FOOD</h1>
-        <IoReloadOutline onClick={fetchRandomFood} className="refresh-button"/>
+        <IoReloadOutline onClick={fetchRandomFood} className="refresh-button" />
       </div>
       <div className="rec-box-grid">
-        {ranFood.map((item, index) => (
-          <Link className="rec-item" key={index} to={`/fooddetail/${item.id}`}>
-            <img src={item.URL} alt={item.Food_Name || 'Food item'} />
-            <div className="rec-item-name">{item.Food_Name}</div>
-            <div className="rec-item-price">{Number(item.Price).toFixed(2)} ฿</div>
-          </Link>
-        ))}
+        {ranFood.map((item, index) => {
+          if (item) {
+            return (<Link className="rec-item" key={index} to={`/fooddetail/${item.id}`}>
+              <img src={item.URL} alt={item.Food_Name || 'Food item'} />
+              <div className="rec-item-name">{item.Food_Name}</div>
+              <div className="rec-item-price">{Number(item.Price).toFixed(2)} ฿</div>
+            </Link>)
+          }
+        })}
       </div>
     </>
   );

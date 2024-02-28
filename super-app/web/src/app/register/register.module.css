@@ -42,6 +42,7 @@
 }
 
 .form {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -138,3 +139,19 @@
   margin-top: 12px;
 }
 
+.error-text {
+  margin: 1em;
+  color: red;
+  text-align: center;
+  font-size: 1em;
+  position: absolute;
+  left: 1em;
+  right: 1em;
+}
+
+.Loginbutton.disabled {
+  pointer-events: none;
+  cursor: default;
+  background-color: #d9d9d9;
+  color: #000000;
+}
