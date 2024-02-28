@@ -24,5 +24,5 @@ jobs:
       - name: Deploy to Kubernetes with Helm
         uses: "WyriHaximus/github-action-helm3@v3"
         with:
-          exec: helm delete $GIT_REF --purge
+          exec: helm delete $GIT_REF --ignore-not-found
           kubeconfig: "${{ secrets.KUBE_CONFIG }}"
