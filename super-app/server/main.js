@@ -290,7 +290,7 @@ api.post('/liked_blog', async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('like_blog')
-      .select('*,blog(*,blog_category(category)),users(username)')
+      .select('*,blog(*,blog_category(category),users(username))')
       .eq('user_id', user)
     if (error) {
       throw error;
