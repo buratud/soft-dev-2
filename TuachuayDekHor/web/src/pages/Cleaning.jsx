@@ -2,6 +2,7 @@ import React from 'react'
 import "./Cleaning.scoped.css"
 import Navbar from "../component/Nav";
 import ContentSlide from '../component/ContentSlide';
+import Footer from '../component/footer';
 
 function Cleaning() {
 
@@ -24,6 +25,7 @@ function Cleaning() {
             <ContentSlide name={"cleaning"}/>
         </div>
       </div>
+      <Footer/>
     </div>   
     )
 }
