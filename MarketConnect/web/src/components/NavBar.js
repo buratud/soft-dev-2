@@ -268,7 +268,7 @@ const NavBar = () => {
                 <div>
                   <img
                     alt="Admin"
-                    src={`${REACT_APP_MAIN_URL}/images/Admins.png`}
+                    src={`${REACT_APP_MAIN_URL}/images/Admin.png`}
                     height={30}
                     width={30}
                   />
