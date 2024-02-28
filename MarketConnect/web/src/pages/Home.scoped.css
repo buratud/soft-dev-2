@@ -77,9 +77,17 @@ img.carousel-image {
 .prev-button {
     left: 10px;
 }
+
+.prev-button:hover {
+    left: 8px;
+}
   
 .next-button {
     right: 10px;
+}
+
+.next-button:hover {
+    right: 8px;
 }
 
 
@@ -106,7 +114,7 @@ img.carousel-image {
 .new-arrival-card {
     width: 300px;
     background-color: #ffffff;
-    border-radius: 10px;
+    border-radius: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     text-decoration: none;
@@ -114,6 +122,11 @@ img.carousel-image {
     margin: 1rem; 
     display: flex;
     flex-direction: column;
+}
+
+a.new-arrival-card:hover{
+    transform: scale(1.1);
+    transition: transform 0.5s ease;
 }
 
 .card-image-container {
@@ -179,7 +192,7 @@ img.carousel-image {
     gap: 1.5rem; 
     padding: 0.5rem; 
 }
-  
+
 .rec-item {
     background-color: #ffffff;
     border-radius: 10px;
@@ -190,6 +203,11 @@ img.carousel-image {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+a.rec-item:hover{
+    transform: scale(1.05);
+    transition: transform 0.5s ease;
 }
   
 .rec-item img {
@@ -222,6 +240,12 @@ img.carousel-image {
     cursor: pointer;
     font-size: 2rem;
     font-family: poppins, sans-serif;  
+}
+
+.refresh-button:hover {
+    transform: rotate(360deg);
+    transition: transform 0.5s ease;
+    color : rgb(40, 37, 37);
 }
 
 ::-webkit-scrollbar {
