@@ -49,7 +49,6 @@ app.get('/dorms/search', async (req, res) => {
             return;
         }
 
-        logger.debug(dormsList.length)
         for (const dorm of dormsList) {
             if (dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]) {
                 const index = dormsList.indexOf(dorm)
@@ -60,7 +59,6 @@ app.get('/dorms/search', async (req, res) => {
 
         }
         
-        logger.debug(dormsList.length)
         for (const dorm of dormsList) {
             const { data: facilities, error: facilitiesError } = await supabase.schema('dorms').from('dorms_facilities').select('facility_id').eq('dorm_id', dorm.id);
             if (facilitiesError) {
@@ -83,7 +81,6 @@ app.get('/dorms/search', async (req, res) => {
                 // logger.debug([facility, facilitiesID])
             }
         }
-        logger.debug(dormsList.length)
 
         if (searchTerm != "") {
             const result = search(searchTerm, dormsList);
