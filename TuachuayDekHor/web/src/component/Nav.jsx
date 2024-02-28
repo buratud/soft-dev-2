@@ -254,7 +254,7 @@ const Navbar = () => {
           {isAdminLoggedIn ?
             (<a href={`${REACT_APP_MAIN_URL}/admin`}>
               <div>
-                <img alt="Admin" src={`${REACT_APP_MAIN_URL}/images/Admin.png`} height={30} width={30} />
+                <img alt="Admin" src={`${REACT_APP_MAIN_URL}/Admins.png`} height={30} width={30} />
                 <span>
                   Admin
                 </span>
@@ -263,7 +263,7 @@ const Navbar = () => {
             ) : (
               <a href={`${REACT_APP_MAIN_URL}/profile`}>
                 <div>
-                  <img alt="Profile" src={`${REACT_APP_MAIN_URL}/images/PersonCircle.svg`} height={30} width={30} />
+                  <img alt="Profile" src={`${REACT_APP_MAIN_URL}/PersonCircle.svg`} height={30} width={30} />
                   <span>
                     My Profile
                   </span>

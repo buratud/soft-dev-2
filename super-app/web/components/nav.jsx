@@ -171,7 +171,7 @@ export default function NavBar() {
                                 </span>
                             </div>
                         </Link>
-                        <Link href={`/dorms`}>
+                        <Link href={`/dorms/all`}>
                             <div>
                                 <span>
                                     All Dorms
@@ -179,7 +179,7 @@ export default function NavBar() {
                             </div>
                         </Link>
 
-                        <Link href={`/dorms`}>
+                        <Link href={`/dorms/add`}>
                             <div>
                                 <span>
                                     Add Dorm
@@ -264,7 +264,7 @@ export default function NavBar() {
                     {isAdminLoggedIn ? (
                         <Link href={`/admin`}> {/* ตั้ง Link ไปยังหน้า Admin */}
                             <div>
-                                <Image alt="Admin" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Admin.png`} height={30} width={30} />
+                                <Image alt="Admin" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Admins.png`} height={30} width={30} />
                                 <span>
                                     Admin
                                 </span>
