@@ -20,9 +20,7 @@ const Recent_review = (props) => {
                         />
                     </div>
                     <div className={styles.description}>
-                        "Security 24/7 with<br/>
-                        access to famous<br/>
-                        convenience store"
+                        "Security 24/7 with access to famous convenience store"
                     </div>
                 </div>
             </div>
