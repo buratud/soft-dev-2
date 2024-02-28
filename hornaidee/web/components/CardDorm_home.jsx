@@ -7,6 +7,7 @@ export default function CardDorm_home(props) {
   console.log(star)
   return (
     <div className={styles.container}>
+      <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms/detail/${id}`}>
         <img className={styles.img} src={img}/>
         <div className={styles.info}>
             <p className={styles.name}>{dorm_name}</p>
@@ -19,6 +20,7 @@ export default function CardDorm_home(props) {
                 readOnly
             />
         </div>
+      </Link>
     </div>
   );
 }

@@ -1,0 +1,52 @@
+.card{
+  display: flex;
+  justify-content: end;
+  width: 510px;
+}
+.container {
+    display: flex;
+    border-radius: 32px;
+    background: #FFF;
+    box-shadow: 0px 2px 8.6px 0px rgba(7, 46, 104, 0.36);
+    width: 356px;
+    height: 209px;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+  }
+  
+
+
+.image {
+  border-radius: 100%;
+  width: 190px;
+  height: 190px;
+  position: absolute;
+  right: 320px;
+  background-color: #000;
+}
+
+
+.title {
+  color: #000C7B;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 133.333% */
+  letter-spacing: 0.18px;
+}
+
+
+
+
+.description{
+  color: #000;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 133.333% */
+  letter-spacing: 0.18px;
+}
