@@ -14,6 +14,7 @@ const NavBar = () => {
   // ส่วนของโปรไฟล์และทำการตรวจสอบว่า User ได้ทำการ login หรือยัง
   const [profileImage, setProfileImage] = useState('');
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
   const { session } = useContext(AuthContext);
 
@@ -118,44 +119,13 @@ const NavBar = () => {
                 </span>
               </div>
             </a>
-            <div>
-              <button className="subdropdown" onClick={() => setIsOpen_Categories((prev) => !prev)}>
-                <span>Categories</span>
-                {!isOpen_Categories ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}
-              </button>
-              {isOpen_Categories && (
-                <div className="subdropdownContent">
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/cleaning`}>
-                    <div>
-                      <span>
-                        Cleaning
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/decoration`}>
-                    <div>
-                      <span>
-                        Decorations
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/cooking`}>
-                    <div>
-                      <span>
-                        cooking
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/story`}>
-                    <div>
-                      <span>
-                        Story's DekHor
-                      </span>
-                    </div>
-                  </a>
-                </div>
-              )}
-            </div>
+            <a href={`${REACT_APP_MAIN_URL}/blogs/search`}>
+              <div>
+                <span>
+                  All Blogs
+                </span>
+              </div>
+            </a>
             <a href={`${REACT_APP_MAIN_URL}/blogs/writeblog`}>
               <div>
                 <span>
@@ -166,7 +136,7 @@ const NavBar = () => {
             <a href={`${REACT_APP_MAIN_URL}/blogs/blogger`}>
               <div>
                 <span>
-                  Blogger
+                  Bloggers
                 </span>
               </div>
             </a>
@@ -194,14 +164,14 @@ const NavBar = () => {
                 </span>
               </div>
             </a>
-            <a href={`${REACT_APP_MAIN_URL}/dorms`}>
+            <a href={`${REACT_APP_MAIN_URL}/dorms/all`}>
               <div>
                 <span>
                   All Dorms
                 </span>
               </div>
             </a>
-            <a href={`${REACT_APP_MAIN_URL}/dorms`}>
+            <a href={`${REACT_APP_MAIN_URL}/dorms/add`}>
               <div>
                 <span>
                   Add Dorm
