@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import {BsFillTrashFill,BsXLg} from "react-icons/bs";
 import axios from 'axios';
 import { AuthContext } from '../App';
-import { REACT_APP_BASE_API_URL } from '../config'
+import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config'
 
 function CheckDelete(){
   const [show, setShow] = useState(false);
@@ -25,7 +25,7 @@ function CheckDelete(){
     })
     .then(res => {
       alert('delete your blog successfully')
-      navigate(`/profile`)
+      navigate(`${REACT_APP_MAIN_URL}/profile`)
     })
     .catch((err) => {
         alert(err)
