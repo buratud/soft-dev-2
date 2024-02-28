@@ -146,9 +146,9 @@
 
 .table td:nth-child(4) {
   width: 60%;
-  word-wrap: break-word;
+  word-break: break-all;
 }
 
 .table td:nth-child(5) {
-  width: 9%;
+  width: 10%;
 }
