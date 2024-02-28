@@ -332,6 +332,40 @@ api.post("/preview-blog", async (req, res) => {
 
 })
 
+api.post('/get-blog',async(req, res) => {
+    const {category} = req.body;
+    const {data : {id : category_id } , error : category_id_error} = await supabase.from('blog_category').select('id').eq('category',category).single();
+    
+    const {data, error : blog_error} = await supabase
+    .from('blog')
+    .select('*')
+    .eq('category',category_id)
+    .order('likes', { ascending: false })
+    .order('date', { ascending: true });
+
+    for (let post of data) {
+        const { data: userData, error: userError } = await supabase
+            .from('users')
+            .select('username')
+            .eq('id', post.blogger)
+            .single();
+
+        if (userError) {
+            console.log(userError);
+        }
+
+        post.user = userData;
+    }
+
+    if(category_id_error || blog_error){
+        console.log(category_id_error);
+        console.log(blog_error);
+        res.status(400).json({success: false});
+    }else{
+        res.status(200).json({success: true , data});
+    }
+})
+
 
 //show_like
 api.get("/showlike", async (req, res) => {

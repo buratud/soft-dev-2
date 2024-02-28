@@ -53,8 +53,8 @@ h4{
     font-size: 18px;
     font-family:'Poppins' ;
     color: black;
-
 }
+
 .singleDest:hover {
     box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.74);
     transform: scale(1.05); 
@@ -86,20 +86,26 @@ h4{
     padding: 0.5rem;
 }
 
-.destText{
-    color: black;
-    justify-content: center;
-    padding: 1rem; 
+.destFooter{
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    position: relative;
+}
+
+.destText{
+    width: 100%;
+    display: flex;
+    color: black;
+    justify-content: flex-start;
+    padding: 1rem 0rem; 
     align-items: flex-start;
     font-family:'Poppins' ;
     font-size: 1.1rem;
+    text-overflow: ellipsis;
     padding-bottom: 2.5rem;
 }
 
 .destText h4{
-    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
