@@ -42,6 +42,7 @@ export default function DormReview() {
       .then((result) => {
         if (result.data) {
           setSession(result.data.session);
+          console.log(session)
           setUser_id(result.data.session.user.id);
         }
       })
@@ -65,13 +66,13 @@ export default function DormReview() {
     setMaxValue(newValue);
   };
 
-  useEffect(() => {
-    // เรียกใช้ handleSearch เพื่อค้นหาข้อมูลทั้งหมดเมื่อเปิดหน้ามาใหม่
-    handleSearch();
-  }, []);
+  // useEffect(() => {
+  //   // เรียกใช้ handleSearch เพื่อค้นหาข้อมูลทั้งหมดเมื่อเปิดหน้ามาใหม่
+  //   handleSearch();
+  // }, []);
 
   const handleSearch = () => {
-    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/search`,
+    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/dorms/search`,
     {
       name: searchText,
       filter: facilities,
@@ -94,9 +95,9 @@ export default function DormReview() {
     // ล้างค่า searchText หลังจากค้นหาเสร็จสิ้น
   }
 
-  useEffect(() => {
-    console.log([minValue, maxValue])
-  }, [[minValue, maxValue]]);
+  // useEffect(() => {
+  //   console.log([minValue, maxValue])
+  // }, [[minValue, maxValue]]);
 
   const toggleFacility = (facility) => {
     if (facilities.includes(facility)) {
@@ -110,11 +111,11 @@ export default function DormReview() {
 
   const dorms = searchResults.map((dorm, index) => (
     <CardDorm
+      id={dorm.id}
+      dorm_name={dorm.dorm_name}
       key={index}
       img={dorm.img}
-      dorm_name={dorm.dorm_name}
       price={dorm.price}
-      id={dorm.id}
       facilities={dorm.facilities}
       star={dorm.star}
     />
