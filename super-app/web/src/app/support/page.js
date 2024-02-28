@@ -9,7 +9,8 @@ import { createClient } from "@supabase/supabase-js";
 import "./style.css";
 import Navbar from "../../../components/nav.jsx";
 import Footer from "../../../components/footer/Footer.jsx";
-import {NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY} from "../../../config.js"; // Import config.js
+import {NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_BASE_API_URL} from "../../../config.js"; // Import config.js
+import axios from "axios";
 
 // Define the main component
 export default function ContactSupport() {
@@ -20,15 +21,28 @@ export default function ContactSupport() {
   const [historyData, setHistoryData] = useState([]); // State for storing transmission history data
   const [loading, setLoading] = useState(false); // State for tracking loading status
   const [setUnsend, setUnsendLoading] = useState(false); // State for tracking unsend operation loading status
+  const [user_id, setUserId] = useState("");
+  const [email, setEmail] = useState("");
   const [feedbackSent, setFeedbackSent] = useState(false); // State for tracking feedback sent status
   const [unsendSuccess, setUnsendSuccess] = useState(false); // State for tracking unsend success status
   const [error, setError] = useState(null); // State for storing error messages
   const [unsendClickedIndex, setUnsendClickedIndex] = useState(null); // State for tracking the index of the clicked row for unsend
-  const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
-  // dummy user_id and email
-  const user_id = "AA000001";
-  const email = "example@domain.com";
+  const supabase = createClient(
+    NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
+
+  useEffect(() => {
+    supabase.auth.getSession().then((result) => {
+      axios
+      .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${result.data.session.user.id}`)
+      .then((res) => {
+        setUserId(res.data.id);
+        setEmail(res.data.email);
+      });
+    });
+  }, []);
 
   // Function to get unsend icon based on the unsend status
   const getUnsendIcon = (unsend) => {
@@ -45,7 +59,7 @@ export default function ContactSupport() {
   // Function to fetch data only once when the component mounts.
   useEffect(() => {
     fetchDataFromSupabase(); // Initial data fetch
-  }, []);
+  }, [user_id, email]);
 
   // Function to scroll to the last row when historyData changes
   useEffect(() => {
@@ -103,22 +117,26 @@ export default function ContactSupport() {
   const fetchDataFromSupabase = async () => {
     try {
       setLoading(true);
-
       // Fetch data from Supabase with filtering
       const { data, error } = await supabase
         .from("problems")
         .select("*")
-        .eq("user_id", user_id)
-        .eq("email", email)
-        .order("date_create");
+        .eq("user_id", user_id) // Make sure user_id is defined
+        .eq("email", email) // Make sure email is defined
+        .order("date_create"); // Check if order method is supported
+      
 
       if (error) {
-        throw new Error("Failed to fetch data from Supabase");
+        throw new Error(`Failed to fetch data from Supabase: ${error.message}`);
       }
 
       setHistoryData(data);
+
+      // Log the result
+      console.log(data);
     } catch (err) {
-      setError("Fetching data failed.");
+      setError(`Fetching data failed: ${err.message}`);
+      // Consider propagating the error to the calling component if needed
     } finally {
       setLoading(false);
     }
