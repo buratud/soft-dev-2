@@ -1,6 +1,3 @@
-const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET, LOG_LEVEL } = require('./config');
-const logger = require('pino')({ level: LOG_LEVEL || 'info' });
-
 function wagner_fischer(base, target) {
     // Get base and target length
     base_len = base.length

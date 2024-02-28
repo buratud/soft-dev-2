@@ -39,7 +39,7 @@ app.get('/users/:id', async (req, res) => {
     }
 });
 
-app.get('/dorms/search', async (req, res) => {
+app.post('/dorms/search', async (req, res) => {
     try {
         const { name: searchTerm, filter:facilityFilter, range: priceRange } = req.body;
         const { data: dormsList, error } = await supabase.schema('dorms').from('dorms').select();

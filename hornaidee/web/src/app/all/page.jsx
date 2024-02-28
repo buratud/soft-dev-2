@@ -30,10 +30,25 @@ export default function DormReview() {
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(10000);
   const [facilities, setFacilities] = useState([]);
+  const [session, setSession] = useState(null);
+  const [user_id, setUser_id] = useState("");
 
   const [Data, setData] = useState([]);//เอาไว้ใช้เก็บข้อมูลที่ดึงมาแต่ตอนนี้ยังใช้ fake data ไปก่อน
  
   useEffect(() => {
+    // Get session
+    supabase.auth
+      .getSession()
+      .then((result) => {
+        if (result.data) {
+          setSession(result.data.session);
+          setUser_id(result.data.session.user.id);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms`)
       .then(res => {
         setData(res.data);
@@ -56,15 +71,26 @@ export default function DormReview() {
   }, []);
 
   const handleSearch = () => {
+    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/search`,
+    {
+      name: searchText,
+      filter: facilities,
+      range: [minValue, maxValue]
+    },
+    { headers: { Authorization: `Bearer ${session.access_token}` } })
+    .then(res => {
+      console.log(res.data);
+      setSearchResults(res.data);
+    })
     // ทำการค้นหา dorms ที่มีชื่อที่ตรงหรือใกล้เคียงกับ searchText และอยู่ในช่วงราคาที่กำหนด และมีสิ่งอำนวยความสะดวกที่เลือก
-    const results = fakedata.filter(dorm =>
-      dorm.dorm_name.toLowerCase().includes(searchText.toLowerCase()) &&
-      dorm.price >= minValue &&
-      dorm.price <= maxValue &&
-      facilities.every(facility => dorm.facilities.includes(facility))
-    );
+    // const results = fakedata.filter(dorm =>
+    //   dorm.dorm_name.toLowerCase().includes(searchText.toLowerCase()) &&
+    //   dorm.price >= minValue &&
+    //   dorm.price <= maxValue &&
+    //   facilities.every(facility => dorm.facilities.includes(facility))
+    // );
     // ตั้งค่าผลการค้นหาให้กับ state searchResults
-    setSearchResults(results);
+    // setSearchResults(results);
     // ล้างค่า searchText หลังจากค้นหาเสร็จสิ้น
   }
 
