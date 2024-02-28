@@ -166,7 +166,7 @@ function AddPost(params) {
                 // setData(res.data[0]);
                 console.log('editblog',res)
                 alert('Edit Success !!')
-                navigate('/home')
+                navigate(`/${res.data[0].blog_category.category}/${res.data[0].blog_id}`)
             })
             .catch((err) => {
                 console.log(err)
@@ -182,7 +182,8 @@ function AddPost(params) {
             .then(res => {
                 setLoading(false)
                 alert(res.data.message);
-                navigate('/home')
+                console.log('creatpost',res.data)
+                navigate(`/${res.data.data[0].blog_category.category}/${res.data.data[0].blog_id}`)
             })
             .catch((err) => {
                 setLoading(false)
