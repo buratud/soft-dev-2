@@ -336,7 +336,12 @@ api.post('/get-blog',async(req, res) => {
     const {category} = req.body;
     const {data : {id : category_id } , error : category_id_error} = await supabase.from('blog_category').select('id').eq('category',category).single();
     
-    const {data, error : blog_error} = await supabase.from('blog').select('*').eq('category',category_id);
+    const {data, error : blog_error} = await supabase
+    .from('blog')
+    .select('*')
+    .eq('category',category_id)
+    .order('likes', { ascending: false })
+    .order('date', { ascending: true });
 
     for (let post of data) {
         const { data: userData, error: userError } = await supabase
