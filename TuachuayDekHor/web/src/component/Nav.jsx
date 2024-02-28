@@ -162,14 +162,14 @@ const Navbar = () => {
                 </span>
               </div>
             </a>
-            <a href={`${REACT_APP_MAIN_URL}/dorms`}>
+            <a href={`${REACT_APP_MAIN_URL}/dorms/all`}>
               <div>
                 <span>
                   All Dorms
                 </span>
               </div>
             </a>
-            <a href={`${REACT_APP_MAIN_URL}/dorms`}>
+            <a href={`${REACT_APP_MAIN_URL}/dorms/add`}>
               <div>
                 <span>
                   Add Dorm
