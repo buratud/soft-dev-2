@@ -7,8 +7,6 @@
   align-items: center;
 }
 
-
-
 .seachMain {
   display: flex;
   flex-direction: column;
@@ -60,8 +58,8 @@
 .RangeSlider div {
   display: flex;
   justify-content: space-between;
-  margin-left: 1vw;
-  margin-right: 1vw;
+  margin-left: 2vw;
+  margin-right: 2vw;
 }
 
 .searchBar {
@@ -96,7 +94,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  /* จัดเรียงชิดด้านของส่วนซ้ายและขวา */
+  margin-top: 1vw;
 }
 
 .Bottom_left {
