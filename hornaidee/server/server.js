@@ -3,6 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const bodyParser = require('body-parser')
 const { createClient } = require('@supabase/supabase-js');
 const { z } = require('zod');
+const { search } = require("./search");
 const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest} = require('./type');
 
 const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET, LOG_LEVEL } = require('./config');
@@ -32,6 +33,64 @@ app.get('/users/:id', async (req, res) => {
             return;
         }
         res.json(user[0]);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.get('/dorms/search', async (req, res) => {
+    try {
+        const { name: searchTerm, filter:facilityFilter, range: priceRange } = req.body;
+        const { data: dormsList, error } = await supabase.schema('dorms').from('dorms').select();
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+
+        for (const dorm of dormsList) {
+            if (dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]) {
+                const index = dormsList.indexOf(dorm)
+                dormsList.splice(index, index + 1)
+                continue
+            }
+            logger.debug([dorm.rent_price, priceRange[0], priceRange[1], dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]])
+
+        }
+        
+        for (const dorm of dormsList) {
+            const { data: facilities, error: facilitiesError } = await supabase.schema('dorms').from('dorms_facilities').select('facility_id').eq('dorm_id', dorm.id);
+            if (facilitiesError) {
+                logger.error(facilitiesError);
+                res.status(500).send();
+                return;
+            }
+            const facilitiesID = facilities.map(object => object.facility_id)
+
+            if (facilityFilter == []) {
+                break
+            }
+
+            for (const facility of facilityFilter) {
+                if (facilitiesID.includes(facility) == false) {
+                    const index = dormsList.indexOf(dorm)
+                    dormsList.splice(index, index + 1)
+                    continue
+                }
+                // logger.debug([facility, facilitiesID])
+            }
+        }
+
+        if (searchTerm != "") {
+            const result = search(searchTerm, dormsList);
+            if (result.notFound) {
+                res.status(404).json({message: 'There are no matching dorms'});
+            }
+            res.json(result);
+        } else {
+            res.json(dormsList);
+        }
     } catch (error) {
         logger.error(error);
         res.status(500).send();
@@ -178,7 +237,6 @@ app.put('/dorms/:id', async (req, res) => {
     try {
         const data = PutDormRequest.parse(req.body);
         const { facilities, photos, ...dormData } = data;
-        const user = req.user.sub;
 
         const { data: dormInfo, error: InfoError } = await supabase.schema('dorms').from('dorms').select('owner').eq('id', req.params.id);
         if (InfoError) {
@@ -188,7 +246,7 @@ app.put('/dorms/:id', async (req, res) => {
         }
         const dormOwner = dormInfo.map(object => object.owner)[0]
 
-        if (user != dormOwner) {
+        if (req.user.sub != dormOwner) {
             res.status(403).json({message: 'You are not the owner of this dorm'});
             return;
         }
