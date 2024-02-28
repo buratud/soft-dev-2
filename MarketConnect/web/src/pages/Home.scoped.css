@@ -80,6 +80,7 @@ img.carousel-image {
 
 .prev-button:hover {
     left: 8px;
+    scale: 1.1;
 }
   
 .next-button {
@@ -88,6 +89,7 @@ img.carousel-image {
 
 .next-button:hover {
     right: 8px;
+    scale: 1.1;
 }
 
 
@@ -127,6 +129,7 @@ img.carousel-image {
 a.new-arrival-card:hover{
     transform: scale(1.1);
     transition: transform 0.5s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .card-image-container {
@@ -208,6 +211,7 @@ a.new-arrival-card:hover{
 a.rec-item:hover{
     transform: scale(1.05);
     transition: transform 0.5s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
   
 .rec-item img {
@@ -246,6 +250,7 @@ a.rec-item:hover{
     transform: rotate(360deg);
     transition: transform 0.5s ease;
     color : rgb(40, 37, 37);
+    
 }
 
 ::-webkit-scrollbar {
