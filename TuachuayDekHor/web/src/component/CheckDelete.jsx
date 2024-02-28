@@ -25,7 +25,7 @@ function CheckDelete(){
     })
     .then(res => {
       alert('delete your blog successfully')
-      navigate(`${REACT_APP_MAIN_URL}/profile`)
+      window.location.href = `${REACT_APP_MAIN_URL}/profile`;
     })
     .catch((err) => {
         alert(err)
