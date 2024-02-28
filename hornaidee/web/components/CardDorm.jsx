@@ -26,7 +26,7 @@ const CardDorm = (props) => {
                 <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms/detail/${id}`} style={{textDecoration:'none'}}>
                     <div className={styles.see_info_button}>
                         <p className={styles.see_info}>See Info</p>
-                        <img src="image/arrow_right.png"/>
+                        <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/arrow_right.png`}/>
                     </div>
                 </Link>
             </div>
