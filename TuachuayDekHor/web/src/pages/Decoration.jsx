@@ -6,6 +6,7 @@ import ContentSlide from '../component/ContentSlide';
 import { General } from '../App';
 import axios from 'axios';
 import { REACT_APP_BASE_API_URL } from '../config'
+import Footer from '../component/footer';
 
 function Decoration() {
   // const { supabase_for_use: supabase, session, user } = useContext(General);
@@ -40,6 +41,7 @@ function Decoration() {
           <ContentSlide name={'decoration'} />
         </div>
       </div>
+      <Footer/>
     </div>
     // <div className="Decoration">
     //   <header>

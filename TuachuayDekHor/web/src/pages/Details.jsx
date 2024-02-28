@@ -14,7 +14,8 @@ import img1 from '../../src/Assets/slide1.png'
 import { FaRegEdit } from "react-icons/fa";
 import Footer from "../component/footer";
 // title,username,content,like,comments
-import { REACT_APP_BASE_API_URL } from '../config'
+import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config'
+
 
 const Details = () => {
   const { id } = useParams();
@@ -160,21 +161,19 @@ const Details = () => {
               <h2>{data.title}</h2>
             </div>
             <div className="writer">
-              <div className="user__photo">
-                <Avatar src={userData.picture} />
-              </div>
-              <div className="name">
-                <h6>{userData.username}</h6>
-                <div />
+                <div className="user__photo">
+                  <Avatar src={userData.picture}/>
+                </div>
+                <Link to={`${REACT_APP_MAIN_URL}/profile/${userData.username}`} className="name">
+                  <h6>{userData.username}</h6>
+                  </Link>
 
-                {/* <div className="heart">
-                    <BsBookmark size={25} 
-                    className={like === 0 ? "nolike" : "like"}
-                    onClick={handleLikeClick}
-                    />
-                  </div> */}
-
-              </div>
+                  {/* <div className="heart">
+                      <BsBookmark size={25} 
+                      className={like === 0 ? "nolike" : "like"}
+                      onClick={handleLikeClick}
+                      />
+                    </div> */}
             </div>
             <div className="menu__icon">
               <div className="first">

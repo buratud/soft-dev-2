@@ -4,6 +4,7 @@ import Navbar from "../component/Nav";
 import ImgSlide from '../component/ImgSlide';
 import { Container } from 'reactstrap'
 import ContentSlide from '../component/ContentSlide';
+import Footer from '../component/footer';
 
 function Cooking() {
   return (
@@ -25,6 +26,7 @@ function Cooking() {
           <ContentSlide name={"cooking"} />
         </div>
       </div>
+      <Footer/>
     </div>
     // <div className="Decoration">
     //   <header>
