@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import { useState, useEffect, useContext } from 'react'
 import { General, supabase } from '../../session'
+import { useRouter } from 'next/router'
 import styles from './nav.module.css'
 import Link from 'next/link'
 import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_MAIN_API_URL, NEXT_PUBLIC_MAIN_URL } from '../../config'
@@ -251,11 +252,11 @@ export default function NavBar() {
                             </Link>
                         </div>
                         <div>
-                            <Link href={`${NEXT_PUBLIC_MAIN_URL}/login`}>
+                            <a onClick={() => window.location.href = `${NEXT_PUBLIC_MAIN_URL}/login?redirect=${window.location.href}`} >
                                 <button className={styles.login_btn} >
                                     Login
                                 </button>
-                            </Link>
+                            </a>
                         </div>
                     </div>
                 )}
