@@ -24,12 +24,8 @@ function CheckDelete(){
       blog: id
     })
     .then(res => {
-      if (navigate(-1)) {
-        navigate(-1)
-      } else {
-        navigate(`/profile`)
-      }
-      
+      alert('delete your blog successfully')
+      navigate(`/profile`)
     })
     .catch((err) => {
         alert(err)
