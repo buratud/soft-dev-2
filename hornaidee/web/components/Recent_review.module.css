@@ -10,12 +10,9 @@
     box-shadow: 0px 2px 8.6px 0px rgba(7, 46, 104, 0.36);
     width: 356px;
     height: 209px;
-    align-items: center;
     position: relative;
     justify-content: center;
   }
-  
-
 
 .image {
   border-radius: 100%;
@@ -26,7 +23,6 @@
   background-color: #000;
 }
 
-
 .title {
   color: #000C7B;
   text-align: center;
@@ -36,10 +32,15 @@
   font-weight: 600;
   line-height: 24px; /* 133.333% */
   letter-spacing: 0.18px;
+  margin-bottom: 20px;
+  margin-top: 30px;
 }
 
-
-
+.stars{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
 
 .description{
   color: #000;
@@ -50,4 +51,5 @@
   line-height: 24px; /* 133.333% */
   letter-spacing: 0.18px;
   width: 180px;
+  text-align: center;
 }
