@@ -25,7 +25,9 @@ function OffCanvasExample({ name, ...props }) {
   const [allcomment, setAllComment] = useState([]);
 
   const fetchComments = () => {
-    axios.get(`${REACT_APP_BASE_API_URL}/showcomment?id_post=` + id)
+    axios.post(`${REACT_APP_BASE_API_URL}/showcomment` , {
+      blog_id:id
+    })
     .then((response) => {
       setAllComment(response.data);
     })
@@ -40,10 +42,10 @@ function OffCanvasExample({ name, ...props }) {
 
   const onCommentSubmit = (event) => {
     event.preventDefault();
-    if (comment) {
+    if (comment && user) {
       axios.post(`${REACT_APP_BASE_API_URL}/commentpost`, {
-        id: user?.id,
-        id_post: id,
+        user_id: user.id,
+        blog_id: id,
         comment: comment,
       })
       .then(() => {
@@ -52,17 +54,19 @@ function OffCanvasExample({ name, ...props }) {
       .catch((err) => {
         alert(err);
       })
+    }else{
+      alert('You must login before comment');
     }
 
     setComment('');
   }
 
   // Elements
-  const commentElements = allcomment.map(({user: { username },comment},index) =>{
+  const commentElements = allcomment.map(({user: { username },content},index) =>{
     return (
       <div className="comment_app" key={index}>
         <h5>{username}</h5>
-        <p1>{comment}</p1>
+        <p1>{content}</p1>
       </div>
     )
   })
