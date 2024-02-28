@@ -58,8 +58,8 @@
 .RangeSlider div {
   display: flex;
   justify-content: space-between;
-  margin-left: 2vw;
-  margin-right: 2vw;
+  margin-left: 24px;
+  margin-right: 24px;
 }
 
 .searchBar {
@@ -94,7 +94,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 1vw;
+  margin-top: 16px;
 }
 
 .Bottom_left {
