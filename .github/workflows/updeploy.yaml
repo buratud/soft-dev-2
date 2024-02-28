@@ -1,4 +1,4 @@
-name: Build and deploy
+name: Undeploy
 
 permissions:
   contents: read
@@ -14,8 +14,8 @@ on:
       - "develop"
 
 jobs:
-  deploy:
-    name: Deploy
+  undeploy:
+    name: Undeploy
     runs-on: self-hosted
     steps:
       - name: Set environment
