@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import "./Nav.scoped.css";
 import { REACT_APP_MAIN_URL, REACT_APP_BASE_API_URL } from "../config";
 import { useState, useContext, useEffect } from "react";
-import { AuthContext, Usesupabase } from "../App";
+import { AuthContext, useSupabase } from "../App";
 import axios from "axios";
 import img1 from '../../src/Assets/person-circle-outline.svg'
 
@@ -17,7 +17,8 @@ const Navbar = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
-  const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
+  const { session, user } = useContext(AuthContext);
+  const supabase = useSupabase();
 
   useEffect(() => {
     //console.log('session', session)
@@ -53,8 +54,7 @@ const Navbar = () => {
 
 
   const SignOut = async () => {
-    const { data } = await supabase.auth.getSession();
-    const user = data?.session?.user;
+    const user = session?.user;
 
     if (user) {
       const { error } = await supabase.auth.signOut();
