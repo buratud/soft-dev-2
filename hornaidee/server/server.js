@@ -127,7 +127,7 @@ app.post('/dorms/search', async (req, res) => {
                 dormsList.splice(index, index + 1)
                 continue
             }
-            logger.debug([dorm.rent_price, priceRange[0], priceRange[1], dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]])
+            // logger.debug([dorm.rent_price, priceRange[0], priceRange[1], dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]])
 
         }
         
@@ -157,19 +157,19 @@ app.post('/dorms/search', async (req, res) => {
                 return;
             }
             const reviewsList = reviews.map(object => object.stars)
-            dormsList.map(dorm => dorm.stars = avg(reviewsList))
+            dormsList.map(dorm => dorm.stars = (dorm.stars === null) ? 0 : reviewsList.reduce((a, b) => a + b, 0) / reviewsList.length)
 
             if (facilityFilter == []) {
                 break
             }
 
             for (const facility of facilityFilter) {
-                if (facilitiesID.includes(facility) == false) {
+                if (!facilitiesID.includes(facility)) {
                     const index = dormsList.indexOf(dorm)
                     dormsList.splice(index, index + 1)
                     continue
                 }
-                // logger.debug([facility, facilitiesID])
+                logger.debug([dorm, facility, facilitiesID.toString(), facilitiesID.includes(facility)])
             }
         }
 
