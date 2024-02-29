@@ -152,3 +152,7 @@
 .table td:nth-child(5) {
   width: 14%;
 }
+
+.table td:nth-child(2) {
+  width: 15%;
+}
