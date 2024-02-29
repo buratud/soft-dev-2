@@ -1,21 +1,21 @@
 'use client'
 import React, { useState, useEffect, useContext } from 'react';
 import Link from "next/link"
-import NavBar from "../../../components/nav"
+import NavBar from "../../../../components/nav"
 import style from "./page.module.css"
-import Footer from "../../../components/footer/Footer"
-import CardProducts from "../../../components/CardProduct"
-import CardBlogs from "../../../components/CardBlogs"
-import Fakedata from "../data.js";
-import test_data_dorm from '../test_data_dorm';
-import CardDorm from '../../../components/CardDorm';
+import Footer from "../../../../components/footer/Footer"
+import CardProducts from "../../../../components/CardProduct"
+import CardBlogs from "../../../../components/CardBlogs"
+import Fakedata from "../../data.js";
+import test_data_dorm from '../../test_data_dorm';
+import CardDorm from '../../../../components/CardDorm';
 import { FaCircle } from 'react-icons/fa';
-import { NEXT_PUBLIC_BASE_WEB_PATH,NEXT_PUBLIC_BASE_API_URL } from '../../../config';
+import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_BASE_API_URL } from '../../../../config';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { General, supabase } from '../../../session'
+import { General, supabase } from '../../../../session'
 
-const BlogsCards = () => {
+const BlogsCards = ({ params }) => {
 
     const [showLikes, setShowLikes] = useState(false);
     const [showYourBlogs, setShowYourBlogs] = useState(false);
@@ -28,53 +28,48 @@ const BlogsCards = () => {
         setShowYourBlogs(false);
     }, []);
 
-    
+
     const [Likes, setLikes] = useState([]);
     const [yourblog, setyourblog] = useState([]);
 
-    useState(()=>{
-        const checkLoginStatus = async () => {
-            try {
-                const { data, error } = await supabase.auth.getSession();
-                if (error) {
-                    console.log(error);
-                }
-                const user = data?.session?.user?.id;
+    useEffect(() => {
+
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
+            username: params.username
+        })
+            .then(res => {
+                const user = res.data.user.id;
 
                 if (user) {
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
-                        user: user,
+                        user: user
                     })
-                    .then(res => {
-                        setLikes(res.data)
-                        console.log('likes',res.data)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
+                        .then(res => {
+                            setLikes(res.data)
+                            console.log('likes', res.data)
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
 
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_blog`, {
-                        user: user,
+                        user: user
                     })
-                    .then(res => {
-                        setyourblog(res.data)
-                        console.log('your blog',res.data)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                    
+                        .then(res => {
+                            setyourblog(res.data)
+                            console.log('your blog', res.data)
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
                 }
-                else {
-                    setIsUserLoggedIn(false);
-                }
-            } catch (error) {
-                console.error('Error checking login status:', error);
-            }
-        };
 
-        checkLoginStatus();
-    }, [session]);
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+    }, []);
 
     const handleLikesClick = () => {
         setShowLikes(true);
@@ -135,54 +130,53 @@ const BlogsCards = () => {
     )
 }
 
-const ProductCards = () => {
-
-    const { session } = useContext(General);
+const ProductCards = ({ params }) => {
+    
     const [yourproduct, setyourproduct] = useState([]);
+    const [isUserOwner, setIsUserOwner] = useState(false);
 
-    useState(()=>{
-        const checkLoginStatus = async () => {
-            try {
-                const { data, error } = await supabase.auth.getSession();
-                if (error) {
-                    console.log(error);
-                }
-                const user = data?.session?.user?.id;
+    useEffect(() => {
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
+            username: params.username
+        })
+        .then(async res => {
+            const user = res.data.user.id;
+            if (user) {
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
+                    user: user
+                })
+                .then(res => {
+                    setyourproduct(res.data);
+                    console.log('your product', res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+    
+                // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
+                const { data: { session } } = await supabase.auth.getSession();
+                setIsUserOwner(user === session?.user?.id);
+            } 
+        })
+        .catch((err) => {
+            console.log(err)
+        });
+    }, []);
+    
 
-                if (user) {
-                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
-                        user: user,
-                    })
-                    .then(res => {
-                        setyourproduct(res.data)
-                        console.log('your product',res.data)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                }
-                else {
-                    setIsUserLoggedIn(false);
-                }
-            } catch (error) {
-                console.error('Error checking login status:', error);
-            }
-        };
-
-        checkLoginStatus();
-    }, [session]);
 
     return (
         <div>
-            <div className={style.blogs_btn} >
-                {/* เหลือใส่ Link manage products link */}
-                <Link href={`/markets/manage`} style={{ textDecoration: 'none' }}>
-                    <button className={style.yourblogs_btn}>
-                        <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Products.svg`} alt="" className={style.img_likes} />
-                        <p style={{ textDecoration: 'none' }}>Manage your Products</p>
-                    </button>
-                </Link>
-            </div>
+            {isUserOwner &&
+                <div className={style.blogs_btn}>
+                    <Link href={`/markets/manage`} style={{ textDecoration: 'none' }}>
+                        <button className={style.yourblogs_btn}>
+                            <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Products.svg`} alt="" className={style.img_likes} />
+                            <p style={{ textDecoration: 'none' }}>Manage your Products</p>
+                        </button>
+                    </Link>
+                </div>
+            }
             {/* ดึงข้อมูล Product ของตัวเองตรงนี้*/}
             <card>
                 {yourproduct.map((card) => (
@@ -194,66 +188,79 @@ const ProductCards = () => {
     )
 }
 
-const DormCards = () =>{
+const DormCards = () => {
     const dorms = test_data_dorm.map((dorm, index) => (
         <CardDorm
             key={index}
-            img = {dorm.img}
-            dorm_name = {dorm.dorm_name}
-            price = {dorm.price}
-            id = {dorm.id}
-            facilities = {dorm.facilities}
-            star = {dorm.star}
+            img={dorm.img}
+            dorm_name={dorm.dorm_name}
+            price={dorm.price}
+            id={dorm.id}
+            facilities={dorm.facilities}
+            star={dorm.star}
         />
     ))
 
-    return(
-        <div style={{paddingTop:'40px',display:'grid',gridTemplateColumns:'1fr 1fr',justifyItems:'center',rowGap:'30px'}}>
+    return (
+        <div style={{ paddingTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center', rowGap: '30px' }}>
             {dorms}
         </div>
     )
 }
 
-export default function Profile() {
+export default function Profile({ params }) {
+
+    const { session } = useContext(General);
 
     const [selectedOption, setSelectedOption] = useState('blogs'); // สร้าง state เพื่อเก็บค่า option ที่ถูกเลือก
     const [profileImage, setProfileImage] = useState('');
     const [profileUsername, setProfileUsername] = useState('XXXXX');
-
     const router = useRouter();
+    const [isUserOwner, setIsUserOwner] = useState(false);
+
 
     const handleChange = (event) => {
         setSelectedOption(event.target.value); // เมื่อเลือก option ใหม่ เปลี่ยนค่า state
     };
 
     useEffect(() => {
-        const getProfile = async () =>{
-            const {data} = await supabase.auth.getSession();
-            const user = data?.session?.user;
+        const getProfile = () => {
+            try {
+                setProfileUsername(params.username);
 
-            if(user){
-
-                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`,{
-                    userID:user.id
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
+                    username: params.username
                 })
-                .then(res =>{
-                    setProfileImage(res.data.picture);
-                });
+                    .then(res => {
 
-                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-username`,{
-                    userID:user.id
-                })
-                .then(res =>{
-                    setProfileUsername(res.data.username);
-                });
+                        const user = res?.data?.user;
 
-            }else{
-                router.push('/');
+                        const isOwner = async () => {
+                            // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
+                            const { data: { session } } = await supabase.auth.getSession();
+                            setIsUserOwner(user.id === session?.user?.id);
+                        }
+
+                        isOwner();
+
+                        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`, {
+                            userID: user.id
+                        })
+                            .then(res => {
+                                setProfileImage(res.data.picture);
+                            });
+                    });
+
+
+
+            } catch (error) {
+                console.error('Error getting profile:', error);
             }
         }
 
         getProfile();
-    },[]);
+    }, [router]);
+
 
     return (
 
@@ -264,16 +271,17 @@ export default function Profile() {
                 <div className={style.profile}>Profile</div>
 
                 <div className={style.user}>
+                    {/* ดึงรูป Username */}
                     <img className={style.user_img} src={profileImage} />
                     <div className={style.user_info}>
-                        <div className={style.username}>{profileUsername}</div>
-                         {/* เหลือใส่ Link edit profile link */}
-                        <Link href={'/profile-edit'} className={style.edit_profile_button}>
+                        <div className={style.username}>{params.username}</div>
+                        {/* เหลือใส่ Link edit profile link */}
+                        {isUserOwner ? <Link href={'/profile-edit'} className={style.edit_profile_button}>
                             <div className={style.edit_profile_img}>
                                 <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/edit_profile.png`} />
                             </div>
                             <div className={style.edit_profile}>Edit profile</div>
-                        </Link>
+                        </Link> : " "}
                         <div className={style.line} />
                         <select className={style.dropdown} value={selectedOption} onChange={handleChange}>
                             <option value="blogs">DekHor Blogs</option>
@@ -284,10 +292,10 @@ export default function Profile() {
                 </div>
 
                 <div className={style.data}>
-                    {selectedOption === 'blogs' && <BlogsCards />} {/* ถ้า option เป็น blogs แสดง BlogsCards */}
-                    {selectedOption === 'markets' && <ProductCards />} {/* ถ้า option เป็น markets แสดง ProductCards */}
-                    {selectedOption === 'dorms' && <DormCards/>} {/* ถ้า option เป็น dorms แสดง DormCards */}
-                    
+                    {selectedOption === 'blogs' && <BlogsCards params={params} />} {/* ถ้า option เป็น blogs แสดง BlogsCards */}
+                    {selectedOption === 'markets' && <ProductCards params={params} />} {/* ถ้า option เป็น markets แสดง ProductCards */}
+                    {selectedOption === 'dorms' && <DormCards params={params} />} {/* ถ้า option เป็น dorms แสดง DormCards */}
+
                 </div>
             </div>
             <Footer />

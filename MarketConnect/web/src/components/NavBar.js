@@ -12,8 +12,9 @@ const NavBar = () => {
   const [isOpen_Profile, setIsOpen_Profile] = useState(false);
   const [isOpen_Categories, setIsOpen_Categories] = useState(false);
   // ส่วนของโปรไฟล์และทำการตรวจสอบว่า User ได้ทำการ login หรือยัง
-  const [profileImage, setProfileImage] = useState('');
+  const [profileImage, setProfileImage] = useState("");
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
   const { session } = useContext(AuthContext);
 
@@ -30,26 +31,28 @@ const NavBar = () => {
         const user = data?.session?.user;
 
         if (user) {
-          axios.post(`${REACT_APP_MAIN_API_URL}/profile-picture`,
-            {
-              userID: user.id
-            }).then(res => {
+          const isAdmin = user.email == "admin@admin.com"; // แทน 'admin@example.com' ด้วยอีเมลล์ของ Admin
+
+          axios
+            .post(`${REACT_APP_MAIN_API_URL}/profile-picture`, {
+              userID: user.id,
+            })
+            .then((res) => {
               const { picture } = res.data;
               setProfileImage(picture);
               setIsUserLoggedIn(true);
+              setIsAdminLoggedIn(isAdmin);
             });
-        }
-        else {
+        } else {
           setIsUserLoggedIn(false);
         }
       } catch (error) {
-        console.error('Error checking login status:', error);
+        console.error("Error checking login status:", error);
       }
     };
-    console.log('session', session)
+    console.log("session", session);
     checkLoginStatus();
   }, [session]);
-
 
   const SignOut = async () => {
     const { data } = await supabase.auth.getSession();
@@ -63,11 +66,11 @@ const NavBar = () => {
     }
     setIsOpen_Profile(false);
     window.location.reload();
-  }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      const mainElement = document.getElementById('main');
+      const mainElement = document.getElementById("main");
       if (!mainElement.contains(event.target)) {
         setIsOpen_1(false);
         setIsOpen_2(false);
@@ -77,178 +80,153 @@ const NavBar = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
 
   return (
     <main id="main" className="main">
       <div className="leftside">
         <div className="logo">
           <a href={`${REACT_APP_MAIN_URL}/`}>
-            <img alt="logo" src={`${REACT_APP_MAIN_URL}/images/logo.png`} height={70} width={80} />
+            <img
+              alt="logo"
+              src={`${REACT_APP_MAIN_URL}/images/logo.png`}
+              height={70}
+              width={80}
+            />
           </a>
         </div>
       </div>
-      <div className="middle" >
-
-        <div>{/* dropdown 1 */}
-          <button className="dropdown"
+      <div className="middle">
+        <div>
+          {/* dropdown 1 */}
+          <button
+            className="dropdown"
             onClick={() => {
               setIsOpen_1((prev) => !prev);
               setIsOpen_2(false);
               setIsOpen_3(false);
               setIsOpen_Profile(false);
               setIsOpen_Categories(false);
-            }}>
-            <div className="dropdown_text">
-              Blogs
-            </div>
-            {!isOpen_1 ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}</button>
+            }}
+          >
+            <div className="dropdown_text">Blogs</div>
+            {!isOpen_1 ? (
+              <span className="arrow">▼</span>
+            ) : (
+              <span className="arrow">▲</span>
+            )}
+          </button>
 
-          {isOpen_1 && <div className="dropdownContent">
-            <a href={`${REACT_APP_MAIN_URL}/blogs`}>
-              <div>
-                <span>
-                  Main
-                </span>
-              </div>
-            </a>
-            <div>
-              <button className="subdropdown" onClick={() => setIsOpen_Categories((prev) => !prev)}>
-                <span>Categories</span>
-                {!isOpen_Categories ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}
-              </button>
-              {isOpen_Categories && (
-                <div className="subdropdownContent">
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/cleaning`}>
-                    <div>
-                      <span>
-                        Cleaning
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/decoration`}>
-                    <div>
-                      <span>
-                        Decorations
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/cooking`}>
-                    <div>
-                      <span>
-                        cooking
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/story`}>
-                    <div>
-                      <span>
-                        Story's DekHor
-                      </span>
-                    </div>
-                  </a>
+          {isOpen_1 && (
+            <div className="dropdownContent_blog">
+              <a href={`${REACT_APP_MAIN_URL}/blogs`}>
+                <div>
+                  <span>Main</span>
                 </div>
-              )}
+              </a>
+              <a href={`${REACT_APP_MAIN_URL}/blogs/search`}>
+                <div>
+                  <span>All Blogs</span>
+                </div>
+              </a>
+              <a href={`${REACT_APP_MAIN_URL}/blogs/writeblog`}>
+                <div>
+                  <span>Blogging</span>
+                </div>
+              </a>
+              <a href={`${REACT_APP_MAIN_URL}/blogs/blogger`}>
+                <div>
+                  <span>Bloggers</span>
+                </div>
+              </a>
             </div>
-            <a href={`${REACT_APP_MAIN_URL}/blogs/writeblog`}>
-              <div>
-                <span>
-                  Blogging
-                </span>
-              </div>
-            </a>
-            <a href={`${REACT_APP_MAIN_URL}/blogs/blogger`}>
-              <div>
-                <span>
-                  Blogger
-                </span>
-              </div>
-            </a>
-          </div>}
+          )}
         </div>
 
-        <div> {/* dropdown 2 */}
-          <button className="dropdown"
+        <div>
+          {" "}
+          {/* dropdown 2 */}
+          <button
+            className="dropdown"
             onClick={() => {
               setIsOpen_2((prev) => !prev);
               setIsOpen_3(false);
               setIsOpen_1(false);
               setIsOpen_Profile(false);
-            }}>
-            <div className="dropdown_text">
-              Dorms
+            }}
+          >
+            <div className="dropdown_text">Dorms</div>
+            {!isOpen_2 ? (
+              <span className="arrow">▼</span>
+            ) : (
+              <span className="arrow">▲</span>
+            )}
+          </button>
+          {isOpen_2 && (
+            <div className="dropdownContent">
+              <a href={`${REACT_APP_MAIN_URL}/dorms`}>
+                <div>
+                  <span>Main</span>
+                </div>
+              </a>
+              <a href={`${REACT_APP_MAIN_URL}/dorms/all`}>
+                <div>
+                  <span>All Dorms</span>
+                </div>
+              </a>
+              <a href={`${REACT_APP_MAIN_URL}/dorms/add`}>
+                <div>
+                  <span>Add Dorm</span>
+                </div>
+              </a>
             </div>
-            {!isOpen_2 ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}</button>
-
-          {isOpen_2 && <div className="dropdownContent">
-            <a href={`${REACT_APP_MAIN_URL}/dorms`}>
-              <div>
-                <span>
-                  Main
-                </span>
-              </div>
-            </a>
-            <a href={`${REACT_APP_MAIN_URL}/dorms`}>
-              <div>
-                <span>
-                  All Dorms
-                </span>
-              </div>
-            </a>
-            <a href={`${REACT_APP_MAIN_URL}/dorms`}>
-              <div>
-                <span>
-                  Add Dorm
-                </span>
-              </div>
-            </a>
-          </div>}
+          )}
         </div>
 
-        <div>{/* dropdown 3 */}
-          <button className="dropdown"
+        <div>
+          {/* dropdown 3 */}
+          <button
+            className="dropdown"
             onClick={() => {
               setIsOpen_3((prev) => !prev);
               setIsOpen_2(false);
               setIsOpen_1(false);
               setIsOpen_Profile(false);
-            }}>
-            <div className="dropdown_text">
-              Markets
+            }}
+          >
+            <div className="dropdown_text">Markets</div>
+            {!isOpen_3 ? (
+              <span className="arrow">▼</span>
+            ) : (
+              <span className="arrow">▲</span>
+            )}
+          </button>
+
+          {isOpen_3 && (
+            <div className="dropdownContent">
+              <Link to={`/home`}>
+                <div>
+                  <span>Main</span>
+                </div>
+              </Link>
+              <Link to={`/food`}>
+                <div>
+                  <span>All Products</span>
+                </div>
+              </Link>
+              <Link to={`/manage`}>
+                <div>
+                  <span>Manage Product</span>
+                </div>
+              </Link>
             </div>
-            {!isOpen_3 ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}</button>
-
-          {isOpen_3 && <div className="dropdownContent">
-            <Link to={`/home`}>
-              <div>
-                <span>
-                  Main
-                </span>
-              </div>
-            </Link>
-            <Link to={`/food`}>
-              <div>
-                <span>
-                  All Products
-                </span>
-              </div>
-            </Link>
-            <Link to={`/manage`}>
-              <div>
-                <span>
-                  Manage Product
-                </span>
-              </div>
-            </Link>
-          </div>}
+          )}
         </div>
-
       </div>
 
       <div className="rightside">
@@ -259,7 +237,8 @@ const NavBar = () => {
               setIsOpen_3(false);
               setIsOpen_2(false);
               setIsOpen_1(false);
-            }}>
+            }}
+          >
             {/* ตัวแปรโปรไฟล์อยู่ตรงนี้ใน src */}
             <img alt="Profile" src={profileImage} className="ProfileImage" />
           </button>
@@ -267,40 +246,71 @@ const NavBar = () => {
           <div className="btn_wrap">
             <div className="btn">
               <a href={`${REACT_APP_MAIN_URL}/register`}>
-                <button className="signup_btn" >
-                  Sign up
-                </button>
+                <button className="signup_btn">Sign up</button>
               </a>
             </div>
             <div>
-              <a href={`${REACT_APP_MAIN_URL}/login?redirect=${window.location.href}`}>
-                <button className="login_btn" >
-                  Login
-                </button>
+              <a
+                href={`${REACT_APP_MAIN_URL}/login?redirect=${
+                  window.location.href
+                }`}
+              >
+                <button className="login_btn">Login</button>
               </a>
             </div>
           </div>
         )}
 
-        {isOpen_Profile && <div className="dropdownContentProfile">
-          <div>
-            <img alt="Profile" src={`${REACT_APP_MAIN_URL}/images/PersonCircle.svg`} height={30} width={30} />
-            <span>
-              <a href={`${REACT_APP_MAIN_URL}/profile`}>My Profile</a>
-            </span>
+        {isOpen_Profile && (
+          <div className="dropdownContentProfile">
+            {isAdminLoggedIn ? (
+              <a href={`${REACT_APP_MAIN_URL}/admin`}>
+                <div>
+                  <img
+                    alt="Admin"
+                    src={`${REACT_APP_MAIN_URL}/images/Admin.png`}
+                    height={30}
+                    width={30}
+                  />
+                  <span>Admin</span>
+                </div>
+              </a>
+            ) : (
+              <a href={`${REACT_APP_MAIN_URL}/profile`}>
+                <div>
+                  <img
+                    alt="Profile"
+                    src={`${REACT_APP_MAIN_URL}/images/PersonCircle.svg`}
+                    height={30}
+                    width={30}
+                  />
+                  <span>My Profile</span>
+                </div>
+              </a>
+            )}
+            <a href={`${REACT_APP_MAIN_URL}/support`}>
+              <div>
+                <img
+                  alt="Support"
+                  src={`${REACT_APP_MAIN_URL}/images/support.png`}
+                  height={30}
+                  width={30}
+                />
+                <span>Support</span>
+              </div>
+            </a>
+            <div onClick={SignOut}>
+              <img
+                alt="logout"
+                src={`${REACT_APP_MAIN_URL}/images/BoxArrowLeft.svg`}
+                height={30}
+                width={30}
+                className="logout"
+              />
+              <span className="logout_text">Log out</span>
+            </div>
           </div>
-          <div>
-            <img alt="Support" src={`${REACT_APP_MAIN_URL}/images/support.png`} height={30} width={30} />
-            <span>
-              <a href={`${REACT_APP_MAIN_URL}/support`}>Support</a>
-            </span>
-          </div>
-
-          <div onClick={SignOut}>
-            <img alt="logout" src={`${REACT_APP_MAIN_URL}/images/BoxArrowLeft.svg`} height={30} width={30} className="logout" />
-            <span className="logout_text" >Log out</span>
-          </div>
-        </div>}
+        )}
       </div>
     </main>
   );

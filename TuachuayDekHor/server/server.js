@@ -5,6 +5,7 @@ const { createClient } = require('@supabase/supabase-js');
 require("dotenv").config();
 const Sentry = require("@sentry/node");
 const { BASE_SERVER_PATH, PORT, SUPABASE_URL, SUPABASE_KEY } = require('./config');
+const { configDotenv } = require('dotenv');
 
 const app = express();
 const api = express.Router();
@@ -124,24 +125,74 @@ api.post("/edit_profile", async (req, res) => {
 //createpost
 api.post("/createpost", async (req, res) => {
     const { title, category, image_link, user_id, content } = req.body;
-    const { data } = await supabase.from("blog_category").select("id").eq("category", category);
-    if (data) {
-        const { error } = await supabase.from("blog").insert({ title: title, category: data[0].id, body: content, cover_img: image_link, blogger: user_id })
+    // const { data } = await supabase.from("blog_category").select("id").eq("category", category);
+    // if (data) {
+        const { data, error } = await supabase.from("blog").insert({ title: title, category, body: content, cover_img: image_link, blogger: user_id })
+        .select('*,blog_category(category)')
         if (error) {
             res.status(500).json(error);
         }
         else {
-            res.status(200).json({ message: 'Create Post Success', notError: true });
+            res.status(200).json({ message: 'Create Post Success', notError: true, data: data });
         }
-    }
+    // }
 })
+
+//edit blog
+api.post("/editblog", async (req, res) => {
+    const { blog, title, category, body, cover_img } = req.body
+    const { data, error } = await supabase
+        .from('blog')
+        .update({
+            'title': title,
+            'category': category,
+            'body': body,
+            'cover_img': cover_img
+        })
+        .eq('blog_id', blog)
+        .select('*,blog_category(category)')
+    if (error) {
+        console.error(error);
+        res.status(400).json(error);
+    } else {
+        res.status(200).json(data);
+    }
+});
 
 //delete
 api.delete("/deletepost", async (req, res) => {
     const { id_post } = req.query;
-    const { error } = await supabase.from("Create_Post").delete().eq('id_post', id_post)
+    const { error } = await supabase
+        .from("blog")
+        .delete()
+        .eq('blog_id', blog)
     if (error) {
         res.status(500).json(error);
+    }
+    else {
+        res.status(200).json({ msg: "success" })
+    }
+})
+
+api.post("/deleteblog", async (req, res) => {
+    const { blog } = req.body;
+    console.log(blog)
+    const { error } = await supabase
+        .from("blog")
+        .delete()
+        .eq('blog_id', blog)
+
+    const { error : commentDeletionErr } = await supabase
+        .from("comments")
+        .delete()
+        .eq('blog_id', blog)
+
+    const { error : likeDeletionErr } = await supabase
+        .from("like_blog")
+        .delete()
+        .eq('blog_id', blog)
+    if (error || commentDeletionErr || likeDeletionErr) {
+        res.status(500).json({error , commentDeletionErr , likeDeletionErr});
     }
     else {
         res.status(200).json({ msg: "success" })
@@ -162,12 +213,12 @@ api.post("/likepost", async (req, res) => {
 })
 
 //count_like
-api.get("/countlike", async (req, res) => {
-    const { id_post } = req.query;
+api.post("/countlike", async (req, res) => {
+    const { id } = req.body;
     const { data, error } = await supabase
-        .from("likes")
-        .select('*', { count: 'exact' })
-        .eq("id_post", id_post)
+        .from("blog")
+        .select('likes')
+        .eq("blog_id", id)
     if (error) {
         res.status(500).json(error);
     }
@@ -177,22 +228,38 @@ api.get("/countlike", async (req, res) => {
     }
 })
 
-//unlike
-api.delete("/unlike", async (req, res) => {
-    const { id_post, id } = req.query;
-    const { error } = await supabase.from("likes").delete().eq('id', id).eq('id_post', id_post)
-    if (error) {
-        res.status(500).json(error);
+api.post("/updateLike", async (req, res) => {
+    const { blog_id } = req.body;
+    const { data: { likes: like }, error: likeError } = await supabase.from('blog').select('likes').eq('blog_id', blog_id).single();
+    console.log(like);
+    if (likeError) {
+        console.log(likeError);
+        res.status(400).json({ success: false });
+        return;
     }
-    else {
-        res.status(200).json({ msg: "success" })
-    }
+    res.status(200).json({ success: true });
+
+
+
+
 })
+
+//unlike
+// api.delete("/unlike", async (req, res) => {
+//     const { id_post, id } = req.query;
+//     const { error } = await supabase.from("likes").delete().eq('id', id).eq('id_post', id_post)
+//     if (error) {
+//         res.status(500).json(error);
+//     }
+//     else {
+//         res.status(200).json({ msg: "success" })
+//     }
+// })
 
 //comment
 api.post("/commentpost", async (req, res) => {
-    const { id, id_post, comment } = req.body;
-    const { data, error } = await supabase.from("comments").insert({ id: id, id_post: id_post, comment: comment })
+    const { user_id, blog_id, comment } = req.body;
+    const { data, error } = await supabase.from("comments").insert({ user_id, blog_id, content: comment });
     if (error) {
         res.status(500).json(error);
     }
@@ -202,14 +269,33 @@ api.post("/commentpost", async (req, res) => {
 })
 
 //show_comment
-api.get("/showcomment", async (req, res) => {
-    const { id_post } = req.query
-    const { data, error } = await supabase.from("comments").select('user: profiles(username),comment').eq("id_post", id_post)
-    if (error) {
-        res.status(500).json(error);
-    }
-    else {
-        res.status(200).json(data);
+api.post("/showcomment", async (req, res) => {
+    try {
+        const { blog_id } = req.body;
+        const { data, error } = await supabase.from("comments").select('user_id,content').eq("blog_id", blog_id);
+
+        for (let post of data) {
+            const { data: userData, error: userError } = await supabase
+                .from('users')
+                .select('username')
+                .eq('id', post.user_id)
+                .single();
+
+            if (userError) {
+                console.log(userError);
+            }
+
+            post.user = userData; // Add user information to each blog post
+        }
+        if (error) {
+            res.status(500).json(error);
+        }
+        else {
+            res.status(200).json(data);
+        }
+    } catch (userError) {
+        console.error("Error fetching user data:", userError);
+        // Handle user data fetch error here
     }
 })
 
@@ -278,6 +364,40 @@ api.post("/preview-blog", async (req, res) => {
 
 })
 
+api.post('/get-blog', async (req, res) => {
+    const { category } = req.body;
+    const { data: { id: category_id }, error: category_id_error } = await supabase.from('blog_category').select('id').eq('category', category).single();
+
+    const { data, error: blog_error } = await supabase
+        .from('blog')
+        .select('*')
+        .eq('category', category_id)
+        .order('likes', { ascending: false })
+        .order('date', { ascending: true });
+
+    for (let post of data) {
+        const { data: userData, error: userError } = await supabase
+            .from('users')
+            .select('username')
+            .eq('id', post.blogger)
+            .single();
+
+        if (userError) {
+            console.log(userError);
+        }
+
+        post.user = userData;
+    }
+
+    if (category_id_error || blog_error) {
+        console.log(category_id_error);
+        console.log(blog_error);
+        res.status(400).json({ success: false });
+    } else {
+        res.status(200).json({ success: true, data });
+    }
+})
+
 
 //show_like
 api.get("/showlike", async (req, res) => {
@@ -291,6 +411,72 @@ api.get("/showlike", async (req, res) => {
     }
     else {
         res.status(200).json(data);
+    }
+})
+
+api.post("/isliked", async (req, res) => {
+    const { user, blog } = req.body;
+    const { data, error } = await supabase
+        .from('like_blog')
+        .select('*')
+        .eq("user_id", user)
+        .eq("blog_id", blog)
+    if (error) {
+        console.log(error)
+        res.status(400).json(error);
+    }
+    else {
+        res.status(200).json(data.length !== 0); //true = ไลค์แล้ว false = ยังไม่ไลค์
+    }
+})
+
+api.post("/like", async (req, res) => {
+    const { user, blog } = req.body;
+    const { data, error } = await supabase
+        .from('like_blog')
+        .insert([
+            { user_id: user, blog_id: blog },
+        ])
+        .select()
+
+    const { data: likeData } = await supabase.from('like_blog').select('*').eq('blog_id', blog);
+    const likes = likeData?.length || 0;
+    if (error) {
+        console.log(error)
+        res.status(400).json({ success: false });
+    }
+    else {
+        const { error: err } = await supabase.from('blog').update({ likes }).eq('blog_id', blog);
+        if (err) {
+            console.log(err);
+            res.status(400).json({ success: false });
+        }
+        res.status(200).json({ likes, success: true });
+    }
+})
+
+api.post("/unlike", async (req, res) => {
+    const { user, blog } = req.body;
+    // console.log('user, blog', user, blog)
+    const { error } = await supabase
+        .from('like_blog')
+        .delete()
+        .eq('user_id', user)
+        .eq('blog_id', blog)
+
+    const { data: likeData } = await supabase.from('like_blog').select('*').eq('blog_id', blog);
+    const likes = likeData?.length || 0;
+    if (error) {
+        console.log(error)
+        res.status(400).json({ success: false });
+    }
+    else {
+        const { error: err } = await supabase.from('blog').update({ likes }).eq('blog_id', blog);
+        if (err) {
+            console.log(err);
+            res.status(400).json({ success: false });
+        }
+        res.status(200).json({ likes, success: true });
     }
 })
 
@@ -321,11 +507,10 @@ api.get("/posttocategory", async (req, res) => {
 })
 
 //detailpost
-api.get("/detailpost", async (req, res) => {
-    const { id_post } = req.query;
-    const { data, error } = await supabase.from("Create_Post").select('id,title,name:profiles!Create_Post_id_fkey(username),content,image_link').eq("id_post", id_post)
+api.post("/detailpost", async (req, res) => {
+    const { id } = req.body;
+    const { data, error } = await supabase.from("blog").select('*,blog_category(category)').eq("blog_id", id);
     if (error) {
-        console.log(data)
         res.status(400).json(error);
     }
     else {
@@ -346,9 +531,9 @@ api.get("/nameprofile", async (req, res) => {
 })
 
 //id_to_pic
-api.get("/idtopic", async (req, res) => {
-    const { id } = req.query;
-    const { data, error } = await supabase.from("profiles").select('avatar_url').eq("id", id);
+api.post("/idtopic", async (req, res) => {
+    const { id } = req.body;
+    const { data, error } = await supabase.from("users").select('picture , username').eq("id", id);
     if (error) {
         console.log(data)
         res.status(400).json(error);

@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import {BsFillTrashFill,BsXLg} from "react-icons/bs";
 import axios from 'axios';
 import { AuthContext } from '../App';
-import { REACT_APP_BASE_API_URL } from '../config'
+import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config'
 
 function CheckDelete(){
   const [show, setShow] = useState(false);
@@ -19,15 +19,22 @@ function CheckDelete(){
   const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
   const handledelete = () => {
   // const [data,setData] = useState([]);
-    axios.delete(`${REACT_APP_BASE_API_URL}/deletepost?id_post=` + id)
+    console.log('blog id',id)
+    axios.post(`${REACT_APP_BASE_API_URL}/deleteblog`, {
+      blog: id
+    })
     .then(res => {
-      navigate(`/profile/${user?.id}`)
+      alert('delete your blog successfully')
+      window.location.href = `${REACT_APP_MAIN_URL}/profile`;
     })
     .catch((err) => {
         alert(err)
     })
   }
 
+  useState(() => {
+    
+  })
   
 
   return (

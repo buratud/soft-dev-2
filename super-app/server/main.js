@@ -152,6 +152,27 @@ api.post("/recommended-product", async (req, res) => {
 
 //-----------------------------Profile-----------------------------------
 
+api.post('/get-userID-from-username', async (req, res) => {
+  const { username } = req.body;
+  if(username){
+    const {data: userID , error} = await supabase
+      .from('users')
+      .select('id')
+      .eq('username',username)
+      .single();
+    if(error){
+      console.log(error);
+      res.status(400).json({success : false});
+    }else{
+      console.log(userID)
+      res.status(200).json({user: userID , success: true});
+    }
+  }
+  else{
+    res.status(400).json({success : false});
+  }
+})
+
 api.post('/profile-picture', async (req, res) => {
   const { userID } = req.body;
   if (userID) {
@@ -269,7 +290,7 @@ api.post('/liked_blog', async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('like_blog')
-      .select('*,blog(*,blog_category(category)),users(username)')
+      .select('*,blog(*,blog_category(category),users(username))')
       .eq('user_id', user)
     if (error) {
       throw error;
