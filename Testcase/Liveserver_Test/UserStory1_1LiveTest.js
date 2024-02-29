@@ -10,7 +10,7 @@ const driver = new Builder()
   .build();
 
 // Navigate to web DekHor
-(async function User_can_open_web_site_and_register() {
+(async function User_can_access_to_all_portal_and_feature() {
   try {
     await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
     await delay(3000);
@@ -26,6 +26,136 @@ const driver = new Builder()
     await driver.findElement(By.tagName('button')).click();
     console.log('Fill in login info and click login.');
     await delay(2000);
+
+    //Header,Navbar Access Test
+    // Access Blogs feature
+    await driver.findElement(By.className('nav_dropdown__8bw8j')).findElement(By.xpath('//div[text()="Blogs"]')).click();
+    await delay(1000);
+    console.log('Wait for drop bar to appear');
+    await driver.findElement(By.xpath('//span[text()="Main"]')).click();
+    console.log('Go to blog main page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+    
+    await delay(1000);
+    await driver.findElement(By.className('nav_dropdown__8bw8j')).findElement(By.xpath('//div[text()="Blogs"]')).click();
+    await delay(1000);
+    console.log('Wait for drop bar to appear');
+    await driver.findElement(By.xpath('//span[text()="All Blogs"]')).click();
+    console.log('Go to blog page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+
+    await delay(1000);
+    await driver.findElement(By.className('nav_dropdown__8bw8j')).findElement(By.xpath('//div[text()="Blogs"]')).click();
+    await delay(1000);
+    console.log('Wait for drop bar to appear');
+    await driver.findElement(By.xpath('//span[text()="Blogging"]')).click();
+    console.log('Go to blog create page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+
+    await delay(1000);
+    await driver.findElement(By.className('nav_dropdown__8bw8j')).findElement(By.xpath('//div[text()="Blogs"]')).click();
+    await delay(1000);
+    console.log('Wait for drop bar to appear');
+    await driver.findElement(By.xpath('//span[text()="Bloggers"]')).click();
+    console.log('Go to bloger page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+
+
+    // Access Dorms feature
+    await delay(1000);
+    await driver.findElement(By.className('nav_dropdown__8bw8j')).findElement(By.xpath('//div[text()="Dorms"]')).click();
+    await delay(1000);
+    console.log('Wait for drop bar to appear');
+    await driver.findElement(By.xpath('//span[text()="Main"]')).click();
+    console.log('Go to dorm main page');
+    await delay(2000);
+    await driver.findElement(By.className('nav_leftside__0MbTt')).click();
+    console.log('Redirect to home page');
+
+    await delay(1000);
+    await driver.findElement(By.className('nav_dropdown__8bw8j')).findElement(By.xpath('//div[text()="Dorms"]')).click();
+    await delay(1000);
+    console.log('Wait for drop bar to appear');
+    await driver.findElement(By.xpath('//span[text()="All Dorms"]')).click();
+    console.log('Go to dorm page');
+    await delay(2000);
+    await driver.findElement(By.className('nav_leftside__0MbTt')).click();
+    console.log('Redirect to home page');
+
+    await delay(1000);
+    await driver.findElement(By.className('nav_dropdown__8bw8j')).findElement(By.xpath('//div[text()="Dorms"]')).click();
+    await delay(1000);
+    console.log('Wait for drop bar to appear');
+    await driver.findElement(By.xpath('//span[text()="Add Dorm"]')).click();
+    console.log('Go to dorm add page');
+    await delay(2000);
+    await driver.findElement(By.className('nav_leftside__0MbTt')).click();
+    console.log('Redirect to home page');
+
+
+    // Access Market feature
+    await delay(1000);
+    await driver.findElement(By.className('nav_dropdown__8bw8j')).findElement(By.xpath('//div[text()="Markets"]')).click();
+    await delay(1000);
+    console.log('Wait for drop bar to appear');
+    await driver.findElement(By.xpath('//span[text()="Main"]')).click();
+    console.log('Go to market main page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+
+    await delay(1000);
+    await driver.findElement(By.className('nav_dropdown__8bw8j')).findElement(By.xpath('//div[text()="Markets"]')).click();
+    await delay(1000);
+    console.log('Wait for drop bar to appear');
+    await driver.findElement(By.xpath('//span[text()="All Products"]')).click();
+    console.log('Go to market product page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+
+    await delay(1000);
+    await driver.findElement(By.className('nav_dropdown__8bw8j')).findElement(By.xpath('//div[text()="Markets"]')).click();
+    await delay(1000);
+    console.log('Wait for drop bar to appear');
+    await driver.findElement(By.xpath('//span[text()="Manage Product"]')).click();
+    console.log('Go to manage product page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+
+    // Access Profile feature
+    await delay(1000);
+    await driver.findElement(By.className('nav_rightside__fuSzv')).click();
+    await delay(1000);
+    await driver.findElement(By.className('nav_dropdownContentProfile__KfzNB')).findElement(By.xpath('//span[text()="My Profile"]')).click();
+    console.log('Go to profile page');
+    await delay(2000);
+    await driver.findElement(By.className('nav_leftside__KJoZ9')).click();
+
+    await delay(1000);
+    await driver.findElement(By.className('nav_rightside__fuSzv')).click();
+    await delay(1000);
+    await driver.findElement(By.className('nav_dropdownContentProfile__KfzNB')).findElement(By.xpath('//span[text()="Support"]')).click();
+    console.log('Go to Support page');
+    await delay(2000);
+    await driver.findElement(By.className('nav_leftside__KJoZ9')).click();
+    console.log('Redirect to home page');
+
+    // Access main portal
+    await delay(1000);
+    await driver.findElement(By.className('page_portal__H6OVg')).findElement(By.xpath('//p[text()="DekHor Dorms"]')).click();
+
+
+
     
 
 } finally {

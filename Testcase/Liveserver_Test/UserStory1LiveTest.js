@@ -14,7 +14,7 @@ const driver = new Builder()
   .build();
 
 // Navigate to web DekHor
-(async function User_can_open_web_site_and_register() {
+(async function User_can_open_web_site_and_register_login_edit_profile() {
   try {
     await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
     await delay(3000);
