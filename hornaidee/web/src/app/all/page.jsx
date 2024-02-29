@@ -94,6 +94,7 @@ export default function DormReview() {
   };
 
   const dorms = searchResults.map((dorm, index) => (
+    console.log(dorm),
     <CardDorm
       key={index}
       id={dorm.id}
