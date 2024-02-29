@@ -197,6 +197,61 @@ const driver = new Builder()
     console.log('Redirect to home page');
     await delay(2000);
 
+
+    // Access feature in body page dynamic part
+    await driver.findElement(By.xpath('/html/body/div/div[4]/div[1]/div[2]/main/a[1]')).click();
+    console.log('Go to recomment blog1 page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+    await delay(2000);
+
+    await driver.findElement(By.xpath('/html/body/div/div[4]/div[1]/div[2]/main/a[2]')).click();
+    console.log('Go to recomment blog2 page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+    await delay(2000);
+
+    await driver.findElement(By.xpath('/html/body/div/div[4]/div[1]/div[2]/main/a[3]')).click();
+    console.log('Go to recomment blog3 page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+    await delay(2000);
+
+    await driver.findElement(By.xpath('/html/body/div/div[4]/div[3]/div[2]/div[2]/div/ul/li[1]')).click();
+    console.log('Go to recomment product1 page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+    await delay(2000);
+
+    await driver.findElement(By.xpath('/html/body/div/div[4]/div[3]/div[2]/div[2]/div/ul/li[2]')).click();
+    console.log('Go to recomment product2 page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+    await delay(2000);
+
+    await driver.findElement(By.xpath('/html/body/div/div[4]/div[3]/div[2]/div[2]/div/ul/li[3]')).click();
+    console.log('Go to recomment product3 page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+    await delay(2000);
+
+    await driver.findElement(By.className('react-multiple-carousel__arrow react-multiple-carousel__arrow--right')).click();
+    console.log('click slide button');
+    await delay(2000);
+    await driver.findElement(By.xpath('/html/body/div/div[4]/div[3]/div[2]/div[2]/div/ul/li[4]')).click();
+    console.log('Go to recomment product4 page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+    await delay(2000);
+
+
     // Access feature in footer
     console.log('Footer part');
     await driver.findElement(By.linkText('Home')).click();
