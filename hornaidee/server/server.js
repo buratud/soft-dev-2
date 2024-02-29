@@ -39,64 +39,6 @@ app.get('/users/:id', async (req, res) => {
     }
 });
 
-app.post('/dorms/search', async (req, res) => {
-    try {
-        const { name: searchTerm, filter:facilityFilter, range: priceRange } = req.body;
-        const { data: dormsList, error } = await supabase.schema('dorms').from('dorms').select();
-        if (error) {
-            logger.error(error);
-            res.status(500).send();
-            return;
-        }
-
-        for (const dorm of dormsList) {
-            if (dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]) {
-                const index = dormsList.indexOf(dorm)
-                dormsList.splice(index, index + 1)
-                continue
-            }
-            logger.debug([dorm.rent_price, priceRange[0], priceRange[1], dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]])
-
-        }
-        
-        for (const dorm of dormsList) {
-            const { data: facilities, error: facilitiesError } = await supabase.schema('dorms').from('dorms_facilities').select('facility_id').eq('dorm_id', dorm.id);
-            if (facilitiesError) {
-                logger.error(facilitiesError);
-                res.status(500).send();
-                return;
-            }
-            const facilitiesID = facilities.map(object => object.facility_id)
-
-            if (facilityFilter == []) {
-                break
-            }
-
-            for (const facility of facilityFilter) {
-                if (facilitiesID.includes(facility) == false) {
-                    const index = dormsList.indexOf(dorm)
-                    dormsList.splice(index, index + 1)
-                    continue
-                }
-                // logger.debug([facility, facilitiesID])
-            }
-        }
-
-        if (searchTerm != "") {
-            const result = search(searchTerm, dormsList);
-            if (result.notFound) {
-                res.status(404).json({message: 'There are no matching dorms'});
-            }
-            res.json(result);
-        } else {
-            res.json(dormsList);
-        }
-    } catch (error) {
-        logger.error(error);
-        res.status(500).send();
-    }
-});
-
 app.get('/dorms/:id', async (req, res) => {
     try {
         const { data: dorm, error } = await supabase.schema('dorms').from('dorms').select().eq('id', req.params.id).single();
@@ -168,6 +110,64 @@ app.use((req, res, next) => {
         }
     });
 })
+
+app.post('/dorms/search', async (req, res) => {
+    try {
+        const { name: searchTerm, filter:facilityFilter, range: priceRange } = req.body;
+        const { data: dormsList, error } = await supabase.schema('dorms').from('dorms').select();
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+
+        for (const dorm of dormsList) {
+            if (dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]) {
+                const index = dormsList.indexOf(dorm)
+                dormsList.splice(index, index + 1)
+                continue
+            }
+            logger.debug([dorm.rent_price, priceRange[0], priceRange[1], dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]])
+
+        }
+        
+        for (const dorm of dormsList) {
+            const { data: facilities, error: facilitiesError } = await supabase.schema('dorms').from('dorms_facilities').select('facility_id').eq('dorm_id', dorm.id);
+            if (facilitiesError) {
+                logger.error(facilitiesError);
+                res.status(500).send();
+                return;
+            }
+            const facilitiesID = facilities.map(object => object.facility_id)
+
+            if (facilityFilter == []) {
+                break
+            }
+
+            for (const facility of facilityFilter) {
+                if (facilitiesID.includes(facility) == false) {
+                    const index = dormsList.indexOf(dorm)
+                    dormsList.splice(index, index + 1)
+                    continue
+                }
+                // logger.debug([facility, facilitiesID])
+            }
+        }
+
+        if (searchTerm != "") {
+            const result = search(searchTerm, dormsList);
+            if (result.notFound) {
+                res.status(404).json({message: 'There are no matching dorms'});
+            }
+            res.json(result);
+        } else {
+            res.json(dormsList);
+        }
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
 
 app.post('/dorms', async (req, res) => {
     try {
