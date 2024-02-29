@@ -276,7 +276,7 @@ const NavBar = () => {
                 </div>
               </a>
             ) : (
-              <a href={`${REACT_APP_MAIN_URL}/images/profile`}>
+              <a href={`${REACT_APP_MAIN_URL}/profile`}>
                 <div>
                   <img
                     alt="Profile"
