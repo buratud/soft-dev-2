@@ -29,6 +29,7 @@ const driver = new Builder()
 
     //Header,Navbar Access Test
     // Access Blogs feature
+    console.log('Header part');
     await driver.findElement(By.className('nav_dropdown__8bw8j')).findElement(By.xpath('//div[text()="Blogs"]')).click();
     await delay(1000);
     console.log('Wait for drop bar to appear');
@@ -151,8 +152,51 @@ const driver = new Builder()
     console.log('Redirect to home page');
 
     // Access main portal
+    console.log('Main portal and body part');
     await delay(1000);
     await driver.findElement(By.className('page_portal__H6OVg')).findElement(By.xpath('//p[text()="DekHor Dorms"]')).click();
+    console.log('Go to dorm main page');
+    await delay(2000);
+    await driver.findElement(By.className('nav_leftside__0MbTt')).click();
+    console.log('Redirect to home page');
+
+    await delay(1000);
+    await driver.findElement(By.className('page_portal__H6OVg')).findElement(By.xpath('//p[text()="DekHor Markets"]')).click();
+    console.log('Go to market main page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+
+    await delay(1000);
+    await driver.findElement(By.className('page_portal__H6OVg')).findElement(By.xpath('//p[text()="DekHor Blogs"]')).click();
+    console.log('Go to blog main page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+
+    // Access feature in body page
+    await delay(1000);
+    await driver.findElement(By.className('page_poster_button_blog__iaiU_')).click();
+    console.log('Go to blog writing page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+
+    await delay(1000);
+    await driver.findElement(By.className('page_poster_button_discover__nzAjU')).click();
+    console.log('Go to dorm page');
+    await delay(2000);
+    await driver.findElement(By.className('nav_leftside__0MbTt')).click();
+    console.log('Redirect to home page');
+
+    await delay(1000);
+    await driver.findElement(By.className('page_poster_info_market__akBQw')).findElement(By.className('page_poster_button_discover__nzAjU')).click();
+    console.log('Go to market page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+    await delay(2000);
+
 
 
 
