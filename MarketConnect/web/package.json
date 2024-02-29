@@ -5,6 +5,8 @@
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@craco/craco": "^7.1.0",
+    "@sentry/cli": "^2.28.6",
+    "@sentry/react": "^7.102.1",
     "@supabase/supabase-js": "^2.39.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -32,9 +34,10 @@
   "scripts": {
     "start": "craco start",
     "dev": "concurrently \"npm start\" \"npm start --prefix ../server/\"",
-    "build": "craco build",
+    "build": "craco build && npm run sentry:sourcemaps",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org soft-dev-2 --project markets-web ./build && sentry-cli --url https://linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com sourcemaps upload --org soft-dev-2 --project markets-web ./build"
   },
   "eslintConfig": {
     "root": true
