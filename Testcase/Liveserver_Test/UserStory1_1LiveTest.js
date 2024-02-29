@@ -197,6 +197,34 @@ const driver = new Builder()
     console.log('Redirect to home page');
     await delay(2000);
 
+    // Access feature in footer
+    console.log('Footer part');
+    await driver.findElement(By.linkText('Home')).click();
+    await delay(2000);
+
+    await driver.findElement(By.linkText('Blogs')).click();
+    console.log('Go to blog page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+    await delay(2000);
+
+    await driver.findElement(By.linkText('Dorms')).click();
+    console.log('Go to dorm page');
+    await delay(2000);
+    await driver.findElement(By.className('nav_leftside__0MbTt')).click();
+    console.log('Redirect to home page');
+    await delay(2000);
+
+    await driver.findElement(By.linkText('Markets')).click();
+    console.log('Go to blog page');
+    await delay(2000);
+    await driver.findElement(By.className('leftside')).findElement(By.className('logo')).click();
+    console.log('Redirect to home page');
+    await delay(2000);
+
+
+
 
 
 
