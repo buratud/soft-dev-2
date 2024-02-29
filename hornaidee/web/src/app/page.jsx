@@ -25,16 +25,30 @@ export default function Home() {
 
         <div className={styles.info_container}>
           <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/icon2.png`}/>
-          <div className={styles.title_info}>Affordable Price</div>
+          <div className={styles.title_info}>Ask Anything</div>
           <div className={styles.info}>
-            Each and every dorm is priced<br/>
-            reasonably.We want to make sure<br/>
-            that students get what they paid for.
+            Chat easily with dorm hosts so you<br/>
+            can get any information from<br/>
+            your fingertips.
           </div>
         </div>
       </div>
 
-      <div className={styles.top_list_area}>top list of dorm</div>
+      <div className={styles.top_list_area}>
+        <div className={styles.top_list_title}>
+          Top list of dorms
+        </div>
+        <div className={styles.top_list_card}>
+          <CardDorm_home/>
+          <CardDorm_home/>
+          <CardDorm_home/>
+          <CardDorm_home/>
+          <CardDorm_home/>
+          <CardDorm_home/>
+          <CardDorm_home/>
+          <CardDorm_home/>
+        </div>
+      </div>
       
       <Link className={styles.button} href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms/all`}>
         <div className={styles.button_text}>Discover</div>
@@ -62,6 +76,8 @@ export default function Home() {
           star = {1.5}
         />
       </div>
+
+      
     </main>
   );
 }
