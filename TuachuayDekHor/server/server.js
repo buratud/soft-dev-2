@@ -134,6 +134,14 @@ api.post("/createpost", async (req, res) => {
     else {
         res.status(200).json({ message: 'Create Post Success', notError: true });
     }
+        const { data, error } = await supabase.from("blog").insert({ title: title, category, body: content, cover_img: image_link, blogger: user_id })
+        .select('*,blog_category(category)')
+        if (error) {
+            res.status(500).json(error);
+        }
+        else {
+            res.status(200).json({ message: 'Create Post Success', notError: true, data: data });
+        }
     // }
 })
 
@@ -149,7 +157,7 @@ api.post("/editblog", async (req, res) => {
             'cover_img': cover_img
         })
         .eq('blog_id', blog)
-        .select()
+        .select('*,blog_category(category)')
     if (error) {
         console.error(error);
         res.status(400).json(error);
