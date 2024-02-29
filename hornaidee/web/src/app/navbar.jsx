@@ -116,7 +116,7 @@ export default function NavBar() {
                         </div>
                         {!isOpen_1 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
-                    {isOpen_1 && <div className={styles.dropdownContent}>
+                    {isOpen_1 && <div className={styles.dropdownContent_blog}>
                         <Link href={`${NEXT_PUBLIC_MAIN_URL}/blogs`}>
                             <div>
                                 <span>
@@ -259,15 +259,26 @@ export default function NavBar() {
                 )}
 
                 {isOpen_Profile && <div className={styles.dropdownContentProfile}>
-                    <Link href={`${NEXT_PUBLIC_MAIN_URL}/profile`}>
-                        <div>
-                            <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
-                            <span>
-                                My Profile
-                            </span>
-                        </div>
-                    </Link>
-                    <Link href={`${NEXT_PUBLIC_MAIN_URL}/support`}>
+                    {isAdminLoggedIn ? (
+                        <Link href={`/admin`}> {/* ตั้ง Link ไปยังหน้า Admin */}
+                            <div>
+                                <Image alt="Admin" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Admin.png`} height={30} width={30} />
+                                <span>
+                                    Admin
+                                </span>
+                            </div>
+                        </Link>
+                    ) : (
+                        <Link href={`/profile`}>
+                            <div>
+                                <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
+                                <span>
+                                    My Profile
+                                </span>
+                            </div>
+                        </Link>
+                    )}
+                    <Link href={`/support`}>
                         <div>
                             <Image alt="Support" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`} height={30} width={30} />
                             <span>
