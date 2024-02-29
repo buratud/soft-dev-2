@@ -33,7 +33,7 @@ img {
     width: 100%;
     max-height: 100%;
     display: block;
-    border-radius: 2.6rem;
+    border-radius: 2rem;
     object-fit: cover;
     position: absolute;
     top: 0;
@@ -96,6 +96,7 @@ img {
   display: flex;
   flex-direction: row;
 }
+
 .product-detail h2 {
   text-transform: capitalize;
   color: #092F88;
@@ -104,6 +105,8 @@ img {
 }
 
 .product-detail p {
+  width: 500px;
+  word-wrap: break-word;
   font-size: 20px;
   padding: 0.3rem;
   opacity: 0.8;
@@ -113,9 +116,11 @@ img {
 .product-detail de {
     font-size: 18px;
     font-weight: 400;
-    display: inline-block;
-    width: calc(100% - 4rem);
+    display: block;
+    word-wrap: break-word;
+    width: 500px;
     margin-left: 2rem;
+    margin-right: 2rem;
     margin-bottom: 1.6rem;
     line-height: 1.5;
   }  
