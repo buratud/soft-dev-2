@@ -39,12 +39,16 @@ function Admin() {
                         const { role } = res.data.data;
                         if (role !== 'Admin') {
                             router.push('/');
-                            alert('You don\'t have permission');
+                            setTimeout(() => {
+                                alert('You don\'t have permission');
+                            }, 0);
                         }
                     });
             }else{
                 router.push('/');
-                alert('You don\'t have permission');
+                setTimeout(() => {
+                    alert('You don\'t have permission');
+                }, 0);
             }
         }
 
