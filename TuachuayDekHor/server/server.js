@@ -286,7 +286,6 @@ api.post("/showcomment", async (req, res) => {
 
             post.user = userData; // Add user information to each blog post
         }
-        console.log(data);
         if (error) {
             res.status(500).json(error);
         }

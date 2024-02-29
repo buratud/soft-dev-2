@@ -1,4 +1,4 @@
-import React, { useState,useContext,useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Input } from 'reactstrap'
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { FaRegComment } from "react-icons/fa";
@@ -6,7 +6,7 @@ import './Comments.scoped.css'
 import { RiFlag2Line, RiMessage2Line, RiSendPlaneFill } from "react-icons/ri";
 import { CiChat1 } from "react-icons/ci";
 import { AuthContext } from '../App';
-import { Link,useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { REACT_APP_BASE_API_URL } from '../config'
 
@@ -17,23 +17,23 @@ function OffCanvasExample({ name, ...props }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const {session,user} = useContext(AuthContext);
-  const {id} = useParams();
+  const { session, user } = useContext(AuthContext);
+  const { id } = useParams();
 
 
   const [comment, setComment] = useState('');
   const [allcomment, setAllComment] = useState([]);
 
   const fetchComments = () => {
-    axios.post(`${REACT_APP_BASE_API_URL}/showcomment` , {
-      blog_id:id
+    axios.post(`${REACT_APP_BASE_API_URL}/showcomment`, {
+      blog_id: id
     })
-    .then((response) => {
-      setAllComment(response.data);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then((response) => {
+        setAllComment(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   useEffect(() => {
@@ -42,19 +42,21 @@ function OffCanvasExample({ name, ...props }) {
 
   const onCommentSubmit = (event) => {
     event.preventDefault();
-    if (comment && user) {
-      axios.post(`${REACT_APP_BASE_API_URL}/commentpost`, {
-        user_id: user.id,
-        blog_id: id,
-        comment: comment,
-      })
-      .then(() => {
-        fetchComments(); // ดึงความคิดเห็นใหม่หลังจากบันทึกเสร็จ
-      })
-      .catch((err) => {
-        alert(err);
-      })
-    }else{
+    if (user) {
+      if (comment) {
+        axios.post(`${REACT_APP_BASE_API_URL}/commentpost`, {
+          user_id: user.id,
+          blog_id: id,
+          comment: comment,
+        })
+          .then(() => {
+            fetchComments(); // ดึงความคิดเห็นใหม่หลังจากบันทึกเสร็จ
+          })
+          .catch((err) => {
+            alert(err);
+          })
+      }
+    } else {
       alert('You must login before comment');
     }
 
@@ -62,7 +64,7 @@ function OffCanvasExample({ name, ...props }) {
   }
 
   // Elements
-  const commentElements = allcomment.map(({user: { username },content},index) =>{
+  const commentElements = allcomment.map(({ user: { username }, content }, index) => {
     return (
       <div className="comment_app" key={index}>
         <h5>{username}</h5>
@@ -72,7 +74,7 @@ function OffCanvasExample({ name, ...props }) {
   })
   console.log(allcomment);
   console.log(commentElements);
-  
+
   return (
     <>
       <div className="btn" onClick={handleShow} >
@@ -89,21 +91,21 @@ function OffCanvasExample({ name, ...props }) {
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-        <form action="#" onSubmit={onCommentSubmit}>
-          <textarea
-            name="content" id="comments"
-            rows="5" className='comments__input'
-            placeholder= 'Write a comment...'
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          >
-          </textarea>
-          <div className="send_btn">
-            <button type='submit' className='send__btn'>
-              Submit
-            </button>
-          </div>
-        </form>
+          <form action="#" onSubmit={onCommentSubmit}>
+            <textarea
+              name="content" id="comments"
+              rows="5" className='comments__input'
+              placeholder='Write a comment...'
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            >
+            </textarea>
+            <div className="send_btn">
+              <button type='submit' className='send__btn'>
+                Submit
+              </button>
+            </div>
+          </form>
 
           <div className="comment_blog">
             {commentElements}
