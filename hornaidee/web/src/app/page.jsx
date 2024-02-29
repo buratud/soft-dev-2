@@ -5,6 +5,7 @@ import CardDorm_home from "../../components/CardDorm_home";
 import Recent_review from "../../components/Recent_review";
 import { NEXT_PUBLIC_BASE_WEB_PATH } from '../../config'
 import Link from "next/link";
+import Footer from "./footer";
 
 export default function Home() {
   return (
@@ -77,7 +78,7 @@ export default function Home() {
         />
       </div>
 
-      
+      <Footer/>
     </main>
   );
 }
