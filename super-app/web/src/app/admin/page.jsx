@@ -41,6 +41,8 @@ function Admin() {
                             router.push('/');
                         }
                     });
+            }else{
+                router.push('/');
             }
         }
 
