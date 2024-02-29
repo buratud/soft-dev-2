@@ -5,7 +5,7 @@ import { FaRegComment } from "react-icons/fa";
 import './Comments.scoped.css'
 import { RiFlag2Line, RiMessage2Line, RiSendPlaneFill } from "react-icons/ri";
 import { CiChat1 } from "react-icons/ci";
-import { General } from '../App';
+import { AuthContext } from '../App';
 import { Link,useParams } from 'react-router-dom';
 import axios from 'axios';
 import { REACT_APP_BASE_API_URL } from '../config'
@@ -17,7 +17,7 @@ function OffCanvasExample({ name, ...props }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const {session,user} = useContext(General);
+  const {session,user} = useContext(AuthContext);
   const {id} = useParams();
 
 
@@ -62,7 +62,7 @@ function OffCanvasExample({ name, ...props }) {
     return (
       <div className="comment_app" key={index}>
         <h5>{username}</h5>
-        <p>{comment}</p>
+        <p1>{comment}</p1>
       </div>
     )
   })
@@ -72,14 +72,15 @@ function OffCanvasExample({ name, ...props }) {
   return (
     <>
       <div className="btn" onClick={handleShow} >
-        <CiChat1 size={28} className='comment-icon' /><p>{commentElements.length}</p>
+        <CiChat1 size={28} className='comment-icon' />
+        <p>{commentElements.length}</p>
       </div>
       <Offcanvas show={show} onHide={handleClose} {...props}>
-        <Offcanvas.Header closeButton>
+        <Offcanvas.Header closeButton style={{ backgroundColor: 'rgb(64, 102, 156)' }}>
           <Offcanvas.Title>
             <div className="title">
-              <h4>Comments</h4>
-              <p>({commentElements.length})</p>
+              <p2>Comments</p2>
+              <p2>({commentElements.length})</p2>
             </div>
           </Offcanvas.Title>
         </Offcanvas.Header>

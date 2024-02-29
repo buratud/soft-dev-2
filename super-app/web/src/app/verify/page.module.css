@@ -6,17 +6,18 @@
     justify-content: center;
     align-items: center;
     background-color: #F6F6FB;
-    top:0;  
+    top: 0;
     position: absolute;
 }
 
-.logo{
+.logo {
     width: 84px;
     height: 80px;
     flex-shrink: 0;
 }
 
-.section{
+.section {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,8 +29,10 @@
     padding: 1rem;
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.25);
     margin-top: 4rem;
+    position: relative;
 }
-.title{
+
+.title {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,18 +40,21 @@
     font-size: 26px;
     font-weight: 700;
 }
-.describ{
+
+.describ {
     width: 70%;
     text-align: center;
     font-size: 18px;
     font-weight: 500;
 }
-.title img{
+
+.title img {
     width: 100px;
     height: 100px;
     margin-bottom: 12px;
 }
-.input{
+
+.input {
     width: 32px;
     height: 32px;
     text-align: center;
@@ -58,11 +64,13 @@
     font-size: 20px;
     font-weight: 500;
 }
-.input:focus{
+
+.input:focus {
     outline: none;
     border-radius: 1.5px solid deepskyblue;
 }
-.button{
+
+.button {
     width: 250px;
     letter-spacing: 2px;
     margin-top: 24px;
@@ -75,50 +83,62 @@
     font-size: 20px;
     font-weight: 700;
 }
-.button:hover{
+
+.button:hover {
     background-color: #393a3a;
     transition: 0.5s;
-    transform: scale(1.1); 
+    transform: scale(1.1);
 }
-.footer{
+
+.footer {
     display: flex;
     flex-direction: column;
     text-align: center;
 }
 
 .overlay {
-    position: fixed; 
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(4, 4, 4, 0.433); 
+    background: rgba(4, 4, 4, 0.433);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; 
-  }
-  
+    z-index: 1000;
+}
+
 .loading {
-    color: #FFF; 
-    font-size: 2em; 
+    color: #FFF;
+    font-size: 2em;
     font-weight: bold;
-    text-shadow: 0px 0px 20px rgba(255, 255, 255, 1); /* Strong text shadow for better readability */
+    text-shadow: 0px 0px 20px rgba(255, 255, 255, 1);
+    /* Strong text shadow for better readability */
     animation: bounce 1.2s ease-in-out infinite;
-  }
-  
-  /* Bouncing text animation */
+}
+
+/* Bouncing text animation */
 @keyframes bounce {
-    0%, 100% {
-      transform: translateY(20px);
+
+    0%,
+    100% {
+        transform: translateY(20px);
     }
+
     50% {
-      transform: translateY(-20px);
+        transform: translateY(-20px);
     }
 }
 
-  
-
-
-
-
+.error-text {
+    margin: 1em;
+    color: red;
+    text-align: center;
+    font-size: 1em;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    bottom: -0.5em;
+    position: absolute;
+}

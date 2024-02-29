@@ -1,0 +1,37 @@
+/* Add these styles to your CSS file */
+
+.input-field {
+    /* Your existing styles */
+    /* Add transition property for opacity */
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .glow {
+    /* Add glow effect styles */
+    /* You can adjust these styles as needed */
+    box-shadow: 0 0 10px #f63b3b;
+    transition: box-shadow 0.5s ease-in-out;
+  }
+  
+  /* New styles for fading out the glow effect */
+  .glow.fade-out {
+    opacity: 0;
+  }
+  
+  .loading-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .spinning {
+    animation: spin 0.75s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  

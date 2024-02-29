@@ -1,0 +1,24 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; /* Change cursor to indicate clickable area */
+}
+
+.overlayContent {
+  position: relative;
+}
+
+.overlayContent img {
+  max-width: 75%; /* Adjust to fit the container */
+  max-height: 75%; /* Adjust to fit the container */
+  display: block; /* Remove any default inline display */
+  margin: 0 auto; /* Center horizontally */
+}

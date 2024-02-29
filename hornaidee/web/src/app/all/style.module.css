@@ -1,0 +1,122 @@
+.box {
+  top: 0;
+  margin-top: 4rem;
+  display: flex;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.seachMain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  padding: 56px;
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.25);
+  margin-bottom: 16px;
+}
+
+.seachMain button {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.2px;
+  padding: 8px 32px;
+  border-radius: 15px;
+  border-style: none;
+  background-color: black;
+  color: #FFF;
+  cursor: pointer;
+}
+
+.seachMain button:hover {
+  background-color: #393a3a;
+  transition: 0.5s;
+  transform: scale(1.1);
+}
+
+.search_Top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.RangeSlider {
+  width: auto;
+  text-align: center;
+  color: #000;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.RangeSlider div {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+}
+
+.searchBar input {
+  background: #D9D9D9;
+  width: 400px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 60px;
+  border: none;
+  border-radius: 30px;
+}
+
+.searchBar span {
+  font-size: 18px;
+  font-weight: 10;
+  margin-left: 8px;
+}
+
+.searchBar div {
+  margin-left: 16px;
+  position: absolute;
+  display: flex;
+  margin-bottom: 2px;
+}
+
+.search_Bottom {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.Bottom_left {
+  width: 48%;
+  /* กำหนดความกว้างของ Bottom left เป็น 48% */
+  text-align: center;
+  color: #000;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.Bottom_right {
+  width: 48%;
+  /* กำหนดความกว้างของ Bottom right เป็น 48% */
+  text-align: center;
+  color: #000;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
