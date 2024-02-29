@@ -364,23 +364,13 @@ export default function ContactSupport() {
                     </div>
                   </div>
                   <div className="bottom">
-                    {/* Checkbox for DekHor Eats */}
-                    <div className="checkbox-label">
-                      <input
-                        type="checkbox"
-                        value="Eats"
-                        checked={selectedType === "Eats"}
-                        onChange={() => setSelectedType("Eats")}
-                      />
-                      <span>DekHor Eats</span>
-                    </div>
                     {/* Checkbox for DekHor Markets */}
                     <div className="checkbox-label">
                       <input
                         type="checkbox"
                         value="Markets"
-                        checked={selectedType === "Markets"}
-                        onChange={() => setSelectedType("Markets")}
+                        checked={selectedType === "Eats"}
+                        onChange={() => setSelectedType("Eats")}
                       />
                       <span>DekHor Markets</span>
                     </div>
@@ -415,10 +405,10 @@ export default function ContactSupport() {
                 {feedbackSent && (
                   <div className="success-message">Problem sent!</div>
                 )}
-                {/* Success message for feedback unsent */}
+                {/* Success message for feedback unsent
                 {unsendSuccess && (
                   <div className="success-message">Problem unsent!</div>
-                )}
+                )} */}
                 {/* Error message display */}
                 {error && <div className="error-message">{error}</div>}
               </div>
