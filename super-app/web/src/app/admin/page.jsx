@@ -10,6 +10,7 @@ import issues from "./dummy_data";
 import { General, supabase } from '../../../session';
 import { useRouter } from "next/navigation";
 
+
 function Admin() {
     // const [issues, setIssues] = useState([]);
     const [selectedType, setSelectedType] = useState('All');
@@ -35,20 +36,16 @@ function Admin() {
                 axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`,
                     {
                         userID: user.id
-                    }).then(res => {
+                    }).then( (res) => {
                         const { role } = res.data.data;
                         if (role !== 'Admin') {
                             router.push('/');
-                            setTimeout(() => {
-                                alert('You don\'t have permission');
-                            }, 0);
+                            
                         }
                     });
             }else{
                 router.push('/');
-                setTimeout(() => {
-                    alert('You don\'t have permission');
-                }, 0);
+                
             }
         }
 
