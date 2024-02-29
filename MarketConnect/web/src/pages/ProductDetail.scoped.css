@@ -33,7 +33,7 @@ img {
     width: 100%;
     max-height: 100%;
     display: block;
-    border-radius: 2rem;
+    border-radius: 1.5rem;
     object-fit: cover;
     position: absolute;
     top: 0;
@@ -79,7 +79,14 @@ img {
   font-weight: 700;
   color: #12263a;
   margin-left: 2rem;
+  margin-right: 2rem;
   margin-top: 2rem;
+  hyphens: auto;
+}
+
+.product-title p{
+  word-wrap: break-word;
+  width: 500px;
 }
 
 .product-price {
@@ -123,6 +130,7 @@ img {
     margin-right: 2rem;
     margin-bottom: 1.6rem;
     line-height: 1.5;
+    hyphens: auto;
   }  
   
   .product-detail ct {

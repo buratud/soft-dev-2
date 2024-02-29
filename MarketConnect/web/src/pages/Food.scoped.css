@@ -62,7 +62,7 @@ a.food-item:hover{
 .food-item-name{
     font-size: 1.2rem;
     font-family:'Poppins', sans-serif;
-    font-weight: 400;
+    font-weight: bold;
     margin-top: 0.5rem;
 }
 
