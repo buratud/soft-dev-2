@@ -7,11 +7,14 @@ import styles from "./Admin.module.css";
 import NavBar from "../../../components/nav";
 import Footer from "../../../components/footer/Footer";
 import issues from "./dummy_data";
+import { General, supabase } from '../../../session';
+import { useRouter } from "next/navigation";
 
 function Admin() {
     // const [issues, setIssues] = useState([]);
     const [selectedType, setSelectedType] = useState('All');
     const [selectedStatus, setSelectedStatus] = useState('All');
+    const router = useRouter();
 
     const handleChange_Type = (event) => {
         setSelectedType(event.target.value); // เมื่อเลือก option ใหม่และเปลี่ยนค่า Type ที่ต้องการค้นหา
@@ -20,6 +23,29 @@ function Admin() {
     const handleChange_Status = (event) => {
         setSelectedStatus(event.target.value); // เมื่อเลือก option ใหม่และเปลี่ยนค่า Status ที่ต้อง
     };
+
+    useEffect(() => {
+        const isAdmin = async() => {
+            const { data, error } = await supabase.auth.getSession();
+            if (error) {
+                console.log(error);
+            }
+            const user = data?.session?.user;
+            if (user) {
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`,
+                    {
+                        userID: user.id
+                    }).then(res => {
+                        const { role } = res.data.data;
+                        if (role !== 'Admin') {
+                            router.push('/');
+                        }
+                    });
+            }
+        }
+
+        isAdmin();
+    }, [])
 
 
 
