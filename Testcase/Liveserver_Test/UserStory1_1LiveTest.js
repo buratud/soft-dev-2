@@ -278,12 +278,11 @@ const driver = new Builder()
     console.log('Redirect to home page');
     await delay(2000);
 
-
-
-
-
-
-    
+    await driver.findElement(By.className('nav_rightside__fuSzv')).click();
+    await delay(1000);
+    await driver.findElement(By.className('nav_dropdownContentProfile__KfzNB')).findElement(By.xpath('//span[text()="Log out"]')).click();
+    console.log('Log out');
+    await delay(2000);
 
 } finally {
     // Close the browser
