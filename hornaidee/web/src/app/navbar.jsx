@@ -260,7 +260,7 @@ export default function NavBar() {
 
                 {isOpen_Profile && <div className={styles.dropdownContentProfile}>
                     {isAdminLoggedIn ? (
-                        <Link href={`/admin`}> {/* ตั้ง Link ไปยังหน้า Admin */}
+                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/admin`}> {/* ตั้ง Link ไปยังหน้า Admin */}
                             <div>
                                 <Image alt="Admin" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/Admin.png`} height={30} width={30} />
                                 <span>
@@ -269,7 +269,7 @@ export default function NavBar() {
                             </div>
                         </Link>
                     ) : (
-                        <Link href={`/profile`}>
+                        <Link href={`${NEXT_PUBLIC_MAIN_URL}/profile`}>
                             <div>
                                 <Image alt="Profile" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/PersonCircle.svg`} height={30} width={30} />
                                 <span>
@@ -278,7 +278,7 @@ export default function NavBar() {
                             </div>
                         </Link>
                     )}
-                    <Link href={`/support`}>
+                    <Link href={`${NEXT_PUBLIC_MAIN_URL}/support`}>
                         <div>
                             <Image alt="Support" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/support.png`} height={30} width={30} />
                             <span>
