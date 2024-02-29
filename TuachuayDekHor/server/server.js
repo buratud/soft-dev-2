@@ -180,8 +180,18 @@ api.post("/deleteblog", async (req, res) => {
         .from("blog")
         .delete()
         .eq('blog_id', blog)
-    if (error) {
-        res.status(500).json(error);
+
+    const { error : commentDeletionErr } = await supabase
+        .from("comments")
+        .delete()
+        .eq('blog_id', blog)
+
+    const { error : likeDeletionErr } = await supabase
+        .from("like_blog")
+        .delete()
+        .eq('blog_id', blog)
+    if (error || commentDeletionErr || likeDeletionErr) {
+        res.status(500).json({error , commentDeletionErr , likeDeletionErr});
     }
     else {
         res.status(200).json({ msg: "success" })
