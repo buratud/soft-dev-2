@@ -92,14 +92,13 @@ export default function DormReview() {
       setFacilities([...facilities, facility]);
     }
   };
-
+  console.log(searchResults);
   const dorms = searchResults.map((dorm, index) => (
-    console.log(dorm),
     <CardDorm
       key={index}
       id={dorm.id}
-      dorm_name={dorm.dorm_name}
-      price={dorm.price}
+      dorm_name={dorm.name}
+      price={dorm.rent_price}
       facilities={dorm.facilities}
       img={dorm.img}
       star={dorm.star}

@@ -114,7 +114,7 @@ app.use((req, res, next) => {
 app.post('/dorms/search', async (req, res) => {
     try {
         const { name: searchTerm, filter:facilityFilter, range: priceRange } = req.body;
-        const { data: dormsList, error } = await supabase.schema('dorms').from('dorms').select();
+        const { data: dormsList, error } = await supabase.schema('dorms').from('dorms').select('id, name, rent_price');
         if (error) {
             logger.error(error);
             res.status(500).send();
@@ -139,6 +139,25 @@ app.post('/dorms/search', async (req, res) => {
                 return;
             }
             const facilitiesID = facilities.map(object => object.facility_id)
+            dormsList.map(dorm => dorm.facilities = facilitiesID)
+
+            const { data: photos, error: photosError } = await supabase.schema('dorms').from('photos').select('photo_url').eq('dorm_id', dorm.id);
+            if (photosError) {
+                logger.error(photosError);
+                res.status(500).send();
+                return;
+            }
+            const photosList = photos.map(object => object.photo_url)
+            dormsList.map(dorm => dorm.img = photosList[0])
+
+            const { data: reviews, error: reviewsError } = await supabase.schema('dorms').from('reviews').select('stars').eq('dorm_id', dorm.id);
+            if (reviewsError) {
+                logger.error(reviewsError);
+                res.status(500).send();
+                return;
+            }
+            const reviewsList = reviews.map(object => object.stars)
+            dormsList.map(dorm => dorm.stars = avg(reviewsList))
 
             if (facilityFilter == []) {
                 break
