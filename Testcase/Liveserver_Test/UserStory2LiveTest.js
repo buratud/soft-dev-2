@@ -24,9 +24,7 @@ const driver = new Builder()
     await driver.findElement(By.className('nav_login_btn__jYgLf')).click();
     await delay(3000);
     console.log('Click login button.');
-    //await driver.findElement(By.name('username')).sendKeys('thitirutrost@hotmail.com');
-    //await driver.findElement(By.name('username')).sendKeys('1111');
-    //await driver.findElement(By.name('password')).sendKeys('2572454');
+
     await driver.findElement(By.name('username')).sendKeys('stepoftz@gmail.com');
     await driver.findElement(By.name('password')).sendKeys('123456');
     await driver.findElement(By.tagName('button')).click();
