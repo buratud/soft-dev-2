@@ -6,6 +6,8 @@ import Recent_review from "../../components/Recent_review";
 import { NEXT_PUBLIC_BASE_WEB_PATH } from '../../config'
 import Link from "next/link";
 import Footer from "./footer";
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 export default function Home() {
   return (
@@ -63,19 +65,41 @@ export default function Home() {
       </div>
 
       <div className={styles.recent_review_area}>
+      <Carousel 
+      responsive={
+        {
+          superLargeDesktop: {
+          breakpoint: { max: 4000, min: 0 },
+          items: 2}
+        }
+      }
+      className={styles.recent_review_area}>
         <Recent_review
-          img = "https://upload.wikimedia.org/wikipedia/commons/8/84/Sharp_Hall_Dorm_Room.jpg"
-          dorm_name = "Ulike apartment"
-          review = "very very good"
-          star = {4.5}
-        />
+            img = "https://upload.wikimedia.org/wikipedia/commons/8/84/Sharp_Hall_Dorm_Room.jpg"
+            dorm_name = "Ulike apartment"
+            review = "very very good"
+            star = {4.5}
+          />
 
-        <Recent_review
-          img = ""
-          dorm_name = "Hello dorm"
-          review = "bad"
-          star = {1.5}
-        />
+          <Recent_review
+            img = ""
+            dorm_name = "Hello dorm"
+            review = "bad"
+            star = {1.5}
+          />
+          <Recent_review
+            img = ""
+            dorm_name = "dorm"
+            review = "bad"
+            star = {3.5}
+          />
+          <Recent_review
+            img = ""
+            dorm_name = "abcd"
+            review = "bad"
+            star = {0}
+          />
+      </Carousel>;
       </div>
 
       <Footer/>

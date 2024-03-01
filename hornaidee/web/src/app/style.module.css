@@ -107,9 +107,8 @@
 }
 
 .recent_review_area{
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 80px;
+    margin-bottom: 20px;
+    padding: 10px;
 }
 
 .recent_review {
