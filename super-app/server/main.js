@@ -286,11 +286,12 @@ api.post('/set-profile', async (req, res) => {
 //----------------admin-------------------
 
 api.post('/adminsupport', async (req, res) => {
-  const { data, error } = await supabase.from('problems').select()
+  const { data, error } = await supabase.from('problems').select('email, type, problem, status');
+  const issues = data.map((issue, index) => {issue.Id = index + 1; return issue;});
   if (error) {
     res.status(500).json(error);
   } else {
-    res.status(200).json(data);
+    res.status(200).json(issues);
   }
 })
 

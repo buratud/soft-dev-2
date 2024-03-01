@@ -6,7 +6,6 @@ import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../../co
 import styles from "./Admin.module.css";
 import NavBar from "../../../components/nav";
 import Footer from "../../../components/footer/Footer";
-// import issues from "./dummy_data";
 import { General, supabase } from '../../../session';
 import { useRouter } from "next/navigation";
 
