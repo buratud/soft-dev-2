@@ -74,7 +74,7 @@ function Admin() {
 
     const getdata = async () => {
         try {
-            const res = await axios.post(`${NEXT_PUBLIC_BASE_API_URL}/adminsupport`);
+            const res = await axios.get(`${NEXT_PUBLIC_BASE_API_URL}/getproblems`);
             setIssues(res.data);
         } catch (error) {
             alert(error);
@@ -84,6 +84,19 @@ function Admin() {
     useEffect(() => {
         getdata();
     }, []);
+
+    const handleStatusChange = async (event, unique_id, newStatus) => {
+        event.preventDefault();
+        try {
+            await axios.put(`${NEXT_PUBLIC_BASE_API_URL}/updatestatus`, {
+                unique_id: unique_id,
+                status: newStatus,
+            });
+            getdata();
+        } catch (error) {
+            alert(error);
+        }
+    };
 
     const filteredIssues = issues.filter(issue => {
 
@@ -106,9 +119,9 @@ function Admin() {
                 <select
                     value={issue?.status}
                     onChange={(e) =>
-                        handleStatusChange(e, issue?.id, e.target.value)
+                        handleStatusChange(e, issue?.unique_id, e.target.value)
                     }>
-                    <option value="Sent">Sent</option>
+                    <option value="Pending">Pending</option>
                     <option value="Unsent">Unsent</option>
                 </select>
             </td>
@@ -142,8 +155,8 @@ function Admin() {
                         <h1>Status : </h1>
                         <select className={styles.dropdown} value={selectedStatus} onChange={handleChange_Status}>
                             <option value="All">All</option>
-                            <option value="Finish">Finish</option>
-                            <option value="Not finish">Not finish</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Unsent">Unsent</option>
                         </select>
                     </div>
                 </div>
