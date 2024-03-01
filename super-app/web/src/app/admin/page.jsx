@@ -58,6 +58,7 @@ function Admin() {
                     });;
             }else{
                 clearTimeout(timeoutId);
+                setAuthChecked(true);
                 router.push('/');
                 
             }
