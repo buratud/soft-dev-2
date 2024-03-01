@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../../config';
@@ -15,6 +15,8 @@ function Admin() {
     // const [issues, setIssues] = useState([]);
     const [selectedType, setSelectedType] = useState('All');
     const [selectedStatus, setSelectedStatus] = useState('All');
+    const [adminAuthValue, setAdminAuthValue] = useState(false);
+    const [authChecked, setAuthChecked] = useState(false);
     const router = useRouter();
 
     const handleChange_Type = (event) => {
@@ -25,11 +27,15 @@ function Admin() {
         setSelectedStatus(event.target.value); // เมื่อเลือก option ใหม่และเปลี่ยนค่า Status ที่ต้อง
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setAdminAuthValue(false);
+        }, 100);
         const isAdmin = async() => {
             const { data, error } = await supabase.auth.getSession();
             if (error) {
                 console.log(error);
+                clearTimeout(timeoutId);
             }
             const user = data?.session?.user;
             if (user) {
@@ -38,12 +44,20 @@ function Admin() {
                         userID: user.id
                     }).then( (res) => {
                         const { role } = res.data.data;
-                        if (role !== 'Admin') {
-                            router.push('/');
-                            
+                        if (role == 'Admin') {
+                            clearTimeout(timeoutId);
+                            setAdminAuthValue(true);
                         }
-                    });
+                        else{
+                            clearTimeout(timeoutId);
+                            router.push('/');
+
+                        }
+                    }).finally(() => {
+                        setAuthChecked(true);
+                    });;
             }else{
+                clearTimeout(timeoutId);
                 router.push('/');
                 
             }
@@ -52,7 +66,11 @@ function Admin() {
         isAdmin();
     }, [])
 
-
+    useEffect(() => {
+        if (!adminAuthValue && authChecked) {
+            alert("You don't have permission");
+        }
+    }, [adminAuthValue, authChecked]);
 
     // const getdata = async () => {
     //     try {
@@ -116,9 +134,9 @@ function Admin() {
             </td>
         </tr>
     ));
-
-
-    return (
+    return !adminAuthValue? (
+        <body></body>
+    ) : (
         <div className={styles.main}>
             <NavBar />
             <div className={styles.adminContainer}>
