@@ -7,6 +7,7 @@ import axios from 'axios';
 import { AuthContext } from '../App';
 import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config';
 import { IoSearch } from "react-icons/io5";
+import Footer from '../component/footer';
 
 function Blogger() {
   const [data, setData] = useState([]);
@@ -86,6 +87,9 @@ function Blogger() {
             ))}
           </div>
         </div>
+      </div>
+      <div className='footer'>
+        <Footer/>
       </div>
     </div>
   );

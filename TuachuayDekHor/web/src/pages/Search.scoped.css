@@ -87,13 +87,17 @@
     display: flex;
     font-family: 'Poppins',sans-serif;
     justify-content: center;
-    background-color: white;
+    background-color: #eceff1;
     width: 100%;
     padding: 0.5rem;
     margin-left: 2rem;
     margin-right: 1rem;
     border-radius: 5rem;
     padding-left: 0.5rem;
+}
+
+.Search_inside input{
+    background-color: #eceff1;
 }
 
 .icon_Search{
@@ -134,3 +138,4 @@
     color:black ;
 
 }
+

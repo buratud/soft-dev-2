@@ -1,9 +1,10 @@
-import { Link,NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./Nav.scoped.css";
-import { REACT_APP_MAIN_URL, REACT_APP_MAIN_API_URL } from "../config";
+import { REACT_APP_MAIN_URL, REACT_APP_BASE_API_URL } from "../config";
 import { useState, useContext, useEffect } from "react";
-import { AuthContext, Usesupabase } from "../App";
+import { AuthContext, useSupabase } from "../App";
 import axios from "axios";
+import img1 from '../../src/Assets/person-circle-outline.svg'
 
 
 const Navbar = () => {
@@ -11,12 +12,13 @@ const Navbar = () => {
   const [isOpen_2, setIsOpen_2] = useState(false);
   const [isOpen_3, setIsOpen_3] = useState(false);
   const [isOpen_Profile, setIsOpen_Profile] = useState(false);
-  const [isOpen_Categories, setIsOpen_Categories] = useState(false);
   // ส่วนของโปรไฟล์และทำการตรวจสอบว่า User ได้ทำการ login หรือยัง
   const [profileImage, setProfileImage] = useState('');
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
-  const { session } = useContext(AuthContext);
+  const { session, user } = useContext(AuthContext);
+  const supabase = useSupabase();
 
   useEffect(() => {
     //console.log('session', session)
@@ -24,20 +26,18 @@ const Navbar = () => {
     //เรียกใช้ isLoggedIn เพื่อตรวจสอบสถานะการเข้าสู่ระบบ
     const checkLoginStatus = async () => {
       try {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) {
-          console.log(error);
-        }
-        const user = data?.session?.user;
+        const user = session.user;
 
         if (user) {
-          axios.post(`${REACT_APP_MAIN_API_URL}/profile-picture`,
+
+          axios.post(`${REACT_APP_BASE_API_URL}/profile-picture`,
             {
               userID: user.id
             }).then(res => {
-              const { picture } = res.data;
+              const { picture, role } = res.data.data;
               setProfileImage(picture);
               setIsUserLoggedIn(true);
+              setIsAdminLoggedIn(role == 'Admin');
             });
         }
         else {
@@ -47,14 +47,12 @@ const Navbar = () => {
         console.error('Error checking login status:', error);
       }
     };
-    console.log('session', session)
     checkLoginStatus();
   }, [session]);
 
 
   const SignOut = async () => {
-    const { data } = await supabase.auth.getSession();
-    const user = data?.session?.user;
+    const user = session?.user;
 
     if (user) {
       const { error } = await supabase.auth.signOut();
@@ -74,7 +72,6 @@ const Navbar = () => {
         setIsOpen_2(false);
         setIsOpen_3(false);
         setIsOpen_Profile(false);
-        setIsOpen_Categories(false);
       }
     };
 
@@ -104,14 +101,13 @@ const Navbar = () => {
               setIsOpen_2(false);
               setIsOpen_3(false);
               setIsOpen_Profile(false);
-              setIsOpen_Categories(false);
             }}>
             <div className="dropdown_text">
               Blogs
             </div>
             {!isOpen_1 ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}</button>
 
-          {isOpen_1 && <div className="dropdownContent">
+          {isOpen_1 && <div className="dropdownContent_blog">
             <a href={`${REACT_APP_MAIN_URL}/blogs`}>
               <div>
                 <span>
@@ -119,44 +115,13 @@ const Navbar = () => {
                 </span>
               </div>
             </a>
-            <div>
-              <button className="subdropdown" onClick={() => setIsOpen_Categories((prev) => !prev)}>
-                <span>Categories</span>
-                {!isOpen_Categories ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}
-              </button>
-              {isOpen_Categories && (
-                <div className="subdropdownContent">
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/cleaning`}>
-                    <div>
-                      <span>
-                        Cleaning
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/decoration`}>
-                    <div>
-                      <span>
-                        Decorations
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/cooking`}>
-                    <div>
-                      <span>
-                        cooking
-                      </span>
-                    </div>
-                  </a>
-                  <a href={`${REACT_APP_MAIN_URL}/blogs/story`}>
-                    <div>
-                      <span>
-                        Story's DekHor
-                      </span>
-                    </div>
-                  </a>
-                </div>
-              )}
-            </div>
+            <a href={`${REACT_APP_MAIN_URL}/blogs/search`}>
+              <div>
+                <span>
+                  All Blogs
+                </span>
+              </div>
+            </a>
             <a href={`${REACT_APP_MAIN_URL}/blogs/writeblog`}>
               <div>
                 <span>
@@ -167,7 +132,7 @@ const Navbar = () => {
             <a href={`${REACT_APP_MAIN_URL}/blogs/blogger`}>
               <div>
                 <span>
-                  Blogger
+                  Bloggers
                 </span>
               </div>
             </a>
@@ -195,14 +160,14 @@ const Navbar = () => {
                 </span>
               </div>
             </a>
-            <a href={`${REACT_APP_MAIN_URL}/dorms`}>
+            <a href={`${REACT_APP_MAIN_URL}/dorms/all`}>
               <div>
                 <span>
                   All Dorms
                 </span>
               </div>
             </a>
-            <a href={`${REACT_APP_MAIN_URL}/dorms`}>
+            <a href={`${REACT_APP_MAIN_URL}/dorms/add`}>
               <div>
                 <span>
                   Add Dorm
@@ -226,32 +191,32 @@ const Navbar = () => {
             {!isOpen_3 ? <span className="arrow">▼</span> : <span className="arrow">▲</span>}</button>
 
           {isOpen_3 && <div className="dropdownContent">
-            <Link to={`/home`}>
+            <a href={`${REACT_APP_MAIN_URL}/markets/home`}>
               <div>
                 <span>
                   Main
                 </span>
               </div>
-            </Link>
-            <Link to={`/food`}>
+            </a>
+            <a href={`${REACT_APP_MAIN_URL}/markets/food`}>
               <div>
                 <span>
                   All Products
                 </span>
               </div>
-            </Link>
-            <Link to={`/manage`}>
+            </a>
+            <a href={`${REACT_APP_MAIN_URL}/markets/manage`}>
               <div>
                 <span>
                   Manage Product
                 </span>
               </div>
-            </Link>
+            </a>
           </div>}
         </div>
 
       </div>
-
+      {/* isUserLoggedIn  */}
       <div className="rightside">
         {isUserLoggedIn ? (
           <button
@@ -262,7 +227,7 @@ const Navbar = () => {
               setIsOpen_1(false);
             }}>
             {/* ตัวแปรโปรไฟล์อยู่ตรงนี้ใน src */}
-            <img alt="Profile" src={profileImage} className="ProfileImage" />
+            <img alt="Profile" src={profileImage ?? img1} className="ProfileImage" />
           </button>
         ) : (
           <div className="btn_wrap">
@@ -284,18 +249,32 @@ const Navbar = () => {
         )}
 
         {isOpen_Profile && <div className="dropdownContentProfile">
-          <div>
-            <img alt="Profile" src={`${REACT_APP_MAIN_URL}/images/PersonCircle.svg`} height={30} width={30} />
-            <span>
-              <a href={`${REACT_APP_MAIN_URL}/profile`}>My Profile</a>
-            </span>
-          </div>
-          <div>
-            <img alt="Support" src={`${REACT_APP_MAIN_URL}/images/support.png`} height={30} width={30} />
-            <span>
-              <a href={`${REACT_APP_MAIN_URL}/support`}>Support</a>
-            </span>
-          </div>
+          {isAdminLoggedIn ?
+            (<a href={`${REACT_APP_MAIN_URL}/admin`}>
+              <div>
+                <img alt="Admin" src={`${REACT_APP_MAIN_URL}/images/Admin.png`} height={30} width={30} />
+                <span>
+                  Admin
+                </span>
+              </div>
+            </a>
+            ) : (
+              <a href={`${REACT_APP_MAIN_URL}/profile`}>
+                <div>
+                  <img alt="Profile" src={`${REACT_APP_MAIN_URL}/images/PersonCircle.svg`} height={30} width={30} />
+                  <span>
+                    My Profile
+                  </span>
+                </div>
+              </a>)}
+          <a href={`${REACT_APP_MAIN_URL}/support`}>
+            <div>
+              <img alt="Support" src={`${REACT_APP_MAIN_URL}/images/support.png`} height={30} width={30} />
+              <span>
+                Support
+              </span>
+            </div>
+          </a>
 
           <div onClick={SignOut}>
             <img alt="logout" src={`${REACT_APP_MAIN_URL}/images/BoxArrowLeft.svg`} height={30} width={30} className="logout" />

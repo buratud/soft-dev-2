@@ -17,7 +17,7 @@ header{
 } 
 .story{
     padding-top: 5rem;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background-color: #eceff1;
     font-family: 'Poppins',sans-serif;
@@ -38,9 +38,10 @@ header{
 
 .img__box{
     width: 100%;
-    height: 500px;
-    overflow: hidden;
-    border-radius: 10px;
+    height: max-content;
+    object-fit: cover;
+    border-radius: 2rem;
+    overflow-y: hidden;
     position: relative;
     align-items: center;
     justify-content: center;
@@ -52,8 +53,8 @@ header{
 
 img{
     width: 100%;
-    height: 100%;
     border-radius: 10px;
+    background-size: cover;
 }
 
 .head{
@@ -71,21 +72,25 @@ img{
 
 .writer{
     display: flex;
-    width: 100%;
+    width: calc(100% - 2rem);
     height: 100%;
     padding: 1rem;
+    margin: 0rem 1rem;
     border-bottom: 2px solid rgba(128, 128, 128, 0.221);
+    text-decoration: none;
 }
 
 .user__photo{
-    width: 55px;
+    width: 50px;
     height: 50px;
-    margin-right: 5px;
-    border-radius: 1000px;
+    margin-right: 0.75rem;
+    border-radius: 50%;
 }
 
 .name{
-    width: 100%;
+    cursor: pointer;
+    width: max-content;
+    color: #000000;
     padding-top: 1rem;
     text-align: center;
     font-weight: 900;
@@ -124,8 +129,14 @@ img{
     display: flex;
 }
 
+.heart:hover{
+    transform: scale(1.15);
+    color: #ff0000;
+}
+
 .heart p{
     margin-left: 0.5rem;
+    color: #808080;
 }
 
 .comment__icon{
@@ -143,9 +154,14 @@ img{
 } */
 
 .content{
-    padding-top: 2rem;
+    width: 100%;
+    object-fit: cover;
+    padding-top: 1.5rem;
     padding-left: 3rem;
     padding-right: 3rem;
+    padding-bottom: 1rem;
+    font-size: 16px;
+    font-family: 'Poppins',sans-serif;
 }
 
 .icon-report{
@@ -158,35 +174,56 @@ img{
     scale: 1.2;
 }
 
+.edit{
+    display: flex;
+}
+
+.edit p{
+    margin-left: 0.35rem;
+    font-size: 4.5mm;
+}
+
 .icon-Edit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #D9C029;
     border: none;
-    border-radius: 5px;
-    width: 40px;
-    height: 35px;
+    border-radius: 1rem;
+    width: 120px;
+    height: 45px;
     margin-right: 0.7rem;
     padding: 0.2rem;
     cursor: pointer;
 }
 
 .icon-Edit:hover{
-    scale: 1.2;
+    scale: 1.15;
 }
 
 .icon-delete:hover{
-    scale: 1.2;
+    scale: 1.15;
     background-color: rgb(176, 74, 74);
 }
 
 .icon-delete{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     background-color: rgb(209, 89, 89);
     color: #f8f8f8;
-    width: 40px;
-    height: 35px;
+    width: 120px;
+    height: 45px;
     padding: 0.2rem;
-    border-radius: 5px;
+    border-radius: 1rem;
     cursor: pointer;
     border: none;
+}
+
+.icon-delete P{
+    margin-left: 0.35rem;
+    font-size: 4.5mm;
 }
 
 .nolike{
@@ -375,3 +412,15 @@ img{
 .send__icon{
     cursor: pointer;
 } */ 
+
+.heart {
+    /* default color for not liked */
+    color: grey;
+    cursor: pointer;
+  }
+  
+.heart.liked {
+/* color for liked */
+color: red;
+cursor: pointer;
+}

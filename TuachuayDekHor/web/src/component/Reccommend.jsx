@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './ContentSlide.scoped.css';
+import './Reccommend.scoped.css';
 import img1 from '../../src/Assets/slide1.png';
 import { BiSolidPencil } from 'react-icons/bi';
 import axios from 'axios';
@@ -32,29 +32,27 @@ function Reccommend() {
       <div className="main_content">
         {limitedData.map(({ blog_id, title, category, user: { username }, cover_img }, index) => {
           return (
-            <div className="singleDest" key={index}>
+            <Link to={`/${category}/${blog_id}`} className="singleDest" key={index}>
               <div className="dastImage">
                 <img src={cover_img??img1} alt="" />
               </div>
               <div className="destFooter">
-                <div className="destText">
-                  <h4>
-                    <Link to={`/${category}/${blog_id}`}>{title}</Link>
-                  </h4>
+                  <div className="destText">
+                    <h4>{title}</h4> 
+                  </div>
+                  <div className="userwrite">
+                    <div className="name">
+                    <BiSolidPencil size={20} className="icon_pencil" />
+                      {username}
+                  </div>
                 </div>
               </div>
-              <div className="userwrite">
-                <div className="name">
-                  <BiSolidPencil size={20} className="icon_pencil" />
-                  {username}
-                </div>
-              </div>
-            </div>
-          );
-        })}
+            </Link>
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
 }
 
 export default Reccommend;

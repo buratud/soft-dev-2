@@ -3,7 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const bodyParser = require('body-parser')
 const { createClient } = require('@supabase/supabase-js');
 const { z } = require('zod');
-const { CreateDormRequest, CreateReviewRequest, PutReviewRequest } = require('./type');
+const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest} = require('./type');
 
 const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET, LOG_LEVEL } = require('./config');
 const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage } = require('./util');
@@ -18,6 +18,37 @@ const app = express.Router();
 app.use(cors());
 
 app.use(bodyParser.json({ limit: '50mb' }))
+
+// This algorithm is very simple because it sorted by average stars
+app.get('/top-dorms', async (_, res) => {
+    try {
+        const { data: dorms, error } = await supabase.schema('dorms').from('top_dorms').select();
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        res.json(dorms);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.get('/recent-reviews', async (_, res) => {
+    try {
+        const { data: reviews, error } = await supabase.schema('dorms').from('reviews').select().order('review_datetime', { ascending: false }).limit(10);
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        res.json(reviews);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
 
 app.get('/users/:id', async (req, res) => {
     try {
@@ -163,6 +194,137 @@ app.post('/dorms', async (req, res) => {
             }
         }
         res.status(201).json(result[0]);
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            logger.debug(error.errors);
+            res.status(400).json(error.errors);
+            return;
+        }
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.put('/dorms/:id', async (req, res) => {
+    try {
+        const data = PutDormRequest.parse(req.body);
+        const { facilities, photos, ...dormData } = data;
+        const user = req.user.sub;
+
+        const { data: dormInfo, error: InfoError } = await supabase.schema('dorms').from('dorms').select('owner').eq('id', req.params.id);
+        if (InfoError) {
+            logger.error(InfoError);
+            res.status(500).send();
+            return;
+        }
+        const dormOwner = dormInfo.map(object => object.owner)[0]
+
+        if (user != dormOwner) {
+            res.status(403).json({message: 'You are not the owner of this dorm'});
+            return;
+        }
+
+        const { data: result, error } = await supabase.schema('dorms').from('dorms')
+            .update(dormData)
+            .eq('id', req.params.id)
+            .select('id');
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+
+        const { data: facilitiesID, error: facilitiesError } = await supabase.schema('dorms').from('dorms_facilities').select('facility_id').eq('dorm_id', req.params.id);
+        if (facilitiesError) {
+            logger.error(facilitiesError);
+            res.status(500).send();
+            return;
+        }
+        const facilitiesList = facilitiesID.map(object => object.facility_id)
+
+        for (const facility of facilitiesList) {
+            const { error } = await supabase.schema('dorms').from('dorms_facilities').delete()
+                .eq('dorm_id', req.params.id)
+                .eq('facility_id', facility)
+            if (error) {
+                logger.error(error);
+                res.status(500).send();
+                return;
+            }
+        }
+
+        for (const facility of facilities) {
+            const { insertError } = await supabase.schema('dorms').from('dorms_facilities').insert({
+                dorm_id: result[0].id,
+                facility_id: facility
+            });
+            if (insertError) {
+                logger.error(insertError);
+                res.status(500).send();
+                return;
+            }
+        }
+
+        const { data: photosURL, error: photosError } = await supabase.schema('dorms').from('photos').select('photo_url').eq('dorm_id', req.params.id);
+        if (photosError) {
+            logger.error(photosError);
+            res.status(500).send();
+            return;
+        }
+        const photosList = photosURL.map(object => object.photo_url)
+
+        for (const photo of photosList) {
+            const { error } = await supabase.schema('dorms').from('photos').delete()
+                .eq('dorm_id', req.params.id)
+                .eq('photo_url', photo)
+            const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms')
+                .remove([photo.split('/public/dorms/')[1]]);
+            if (error) {
+                logger.error(error);
+                res.status(500).send();
+                return;
+            }
+        }
+
+        for (let i = 0; i < photos.length; i++) {
+            const photo = photos[i];
+            const base64 = getRawBase64(photo);
+            const decodedData = Buffer.from(base64, 'base64');
+            const mimeType = getMimeTypeFromBase64(photo);
+            const fileExtension = getFileExtensionFromMimeType(mimeType);
+            if (!isImage(mimeType)) {
+                res.status(400).send({ message: 'Only images are allowed' });
+                return;
+            }
+            const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms')
+                .upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, {contentType: mimeType});
+
+            if (uploadError) {
+                if (uploadError.statusCode === "409") {
+                    const pic = `https://linux-vm-southeastasia-4.southeastasia.cloudapp.azure.com/storage/v1/object/public/dorms/dorms/${result[0].id}/${i}.${fileExtension}`
+                    const position = photosList.indexOf(pic)
+                    photosList.splice(position, position + 1)
+                    continue
+                }
+                logger.error(uploadError);
+                res.status(500).send();
+                return;
+            }
+
+            const { data: pictureMetadata } = supabase.storage.from('dorms').getPublicUrl(uploadData.path);
+            const { error: insertError } = await supabase.schema('dorms').from('photos').insert({
+                dorm_id: result[0].id,
+                photo_url: pictureMetadata.publicUrl
+            })
+            if (insertError) {
+                logger.error(insertError);
+                res.status(500).send();
+                return;
+            }
+        }
+
+        res.status(200).send({ message: "Update sucessfully" });
+
     } catch (error) {
         if (error instanceof z.ZodError) {
             logger.debug(error.errors);

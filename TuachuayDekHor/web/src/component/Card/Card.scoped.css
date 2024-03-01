@@ -52,6 +52,7 @@
     color: black;
     font-family:'Poppins' ;
     font-weight: 500;
+    text-overflow: ellipsis;
     height: 2rem;
 }
 
