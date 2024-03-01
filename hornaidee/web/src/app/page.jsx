@@ -3,7 +3,7 @@ import styles from "./style.module.css";
 import CardDorm from "../../components/CardDorm";
 import CardDorm_home from "../../components/CardDorm_home";
 import Recent_review from "../../components/Recent_review";
-import { NEXT_PUBLIC_BASE_WEB_PATH } from '../../config'
+import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_MAIN_URL } from '../../config'
 import Link from "next/link";
 import Footer from "./footer";
 import Carousel from 'react-multi-carousel';
@@ -75,7 +75,7 @@ export default function Home() {
         </div>
       </div>
       
-      <Link className={styles.button} href={`${NEXT_PUBLIC_BASE_WEB_PATH}/dorms/all`}>
+      <Link className={styles.button} href={`${NEXT_PUBLIC_MAIN_URL}/dorms/all`}>
         <div className={styles.button_text}>Discover</div>
         <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/arrow_right.png`}/>
       </Link>
