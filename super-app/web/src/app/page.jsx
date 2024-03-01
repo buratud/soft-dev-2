@@ -216,7 +216,7 @@ export default function Home() {
                   }
                 })}
               </Carousel>
-            </div>
+            </div>  
           </div>
         </div>
       </div>

@@ -22,17 +22,19 @@
 }
 
 .seachMain button {
-  font-size: 20px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   letter-spacing: 0.2px;
-  padding: 8px 32px;
   border-radius: 15px;
   border-style: none;
   background-color: black;
   color: #FFF;
   cursor: pointer;
+  width: 116px;
+  height: 56px;
+  margin-top: 5px;
 }
 
 .seachMain button:hover {
@@ -60,8 +62,8 @@
 .RangeSlider div {
   display: flex;
   justify-content: space-between;
-  margin-left: 1vw;
-  margin-right: 1vw;
+  margin-left: 2vw;
+  margin-right: 2vw;
 }
 
 .searchBar {
@@ -96,6 +98,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  margin-top: 24px;
   /* จัดเรียงชิดด้านของส่วนซ้ายและขวา */
 }
 
