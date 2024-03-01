@@ -35,15 +35,17 @@ h1{
 }
 
 .food-item{
+    width: 320px;
     display : flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     background-color: white;
     border-radius: 1rem;
     box-shadow: 0 0 0.5rem 0.25rem rgba(0, 0, 0, 0.25);
     text-decoration: none;
     color: #12263a;
+    overflow: hidden;
 }
 
 a.food-item:hover{
@@ -54,23 +56,34 @@ a.food-item:hover{
 
 .food-item img{
     width: 100%;
-    border-radius: 1rem 1rem 0 0;
-    aspect-ratio: 16/9;
+    height: 200px;
+    border-radius: 10px 10px 0 0;
     object-fit: cover;
+    overflow: hidden;
 }
 
 .food-item-name{
+    width: 260px;
+    text-align: center;
     font-size: 1.2rem;
     font-family:'Poppins', sans-serif;
     font-weight: bold;
     margin-top: 0.5rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .food-item-price{
+    width: 260px;
+    text-align: center;
     font-size: 1.1rem;
     font-family:'Poppins', sans-serif;
     font-weight: 400;
     margin-top: 0.5rem;
     margin-bottom: 1rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 
 }
