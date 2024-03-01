@@ -1,5 +1,5 @@
 .dorm_card{
-    width: 90%;
+    width: 450px;
     height: 270px;
     border-radius: 35px;
     background: #FFF;
@@ -9,12 +9,13 @@
 }
 
 .image{
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
     border-radius: 15px;
     object-fit:cover;
     margin-top: auto;
     margin-bottom: auto;
+
 }
 
 .card_info{
