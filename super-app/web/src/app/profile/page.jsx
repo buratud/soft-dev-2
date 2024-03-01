@@ -197,25 +197,30 @@ const ProductCards = () => {
 const DormCards = ({ params }) => {
     const [dormsData, setDormsData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
-        supabase.auth.getSession().then
-            (res => {
-                const user = res.data.session.user.id;
-                if (user) {
-                    axios.get(`${NEXT_PUBLIC_BASE_DORMS_API_URL}/dorms?owner=${user}`)
-                        .then(res => {
-                            console.log(res.data)
-                            setDormsData(res.data);
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            });
+        supabase.auth.getSession().then(res => {
+            const user = res.data.session.user.id;
+            if (user) {
+                return axios.get(`${NEXT_PUBLIC_BASE_DORMS_API_URL}/dorms?owner=${user}`)
+            }
+            return Promise.reject('User not found')
+        }).then(res => {
+            setDormsData(res.data)
+        }).catch((err) => {
+            console.log(err)
+        }).finally(() => {
+            setIsLoading(false)
+        })
     }, []);
+
+    if (isLoading) {
+        return (
+            <div style={{ paddingTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center', rowGap: '30px' }}>
+                <p style={{ gridColumn: '1/3', textAlign: 'center' }}>Loading...</p>
+            </div>
+        )
+    }
 
     const dorms = dormsData.map(dorm => {
         dorm.facilities = dorm.dorms_facilities.map(facility => facility.facilities.name).slice(0, 3).join(', ');

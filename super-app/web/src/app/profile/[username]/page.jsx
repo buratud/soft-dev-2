@@ -131,7 +131,7 @@ const BlogsCards = ({ params }) => {
 }
 
 const ProductCards = ({ params }) => {
-    
+
     const [yourproduct, setyourproduct] = useState([]);
     const [isUserOwner, setIsUserOwner] = useState(false);
 
@@ -139,30 +139,30 @@ const ProductCards = ({ params }) => {
         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
             username: params.username
         })
-        .then(async res => {
-            const user = res.data.user.id;
-            if (user) {
-                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
-                    user: user
-                })
-                .then(res => {
-                    setyourproduct(res.data);
-                    console.log('your product', res.data);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-    
-                // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
-                const { data: { session } } = await supabase.auth.getSession();
-                setIsUserOwner(user === session?.user?.id);
-            } 
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+            .then(async res => {
+                const user = res.data.user.id;
+                if (user) {
+                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
+                        user: user
+                    })
+                        .then(res => {
+                            setyourproduct(res.data);
+                            console.log('your product', res.data);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+
+                    // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
+                    const { data: { session } } = await supabase.auth.getSession();
+                    setIsUserOwner(user === session?.user?.id);
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            });
     }, []);
-    
+
 
 
     return (
@@ -190,6 +190,7 @@ const ProductCards = ({ params }) => {
 
 const DormCards = ({ params }) => {
     const [dormsData, setDormsData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
@@ -198,20 +199,25 @@ const DormCards = ({ params }) => {
             .then(res => {
                 const user = res.data.user.id;
                 if (user) {
-                    axios.get(`${NEXT_PUBLIC_BASE_DORMS_API_URL}/dorms?owner=${user}`)
-                        .then(res => {
-                            console.log(res.data)
-                            setDormsData(res.data);
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
+                    return axios.get(`${NEXT_PUBLIC_BASE_DORMS_API_URL}/dorms?owner=${user}`)
                 }
-            })
-            .catch((err) => {
+                return Promise.reject('User not found')
+            }).then(res => {
+                setDormsData(res.data)
+            }).catch((err) => {
                 console.log(err)
-            });
+            }).finally(() => {
+                setIsLoading(false)
+            })
     }, []);
+    
+        if (isLoading) {
+            return (
+                <div style={{ paddingTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center', rowGap: '30px' }}>
+                    <p style={{ gridColumn: '1/3', textAlign: 'center' }}>Loading...</p>
+                </div>
+            )
+        }
 
     const dorms = dormsData.map(dorm => {
         dorm.facilities = dorm.dorms_facilities.map(facility => facility.facilities.name).slice(0, 3).join(', ');
