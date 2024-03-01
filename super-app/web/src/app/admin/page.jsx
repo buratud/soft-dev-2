@@ -122,11 +122,11 @@ function Admin() {
                         handleStatusChange(e, issue?.unique_id, e.target.value)
                     }>
                     <option value="Pending">Pending</option>
-                    <option value="Unsent">Unsent</option>
+                    <option value="Solved">Solved</option>
                 </select>
             </td>
             <td className={styles.right}>
-                {issue?.status === 'Unsent' ? (
+                {issue?.status === 'Pending' ? (
                     <Image alt="dekhor1" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/XCircleFill.svg`} height={24} width={24} />
                 ) : (
                     <Image alt="dekhor1" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/CheckCircleFill.svg`} height={24} width={24} />
@@ -156,7 +156,7 @@ function Admin() {
                         <select className={styles.dropdown} value={selectedStatus} onChange={handleChange_Status}>
                             <option value="All">All</option>
                             <option value="Pending">Pending</option>
-                            <option value="Unsent">Unsent</option>
+                            <option value="Solved">Solved</option>
                         </select>
                     </div>
                 </div>

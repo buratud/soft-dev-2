@@ -287,7 +287,7 @@ api.post('/set-profile', async (req, res) => {
 //----------------admin-------------------
 
 api.get('/getproblems', async (req, res) => {
-  const { data, error } = await supabase.from('problems').select('unique_id, date_create, email, type, problem, status');
+  const { data, error } = await supabase.from('problems').select('unique_id, date_create, email, type, problem, status').neq('status', 'Unsent');
   const issues = data.sort(function(a, b){
     let x = a.date_create.toLowerCase();
     let y = b.date_create.toLowerCase();
@@ -304,8 +304,7 @@ api.get('/getproblems', async (req, res) => {
 
 api.put('/updatestatus', async (req, res) => {
   const { unique_id, status } = req.body;
-  const unsend = (status == "Unsent") ? "Yes" : "No"
-  const { data, error } = await supabase.from('problems').update({ status, unsend }).eq('unique_id', unique_id);
+  const { data, error } = await supabase.from('problems').update({ status }).eq('unique_id', unique_id);
   if (error) {
     res.status(500).json(error);
   } else {
