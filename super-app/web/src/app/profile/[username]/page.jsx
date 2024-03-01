@@ -290,7 +290,7 @@ export default function Profile({ params }) {
                             userID: user.id
                         })
                             .then(res => {
-                                setProfileImage(res.data.picture);
+                                setProfileImage(res.data.data.picture);
                             });
                     });
 

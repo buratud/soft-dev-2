@@ -283,9 +283,9 @@ export default function Profile() {
                 axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`, {
                     userID: user.id
                 })
-                    .then(res => {
-                        setProfileImage(res.data.picture);
-                    });
+                .then(res =>{
+                    setProfileImage(res.data.data.picture);
+                });
 
                 axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-username`, {
                     userID: user.id
