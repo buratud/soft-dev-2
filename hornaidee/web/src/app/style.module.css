@@ -81,7 +81,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     column-gap: 10px;
-  row-gap: 50px;
+    row-gap: 50px;
 }
 
 .button {
@@ -94,6 +94,11 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 70px;
+}
+
+.button:hover{
+    scale: 1.1;
+    transition: ease-in-out 0.3s;
 }
 
 .button_text {
@@ -110,7 +115,7 @@
 
 .recent_review_title {
     display: flex;
-    margin-bottom: 100px;
+    margin-bottom: 20px;
     justify-content: space-around;
     align-items: center;
 }
@@ -122,7 +127,7 @@
 }
 
 .recent_review_area{
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     padding: 10px;
 }
 

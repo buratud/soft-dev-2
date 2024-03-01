@@ -8,7 +8,7 @@ export default function CardDorm_home(props) {
   console.log(star)
   return (
     <div className={styles.container}>
-      <Link href={`${NEXT_PUBLIC_MAIN_URL}/dorms/detail/${id}`}>
+      <Link className={styles.link} href={`${NEXT_PUBLIC_MAIN_URL}/dorms/detail/${id}`}>
         <img className={styles.img} src={img}/>
         <div className={styles.info}>
             <p className={styles.name}>{dorm_name}</p>

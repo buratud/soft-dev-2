@@ -4,6 +4,17 @@
   width: 490px;
   margin: auto;
 }
+
+.card:hover {
+  scale: 1.01;
+  transition: ease-in-out 0.3s;
+}
+
+.container:hover {
+  transition: ease-in-out 0.3s;
+  box-shadow: 0px 4px 15px -1px rgba(7, 46, 104, 0.36);
+}
+
 .container {
     display: flex;
     border-radius: 32px;
