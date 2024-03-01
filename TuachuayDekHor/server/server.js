@@ -95,10 +95,10 @@ api.post('/profile-picture', async (req, res) => {
     if (userID) {
         const { data } = await supabase
             .from("users")
-            .select("picture")
-            .eq("id", userID);
-        const picture = data[0]?.picture;
-        res.status(200).json({ picture });
+            .select("picture, role")
+            .eq("id", userID)
+            .single();
+        res.status(200).json({ data });
     }
 })
 
