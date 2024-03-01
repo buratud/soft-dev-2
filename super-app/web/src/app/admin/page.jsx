@@ -6,13 +6,13 @@ import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../../co
 import styles from "./Admin.module.css";
 import NavBar from "../../../components/nav";
 import Footer from "../../../components/footer/Footer";
-import issues from "./dummy_data";
+// import issues from "./dummy_data";
 import { General, supabase } from '../../../session';
 import { useRouter } from "next/navigation";
 
 
 function Admin() {
-    // const [issues, setIssues] = useState([]);
+    const [issues, setIssues] = useState([]);
     const [selectedType, setSelectedType] = useState('All');
     const [selectedStatus, setSelectedStatus] = useState('All');
     const [adminAuthValue, setAdminAuthValue] = useState(false);
@@ -73,38 +73,25 @@ function Admin() {
         }
     }, [adminAuthValue, authChecked]);
 
-    // const getdata = async () => {
-    //     try {
-    //         const res = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/adminsupport`);
-    //         setIssues(res.data);
-    //     } catch (error) {
-    //         alert(error);
-    //     }
-    // };
+    const getdata = async () => {
+        try {
+            const res = await axios.post(`${NEXT_PUBLIC_BASE_API_URL}/adminsupport`);
+            setIssues(res.data);
+        } catch (error) {
+            alert(error);
+        }
+    };
 
-    // useEffect(() => {
-    //     getdata();
-    // }, []);
-
-    // const handleStatusChange = async (event, id, newStatus) => {
-    //     event.preventDefault();
-    //     try {
-    //         await axios.post(`${process.env.REACT_APP_BASE_API_URL}/changestatus`, {
-    //             status: newStatus,
-    //             id: id,
-    //         });
-    //         getdata();
-    //     } catch (error) {
-    //         alert(error);
-    //     }
-    // };
+    useEffect(() => {
+        getdata();
+    }, []);
 
     const filteredIssues = issues.filter(issue => {
 
-        if (selectedType !== 'All' && issue.Type !== selectedType) {
+        if (selectedType !== 'All' && issue.type !== selectedType) {
             return false; // ถ้าเลือก Type แล้วไม่ตรงกับ issue ที่กำลัง loop อยู่
         }
-        if (selectedStatus !== 'All' && issue.Status !== selectedStatus) {
+        if (selectedStatus !== 'All' && issue.status !== selectedStatus) {
             return false; // ถ้าเลือก Status แล้วไม่ตรงกับ issue ที่กำลัง loop อยู่
         }
         return true // ถ้าไม่เข้าเงื่อนไขข้างต้น แสดงว่า issue นี้ถูกต้องตามเงื่อนไขที่เลือก
@@ -113,21 +100,21 @@ function Admin() {
     const filteredIssueElements = filteredIssues.map((issue) => (
         <tr key={issue?.index}>
             <td className={styles.left}>{issue?.Id}</td>
-            <td className={styles.middle}>{issue?.Email}</td>
-            <td className={styles.middle}>{issue?.Type}</td>
-            <td className={styles.middle}>{issue?.Problem}</td>
+            <td className={styles.middle}>{issue?.email}</td>
+            <td className={styles.middle}>{issue?.type}</td>
+            <td className={styles.middle}>{issue?.problem}</td>
             <td className={styles.middle}>
                 <select
-                    value={issue?.Status}
+                    value={issue?.status}
                     onChange={(e) =>
                         handleStatusChange(e, issue?.id, e.target.value)
                     }>
-                    <option value="Finish">Finish</option>
-                    <option value="Not finish">Not finish</option>
+                    <option value="Sent">Sent</option>
+                    <option value="Unsent">Unsent</option>
                 </select>
             </td>
             <td className={styles.right}>
-                {issue?.Status === 'Not finish' ? (
+                {issue?.status === 'Unsent' ? (
                     <Image alt="dekhor1" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/XCircleFill.svg`} height={24} width={24} />
                 ) : (
                     <Image alt="dekhor1" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/CheckCircleFill.svg`} height={24} width={24} />

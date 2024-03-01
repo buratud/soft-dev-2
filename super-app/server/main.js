@@ -283,6 +283,17 @@ api.post('/set-profile', async (req, res) => {
   }
 })
 
+//----------------admin-------------------
+
+api.post('/adminsupport', async (req, res) => {
+  const { data, error } = await supabase.from('problems').select()
+  if (error) {
+    res.status(500).json(error);
+  } else {
+    res.status(200).json(data);
+  }
+})
+
 //-----------------blog-------------------
 
 api.post('/liked_blog', async (req, res) => {
