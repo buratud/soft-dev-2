@@ -97,11 +97,13 @@ img {
   font-size: 22px;
   font-weight: 600;
   margin-left: 2rem;
+  margin-right: 2rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
   color: #c10206;
-  display: flex;
-  flex-direction: row;
+  display: block;
+  word-wrap: break-word;
+  width: 530px;
 }
 
 .product-detail h2 {
