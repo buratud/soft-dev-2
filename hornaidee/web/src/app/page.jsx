@@ -8,11 +8,40 @@ import Link from "next/link";
 import Footer from "./footer";
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import test_data from './test_data';
 
 export default function Home() {
+    const reviews = test_data.map((dorm, index) => (
+        <Recent_review
+            key={index}
+            img = {dorm.img}
+            dorm_name = {dorm.dorm_name}
+            id = {dorm.id}
+            star = {dorm.star}
+            review = {dorm.review}
+        />
+    ))
+    const top_dorm = test_data.map((dorm, index) => (
+      <CardDorm_home
+          key={index}
+          img = {dorm.img}
+          dorm_name = {dorm.dorm_name}
+          id = {dorm.id}
+          star = {dorm.star}
+          address = {dorm.address}
+      />
+  ))
+
   return (
     <main>
-      <img className={styles.banner} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/banner.png`}/>
+      <div className={styles.container_banner}>
+        <div style={{position:'relative'}}>
+          <img className={styles.banner} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/banner.png`}/>
+          <div className={styles.dekhordorm}>Dekhor Dorm</div>
+        </div>
+        
+      </div>
+      
       <img className={styles.banner2} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/banner2.png`}/>
       
       <div className={styles.info_area}>
@@ -42,14 +71,7 @@ export default function Home() {
           Top list of dorms
         </div>
         <div className={styles.top_list_card}>
-          <CardDorm_home/>
-          <CardDorm_home/>
-          <CardDorm_home/>
-          <CardDorm_home/>
-          <CardDorm_home/>
-          <CardDorm_home/>
-          <CardDorm_home/>
-          <CardDorm_home/>
+          {top_dorm}
         </div>
       </div>
       
@@ -74,31 +96,7 @@ export default function Home() {
         }
       }
       className={styles.recent_review_area}>
-        <Recent_review
-            img = "https://upload.wikimedia.org/wikipedia/commons/8/84/Sharp_Hall_Dorm_Room.jpg"
-            dorm_name = "Ulike apartment"
-            review = "very very good"
-            star = {4.5}
-          />
-
-          <Recent_review
-            img = ""
-            dorm_name = "Hello dorm"
-            review = "bad"
-            star = {1.5}
-          />
-          <Recent_review
-            img = ""
-            dorm_name = "dorm"
-            review = "bad"
-            star = {3.5}
-          />
-          <Recent_review
-            img = ""
-            dorm_name = "abcd"
-            review = "bad"
-            star = {0}
-          />
+        {reviews}
       </Carousel>;
       </div>
 

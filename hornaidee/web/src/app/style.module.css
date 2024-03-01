@@ -1,8 +1,23 @@
-.banner {
-    margin:auto;
+.container_banner {
+    justify-content: center;
     margin-top: 30px;
     margin-bottom: 100px;
+    display: flex;
 }
+
+.dekhordorm {
+    position: absolute;
+    left: 30px;
+    top: 20px;
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 2.88px
+}
+
 
 .banner2 {
     margin:auto;
