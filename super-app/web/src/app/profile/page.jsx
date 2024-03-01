@@ -196,7 +196,7 @@ const ProductCards = () => {
 
 const DormCards = ({ params }) => {
     const [dormsData, setDormsData] = useState([]);
-
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         supabase.auth.getSession().then
             (res => {
@@ -231,6 +231,15 @@ const DormCards = ({ params }) => {
             />
         )
     })
+
+
+    if (dormsData.length === 0) {
+        return (
+            <div style={{ paddingTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center', rowGap: '30px' }}>
+                <p style={{ gridColumn: '1/3', textAlign: 'center' }}>You have no dorms</p>
+            </div>
+        )
+    }
 
     return (
         <div style={{ paddingTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center', rowGap: '30px' }}>
