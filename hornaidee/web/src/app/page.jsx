@@ -36,8 +36,8 @@ export default function Home() {
     <main>
       <div className={styles.container_banner}>
         <div style={{position:'relative'}}>
-          <img className={styles.banner} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/banner.png`}/>
-          <div className={styles.dekhordorm}>Dekhor Dorm</div>
+          <img className={styles.bannerimg} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/banner.png`}/>
+          <div className={styles.dekhordorm}>DekHor Dorm</div>
         </div>
         
       </div>
