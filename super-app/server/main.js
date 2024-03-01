@@ -177,11 +177,11 @@ api.post('/profile-picture', async (req, res) => {
   const { userID } = req.body;
   if (userID) {
     const { data } = await supabase
-      .from("users")
-      .select("picture")
-      .eq("id", userID);
-    const picture = data[0]?.picture;
-    res.status(200).json({ picture });
+        .from("users")
+        .select("picture, role")
+        .eq("id", userID)
+        .single();
+    res.status(200).json({ data });
   }
 })
 
@@ -290,7 +290,7 @@ api.post('/liked_blog', async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('like_blog')
-      .select('*,blog(*,blog_category(category)),users(username)')
+      .select('*,blog(*,blog_category(category),users(username))')
       .eq('user_id', user)
     if (error) {
       throw error;

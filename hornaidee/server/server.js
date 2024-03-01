@@ -19,6 +19,37 @@ app.use(cors());
 
 app.use(bodyParser.json({ limit: '50mb' }))
 
+// This algorithm is very simple because it sorted by average stars
+app.get('/top-dorms', async (_, res) => {
+    try {
+        const { data: dorms, error } = await supabase.schema('dorms').from('top_dorms').select();
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        res.json(dorms);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.get('/recent-reviews', async (_, res) => {
+    try {
+        const { data: reviews, error } = await supabase.schema('dorms').from('reviews').select().order('review_datetime', { ascending: false }).limit(10);
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        res.json(reviews);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
 app.get('/users/:id', async (req, res) => {
     try {
         const { data: user, error } = await supabase.from('users').select().eq('id', req.params.id);

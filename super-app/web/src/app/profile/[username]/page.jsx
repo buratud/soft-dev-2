@@ -103,7 +103,7 @@ const BlogsCards = ({ params }) => {
                             key={index}
                             img={card.blog.cover_img}
                             title={card.blog.title}
-                            Blogger={card.users.username}
+                            Blogger={card.blog.users.username}
                             Categories={card.blog.blog_category.category}
                             id={card.blog.blog_id}
                         />
@@ -247,7 +247,7 @@ export default function Profile({ params }) {
                             userID: user.id
                         })
                             .then(res => {
-                                setProfileImage(res.data.picture);
+                                setProfileImage(res.data.data.picture);
                             });
                     });
 

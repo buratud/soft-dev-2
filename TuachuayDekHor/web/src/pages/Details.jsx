@@ -91,18 +91,24 @@ const Details = () => {
       .catch((error) => {
         console.error(error);
       });
+    }, [id]);
 
-    axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
-      user: session?.user?.id,
-      blog: id,
-    }).then(res => {
-      setLikeyet(res.data);
-    }).catch((error) => {
-      console.error(error);
-    });
-
-  }, [id]);
-
+    useState (() => {
+      console.log('session',session?.user?.id)
+      if (session?.user?.id !== undefined) {
+        axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
+          user: session?.user?.id,
+          blog: id,
+        }).then(res => {
+          setLikeyet(res.data);
+          console.log('islike',res.data)
+        }).catch((error) => {
+          console.error(error);
+        });
+      } else {
+        setLikeyet(false)
+      }
+    })
 
   // ระบบ like และ dislike
   const [loading, setLoading] = useState(false);
@@ -116,44 +122,46 @@ const Details = () => {
     setLoading(true); // Set loading state to true
 
     console.log('param', id, 'session', session?.user?.id);
-
-    axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
-      user: session?.user?.id,
-      blog: id,
-    })
-      .then(res => {
-        const liked = res.data;
-
-        if (liked) {
-          axios.post(`${REACT_APP_BASE_API_URL}/unlike`, {
-            user: session?.user?.id,
-            blog: id,
-          })
-            .then(res => {
-              setLikeyet(false); // ตั้งค่าเป็น false หลังจากกด Unlike
-              setLike(res.data.likes);
-            })
-            .catch((err) => {
-              alert(err);
-            });
-        } else {
-          axios.post(`${REACT_APP_BASE_API_URL}/like`, {
-            user: session?.user?.id,
-            blog: id,
-          })
-            .then(res => {
-              setLikeyet(true); // ตั้งค่าเป็น true หลังจากกด Like
-              setLike(res.data.likes);
-            })
-            .catch((err) => {
-              alert(err);
-            });
-        }
+    if (session?.user?.id) {
+      axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
+        user: session?.user?.id,
+        blog: id,
       })
-      .catch((err) => {
-        alert(err);
-      });
+        .then(res => {
+          const liked = res.data;
 
+            if (liked) {
+              axios.post(`${REACT_APP_BASE_API_URL}/unlike`, {
+                user: session?.user?.id,
+                blog: id,
+              })
+                .then(res => {
+                  setLikeyet(false); // ตั้งค่าเป็น false หลังจากกด Unlike
+                  setLike(res.data.likes);
+                })
+                .catch((err) => {
+                  alert(err);
+                });
+            } else {
+              axios.post(`${REACT_APP_BASE_API_URL}/like`, {
+                user: session?.user?.id,
+                blog: id,
+              })
+                .then(res => {
+                  setLikeyet(true); // ตั้งค่าเป็น true หลังจากกด Like
+                  setLike(res.data.likes);
+                })
+                .catch((err) => {
+                  alert(err);
+                });
+            }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    } else {
+      alert('please logged in before like')
+    }
 
     // Perform the server request based on the like status
     try {

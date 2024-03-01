@@ -244,14 +244,15 @@
     flex-direction: column;
     position: absolute;
     right: 0;
-    margin-right: 3vw;
+    margin-right: 4vw;
     top: 70px;
     padding: 1rem;
     width: max-content;
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
     background-color: white;
-    box-shadow:  0px 8px 2px rgba(178, 178, 178, 0.189)
+    box-shadow:  0px 8px 2px rgba(178, 178, 178, 0.189);
+    z-index: 2000;
 }
 
 .dropdownContentProfile div{
@@ -281,4 +282,48 @@
 
 .logout_text{
     color: #C10206;
+}
+
+.dropdownContent_blog {
+    display: flex;
+    font-family: Poppins ;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    flex-direction: column;
+    position: absolute;
+    margin-top: 0.5rem;
+    margin-right: 1rem;
+    padding: 1rem;
+    width: max-content;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    background-color: white;
+    box-shadow:  0px 8px 2px rgba(178, 178, 178, 0.189)
+}
+
+.dropdownContent_blog div {
+    padding: 0.5rem;
+    padding-right: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.dropdownContent_blog span {
+    width: 100%;
+    margin-left: 8px;
+    color: #000;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.24px;
+    cursor: pointer;
+}
+
+
+.dropdownContent_blog div:hover{
+    background-color:#D9D9D9;
+    border-radius: 15px;
+    transition: .3s ease;
 }
