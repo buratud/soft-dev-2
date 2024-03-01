@@ -14,6 +14,7 @@ import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_D
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { General, supabase } from '../../../../session'
+import IndeterminateProgressBar from '../../../../components/IndeterminateProgressBar/IndeterminateProgressBar';
 
 const BlogsCards = ({ params }) => {
 
@@ -210,14 +211,15 @@ const DormCards = ({ params }) => {
                 setIsLoading(false)
             })
     }, []);
-    
-        if (isLoading) {
-            return (
-                <div style={{ paddingTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center', rowGap: '30px' }}>
-                    <p style={{ gridColumn: '1/3', textAlign: 'center' }}>Loading...</p>
-                </div>
-            )
-        }
+
+    if (isLoading) {
+        return (
+            <div style={{ paddingTop: '20px' }}>
+                <IndeterminateProgressBar />
+                <p style={{ textAlign: 'center', marginTop: 10, fontSize: 20 }}>Loading...</p>
+            </div>
+        )
+    }
 
     const dorms = dormsData.map(dorm => {
         dorm.facilities = dorm.dorms_facilities.map(facility => facility.facilities.name).slice(0, 3).join(', ');
@@ -237,7 +239,7 @@ const DormCards = ({ params }) => {
     if (dormsData.length === 0) {
         return (
             <div style={{ paddingTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center', rowGap: '30px' }}>
-                <p style={{ gridColumn: '1/3', textAlign: 'center' }}>{params.username} has no dorms</p>
+                <p style={{ gridColumn: '1/3', textAlign: 'center', fontSize: 20 }}>{params.username} has no dorms</p>
             </div>
         )
     }
