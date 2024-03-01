@@ -10,7 +10,7 @@ import Fakedata from "../../data.js";
 import test_data_dorm from '../../test_data_dorm';
 import CardDorm from '../../../../components/CardDorm';
 import { FaCircle } from 'react-icons/fa';
-import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_BASE_API_URL } from '../../../../config';
+import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_DORMS_API_URL } from '../../../../config';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { General, supabase } from '../../../../session'
@@ -188,18 +188,45 @@ const ProductCards = ({ params }) => {
     )
 }
 
-const DormCards = () => {
-    const dorms = test_data_dorm.map((dorm, index) => (
-        <CardDorm
-            key={index}
-            img={dorm.img}
-            dorm_name={dorm.dorm_name}
-            price={dorm.price}
-            id={dorm.id}
-            facilities={dorm.facilities}
-            star={dorm.star}
-        />
-    ))
+const DormCards = ({ params }) => {
+    const [dormsData, setDormsData] = useState([]);
+
+    useEffect(() => {
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
+            username: params.username
+        })
+            .then(res => {
+                const user = res.data.user.id;
+                if (user) {
+                    axios.get(`${NEXT_PUBLIC_BASE_DORMS_API_URL}/dorms?owner=${user}`)
+                        .then(res => {
+                            console.log(res.data)
+                            setDormsData(res.data);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }, []);
+
+    const dorms = dormsData.map(dorm => {
+        dorm.facilities = dorm.dorms_facilities.map(facility => facility.facilities.name).slice(0, 3).join(', ');
+        return (
+            <CardDorm
+                key={dorm.id}
+                img={dorm.photos[0]?.photo_url}
+                dorm_name={dorm.name}
+                price={dorm.rent_price}
+                id={dorm.id}
+                facilities={dorm.facilities}
+                star={dorm.stars}
+            />
+        )
+    })
 
     return (
         <div style={{ paddingTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center', rowGap: '30px' }}>
