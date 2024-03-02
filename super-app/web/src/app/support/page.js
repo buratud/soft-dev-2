@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { ImSpinner9 } from "react-icons/im";
+import { BsDashCircleFill } from "react-icons/bs";
 import { createClient } from "@supabase/supabase-js";
 
 import "./style.css";
@@ -298,16 +299,18 @@ export default function ContactSupport() {
                             <td>{data.status}</td>
                             {/* Conditional class for feedback success */}
                             <td>
-                              {/* Conditionally render loading icon or unsend icon */}
+                              {/* Conditionally render loading icon, unsend icon, or BsDashCircleFill */}
                               {data.loading ? (
                                 <ImSpinner9
                                   className="loading-icon"
                                   size={23}
                                 />
+                              ) : data.status === "Solved" ? (
+                                <BsDashCircleFill size={23} /> // Change icon to BsDashCircleFill when status is "solved"
                               ) : (
                                 <div
-                                  onClick={() => handleUnsendClick(index)}
-                                  style={{ cursor: "pointer" }}
+                                  onClick={data.status === "Solved" ? null : () => handleUnsendClick(index)}
+                                  style={{ cursor: data.status === "Solved" ? "not-allowed" : "pointer" }}
                                 >
                                   {getUnsendIcon(data.unsend)}
                                 </div>
