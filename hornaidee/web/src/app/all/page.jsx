@@ -52,7 +52,7 @@ export default function DormReview() {
 
   const handleSearch = () => {
     // ทำการค้นหา dorms ที่มีชื่อที่ตรงหรือใกล้เคียงกับ searchText และอยู่ในช่วงราคาที่กำหนด และมีสิ่งอำนวยความสะดวกที่เลือก
-    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/search`,
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/search`,
     {
       name: searchText,
       filter: facilities,
