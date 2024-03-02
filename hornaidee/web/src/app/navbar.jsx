@@ -162,14 +162,14 @@ export default function NavBar() {
                         {!isOpen_2 ? <span className={styles.arrow}>▼</span> : <span className={styles.arrow}>▲</span>}</button>
 
                     {isOpen_2 && <div className={styles.dropdownContent}>
-                        <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/`}>
+                        <Link href={`/`}>
                             <div>
                                 <span>
                                     Main
                                 </span>
                             </div>
                         </Link>
-                        <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/all`}>
+                        <Link href={`/all`}>
                             <div>
                                 <span>
                                     All Dorms
@@ -177,7 +177,7 @@ export default function NavBar() {
                             </div>
                         </Link>
 
-                        <Link href={`${NEXT_PUBLIC_BASE_WEB_PATH}/add`}>
+                        <Link href={`/add`}>
                             <div>
                                 <span>
                                     Add Dorm
