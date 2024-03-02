@@ -34,12 +34,8 @@ export default function DormSearch() {
   const [Data, setData] = useState([]);//เอาไว้ใช้เก็บข้อมูลที่ดึงมาแต่ตอนนี้ยังใช้ fake data ไปก่อน
 
   useEffect(() => {
-    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms`)
-      .then(res => {
-        setData(res.data);
-        handleSearch();
-      })
-  },[]);
+    handleSearch();
+  }, [Data]);
 
   const handleMinChange = (newValue) => {
     setMinValue(newValue);
@@ -150,7 +146,6 @@ export default function DormSearch() {
                 <p>{maxValue}</p>
               </div>
             </div>
-            <button onClick={handleSearch}>SEARCH</button>
           </div>
 
           <div className={styles.search_Bottom}>
