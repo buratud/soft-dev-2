@@ -20,7 +20,7 @@ export default function Home() {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/top-dorms`)
       .then(res => {
         setTop_dorms(res.data);
-        // console.log(res.data[0]);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err)

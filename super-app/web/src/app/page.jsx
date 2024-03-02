@@ -8,12 +8,40 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import axios from 'axios';
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../config';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NavBar from "../../components/nav";
 import Footer from "../../components/footer/Footer";
+import CardDorm_home from "../../components/CardDorm_home";
 
 export default function Home() {
   const [RecDataProduct, setRecDataProduct] = useState([]);
+  const [top_dorms, setTop_dorms] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/top-dorms`)
+      .then(res => {
+        if (res.data.length > 4) {
+          setTop_dorms(res.data.slice(0, 3));
+        } else {
+          setTop_dorms(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+  const top_dorm = top_dorms.map((dorm, index) => (
+    <CardDorm_home
+        key={index}
+        img = {dorm.photos[0].photo_url}
+        dorm_name = {dorm.name}
+        id = {dorm.dorm_id}
+        star = {dorm.average}
+        address = {dorm.province}
+    />
+  ))
+
   useState(() => {
     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-product`, {
       "MaxRecommended": 4
@@ -174,6 +202,13 @@ export default function Home() {
                   <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/arrow_right.png`} style={{ width: '29px', height: '21px' }} />
                 </div>
               </Link>
+            </div>
+          </div>
+
+          <div>
+            <div className={styles.recommend_dorm}>Recommended Dorms</div>
+            <div className={styles.dorm_container}>
+                {top_dorm}
             </div>
           </div>
         </div>
