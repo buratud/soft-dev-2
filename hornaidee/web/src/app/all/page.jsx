@@ -34,7 +34,11 @@ export default function DormSearch() {
   const [Data, setData] = useState([]);//เอาไว้ใช้เก็บข้อมูลที่ดึงมาแต่ตอนนี้ยังใช้ fake data ไปก่อน
 
   useEffect(() => {
-    handleSearch();
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms`)
+      .then(res => {
+        setData(res.data);
+        handleSearch();
+      })
   },[]);
 
   const handleMinChange = (newValue) => {
