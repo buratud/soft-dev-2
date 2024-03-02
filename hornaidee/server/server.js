@@ -51,7 +51,7 @@ app.get('/recent-reviews', async (_, res) => {
     }
 });
 
-app.get('/search', async (req, res) => {
+app.get('/dorms/search', async (req, res) => {
     try {
         const { name: searchTerm, filter:facilityFilter, range: priceRange } = req.body;
         const { data: dormsList, dormError } = await supabase.schema('dorms').from('dorms').select('id, name, rent_price, dorms_facilities(facility_id), photos(photo_url), average_stars(average)')
@@ -120,8 +120,7 @@ app.get('/search', async (req, res) => {
 
 app.get('/dorms', async (req, res) => {
     try {
-        const userId = req.query.owner;
-        const { data: dorms, error } = await supabase.schema('dorms').from('dorms').select('*, dorms_facilities(facilities(*)), photos(photo_url)').eq('owner', userId);
+        const { data: dorms, error } = await supabase.schema('dorms').from('dorms').select('*, dorms_facilities(facilities(*)), photos(photo_url)')
         if (error) {
             logger.error(error);
             res.status(500).send();
