@@ -34,6 +34,7 @@ import {
   NEXT_PUBLIC_MAIN_URL,
 } from "../../../../config";
 import { createClient } from "@supabase/supabase-js";
+import IndeterminateProgressBar from "../../../../components/IndeterminateProgressBar/IndeterminateProgressBar";
 
 const supabase = createClient(
   NEXT_PUBLIC_SUPABASE_URL,
@@ -48,7 +49,6 @@ function DeleteConfirmPopup(props) {
   };
   const handleYesButtonClick = () => {
     setIsDeleting(true);
-    console.log(props.session.session);
     axios.delete(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${props.dormId}`,
       { headers: { Authorization: `Bearer ${props.session.session.access_token}` } })
       .then((res) => {
@@ -66,11 +66,12 @@ function DeleteConfirmPopup(props) {
         <div className="deleteConfirmPopupContent">
           <h2>Are you sure you want to delete this property?</h2>
           <div className="deleteConfirmPopupButtons">
-            <button className="deleteConfirmPopupButton primary" onClick={handleNoButtonClick}>No</button>
-            <button className="deleteConfirmPopupButton" onClick={handleYesButtonClick}>Yes</button>
+            <button className="deleteConfirmPopupButton primary" onClick={handleNoButtonClick} disabled={isDeleting}>No</button>
+            <button className="deleteConfirmPopupButton" onClick={handleYesButtonClick} disabled={isDeleting}>Yes</button>
           </div>
         </div>
       </div>
+      {isDeleting && <IndeterminateProgressBar />}
     </div>
   );
 
