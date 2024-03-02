@@ -54,12 +54,11 @@ app.get('/recent-reviews', async (_, res) => {
 app.get('/dorms/search', async (req, res) => {
     try {
         const { name: searchTerm, filter:facilityFilter, range: priceRange } = req.body;
-        logger.debug({searchTerm, facilityFilter, priceRange});
         const { data: dormsList, error } = await supabase.schema('dorms').from('dorms').select('id, name, rent_price, dorms_facilities(facility_id), photos(photo_url), average_stars(average)')
         dormsList.map(dorm => {
             dorm.dorms_facilities = dorm.dorms_facilities.map(facility => facility.facility_id)
             dorm.photos = dorm.photos[0].photo_url
-            dorm.average_stars = dorm.average_stars[0].average
+            dorm.average_stars = dorm.average_stars.map(star => star.average)[0]
             return dorm;
         });
         if (error) {
@@ -69,12 +68,17 @@ app.get('/dorms/search', async (req, res) => {
         }
 
         for (const dorm of dormsList) {
-            if (dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]) {
+            if (dorm.rent_price <= priceRange[0] || dorm.rent_price >= priceRange[1]) {
                 const index = dormsList.indexOf(dorm)
                 dormsList.splice(index, index + 1)
                 continue
             }
             // logger.debug([dorm.rent_price, priceRange[0], priceRange[1], dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]])
+        }
+
+        if (dormsList.length === 0) {
+            res.json({message: 'There are no matching dorms'});
+            return;
         }
         
         for (const dorm of dormsList) {
@@ -89,8 +93,13 @@ app.get('/dorms/search', async (req, res) => {
                     dormsList.splice(index, index + 1)
                     continue
                 }
-                // logger.debug([dorm, facility, facilitiesID.toString(), facilitiesID.includes(facility)])
+                // logger.debug([facility, facilitiesID.toString(), facilitiesID.includes(facility)])
             }
+        }
+
+        if (dormsList.length === 0) {
+            res.json({message: 'There are no matching dorms'});
+            return;
         }
 
         if (searchTerm != "") {
