@@ -37,15 +37,21 @@ export default function ContactSupport() {
 
   useEffect(() => {
     supabase.auth.getSession().then((result) => {
-      axios
-      .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${result.data.session.user.id}`)
-      .then((res) => {
-        setUserId(res.data.id);
-        setEmail(res.data.email);
-      });
+      if (!result.data || !result.data.session || !result.data.session.user || !result.data.session.user.id) {
+        // Redirect to the home page
+        window.location.href = `/`;
+      } else {
+        // Fetch user data
+        axios
+        .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${result.data.session.user.id}`)
+        .then((res) => {
+          setUserId(res.data.id);
+          setEmail(res.data.email);
+        });
+      }
     });
   }, []);
-
+  
   // Function to get unsend icon based on the unsend status
   const getUnsendIcon = (unsend) => {
     switch (unsend) {
