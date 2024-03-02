@@ -46,6 +46,18 @@ export default function DormSearch() {
     setMinValue(newValue);
   };
 
+  useEffect(() => {
+    // Get session
+    supabase.auth
+      .getSession()
+      .then((result) => {
+        console.log(result)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   const handleMaxChange = (newValue) => {
     setMaxValue(newValue);
   };
@@ -66,6 +78,7 @@ export default function DormSearch() {
     })
   }
 
+
   const toggleFacility = (facility) => {
     if (facilities.includes(facility)) {
       // Facility already selected, remove it
@@ -75,7 +88,7 @@ export default function DormSearch() {
       setFacilities([...facilities, facility]);
     }
   };
-  console.log({searchResult: searchResults});
+  
   const dorms = searchResults.map((dorm, index) => (
     <CardDorm
       key={index}
