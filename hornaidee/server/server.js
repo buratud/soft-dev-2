@@ -365,6 +365,22 @@ app.put('/dorms/:id', async (req, res) => {
     }
 });
 
+app.delete('/dorms/:id', async (req, res) => {
+    try {
+        const user = req.user.sub;
+        const { error: deleteError } = await supabase.schema('dorms').from('dorms').delete().eq('id', req.params.id).eq('owner', user);
+        if (deleteError) {
+            logger.error(deleteError);
+            res.status(500).send();
+            return;
+        }
+        res.status(204).send();
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
 app.get('/dorms/:id/review', async (req, res) => {
     try {
         const { data: review, error } = await supabase.schema('dorms').from('reviews').select('user_id, stars, short_review, review').eq('dorm_id', req.params.id).eq('user_id', req.user.sub);
