@@ -25,6 +25,18 @@ const driver = new Builder()
     await driver.findElement(By.tagName('button')).click();
     console.log('Fill in login info and click login.');
     await delay(2000);
+    await driver.findElement(By.className('nav_rightside__fuSzv')).click();
+    await delay(1000);
+    await driver.findElement(By.className('nav_dropdownContentProfile__KfzNB')).findElement(By.xpath('//span[text()="Support"]')).click();
+    console.log('Go to Support page');
+    await delay(2000);
+    await driver.findElement(By.xpath('/html/body/div/div[1]/div[2]/div/div[3]/div/div[2]/div[1]/div[2]/input')).click();
+    await driver.findElement(By.className('textbox-container')).findElement(By.xpath('/html/body/div/div[1]/div[2]/div/div[3]/div/div[3]/textarea')).sendKeys('Test send ticket with selenium');
+    await delay(1000);
+    await driver.findElement(By.xpath('/html/body/div/div[1]/div[2]/div/div[3]/div/button')).click();
+    await delay(2000);
+
+
     } finally {
       // Close the browser
       await driver.quit();
