@@ -35,6 +35,7 @@ export default function DormSearch() {
 
   useEffect(() => {
     handleSearch();
+    
   }, [Data]);
 
   const handleMinChange = (newValue) => {
@@ -117,7 +118,7 @@ export default function DormSearch() {
       price={dorm.rent_price}
       facilities={dorm.dorms_facilities}
       img={dorm.photos}
-      star={dorm.average_stars}
+      star={dorm.stars}
     />
   ));
 
