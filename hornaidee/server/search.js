@@ -33,7 +33,7 @@ function wagner_fischer(base, target) {
 exports.search = (target, database) => {
     suggestions = []
     notFound = false
-    errorRatio = 0.5
+    errorRatio = 0.7
     // Get all edit distance for every product in the database
     for (const dorm of database) {
         searchTerm = target.toUpperCase()

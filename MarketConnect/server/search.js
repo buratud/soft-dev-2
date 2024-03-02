@@ -38,7 +38,7 @@ exports.search = (target, database) => {
         searchTerm = target.toUpperCase()
         food_name = product.Food_Name.toUpperCase()
         edit_distance = wagner_fischer(searchTerm, food_name)
-        errorRatio = 0.5
+        errorRatio = 0.7
         // Check if edit distance is less than 0 or greater than 5, if so continue to the next product
         if (edit_distance < 0 || edit_distance/target.length > errorRatio) {
             continue

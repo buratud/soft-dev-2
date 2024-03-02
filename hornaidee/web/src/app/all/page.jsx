@@ -24,7 +24,7 @@ const supabase = createClient(
 );
 
 
-export default function DormReview() {
+export default function DormSearch() {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [minValue, setMinValue] = useState(0);
@@ -37,9 +37,9 @@ export default function DormReview() {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms`)
       .then(res => {
         setData(res.data);
-        console.log(res);
+        console.log({res: res});
       })
-    console.log(Data);
+    console.log({data: Data});
   }, []);
 
   const handleMinChange = (newValue) => {
@@ -60,7 +60,7 @@ export default function DormReview() {
     })
     .then(res => {
       // ตั้งค่าผลการค้นหาให้กับ state searchResults
-      console.log(res.data);
+      console.log({res_data: res.data});
       setSearchResults(res.data);
       // ล้างค่า searchText หลังจากค้นหาเสร็จสิ้น
     })
@@ -75,7 +75,7 @@ export default function DormReview() {
       setFacilities([...facilities, facility]);
     }
   };
-  console.log(searchResults);
+  console.log({searchResult: searchResults});
   const dorms = searchResults.map((dorm, index) => (
     <CardDorm
       key={index}
