@@ -5,7 +5,6 @@ import Rating from '@mui/material/Rating';
 import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_MAIN_URL } from '../config'
 export default function CardDorm_home(props) {
   const { img, dorm_name, address, id , star } = props;
-  console.log(star)
   return (
     <div className={styles.container}>
       <Link className={styles.link} href={`${NEXT_PUBLIC_MAIN_URL}/dorms/detail/${id}`}>
