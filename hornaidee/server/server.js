@@ -23,7 +23,7 @@ app.use(bodyParser.json({ limit: '50mb' }))
 // This algorithm is very simple because it sorted by average stars
 app.get('/top-dorms', async (_, res) => {
     try {
-        const { data: dorms, error } = await supabase.schema('dorms').from('top_dorms').select();
+        const { data: dorms, error } = await supabase.schema('dorms').from('top_dorms').select('*, photos(photo_url)');
         if (error) {
             logger.error(error);
             res.status(500).send();
@@ -38,7 +38,7 @@ app.get('/top-dorms', async (_, res) => {
 
 app.get('/recent-reviews', async (_, res) => {
     try {
-        const { data: reviews, error } = await supabase.schema('dorms').from('reviews').select().order('review_datetime', { ascending: false }).limit(10);
+        const { data: reviews, error } = await supabase.schema('dorms').from('reviews').select('*, dorms(name)').order('review_datetime', { ascending: false }).limit(10);
         if (error) {
             logger.error(error);
             res.status(500).send();
