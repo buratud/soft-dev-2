@@ -408,7 +408,7 @@ h3 {
   width: 80px;
 }
 
-.deleteConfirmPopupButton:hover {
+.deleteConfirmPopupButton:not([disabled]):hover {
   background-color: #ff0000;
   color: white;
 
@@ -419,10 +419,15 @@ h3 {
   color: white;
 }
 
-.deleteConfirmPopupButton.primary:hover {
+.deleteConfirmPopupButton.primary:not([disabled]):hover {
   background-color: #1D4ED8;
 }
 
+.deleteConfirmPopupButton:disabled {
+  background-color: #f0f0f0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
 
 .overlay2 {
   position: fixed;
