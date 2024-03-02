@@ -52,6 +52,7 @@ export default function DormSearch() {
       })
     // ทำการค้นหา dorms ที่มีชื่อที่ตรงหรือใกล้เคียงกับ searchText และอยู่ในช่วงราคาที่กำหนด และมีสิ่งอำนวยความสะดวกที่เลือก
     const dormsList = Data
+    let filteredDorms;
     dormsList.map(dorm => {
         dorm.dorms_facilities = dorm.dorms_facilities.map(facility => facility.facilities.id)
         dorm.photos = dorm.photos.map(photo => photo.photo_url)[0]
@@ -59,26 +60,26 @@ export default function DormSearch() {
         return dorm;
     });
     
-    for (const dorm of dormsList) {
+    if (facilities == []) {
+      filteredDorms = dormsList
+    } else {
+      filteredDorms = dormsList.filter(dorm => {
         const facilitiesID = dorm.dorms_facilities
-        if (facilities == []) {
-            break
-        }
         for (const facility of facilities) {
-            if (!facilitiesID.includes(facility)) {
-                const index = dormsList.indexOf(dorm)
-                dormsList.splice(index, index + 1)
-                continue
-            }
+          if (!facilitiesID.includes(facility)) {
+            return false
+          }
         }
+        return true
+      })
     }
 
-    if (dormsList.length === 0) {
+    if (filteredDorms.length === 0) {
         setSearchResults([]);
         return;
     }
 
-    const filteredDorms = dormsList.filter(dorm => dorm.rent_price >= minValue && dorm.rent_price <= maxValue);
+    filteredDorms = filteredDorms.filter(dorm => dorm.rent_price >= minValue && dorm.rent_price <= maxValue);
 
     if (filteredDorms.length === 0) {
         setSearchResults([]);
