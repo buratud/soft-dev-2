@@ -208,8 +208,11 @@ export default function DormDetails() {
           </div>
           {user_id === owner_id ? (
             <div className="editButtonContainer">
-              <button className="editButton" onClick={handleEditButtonClick}>
+               <button className="editButton" onClick={handleEditButtonClick}>
                 Edit Property
+              </button>
+              <button className="deleteButton" onClick={handleEditButtonClick}>
+                Delete Property
               </button>
             </div>
           ) : null}
