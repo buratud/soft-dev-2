@@ -31,13 +31,51 @@ import {
   NEXT_PUBLIC_BASE_API_URL,
   NEXT_PUBLIC_BASE_WEB_PATH,
   NEXT_PUBLIC_BASE_WEB_URL,
+  NEXT_PUBLIC_MAIN_URL,
 } from "../../../../config";
 import { createClient } from "@supabase/supabase-js";
+import IndeterminateProgressBar from "../../../../components/IndeterminateProgressBar/IndeterminateProgressBar";
 
 const supabase = createClient(
   NEXT_PUBLIC_SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
+
+function DeleteConfirmPopup(props) {
+  const router = useRouter();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const handleNoButtonClick = () => {
+    props.setDeleteConfirmPopup(false);
+  };
+  const handleYesButtonClick = () => {
+    setIsDeleting(true);
+    axios.delete(`${NEXT_PUBLIC_BASE_API_URL}/dorms/${props.dormId}`,
+      { headers: { Authorization: `Bearer ${props.session.session.access_token}` } })
+      .then((res) => {
+        console.log(res);
+        props.setDeleteConfirmPopup(false);
+        router.replace(`${NEXT_PUBLIC_MAIN_URL}/profile`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  return (
+    <div className="overlay2">
+      <div className="deleteConfirmPopup">
+        <div className="deleteConfirmPopupContent">
+          <h2>Are you sure you want to delete this property?</h2>
+          <div className="deleteConfirmPopupButtons">
+            <button className="deleteConfirmPopupButton primary" onClick={handleNoButtonClick} disabled={isDeleting}>No</button>
+            <button className="deleteConfirmPopupButton" onClick={handleYesButtonClick} disabled={isDeleting}>Yes</button>
+          </div>
+        </div>
+      </div>
+      {isDeleting && <IndeterminateProgressBar />}
+    </div>
+  );
+
+}
 
 export default function DormDetails() {
   const params = useParams();
@@ -66,10 +104,10 @@ export default function DormDetails() {
   const [owner_id, setOwner_id] = useState("");
   const [showOverlay, setShowOverlay] = useState(false); // State for overlay visibility
   const [overlayImageIndex, setOverlayImageIndex] = useState(0); // State for the index of image shown in overlay
-
+  const [deleteConfirmPopup, setDeleteConfirmPopup] = useState(false);
   useEffect(() => {
     supabase.auth.getSession().then((result) => {
-      setSession(result.data.session.user.id);
+      setSession(result.data);
       // console.log(result.data.session.user.id);
       setUser_id(result.data.session.user.id);
     });
@@ -95,6 +133,10 @@ export default function DormDetails() {
   const router = useRouter();
   const handleEditButtonClick = () => {
     router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/edit/${params.id}`);
+  };
+
+  const handleDeleteButtonClick = () => {
+    setDeleteConfirmPopup(true);
   };
 
   useEffect(() => {
@@ -211,11 +253,14 @@ export default function DormDetails() {
               <button className="editButton" onClick={handleEditButtonClick}>
                 Edit Property
               </button>
+              <button className="deleteButton" onClick={handleDeleteButtonClick}>
+                Delete Property
+              </button>
             </div>
           ) : null}
         </div>
       </div>
-
+      {deleteConfirmPopup && <DeleteConfirmPopup setDeleteConfirmPopup={setDeleteConfirmPopup} dormId={params.id} session={session} />}
       {/* facilities and hosts */}
       <div className="facilitiesandhost">
         <div className="facilitiesbox">
@@ -238,7 +283,7 @@ export default function DormDetails() {
                 src={user.picture}
                 alt="Host"
                 className="hostavatar"
-                style={{width: '100px', height: 'auto'}}
+                style={{ width: '100px', height: 'auto' }}
                 width={80}
                 height={80}
               />
@@ -255,37 +300,37 @@ export default function DormDetails() {
           </div>
         </div>
       </div>
-      
+
       {/* Reviews Component */}
       <div className="reviewsbox">
         <div className="flex justify-between">
           <h3 className="font-semibold">All Reviews</h3>
           {/* Add review button */}
           <div>
-              <button
-                className="bg-[#092F88] hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-[15px] text-xl mt-2 mb-2 transition-all"
-                onClick={() => {
-                  router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/review/${params.id}`);
-                }}
-              >
-                Add A Review
-              </button>
-            </div>
+            <button
+              className="bg-[#092F88] hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-[15px] text-xl mt-2 mb-2 transition-all"
+              onClick={() => {
+                router.push(`${NEXT_PUBLIC_BASE_WEB_URL}/review/${params.id}`);
+              }}
+            >
+              Add A Review
+            </button>
           </div>
+        </div>
         <div>
-        {rate.reviews.length === 0 && (
-          <p className="text-center font-medium text-xl pt-6">No reviews yet</p>
-        )}
-        {!isLoading && rate.reviews.map((review, index) => (
-          <ReviewComponent
-            key={index}
-            user_id={review.user_id}
-            stars={review.stars}
-            short_review={review.short_review}
-            review={review.review}
-            className=''
-          />
-        ))}
+          {rate.reviews.length === 0 && (
+            <p className="text-center font-medium text-xl pt-6">No reviews yet</p>
+          )}
+          {!isLoading && rate.reviews.map((review, index) => (
+            <ReviewComponent
+              key={index}
+              user_id={review.user_id}
+              stars={review.stars}
+              short_review={review.short_review}
+              review={review.review}
+              className=''
+            />
+          ))}
         </div>
       </div>
 

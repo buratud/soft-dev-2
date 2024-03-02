@@ -6,13 +6,12 @@ import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../../co
 import styles from "./Admin.module.css";
 import NavBar from "../../../components/nav";
 import Footer from "../../../components/footer/Footer";
-import issues from "./dummy_data";
 import { General, supabase } from '../../../session';
 import { useRouter } from "next/navigation";
 
 
 function Admin() {
-    // const [issues, setIssues] = useState([]);
+    const [issues, setIssues] = useState([]);
     const [selectedType, setSelectedType] = useState('All');
     const [selectedStatus, setSelectedStatus] = useState('All');
     const [adminAuthValue, setAdminAuthValue] = useState(false);
@@ -73,38 +72,38 @@ function Admin() {
         }
     }, [adminAuthValue, authChecked]);
 
-    // const getdata = async () => {
-    //     try {
-    //         const res = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/adminsupport`);
-    //         setIssues(res.data);
-    //     } catch (error) {
-    //         alert(error);
-    //     }
-    // };
+    const getdata = async () => {
+        try {
+            const res = await axios.get(`${NEXT_PUBLIC_BASE_API_URL}/getproblems`);
+            setIssues(res.data);
+        } catch (error) {
+            alert(error);
+        }
+    };
 
-    // useEffect(() => {
-    //     getdata();
-    // }, []);
+    useEffect(() => {
+        getdata();
+    }, []);
 
-    // const handleStatusChange = async (event, id, newStatus) => {
-    //     event.preventDefault();
-    //     try {
-    //         await axios.post(`${process.env.REACT_APP_BASE_API_URL}/changestatus`, {
-    //             status: newStatus,
-    //             id: id,
-    //         });
-    //         getdata();
-    //     } catch (error) {
-    //         alert(error);
-    //     }
-    // };
+    const handleStatusChange = async (event, unique_id, newStatus) => {
+        event.preventDefault();
+        try {
+            await axios.put(`${NEXT_PUBLIC_BASE_API_URL}/updatestatus`, {
+                unique_id: unique_id,
+                status: newStatus,
+            });
+            getdata();
+        } catch (error) {
+            alert(error);
+        }
+    };
 
     const filteredIssues = issues.filter(issue => {
 
-        if (selectedType !== 'All' && issue.Type !== selectedType) {
+        if (selectedType !== 'All' && issue.type !== selectedType) {
             return false; // ถ้าเลือก Type แล้วไม่ตรงกับ issue ที่กำลัง loop อยู่
         }
-        if (selectedStatus !== 'All' && issue.Status !== selectedStatus) {
+        if (selectedStatus !== 'All' && issue.status !== selectedStatus) {
             return false; // ถ้าเลือก Status แล้วไม่ตรงกับ issue ที่กำลัง loop อยู่
         }
         return true // ถ้าไม่เข้าเงื่อนไขข้างต้น แสดงว่า issue นี้ถูกต้องตามเงื่อนไขที่เลือก
@@ -113,21 +112,21 @@ function Admin() {
     const filteredIssueElements = filteredIssues.map((issue) => (
         <tr key={issue?.index}>
             <td className={styles.left}>{issue?.Id}</td>
-            <td className={styles.middle}>{issue?.Email}</td>
-            <td className={styles.middle}>{issue?.Type}</td>
-            <td className={styles.middle}>{issue?.Problem}</td>
+            <td className={styles.middle}>{issue?.email}</td>
+            <td className={styles.middle}>{issue?.type}</td>
+            <td className={styles.middle}>{issue?.problem}</td>
             <td className={styles.middle}>
                 <select
-                    value={issue?.Status}
+                    value={issue?.status}
                     onChange={(e) =>
-                        handleStatusChange(e, issue?.id, e.target.value)
+                        handleStatusChange(e, issue?.unique_id, e.target.value)
                     }>
-                    <option value="Finish">Finish</option>
-                    <option value="Not finish">Not finish</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Solved">Solved</option>
                 </select>
             </td>
             <td className={styles.right}>
-                {issue?.Status === 'Not finish' ? (
+                {issue?.status === 'Pending' ? (
                     <Image alt="dekhor1" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/XCircleFill.svg`} height={24} width={24} />
                 ) : (
                     <Image alt="dekhor1" src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/CheckCircleFill.svg`} height={24} width={24} />
@@ -156,8 +155,8 @@ function Admin() {
                         <h1>Status : </h1>
                         <select className={styles.dropdown} value={selectedStatus} onChange={handleChange_Status}>
                             <option value="All">All</option>
-                            <option value="Finish">Finish</option>
-                            <option value="Not finish">Not finish</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Solved">Solved</option>
                         </select>
                     </div>
                 </div>

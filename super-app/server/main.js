@@ -1,7 +1,8 @@
 const express = require("express");
 const { createClient } = require("@supabase/supabase-js");
 const { PORT } = require("./config");
-const { BASE_SERVER_PATH, SUPABASE_URL, SUPABASE_KEY } = require("./config");
+const { BASE_SERVER_PATH, SUPABASE_URL, SUPABASE_KEY, LOG_LEVEL } = require("./config");
+const logger = require('pino')({ level: LOG_LEVEL || 'info' });
 const cors = require("cors");
 const Sentry = require("@sentry/node");
 const app = express();
@@ -280,6 +281,34 @@ api.post('/set-profile', async (req, res) => {
 
     }
 
+  }
+})
+
+//----------------admin-------------------
+
+api.get('/getproblems', async (req, res) => {
+  const { data, error } = await supabase.from('problems').select('unique_id, date_create, email, type, problem, status').neq('status', 'Unsent');
+  const issues = data.sort(function(a, b){
+    let x = a.date_create.toLowerCase();
+    let y = b.date_create.toLowerCase();
+    if (x < y) {return -1;}
+    if (x > y) {return 1;}
+    return 0;
+  }).map((issue, index) => {issue.Id = index + 1; return issue;});
+  if (error) {
+    res.status(500).json(error);
+  } else {
+    res.status(200).json(issues);
+  }
+})
+
+api.put('/updatestatus', async (req, res) => {
+  const { unique_id, status } = req.body;
+  const { data, error } = await supabase.from('problems').update({ status }).eq('unique_id', unique_id);
+  if (error) {
+    res.status(500).json(error);
+  } else {
+    res.status(200).json(data);
   }
 })
 

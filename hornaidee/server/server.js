@@ -3,7 +3,8 @@ const jsonwebtoken = require('jsonwebtoken');
 const bodyParser = require('body-parser')
 const { createClient } = require('@supabase/supabase-js');
 const { z } = require('zod');
-const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest } = require('./type');
+const { search } = require("./search");
+const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest} = require('./type');
 
 const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET, LOG_LEVEL } = require('./config');
 const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage } = require('./util');
@@ -22,7 +23,7 @@ app.use(bodyParser.json({ limit: '50mb' }))
 // This algorithm is very simple because it sorted by average stars
 app.get('/top-dorms', async (_, res) => {
     try {
-        const { data: dorms, error } = await supabase.schema('dorms').from('top_dorms').select();
+        const { data: dorms, error } = await supabase.schema('dorms').from('top_dorms').select('*, photos(photo_url)');
         if (error) {
             logger.error(error);
             res.status(500).send();
@@ -37,7 +38,13 @@ app.get('/top-dorms', async (_, res) => {
 
 app.get('/recent-reviews', async (_, res) => {
     try {
-        const { data: reviews, error } = await supabase.schema('dorms').from('reviews').select().order('review_datetime', { ascending: false }).limit(10);
+        const { data: reviewsList, error } = await supabase.schema('dorms').from('reviews').select('*, dorms(name, photos(photo_url))').order('review_datetime', { ascending: false }).limit(10);
+        const reviews = reviewsList.map(review => {
+            review.name = review.dorms.name
+            review.photo = review.dorms.photos
+            delete review.dorms
+            return review;
+        });
         if (error) {
             logger.error(error);
             res.status(500).send();
@@ -50,10 +57,76 @@ app.get('/recent-reviews', async (_, res) => {
     }
 });
 
+app.get('/dorms/search', async (req, res) => {
+    try {
+        const { name: searchTerm, filter:facilityFilter, range: priceRange } = req.body;
+        const { data: dormsList, dormError } = await supabase.schema('dorms').from('dorms').select('id, name, rent_price, dorms_facilities(facility_id), photos(photo_url), average_stars(average)')
+        dormsList.map(dorm => {
+            dorm.dorms_facilities = dorm.dorms_facilities.map(facility => facility.facility_id)
+            dorm.photos = dorm.photos[0].photo_url
+            dorm.average_stars = dorm.average_stars.map(star => star.average)[0]
+            return dorm;
+        });
+        if (dormError) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+
+        for (const dorm of dormsList) {
+            if (dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]) {
+                const index = dormsList.indexOf(dorm)
+                dormsList.splice(index, index + 1)
+                continue
+            }
+            // logger.debug([dorm.rent_price, priceRange[0], priceRange[1], dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]])
+        }
+
+        if (dormsList.length === 0) {
+            res.json({message: 'There are no matching dorms'});
+            return;
+        }
+        
+        for (const dorm of dormsList) {
+            const facilitiesID = dorm.dorms_facilities
+            if (facilityFilter == []) {
+                break
+            }
+
+            for (const facility of facilityFilter) {
+                if (!facilitiesID.includes(facility)) {
+                    const index = dormsList.indexOf(dorm)
+                    dormsList.splice(index, index + 1)
+                    continue
+                }
+                // logger.debug([facility, facilitiesID.toString(), facilitiesID.includes(facility)])
+            }
+        }
+
+        if (dormsList.length === 0) {
+            res.json({message: 'There are no matching dorms'});
+            return;
+        }
+
+        if (searchTerm != "") {
+            const result = search(searchTerm, dormsList);
+            if (result.notFound) {
+                res.json({message: 'There are no matching dorms'});
+                return;
+            }
+            res.json(result);
+        } else {
+            res.json(dormsList);
+        }
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
 app.get('/dorms', async (req, res) => {
     try {
-        const userId = req.query.owner;
-        const { data: dorms, error } = await supabase.schema('dorms').from('dorms').select('*, dorms_facilities(facilities(*)), photos(photo_url)').eq('owner', userId);
+        const { data: dorms, error } = await supabase.schema('dorms').from('dorms').select('*, dorms_facilities(facilities(*)), photos(photo_url)')
         if (error) {
             logger.error(error);
             res.status(500).send();
@@ -238,7 +311,6 @@ app.put('/dorms/:id', async (req, res) => {
     try {
         const data = PutDormRequest.parse(req.body);
         const { facilities, photos, ...dormData } = data;
-        const user = req.user.sub;
 
         const { data: dormInfo, error: InfoError } = await supabase.schema('dorms').from('dorms').select('owner').eq('id', req.params.id);
         if (InfoError) {
@@ -248,8 +320,8 @@ app.put('/dorms/:id', async (req, res) => {
         }
         const dormOwner = dormInfo.map(object => object.owner)[0]
 
-        if (user != dormOwner) {
-            res.status(403).json({ message: 'You are not the owner of this dorm' });
+        if (req.user.sub != dormOwner) {
+            res.status(403).json({message: 'You are not the owner of this dorm'});
             return;
         }
 
@@ -360,6 +432,22 @@ app.put('/dorms/:id', async (req, res) => {
             res.status(400).json(error.errors);
             return;
         }
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.delete('/dorms/:id', async (req, res) => {
+    try {
+        const user = req.user.sub;
+        const { error: deleteError } = await supabase.schema('dorms').from('dorms').delete().eq('id', req.params.id).eq('owner', user);
+        if (deleteError) {
+            logger.error(deleteError);
+            res.status(500).send();
+            return;
+        }
+        res.status(204).send();
+    } catch (error) {
         logger.error(error);
         res.status(500).send();
     }
