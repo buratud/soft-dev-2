@@ -202,9 +202,9 @@ export default function DormReview() {
         </div>
       </div>
 
-      <div className="w-[1536px] m-auto  font-semibold font-Poppins text-[36px] mt-[1vw] mb-[1vw]">
-        <p className="text-center">Result</p>
-        <div className="grid grid-cols-2 gap-4 mt-[48px]">
+      <div className="w-[80vw] m-auto  font-semibold font-Poppins text-[36px] mt-[1vw] mb-[1vw]">
+        <p className="text-center mb-5">Result</p>
+        <div className="grid grid-cols-2 gap-4 gap-y-8">
           {dorms}
         </div>
       </div>

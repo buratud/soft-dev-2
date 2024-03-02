@@ -24,12 +24,39 @@ const Details = () => {
   const [like, setLike] = useState([]);
   const [data, setData] = useState([]);
   const [likeyet, setLikeyet] = useState([]);
+  const [content, setContent] = useState();
   useEffect(() => {
     axios.post(`${REACT_APP_BASE_API_URL}/detailpost`, {
       id
     })
       .then((res) => {
         setData(res.data[0]);
+        let modifiedBody = res.data[0].body;
+
+        const videoRegex = /<video[^>]*>[\s\S]*?<\/video>/g; // Updated regex
+        const iframeRegex = /<iframe[^>]*>[\s\S]*?<\/iframe>/g;
+        const videoMatches = modifiedBody.match(videoRegex);
+
+        if (videoMatches) {
+          // Iterate through each <video> tag found
+          videoMatches.forEach(videoTag => {
+            const styledVideoTag = videoTag.replace('<video', '<video style="max-width: 100%; max-height: 100%; width: auto; height: auto;"');
+            modifiedBody = modifiedBody.replace(videoTag, styledVideoTag);
+          });
+        }
+
+        // Find all <iframe> tags within the HTML content
+        const iframeMatches = modifiedBody.match(iframeRegex);
+
+        if (iframeMatches) {
+          // Iterate through each <iframe> tag found
+          iframeMatches.forEach(iframeTag => {
+            const styledIframeTag = iframeTag.replace('<iframe', '<iframe style="max-width: 100%; max-height: 100%; width: auto; height: auto;"');
+            modifiedBody = modifiedBody.replace(iframeTag, styledIframeTag);
+          });
+        }
+
+        setContent(modifiedBody);
       })
       .catch((error) => {
         console.error(error);
@@ -212,7 +239,7 @@ const Details = () => {
           <div className="img__box">
             <img src={data.cover_img ?? img1} alt="" />
           </div>
-          <div className="content" dangerouslySetInnerHTML={{ __html: data.body }} />
+          <div className="content" dangerouslySetInnerHTML={{ __html: content }} />
         </Card>
       </div >
       <Footer></Footer>
