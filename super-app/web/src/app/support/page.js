@@ -369,8 +369,8 @@ export default function ContactSupport() {
                       <input
                         type="checkbox"
                         value="Markets"
-                        checked={selectedType === "Eats"}
-                        onChange={() => setSelectedType("Eats")}
+                        checked={selectedType === "Markets"}
+                        onChange={() => setSelectedType("Markets")}
                       />
                       <span>DekHor Markets</span>
                     </div>
