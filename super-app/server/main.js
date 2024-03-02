@@ -367,9 +367,28 @@ api.post('/your_product', async (req, res) => {
   }
 })
 
+//-----------------------------dorms-----------------------------------
+
+api.get('/top-dorms', async (_, res) => {
+    try {
+        const { data: dorms, error } = await supabase.schema('dorms').from('top_dorms').select('*, photos(photo_url)');
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        res.json(dorms);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
 // The error handler must be registered before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler());
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
+
+

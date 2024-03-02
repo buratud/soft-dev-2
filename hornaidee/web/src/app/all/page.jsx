@@ -54,6 +54,7 @@ export default function DormSearch() {
     const dormsList = Data
     let filteredDorms;
     dormsList.map(dorm => {
+        dorm.dorms_facilities_name = dorm.dorms_facilities.map(facility => facility.facilities.name).slice(0, 3).join(', ');
         dorm.dorms_facilities = dorm.dorms_facilities.map(facility => facility.facilities.id)
         dorm.photos = dorm.photos.map(photo => photo.photo_url)[0]
         dorm.stars = dorm.stars
@@ -114,10 +115,10 @@ export default function DormSearch() {
       key={index}
       id={dorm.id}
       dorm_name={dorm.name}
+      facilities={dorm.dorms_facilities_name}
       price={dorm.rent_price}
-      facilities={dorm.dorms_facilities}
       img={dorm.photos}
-      star={dorm.average_stars}
+      star={dorm.stars}
     />
   ));
 

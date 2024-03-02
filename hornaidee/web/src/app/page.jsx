@@ -3,33 +3,62 @@ import styles from "./style.module.css";
 import CardDorm from "../../components/CardDorm";
 import CardDorm_home from "../../components/CardDorm_home";
 import Recent_review from "../../components/Recent_review";
-import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_MAIN_URL } from '../../config'
+import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_MAIN_URL } from '../../config'
 import Link from "next/link";
 import Footer from "./footer";
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import test_data from './test_data';
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-    const reviews = test_data.map((dorm, index) => (
-        <Recent_review
-            key={index}
-            img = {dorm.img}
-            dorm_name = {dorm.dorm_name}
-            id = {dorm.id}
-            star = {dorm.star}
-            review = {dorm.review}
-        />
-    ))
-    const top_dorm = test_data.map((dorm, index) => (
-      <CardDorm_home
-          key={index}
-          img = {dorm.img}
-          dorm_name = {dorm.dorm_name}
-          id = {dorm.id}
-          star = {dorm.star}
-          address = {dorm.address}
-      />
+  const [recent_reviews, setRecent_reviews] = useState([]);
+  const [top_dorms, setTop_dorms] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/top-dorms`)
+      .then(res => {
+        setTop_dorms(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+
+  useEffect(() => {
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/recent-reviews`)
+      .then(res => {
+        setRecent_reviews(res.data);
+        // console.log(res.data[0].photo[0].photo_url);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+  const reviews = recent_reviews.slice(0, 6).map((dorm, index) => (
+    <Recent_review
+      key={index}
+      img={dorm.photo[0].photo_url}
+      dorm_name={dorm.name}
+      id={dorm.dorm_id}
+      star={dorm.stars}
+      review={dorm.review}
+    />
+  ));
+  
+  const top_dorm = top_dorms.map((dorm, index) => (
+    <CardDorm_home
+        key={index}
+        img = {dorm.photos[0].photo_url}
+        dorm_name = {dorm.name}
+        id = {dorm.dorm_id}
+        star = {dorm.average}
+        address = {dorm.province}
+    />
   ))
 
   return (

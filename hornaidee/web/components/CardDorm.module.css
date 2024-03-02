@@ -41,6 +41,10 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    width: 230px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 36px;
 }
 
 .facilities{
