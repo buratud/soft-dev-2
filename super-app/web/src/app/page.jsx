@@ -21,7 +21,7 @@ export default function Home() {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/top-dorms`)
       .then(res => {
         if (res.data.length > 4) {
-          setTop_dorms(res.data.slice(0, 3));
+          setTop_dorms(res.data.slice(0, 4));
         } else {
           setTop_dorms(res.data);
         }

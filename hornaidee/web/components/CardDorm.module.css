@@ -41,16 +41,12 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    width: 230px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 36px;
 }
 
-.facilities{
-    color: #000;
-    font-family: Poppins;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
 
 .price{
     color: #000;

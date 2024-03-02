@@ -115,7 +115,6 @@ export default function DormSearch() {
       id={dorm.id}
       dorm_name={dorm.name}
       price={dorm.rent_price}
-      facilities={dorm.dorms_facilities}
       img={dorm.photos}
       star={dorm.average_stars}
     />

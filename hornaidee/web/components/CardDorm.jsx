@@ -5,7 +5,7 @@ import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_MAIN_URL } from '../config'
 import Rating from '@mui/material/Rating';
 
 const CardDorm = (props) => {
-    const { img, dorm_name, price, id , facilities,star } = props;
+    const { img, dorm_name, price, id , star } = props;
     return (
         <div className={styles.dorm_card}>
             <img className={styles.image} src={img}/>
@@ -20,7 +20,6 @@ const CardDorm = (props) => {
                     />
                 </div>
                 <div style={{height:'70px'}}>
-                    <p className={styles.facilities}>{facilities}</p>
                     <p className={styles.price}> THB{price}/mo.</p>
                 </div>
                 <Link href={`${NEXT_PUBLIC_MAIN_URL}/dorms/detail/${id}`} style={{textDecoration:'none'}}>
