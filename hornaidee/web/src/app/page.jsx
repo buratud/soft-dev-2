@@ -20,7 +20,7 @@ export default function Home() {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/top-dorms`)
       .then(res => {
         setTop_dorms(res.data);
-        console.log(res.data);
+        // console.log(res.data[0]);
       })
       .catch((err) => {
         console.log(err)
@@ -32,7 +32,7 @@ export default function Home() {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/recent-reviews`)
       .then(res => {
         setRecent_reviews(res.data);
-        console.log(res.data);
+        // console.log(res.data[0].photo[0].photo_url);
       })
       .catch((err) => {
         console.log(err)
@@ -42,8 +42,8 @@ export default function Home() {
   const reviews = recent_reviews.map((dorm, index) => (
       <Recent_review
           key={index}
-          img = "https://mahidol.ac.th/temp/2018/01/IMG_1518.jpg"
-          dorm_name = {dorm.dorm_name}
+          img = {dorm.photo[0].photo_url}
+          dorm_name = {dorm.name}
           id = {dorm.dorm_id}
           star = {dorm.stars}
           review = {dorm.review}
@@ -52,7 +52,7 @@ export default function Home() {
   const top_dorm = top_dorms.map((dorm, index) => (
     <CardDorm_home
         key={index}
-        img = "https://campus.campus-star.com/app/uploads/2019/06/DO02.jpg"
+        img = {dorm.photos[0].photo_url}
         dorm_name = {dorm.name}
         id = {dorm.dorm_id}
         star = {dorm.average}

@@ -31,6 +31,9 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 250px;
 }
 
 .address{
