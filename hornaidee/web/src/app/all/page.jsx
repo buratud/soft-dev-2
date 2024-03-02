@@ -6,7 +6,6 @@ import styles from "./style.module.css";
 import RangeSlider from '../../../components/slider';
 import CardDorm from "../../../components/CardDorm";
 import search from "./search.js";
-import fakedata from "./test_data_dorm"
 
 import {
   NEXT_PUBLIC_SUPABASE_URL,
