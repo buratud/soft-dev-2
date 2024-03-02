@@ -3,7 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const bodyParser = require('body-parser')
 const { createClient } = require('@supabase/supabase-js');
 const { z } = require('zod');
-const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest} = require('./type');
+const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest } = require('./type');
 
 const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET, LOG_LEVEL } = require('./config');
 const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage } = require('./util');
@@ -44,6 +44,35 @@ app.get('/recent-reviews', async (_, res) => {
             return;
         }
         res.json(reviews);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.get('/dorms', async (req, res) => {
+    try {
+        const userId = req.query.owner;
+        const { data: dorms, error } = await supabase.schema('dorms').from('dorms').select('*, dorms_facilities(facilities(*)), photos(photo_url)').eq('owner', userId);
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        for (const dorm of dorms) {
+            const { data: reviews, error: reviewsError } = await supabase.schema('dorms').from('average_stars').select('*').eq('dorm_id', dorm.id);
+            if (reviewsError) {
+                logger.error(reviewsError);
+                res.status(500).send();
+                return;
+            }
+            let average = 0;
+            if (reviews.length === 1) {
+                average = reviews[0].average;
+            }
+            dorm.stars = average;
+        }
+        res.json(dorms);
     } catch (error) {
         logger.error(error);
         res.status(500).send();
@@ -220,7 +249,7 @@ app.put('/dorms/:id', async (req, res) => {
         const dormOwner = dormInfo.map(object => object.owner)[0]
 
         if (user != dormOwner) {
-            res.status(403).json({message: 'You are not the owner of this dorm'});
+            res.status(403).json({ message: 'You are not the owner of this dorm' });
             return;
         }
 
@@ -297,7 +326,7 @@ app.put('/dorms/:id', async (req, res) => {
                 return;
             }
             const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms')
-                .upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, {contentType: mimeType});
+                .upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, { contentType: mimeType });
 
             if (uploadError) {
                 if (uploadError.statusCode === "409") {
@@ -436,34 +465,34 @@ app.delete('/dorms/:id/review', async (req, res) => {
 
 app.post('/blogger_list', async (req, res) => {
     try {
-      const { data, error } = await supabase
-        .from('blogger')
-        .select('*')
-      if (error) {
-        throw error;
-      } else {
-        res.status(200).json(data);
-      }
+        const { data, error } = await supabase
+            .from('blogger')
+            .select('*')
+        if (error) {
+            throw error;
+        } else {
+            res.status(200).json(data);
+        }
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-  })
-  
-  // api.post('/search_blogger', async (req, res) => {
-  //   try {
-  //     const { data, error } = await supabase
-  //       .from('blog.blog')
-  //       .select('users(id)')
-  //     if (error) {
-  //       console.log(error)
-  //       throw error;
-  //     } else {
-  //       res.status(200).json(data);
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //     res.status(500).json({ error: 'Internal Server Error' });
-  //   }
-  // })
+})
+
+// api.post('/search_blogger', async (req, res) => {
+//   try {
+//     const { data, error } = await supabase
+//       .from('blog.blog')
+//       .select('users(id)')
+//     if (error) {
+//       console.log(error)
+//       throw error;
+//     } else {
+//       res.status(200).json(data);
+//     }
+//   } catch (err) {
+//     console.log(err)
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// })
 
 module.exports = app;
