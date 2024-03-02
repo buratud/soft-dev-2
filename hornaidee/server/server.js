@@ -3,7 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const bodyParser = require('body-parser')
 const { createClient } = require('@supabase/supabase-js');
 const { z } = require('zod');
-const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest} = require('./type');
+const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest } = require('./type');
 
 const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET, LOG_LEVEL } = require('./config');
 const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage } = require('./util');
@@ -220,7 +220,7 @@ app.put('/dorms/:id', async (req, res) => {
         const dormOwner = dormInfo.map(object => object.owner)[0]
 
         if (user != dormOwner) {
-            res.status(403).json({message: 'You are not the owner of this dorm'});
+            res.status(403).json({ message: 'You are not the owner of this dorm' });
             return;
         }
 
@@ -297,7 +297,7 @@ app.put('/dorms/:id', async (req, res) => {
                 return;
             }
             const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms')
-                .upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, {contentType: mimeType});
+                .upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, { contentType: mimeType });
 
             if (uploadError) {
                 if (uploadError.statusCode === "409") {
@@ -331,6 +331,22 @@ app.put('/dorms/:id', async (req, res) => {
             res.status(400).json(error.errors);
             return;
         }
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.delete('/dorms/:id', async (req, res) => {
+    try {
+        const user = req.user.sub;
+        const { error: deleteError } = await supabase.schema('dorms').from('dorms').delete().eq('id', req.params.id).eq('owner', user);
+        if (deleteError) {
+            logger.error(deleteError);
+            res.status(500).send();
+            return;
+        }
+        res.status(204).send();
+    } catch (error) {
         logger.error(error);
         res.status(500).send();
     }
@@ -436,34 +452,34 @@ app.delete('/dorms/:id/review', async (req, res) => {
 
 app.post('/blogger_list', async (req, res) => {
     try {
-      const { data, error } = await supabase
-        .from('blogger')
-        .select('*')
-      if (error) {
-        throw error;
-      } else {
-        res.status(200).json(data);
-      }
+        const { data, error } = await supabase
+            .from('blogger')
+            .select('*')
+        if (error) {
+            throw error;
+        } else {
+            res.status(200).json(data);
+        }
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-  })
-  
-  // api.post('/search_blogger', async (req, res) => {
-  //   try {
-  //     const { data, error } = await supabase
-  //       .from('blog.blog')
-  //       .select('users(id)')
-  //     if (error) {
-  //       console.log(error)
-  //       throw error;
-  //     } else {
-  //       res.status(200).json(data);
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //     res.status(500).json({ error: 'Internal Server Error' });
-  //   }
-  // })
+})
+
+// api.post('/search_blogger', async (req, res) => {
+//   try {
+//     const { data, error } = await supabase
+//       .from('blog.blog')
+//       .select('users(id)')
+//     if (error) {
+//       console.log(error)
+//       throw error;
+//     } else {
+//       res.status(200).json(data);
+//     }
+//   } catch (err) {
+//     console.log(err)
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// })
 
 module.exports = app;
