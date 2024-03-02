@@ -72,45 +72,6 @@ app.get('/dorms/:id', async (req, res) => {
     }
 });
 
-app.get('/dorms/:id/reviews', async (req, res) => {
-    try {
-        const { data: reviews, error: reviewsError } = await supabase.schema('dorms').from('reviews').select('user_id, stars, short_review, review').eq('dorm_id', req.params.id);
-        if (reviewsError) {
-            logger.error(reviewsError);
-            res.status(500).send();
-            return;
-        }
-        const { data: avg, error: avgError } = await supabase.schema('dorms').from('average_stars').select('*').eq('dorm_id', req.params.id);
-        if (avgError) {
-            logger.error(avgError);
-            res.status(500).send();
-            return;
-        }
-        let average = null;
-        if (avg.length === 1) {
-            average = avg[0].average;
-        }
-        res.json({ reviews, average });
-    } catch (error) {
-        logger.error(error);
-        res.status(500).send();
-    }
-});
-
-app.use((req, res, next) => {
-    const { authorization } = req.headers;
-    const token = authorization?.split(' ')[1];
-    jsonwebtoken.verify(token, SUPABASE_JWT_SECRET, (err, decoded) => {
-        if (err) {
-            logger.error(err);
-            res.status(401).send({ message: 'Unauthorized' });
-        } else {
-            req.user = decoded;
-            next();
-        }
-    });
-})
-
 app.post('/dorms/search', async (req, res) => {
     try {
         const { name: searchTerm, filter:facilityFilter, range: priceRange } = req.body;
@@ -187,6 +148,45 @@ app.post('/dorms/search', async (req, res) => {
         res.status(500).send();
     }
 });
+
+app.get('/dorms/:id/reviews', async (req, res) => {
+    try {
+        const { data: reviews, error: reviewsError } = await supabase.schema('dorms').from('reviews').select('user_id, stars, short_review, review').eq('dorm_id', req.params.id);
+        if (reviewsError) {
+            logger.error(reviewsError);
+            res.status(500).send();
+            return;
+        }
+        const { data: avg, error: avgError } = await supabase.schema('dorms').from('average_stars').select('*').eq('dorm_id', req.params.id);
+        if (avgError) {
+            logger.error(avgError);
+            res.status(500).send();
+            return;
+        }
+        let average = null;
+        if (avg.length === 1) {
+            average = avg[0].average;
+        }
+        res.json({ reviews, average });
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.use((req, res, next) => {
+    const { authorization } = req.headers;
+    const token = authorization?.split(' ')[1];
+    jsonwebtoken.verify(token, SUPABASE_JWT_SECRET, (err, decoded) => {
+        if (err) {
+            logger.error(err);
+            res.status(401).send({ message: 'Unauthorized' });
+        } else {
+            req.user = decoded;
+            next();
+        }
+    });
+})
 
 app.post('/dorms', async (req, res) => {
     try {

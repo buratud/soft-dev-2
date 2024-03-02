@@ -30,26 +30,10 @@ export default function DormReview() {
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(10000);
   const [facilities, setFacilities] = useState([]);
-  const [session, setSession] = useState(null);
-  const [user_id, setUser_id] = useState("");
 
   const [Data, setData] = useState([]);//เอาไว้ใช้เก็บข้อมูลที่ดึงมาแต่ตอนนี้ยังใช้ fake data ไปก่อน
  
   useEffect(() => {
-    // Get session
-    supabase.auth
-      .getSession()
-      .then((result) => {
-        if (result.data) {
-          setSession(result.data.session);
-          console.log(session)
-          setUser_id(result.data.session.user.id);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms`)
       .then(res => {
         setData(res.data);
@@ -73,8 +57,7 @@ export default function DormReview() {
       name: searchText,
       filter: facilities,
       range: [minValue, maxValue]
-    },
-    { headers: { Authorization: `Bearer ${session.access_token}` } })
+    })
     .then(res => {
       // ตั้งค่าผลการค้นหาให้กับ state searchResults
       console.log(res.data);
