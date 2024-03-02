@@ -34,20 +34,8 @@ export default function DormSearch() {
   const [Data, setData] = useState([]);//เอาไว้ใช้เก็บข้อมูลที่ดึงมาแต่ตอนนี้ยังใช้ fake data ไปก่อน
 
   useEffect(() => {
-    // Get session
-    supabase.auth
-      .getSession()
-      .then((result) => {
-        // console.log(result)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms`)
-      .then(res => {
-        setData(res.data);
-      })
-  }, []);
+    handleSearch();
+  },[]);
 
   const handleMinChange = (newValue) => {
     setMinValue(newValue);
@@ -64,28 +52,12 @@ export default function DormSearch() {
       })
     // ทำการค้นหา dorms ที่มีชื่อที่ตรงหรือใกล้เคียงกับ searchText และอยู่ในช่วงราคาที่กำหนด และมีสิ่งอำนวยความสะดวกที่เลือก
     const dormsList = Data
-    console.log({dormsList: dormsList});
     dormsList.map(dorm => {
         dorm.dorms_facilities = dorm.dorms_facilities.map(facility => facility.facilities.id)
         dorm.photos = dorm.photos.map(photo => photo.photo_url)[0]
         dorm.stars = dorm.stars
         return dorm;
     });
-    // console.log({dormsList: dormsList});
-
-    for (const dorm of dormsList) {
-      console.log({dorm: dorm.rent_price, minValue: minValue, maxValue: maxValue, logic: dorm.rent_price < minValue || dorm.rent_price > maxValue}); 
-        if (dorm.rent_price < minValue || dorm.rent_price > maxValue) {
-            const index = dormsList.indexOf(dorm)
-            dormsList.splice(index, index + 1)
-            continue
-        }
-    }
-
-    if (dormsList.length === 0) {
-        setSearchResults([]);
-        return;
-    }
     
     for (const dorm of dormsList) {
         const facilitiesID = dorm.dorms_facilities
@@ -106,15 +78,22 @@ export default function DormSearch() {
         return;
     }
 
+    const filteredDorms = dormsList.filter(dorm => dorm.rent_price >= minValue && dorm.rent_price <= maxValue);
+
+    if (filteredDorms.length === 0) {
+        setSearchResults([]);
+        return;
+    }
+
     if (searchText != "") {
-        const result = search(searchText, dormsList);
+        const result = search(searchText, filteredDorms);
         if (result.notFound) {
             setSearchResults([]);
             return;
         }
         setSearchResults(result.response);
     } else {
-      setSearchResults(dormsList);
+      setSearchResults(filteredDorms);
     }
   }
 
