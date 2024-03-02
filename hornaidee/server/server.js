@@ -68,7 +68,7 @@ app.get('/dorms/search', async (req, res) => {
         }
 
         for (const dorm of dormsList) {
-            if (dorm.rent_price <= priceRange[0] || dorm.rent_price >= priceRange[1]) {
+            if (dorm.rent_price < priceRange[0] || dorm.rent_price > priceRange[1]) {
                 const index = dormsList.indexOf(dorm)
                 dormsList.splice(index, index + 1)
                 continue
@@ -106,6 +106,7 @@ app.get('/dorms/search', async (req, res) => {
             const result = search(searchTerm, dormsList);
             if (result.notFound) {
                 res.json({message: 'There are no matching dorms'});
+                return;
             }
             res.json(result);
         } else {
