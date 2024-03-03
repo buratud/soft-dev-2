@@ -137,7 +137,7 @@ export default function Home() {
                   </div>
                 </Link>
               </div>
-              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
+              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/blog.png`} />
             </div>
           </div>
           <div className={styles.ReccommendedBlogs}>
@@ -167,7 +167,7 @@ export default function Home() {
             <div style={{ width: '80vw', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
           </div>
           <div className={styles.blog_poster}>
-            <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
+            <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/Dorms.png`} />
             <div className={styles.poster_info_blog}>
               <h1>Find Your Dorms in Your Way!</h1>
               <p>Friendly Interfacebr <br />
@@ -193,14 +193,14 @@ export default function Home() {
         {/* dekhor market */}
         <div>
           <div>
-            <div className={styles.title}>
+            <div className={styles.title_market}>
               <p className={styles.dekhor_title}>Dekhor</p>
               <p className={styles.blog_title}>Markets</p>
               <div style={{ width: '80vw', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
             </div>
             <div className={styles.blog_poster}>
               {/* discover (krit) */}
-              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
+              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/markets.png`} />
               <div className={styles.poster_info_market}>
                 <h1>Find the stuffs you need
                   <br />with Dekhor Markets!</h1>
