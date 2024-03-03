@@ -155,22 +155,22 @@ api.post("/recommended-product", async (req, res) => {
 
 api.post('/get-userID-from-username', async (req, res) => {
   const { username } = req.body;
-  if(username){
-    const {data: userID , error} = await supabase
+  if (username) {
+    const { data: userID, error } = await supabase
       .from('users')
       .select('id')
-      .eq('username',username)
+      .eq('username', username)
       .single();
-    if(error){
+    if (error) {
       console.log(error);
-      res.status(400).json({success : false});
-    }else{
+      res.status(400).json({ success: false });
+    } else {
       console.log(userID)
-      res.status(200).json({user: userID , success: true});
+      res.status(200).json({ user: userID, success: true });
     }
   }
-  else{
-    res.status(400).json({success : false});
+  else {
+    res.status(400).json({ success: false });
   }
 })
 
@@ -178,10 +178,10 @@ api.post('/profile-picture', async (req, res) => {
   const { userID } = req.body;
   if (userID) {
     const { data } = await supabase
-        .from("users")
-        .select("picture, role")
-        .eq("id", userID)
-        .single();
+      .from("users")
+      .select("picture, role")
+      .eq("id", userID)
+      .single();
     res.status(200).json({ data });
   }
 })
@@ -288,13 +288,13 @@ api.post('/set-profile', async (req, res) => {
 
 api.get('/getproblems', async (req, res) => {
   const { data, error } = await supabase.from('problems').select('unique_id, date_create, email, type, problem, status').neq('status', 'Unsent');
-  const issues = data.sort(function(a, b){
+  const issues = data.sort(function (a, b) {
     let x = a.date_create.toLowerCase();
     let y = b.date_create.toLowerCase();
-    if (x < y) {return -1;}
-    if (x > y) {return 1;}
+    if (x < y) { return -1; }
+    if (x > y) { return 1; }
     return 0;
-  }).map((issue, index) => {issue.Id = index + 1; return issue;});
+  }).map((issue, index) => { issue.Id = index + 1; return issue; });
   if (error) {
     res.status(500).json(error);
   } else {
@@ -367,21 +367,50 @@ api.post('/your_product', async (req, res) => {
   }
 })
 
+app.get('/dorms', async (req, res) => {
+  try {
+    const userId = req.query.owner;
+    const { data: dorms, error } = await supabase.schema('dorms').from('dorms').select('*, dorms_facilities(facilities(*)), photos(photo_url)').eq('owner', userId);
+    if (error) {
+      logger.error(error);
+      res.status(500).send();
+      return;
+    }
+    for (const dorm of dorms) {
+      const { data: reviews, error: reviewsError } = await supabase.schema('dorms').from('average_stars').select('*').eq('dorm_id', dorm.id);
+      if (reviewsError) {
+        logger.error(reviewsError);
+        res.status(500).send();
+        return;
+      }
+      let average = 0;
+      if (reviews.length === 1) {
+        average = reviews[0].average;
+      }
+      dorm.stars = average;
+    }
+    res.json(dorms);
+  } catch (error) {
+    logger.error(error);
+    res.status(500).send();
+  }
+});
+
 //-----------------------------dorms-----------------------------------
 
 api.get('/top-dorms', async (_, res) => {
-    try {
-        const { data: dorms, error } = await supabase.schema('dorms').from('top_dorms').select('*, photos(photo_url)');
-        if (error) {
-            logger.error(error);
-            res.status(500).send();
-            return;
-        }
-        res.json(dorms);
-    } catch (error) {
-        logger.error(error);
-        res.status(500).send();
+  try {
+    const { data: dorms, error } = await supabase.schema('dorms').from('top_dorms').select('*, photos(photo_url)');
+    if (error) {
+      logger.error(error);
+      res.status(500).send();
+      return;
     }
+    res.json(dorms);
+  } catch (error) {
+    logger.error(error);
+    res.status(500).send();
+  }
 });
 
 // The error handler must be registered before any other error middleware and after all controllers

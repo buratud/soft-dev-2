@@ -203,7 +203,7 @@ const DormCards = ({ params }) => {
         supabase.auth.getSession().then(res => {
             const user = res.data.session.user.id;
             if (user) {
-                return axios.get(`${NEXT_PUBLIC_BASE_DORMS_API_URL}/dorms?owner=${user}`)
+                return axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms?owner=${user}`)
             }
             return Promise.reject('User not found')
         // }).then(res => {
