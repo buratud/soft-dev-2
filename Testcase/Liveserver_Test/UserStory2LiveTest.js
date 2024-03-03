@@ -70,6 +70,10 @@ const driver = new Builder()
 
     await delay(3000);
 
+    await driver.switchTo().alert().accept();
+    console.log('Close alert');
+
+    await delay(3000);
     //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop/markets/manage');
 
     //await delay(3000);

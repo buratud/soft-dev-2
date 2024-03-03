@@ -61,9 +61,11 @@ const driver = new Builder()
       await delay(3000);
 
 
+    } finally {
+      // Close the browser
+      await driver.quit();
+    }
+  })();
+     
 
-      } finally {
-        // Close the browser
-        await driver.quit();
-      }
-    })();
+   
