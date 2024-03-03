@@ -68,10 +68,12 @@
   line-height: 24px; /* 133.333% */
   letter-spacing: 0.18px;
   width: 180px;
+  height: 72px;
   text-align: center;
   margin: auto;
-  overflow: hidden;
   text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 3; /* number of lines to show */
   line-clamp: 3;
