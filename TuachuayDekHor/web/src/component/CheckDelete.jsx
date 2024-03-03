@@ -5,8 +5,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import {BsFillTrashFill,BsXLg} from "react-icons/bs";
 import axios from 'axios';
-import { General } from '../App';
-import { REACT_APP_BASE_API_URL } from '../config'
+import { AuthContext } from '../App';
+import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config'
 
 function CheckDelete(){
   const [show, setShow] = useState(false);
@@ -16,26 +16,34 @@ function CheckDelete(){
 
   const {id} = useParams();
   const navigate = useNavigate();
-  const { supabase_for_use: supabase, session, user } = useContext(General);
+  const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
   const handledelete = () => {
   // const [data,setData] = useState([]);
-    axios.delete(`${REACT_APP_BASE_API_URL}/deletepost?id_post=` + id)
+    console.log('blog id',id)
+    axios.post(`${REACT_APP_BASE_API_URL}/deleteblog`, {
+      blog: id
+    })
     .then(res => {
-      navigate(`/profile/${user?.id}`)
+      alert('delete your blog successfully')
+      window.location.href = `${REACT_APP_MAIN_URL}/profile`;
     })
     .catch((err) => {
         alert(err)
     })
   }
 
+  useState(() => {
+    
+  })
   
 
   return (
     <>
       <BsFillTrashFill size={25} onClick={handleShow}/>
+      <p className="deleteText" onClick={handleShow}>Delete</p>
       <Modal show={show} onHide={handleClose}>
         {/* <Modal.Header className='modal-header'closeButton> */}
-        <Modal.Header className='modal-header'>
+        <Modal.Header className='modal-header' style={{ backgroundColor: 'rgb(64, 102, 156)' }}>
             <h1 className='text-wraning'>Warning!</h1>
             <BsXLg size={25} id="icon-close" onClick={handleClose} />
         </Modal.Header>

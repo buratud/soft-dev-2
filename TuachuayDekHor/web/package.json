@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@craco/craco": "^7.1.0",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
+    "@sentry/cli": "^2.28.6",
+    "@sentry/react": "^7.102.1",
     "@supabase/supabase-js": "^2.37.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -15,6 +18,7 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "axios": "^1.5.0",
+    "base64-arraybuffer": "^1.0.2",
     "bootstrap": "^5.3.2",
     "cors": "^2.8.5",
     "craco-plugin-scoped-css": "^1.1.1",
@@ -38,10 +42,11 @@
   },
   "scripts": {
     "start": "craco --openssl-legacy-provider start",
-    "dev": "craco --openssl-legacy-provider start",
-    "build": "craco --openssl-legacy-provider build",
+    "dev": "concurrently \"npm start\" \"npm start --prefix ../server/\"",
+    "build": "craco --openssl-legacy-provider build && npm run sentry:sourcemaps",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org soft-dev-2 --project blogs-web ./build && sentry-cli --url https://linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com sourcemaps upload --org soft-dev-2 --project blogs-web ./build"
   },
   "eslintConfig": {
     "root": true

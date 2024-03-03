@@ -14,6 +14,8 @@ const Verify = () => {
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
+  const [error, setError] = useState(null);
+  const [isRegistering, setIsRegistering] = useState(false);
 
   const sendOtp = async () => {
     // The loading state is now set before the timeout to ensure it shows immediately
@@ -30,13 +32,13 @@ const Verify = () => {
         error.message.includes("invalid") ||
         error.message.includes("expired")
       ) {
-        alert('OTP has invalid or expired');
+        setError('OTP has invalid or expired');
       } else {
         console.log(error);
-        alert('An error occurred while verifying OTP');
+        setError('An error occurred while verifying OTP');
       }
+      setLoading(false);
     } else {
-      alert('OTP verified successfully');
       router.push('/');
     }
   };
@@ -88,39 +90,42 @@ const Verify = () => {
 
   return (
     <>
-    <TopBar/>
-    <div className={styles.container}>
-      {loading && <div className={styles.overlay}>
-        <div className={styles.loading}>Loading...</div>
-      </div>}
-      <div className={styles.section}>
-        <div className={styles.title}>
-          <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/sendotp.png`} alt="" />
-          <div>Verification Code</div>
-        </div>
-        <div className={styles.describ}>We have sent a verification code to your Email</div>
-        <div id="inputs" onPaste={handlePaste}>
-          {otp.map((value, index) => (
-            <input
-              key={index}
-              id={`input${index + 1}`}
-              className={styles.input}
-              type="text"
-              maxLength="1"
-              value={value}
-              onChange={(e) => handleInputChange(e, index)}
-              onKeyDown={(e) => handleInputChange(e, index)}
-              autoComplete="off" // Disable autocomplete for security
-            />
-          ))}
-        </div>
-        <div className={styles.footer}>
-          <button className={styles.button} onClick={sendOtp}>
-            Submit
-          </button>
+      <TopBar />
+      <div className={styles.container}>
+        {loading && <div className={styles.overlay}>
+          <div className={styles.loading}>Loading...</div>
+        </div>}
+        <div className={styles.section}>
+          <div className={styles.title}>
+            <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/sendotp.png`} alt="" />
+            <div>Verification Code</div>
+          </div>
+          <div className={styles.describ}>We have sent a verification code to your Email</div>
+          <div id="inputs" onPaste={handlePaste}>
+            {otp.map((value, index) => (
+              <input
+                key={index}
+                id={`input${index + 1}`}
+                className={styles.input}
+                type="text"
+                maxLength="1"
+                value={value}
+                onChange={(e) => handleInputChange(e, index)}
+                onKeyDown={(e) => handleInputChange(e, index)}
+                autoComplete="off" // Disable autocomplete for security
+              />
+            ))}
+          </div>
+          <div className={styles.footer}>
+            <button className={styles.button} onClick={sendOtp}>
+              Submit
+            </button>
+          </div>
+          <div id="customer-error" aria-live="polite" aria-atomic="true" className={`${styles["error-text"]}`}>
+            {error && <div >{error}</div>}
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

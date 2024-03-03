@@ -1,21 +1,19 @@
 .Blogger{
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-color: #f8f8f8;
+    overflow-x: hidden;
 }
 
 .blogger_wrapper{
-    width: 100%;
-    /* height: 100%; */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 3.5rem;
     align-items: center;
-    padding-right: 150px;
-    padding-left: 150px;
-    padding-top: 10px;
-    background-color: #f8f8f8;
+    justify-items: center;
+    padding-bottom: 6rem;
+    min-height: 100%;
+    width: 100%;
 }
 
 .userwrite a{
@@ -33,17 +31,15 @@ img{
 }
 
 
-/* rgba(178, 178, 178, 0.74) */
+
 .singleDest{
     position: relative;
-    width: 100%;
     height: 100%;
+    text-align: center;
     justify-content: center;
     align-items: center;
     padding: 0.5rem;
-    /* overflow: hidden; */
     border-radius: 1000px;
-    /* padding: 0.5rem; */
     box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
     cursor: pointer;
 }
@@ -59,20 +55,17 @@ img{
     font-family:'Poppins' ;
 }
 
-.icon{
-    position: relative;
-    color: #3D39BD ;
-}
 
 .userwrite{
-    background-color: #3D39BD;
+    background-color:rgba(103, 133, 176, 1);
     height: 30px;
-    width: 50%;
+    width: max-content;
+    padding-left: 1rem;
+    padding-right: 1rem;
     color: aliceblue;
     font-size: 18px;
-    width: 100%;
     text-align: center;
-    justify-content: center;
+    justify-self: center;
     align-items: center;
     border-radius: 50px;
     margin-top: 0.5rem;
@@ -80,31 +73,103 @@ img{
 
 
 .box{
-    width: 25%;
     justify-content: center;
     align-items: center;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    padding: 3rem;
-    
 }
 
 .main{
     padding-top: 5rem;
     justify-content: center;
-    display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
 }
 
+.Blog1{
+    justify-items: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
 .title{
     font-size: 3rem;
+    margin-bottom: 2rem;
 }
 
 img{
     border-radius: 100px;
     width: 200px;
     height: 200px;
+}
+
+.blogger_list{
+    padding-top: 2rem;
+    padding-left: 8rem;
+    padding-right: 8rem;
+}
+
+.Search_Wrapper{
+    width: 100%;
+    padding-right: 6rem;
+    padding-left: 6rem;
+}
+
+.SearchBox{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding-top: 3rem;
+    padding-bottom: 2.5rem;
+}
+
+.Search_inside{
+    display: flex;
+    width: 30%;
+    border: solid 2px black;
+    border-radius: 6rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+}
+
+.inputSearch{
+    width: 100%;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    border: none;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    color: black ;
+    background-color: transparent;
+}
+
+.inputSearch::placeholder{
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    color: rgba(54, 54, 54, 0.21) ;
+}
+
+.inputSearch:focus{
+    outline: none;
+}
+
+.SearchBox_btn{
+    margin-right: 0.2rem;
+    border-radius: 50%;
+    padding: 0.2rem;
+    background-color: black;
+}
+
+.icon_Search{
+    color: white;
+}
+
+.footer{
+    margin-top: 10rem;
 }

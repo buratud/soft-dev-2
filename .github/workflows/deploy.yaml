@@ -12,7 +12,6 @@ on:
       - "main"
       - "release"
       - "develop"
-      - "feature/cicd"
   pull_request:
     types:
       - "opened"
@@ -22,11 +21,10 @@ on:
       - "release"
       - "develop"
 
-
 jobs:
   superapp_web:
     name: Superapp Website
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
 
@@ -39,10 +37,11 @@ jobs:
           login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
           username: ${{ vars.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
+
       - name: Build and push image
         run: |
-          docker build super-app/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }} --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg SUPERAPP_SUPABASE_URL=$SUPERAPP_SUPABASE_URL --build-arg SUPERAPP_SUPABASE_ANON_KEY=$SUPERAPP_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL
-          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}
+          docker build super-app/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}-${{ env.GIT_REF }} --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg SUPERAPP_SUPABASE_URL=$SUPERAPP_SUPABASE_URL --build-arg SUPERAPP_SUPABASE_ANON_KEY=$SUPERAPP_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL --build-arg SENTRY_AUTH_TOKEN
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-web:${{ github.sha }}-${{ env.GIT_REF }}
         env:
           MAIN_URL: ${{ env.MAIN_URL }}
           BASE_DOMAIN_WITH_PROTOCOL: ${{ env.BASE_DOMAIN_WITH_PROTOCOL }}
@@ -50,10 +49,11 @@ jobs:
           BASE_SUPERAPP_SERVER_PATH: ${{ env.BASE_SUPERAPP_SERVER_PATH }}
           SUPERAPP_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPERAPP_SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
   superapp_server:
     name: Superapp Server
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
 
@@ -75,19 +75,20 @@ jobs:
           MAIN_URL: ${{ env.MAIN_URL }}
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
         
-      - name: Build and push image
+      - name: Login to Azure Registry
         uses: azure/docker-login@v1
         with:
           login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
           username: ${{ vars.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-      - run: |
-          docker build super-app/server/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
-          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}
+      - name: Build and push image
+        run: |
+          docker build super-app/server/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}-${{ env.GIT_REF }}
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/superapp-server:${{ github.sha }}-${{ env.GIT_REF }}
 
   markets_web:
     name: Markets Website
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
 
@@ -100,10 +101,11 @@ jobs:
           login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
           username: ${{ vars.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
+
       - name: Build and push image
         run: |
-          docker build MarketConnect/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }} --build-arg BASE_MARKET_WEB_PATH=$BASE_MARKET_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_MARKET_SERVER_PATH=$BASE_MARKET_SERVER_PATH --build-arg MARKET_SUPABASE_URL=$MARKET_SUPABASE_URL --build-arg MARKET_SUPABASE_ANON_KEY=$MARKET_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL
-          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }}
+          docker build MarketConnect/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }}-${{ env.GIT_REF }} --build-arg BASE_MARKET_WEB_PATH=$BASE_MARKET_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_MARKET_SERVER_PATH=$BASE_MARKET_SERVER_PATH --build-arg MARKET_SUPABASE_URL=$MARKET_SUPABASE_URL --build-arg MARKET_SUPABASE_ANON_KEY=$MARKET_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH --build-arg SENTRY_AUTH_TOKEN
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-web:${{ github.sha }}-${{ env.GIT_REF }}
         env:
           MAIN_URL: ${{ env.MAIN_URL }}
           BASE_MARKET_WEB_PATH: ${{ env.BASE_MARKET_WEB_PATH }}
@@ -111,30 +113,139 @@ jobs:
           BASE_MARKET_SERVER_PATH: ${{ env.BASE_MARKET_SERVER_PATH }}
           MARKET_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           MARKET_SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+          BASE_SUPERAPP_SERVER_PATH: ${{ env.BASE_SUPERAPP_SERVER_PATH }}
+          BASE_SUPERAPP_WEB_PATH: ${{ env.BASE_SUPERAPP_WEB_PATH }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.MARKETS_WEB_SENTRY_AUTH_TOKEN }}
 
   market_server:
     name: Market Server
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
 
       - name: Set GIT_REF
         run: bash ./env.sh >> "$GITHUB_ENV"
 
-      - name: Build and push image
+      - name: Login to Azure Registry
         uses: azure/docker-login@v1
         with:
           login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
           username: ${{ vars.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-      - run: |
-          docker build MarketConnect/server/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-server:${{ github.sha }}
-          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-server:${{ github.sha }}
+
+      - name: Build and push image
+        run: |
+          docker build MarketConnect/server/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-server:${{ github.sha }}-${{ env.GIT_REF }}
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/markets-server:${{ github.sha }}-${{ env.GIT_REF }}
+
+  dorms_web:
+    name: Dorms Website
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set GIT_REF
+        run: bash ./env.sh >> "$GITHUB_ENV"
+
+      - name: Login to Azure Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
+          username: ${{ vars.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push image
+        run: |
+          docker build hornaidee/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-web:${{ github.sha }}-${{ env.GIT_REF }} --build-arg BASE_DORM_WEB_PATH=$BASE_DORM_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_DORM_SERVER_PATH=$BASE_DORM_SERVER_PATH --build-arg DORM_SUPABASE_URL=$DORM_SUPABASE_URL --build-arg DORM_SUPABASE_ANON_KEY=$DORM_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH  --build-arg SENTRY_AUTH_TOKEN
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-web:${{ github.sha }}-${{ env.GIT_REF }}
+        env:
+          MAIN_URL: ${{ env.MAIN_URL }}
+          BASE_DORM_WEB_PATH: ${{ env.BASE_DORM_WEB_PATH }}
+          BASE_DOMAIN_WITH_PROTOCOL: ${{ env.BASE_DOMAIN_WITH_PROTOCOL }}
+          BASE_DORM_SERVER_PATH: ${{ env.BASE_DORM_SERVER_PATH }}
+          DORM_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          DORM_SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+          BASE_SUPERAPP_SERVER_PATH: ${{ env.BASE_SUPERAPP_SERVER_PATH }}
+          BASE_SUPERAPP_WEB_PATH: ${{ env.BASE_SUPERAPP_WEB_PATH }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.DORMS_WEB_SENTRY_AUTH_TOKEN }}
+
+  dorms_server:
+    name: Dorms Server
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set GIT_REF
+        run: bash ./env.sh >> "$GITHUB_ENV"
+
+      - name: Login to Azure Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
+          username: ${{ vars.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push image
+        run: |
+          docker build hornaidee/server/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-server:${{ github.sha }}-${{ env.GIT_REF }}
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/dorms-server:${{ github.sha }}-${{ env.GIT_REF }}
+
+  blogs_web:
+    name: Blogs Website
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set GIT_REF
+        run: bash ./env.sh >> "$GITHUB_ENV"
+
+      - name: Login to Azure Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
+          username: ${{ vars.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push image
+        run: |
+          docker build TuachuayDekHor/web/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/blogs-web:${{ github.sha }}-${{ env.GIT_REF }} --build-arg BASE_BLOG_WEB_PATH=$BASE_BLOG_WEB_PATH --build-arg BASE_DOMAIN_WITH_PROTOCOL=$BASE_DOMAIN_WITH_PROTOCOL --build-arg BASE_BLOG_SERVER_PATH=$BASE_BLOG_SERVER_PATH --build-arg BLOG_SUPABASE_URL=$BLOG_SUPABASE_URL --build-arg BLOG_SUPABASE_ANON_KEY=$BLOG_SUPABASE_ANON_KEY --build-arg MAIN_URL=$MAIN_URL --build-arg BASE_SUPERAPP_SERVER_PATH=$BASE_SUPERAPP_SERVER_PATH --build-arg BASE_SUPERAPP_WEB_PATH=$BASE_SUPERAPP_WEB_PATH --build-arg SENTRY_AUTH_TOKEN
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/blogs-web:${{ github.sha }}-${{ env.GIT_REF }}
+        env:
+          MAIN_URL: ${{ env.MAIN_URL }}
+          BASE_BLOG_WEB_PATH: ${{ env.BASE_BLOG_WEB_PATH }}
+          BASE_DOMAIN_WITH_PROTOCOL: ${{ env.BASE_DOMAIN_WITH_PROTOCOL }}
+          BASE_BLOG_SERVER_PATH: ${{ env.BASE_BLOG_SERVER_PATH }}
+          BLOG_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          BLOG_SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+          BASE_SUPERAPP_SERVER_PATH: ${{ env.BASE_SUPERAPP_SERVER_PATH }}
+          BASE_SUPERAPP_WEB_PATH: ${{ env.BASE_SUPERAPP_WEB_PATH }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.BLOGS_WEB_SENTRY_AUTH_TOKEN }}
+
+  blogs_server:
+    name: Blogs Server
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set GIT_REF
+        run: bash ./env.sh >> "$GITHUB_ENV"
+        
+      - name: Login to Azure Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
+          username: ${{ vars.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push image
+        run: |
+          docker build TuachuayDekHor/server/ -t ${{ vars.REGISTRY_LOGIN_SERVER }}/blogs-server:${{ github.sha }}-${{ env.GIT_REF }}
+          docker push ${{ vars.REGISTRY_LOGIN_SERVER }}/blogs-server:${{ github.sha }}-${{ env.GIT_REF }}
 
   deploy:
     name: Deploy
-    runs-on: ubuntu-latest
-    needs: [superapp_web, superapp_server, markets_web, market_server]
+    runs-on: self-hosted
+    needs: [superapp_web, superapp_server, markets_web, market_server, dorms_web, dorms_server, blogs_web, blogs_server]
     environment: production
     steps:
       - uses: actions/checkout@v4
@@ -145,8 +256,7 @@ jobs:
       - name: Deploy to Kubernetes with Helm
         uses: "WyriHaximus/github-action-helm3@v3"
         with:
-          exec: helm upgrade --install $GIT_REF ./helm/ --set global.revision=${{ github.sha }} --set-string global.GITHUB_REF=$GIT_REF
+          exec: helm upgrade --install $GIT_REF ./helm/ --set global.revision=${{ github.sha }}-${{ env.GIT_REF }} --set-string global.GITHUB_REF=$GIT_REF
           kubeconfig: "${{ secrets.KUBE_CONFIG }}"
         env:
           GIT_REF: ${{ env.GIT_REF }}
-

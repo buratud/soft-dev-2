@@ -1,11 +1,15 @@
-import React, { useRef, useState, useContext } from 'react'
+import React, { useRef, useState, useContext ,useEffect } from 'react'
 import { Card, CardBody, Form, Input, Label, Button, Container, FormGroup } from 'reactstrap'
 import "./AddPost.scoped.css"
 import JoditEditor from 'jodit-react';
-import { General } from '../App';
+import { AuthContext } from '../App';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import { REACT_APP_BASE_API_URL } from '../config';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { REACT_APP_BASE_API_URL , REACT_APP_MAIN_URL } from '../config';
+const { createClient } = require("@supabase/supabase-js");
+const {REACT_APP_SUPABASE_URL,REACT_APP_SUPABASE_ANON_KEY} = require("../config");
+const supabase = createClient(REACT_APP_SUPABASE_URL , REACT_APP_SUPABASE_ANON_KEY);
+
 function makeid(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -17,11 +21,13 @@ function makeid(length) {
     }
     return result;
 }
-function AddPost() {
-    const { supabase_for_use: supabase, session, user } = useContext(General);
+function AddPost(params) {
+    const blog_id = params.id;
     const navigate = useNavigate()
+    const [userID,setUserID] = useState();
 
     const [loading,setLoading] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const editor = useRef(null);
     // const [content, setContent] = useState('')
@@ -30,22 +36,68 @@ function AddPost() {
         title: '',
         content: '',
         category: '',
+        image: ''
     })
 
 
     // fieldChanged function
     const fieldChanged = (event) => {
-
         // console.log(event)
         setPost({ ...post, [event.target.name]: event.target.value })
 
     }
 
     const contentFieldChanged = (data) => {
-
         setPost({ ...post, 'content': data })
-
     }
+
+    useEffect(() => {
+
+        const getUserID = async() => {
+            const {data,error} = await supabase.auth.getSession();
+            const user = data?.session?.user;
+            //console.log(user);
+            if(user){
+                setUserID(user.id);
+            }
+            else{
+                window.location.href = `${REACT_APP_MAIN_URL}/login`;
+            }
+        }
+        
+        getUserID();
+    },[]);
+
+    const [data, setData] = useState([]);
+    const edit = blog_id !== undefined;
+    // const blog_id = 'bbb0f45f-5120-483a-849c-e95d24f21d89'
+    useState (() => {
+        console.log('edit',edit)
+        if (edit) {
+            axios.post(`${REACT_APP_BASE_API_URL}/detailpost`, {
+                id: blog_id
+            })
+            .then(res => {
+                setData(res.data[0]);
+                console.log('blog detail',res.data[0])
+                setSelectedImage(res.data[0].cover_img)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
+        
+    })
+
+    useEffect(() => {
+        if (data && edit) {
+            setPost({
+                title: data.title ?? '',
+                content: data.body ?? '',
+                category: data.category ?? ''
+            });
+        }
+    }, [data]);
 
     // create post function
     const createPost = async(event) => {
@@ -53,58 +105,7 @@ function AddPost() {
         // console.log(post)
         event.preventDefault();
         setLoading(true);
-        const file = event.target[0].files[0]
-        const image_title =`${makeid(10)}.${file.type.replace(/(.*)\//g, '')}`
-        const { error } = await supabase
-        .storage
-        .from('postthumnail')
-        .upload(image_title, file, {
-            cacheControl: '3600',
-            upsert: false
-        })
-        if (error){
-            setLoading(false)
-            return alert(error)
-        }
-        
-        const { data:{publicUrl:image_link} } = supabase
-        .storage
-        .from('postthumnail')
-        .getPublicUrl(image_title)
 
-
-        axios.post(`${REACT_APP_BASE_API_URL}/creatpost`, {
-            title: post.title,
-            content: post.content,
-            category: post.category,
-            id: user?.id,
-            image_title: image_title,
-            image_link : image_link,
-        })
-        .then(data => {
-            if(session){
-                if (post.title.trim() != ''){
-                    if (post.content.trim() != ''){
-                        if (post.category != ''){
-                            setLoading(false)
-                            alert("post created")
-                        }
-                    }
-                }
-            navigate(`/profile/${user?.id}`);
-            // `/profile/${username}`
-            // user?.user_metadata_username
-            }else{
-                setLoading(false)
-                alert("Please Login")
-            }
-        })
-        .catch((err) => {
-            setLoading(false)
-            alert(err)
-        })
-
-        // console.log(post)
         if (post.title.trim() == '') {
             setLoading(false)
             alert('post is required!!')
@@ -121,6 +122,75 @@ function AddPost() {
             return;
         }
 
+        let img = data.cover_img ?? ''
+        const file = event.target[0]?.files[0]
+        console.log('file',file !== undefined)
+        if (file !== undefined) {  
+            const image_title =`${makeid(10)}.${file.type.replace(/(.*)\//g, '')}`
+
+            const { error } = await supabase
+            .storage
+            .from('postthumnail')
+            .upload(image_title, file, {
+                cacheControl: '3600',
+                upsert: false
+            })
+            if (error){
+                setLoading(false)
+                return alert(error)
+            }
+
+            const { data:{publicUrl:image_link} } = supabase
+            .storage
+            .from('postthumnail')
+            .getPublicUrl(image_title)
+
+            img = image_link
+        }
+        
+        if (img == '') {
+            setLoading(false)
+            alert('select some picture !!')
+            return;
+        }
+
+        if (edit){
+            axios.post(`${REACT_APP_BASE_API_URL}/editblog`, {
+                blog: blog_id,
+                title: post.title,
+                category: post.category,
+                body: post.content,
+                cover_img: img
+            })
+            .then(res => {
+                // setData(res.data[0]);
+                console.log('editblog',res)
+                alert('Edit Success !!')
+                navigate(`/${res.data[0].blog_category.category}/${res.data[0].blog_id}`)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        } else {
+            axios.post(`${REACT_APP_BASE_API_URL}/createpost`, {
+                title: post.title,
+                content: post.content,
+                category: post.category,
+                user_id: userID,
+                image_link : img,
+            })
+            .then(res => {
+                setLoading(false)
+                alert(res.data.message);
+                console.log('creatpost',res.data)
+                navigate(`/${res.data.data[0].blog_category.category}/${res.data.data[0].blog_id}`)
+            })
+            .catch((err) => {
+                setLoading(false)
+                alert(err)
+            })
+        }
+
         // submit the form 
         // createPost(post).then(data =>{
         //     alert("post created")
@@ -131,6 +201,22 @@ function AddPost() {
         // })
     }
 
+    const [imageLoading, setImageLoading] = useState(false);
+
+    const handleImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+          setImageLoading(true); // Start the loading animation
+          const reader = new FileReader();
+          
+          reader.onload = (event) => {
+            setSelectedImage(event.target.result); // Set the preview image
+            setImageLoading(false); // Stop the loading animation
+          };
+      
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      };
+      
     return (
         <div className="wrapper">
             <Card>
@@ -147,8 +233,11 @@ function AddPost() {
                                     type="file"
                                     id='Photo'
                                     className='rounded-2'
+                                    onChange={handleImageChange}
                                 >
                                 </Input>
+                                {imageLoading && <div className="image-loading"><div className="spinner"></div></div>}
+                                {selectedImage && !imageLoading && <img src={selectedImage} alt="Cover" className="image-preview"/>}
                             </div>
                             <div className='title__head'>
                                 <Label for='title'>Title</Label>
@@ -158,6 +247,7 @@ function AddPost() {
                                     placeholder='Type your title blog...'
                                     className='rounded-2'
                                     name="title"
+                                    defaultValue={data?.title}
                                     onChange={fieldChanged}
                                 />
                             </div>
@@ -171,19 +261,19 @@ function AddPost() {
                                     className='rounded-2'
                                     name='category'
                                     onChange={fieldChanged}
-                                    defaultValue={0}
+                                    defaultValue={data.category ?? 0}
                                 >
-                                    <option disabled value={0}>--Select category--</option>
-                                    <option>
-                                        decoration
-                                    </option>
-                                    <option>
+                                    <option disabled value={0}>-- Select category --</option>
+                                    <option value={1} selected={data.category === 1}>
                                         cooking
                                     </option>
-                                    <option>
+                                    <option value={2} selected={data.category === 2}>
+                                        decoration
+                                    </option>
+                                    <option value={3} selected={data.category === 3}>
                                         cleaning
                                     </option>
-                                    <option>
+                                    <option value={4} selected={data.category === 4}>
                                         story
                                     </option>
                                 </Input>
@@ -206,9 +296,11 @@ function AddPost() {
                                 <Label for='content'>Content</Label>
                                 <JoditEditor
                                     ref={editor}
-                                    value={post.content}
+                                    value={data.body ?? post.content}
                                     // config={config}
                                     // tabIndex={1} // tabIndex of textarea
+                                    // Cursor moves to beginning of document after typing pls help me co-pilot
+                                    onBlur={newContent => contentFieldChanged(newContent)}
                                     onChange={contentFieldChanged}
                                 />
                                 {/* <Input 

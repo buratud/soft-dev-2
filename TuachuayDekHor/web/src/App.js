@@ -18,14 +18,19 @@ import Blogger from './pages/Blogger';
 import Search from './pages/Search';
 import { createClient } from '@supabase/supabase-js';
 import guarderout from './component/guarderout';
-import { REACT_APP_BASE_WEB_PATH, REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_ANON_KEY } from './config';
+import { REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_ANON_KEY } from './config';
 
 const supabase = createClient(REACT_APP_SUPABASE_URL,REACT_APP_SUPABASE_ANON_KEY);
 
-export const General =createContext({});
+export const useSupabase = () => {
+  return supabase;
+};
+
+export const AuthContext = createContext({});
 
 function App() {
   const [session,setSession] =useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const action = useNavigationType();
   const location = useLocation();
   const pathname = location.pathname;
@@ -35,15 +40,17 @@ function App() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
+      setIsLoading(false);
     });
-
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log("onAuthStateChange", _event)
       setSession(session);
     });
     return () => subscription.unsubscribe();
   }, []);
+
   useEffect(()=>{
     if (!didMount.current){
       return() =>(didMount.current = true);
@@ -63,7 +70,7 @@ function App() {
 
     switch (pathname) {
       case "/":
-        title = "";
+        title = "DekHorBlogs";
         metaDescription = "";
         break;
     }
@@ -82,16 +89,23 @@ function App() {
     }
   }, [pathname]);
 
-  const value = {
-    isFetching: isFetching,
-    supabase_for_use: supabase,
-    session: session,
-    user: session?.user,
-  };
-  console.log(REACT_APP_BASE_WEB_PATH)
+  if (isLoading) {
+    return <div>Hold...</div>;
+  }
+
+  // const value = {
+  //   isFetching: isFetching,
+  //   supabase_for_use: supabase,
+  //   session: session,
+  //   user: session?.user,
+  // };
+
   return (
-    <General.Provider
-      value = {value}
+    <AuthContext.Provider
+      value={{
+        session: session,
+        user: session?.user
+      }}
     >
       <Routes >
         <Route path={"/"} element={<Navigate to ={`/home`}/>} />
@@ -100,6 +114,7 @@ function App() {
         <Route path={"/signup"} element={<Signup />} />
         <Route path={"/report"} element={<Report />} />
         <Route path={"/writeblog"} element={<WriteBlog />} />
+        <Route path={"/writeblog/:id"} element={<WriteBlog />} />
         <Route path={"/contact"} element={<Contact />}/>
         <Route path={"/profile/:userId"} element={<Profile />}/>
         <Route path={"/cleaning"} element={<Cleaning />}/>
@@ -120,7 +135,7 @@ function App() {
           <Route path={"/report"} element={<Report />} />
         </Route> */}
       </Routes>
-    </General.Provider> 
+      </AuthContext.Provider>
   );
 }
 export default App;

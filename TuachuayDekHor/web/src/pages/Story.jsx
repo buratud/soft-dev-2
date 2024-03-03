@@ -2,6 +2,7 @@ import React from 'react'
 import "./Story.scoped.css"
 import Navbar from "../component/Nav";
 import ContentSlide from '../component/ContentSlide';
+import Footer from '../component/footer';
 
 function Story() {
   return (
@@ -23,6 +24,7 @@ function Story() {
           <ContentSlide name={"story"} />
         </div>
       </div>
+      <Footer/>
     </div>
     // <div className="Decoration">
     //   <header>

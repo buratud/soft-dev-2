@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
+
 .content{
     width: 100%;
     height: 100%;
@@ -28,19 +30,39 @@ img{
 .singleDest{
     position: relative;
     width: 30%;
-    height: 350px;
+    height: 400px;
     overflow: hidden;
     border-radius: 1rem;
     padding: 1rem;
     box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
     margin: 1.2rem;
     cursor: pointer;
-    
+    text-decoration: none;
+    background-color: white;
 }
 
-.singleDest:hover{
+.singleDest a{
+    color: black;
+    font-size: 18px;
+    font-family:'Poppins' ;
+}
+
+
+
+h4{
+    font-size: 18px;
+    font-family:'Poppins' ;
+    color: black;
+}
+
+.singleDest:hover {
     box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.74);
-    scale: 1.1;
+    transform: scale(1.05); 
+    transition: box-shadow 0.3s ease, transform 0.3s ease; 
+}
+
+.singleDest, .singleDest * {
+    cursor: pointer;
 }
 
 .dastImage{
@@ -51,7 +73,7 @@ img{
 }
 
 .dastFooter{
-    /* position: relative; */
+    position: relative;
     padding: 2rem; 
 }
 
@@ -64,20 +86,36 @@ img{
     padding: 0.5rem;
 }
 
-.destText{
-    color: black;
-    justify-content: space-between;
-    padding: 1rem; 
+.destFooter{
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
+    position: relative;
 }
 
-.destText a{
+.destText{
+    width: 100%;
+    display: flex;
     color: black;
-    font-size: 1.1rem;
+    justify-content: flex-start;
+    padding: 1rem 0rem; 
+    align-items: flex-start;
     font-family:'Poppins' ;
+    font-size: 1.1rem;
+    text-overflow: ellipsis;
+    padding-bottom: 2.5rem;
+}
+
+.destText h4{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.destText p{
+    color: black;
+    font-family:'Poppins' ;
+    font-weight: 500;
+    height: 2rem;
 }
 
 .icon{
@@ -87,11 +125,13 @@ img{
 
 .userwrite{
     display: flex;
+    position: relative;
 }
 
 
 .name{
     margin-top: 2rem;
+    color: black;
 }
 
 .delete{
