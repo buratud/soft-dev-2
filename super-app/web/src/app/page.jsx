@@ -95,28 +95,6 @@ export default function Home() {
       <div className={styles.place_holder}>
         <img style={{ width: "100%" }} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/place_holder.png`} />
       </div>
-      <div className={styles.search_bar_area}>
-        <div className={styles.search_bar}>
-          <input
-            className={styles.search_bar_input}
-            type="text"
-            placeholder="Search..."
-          ></input>
-          <div style={{ position: "absolute", display: "flex" }}>
-            <img style={{ marginLeft: "21px" }} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/search-icon.png`} />
-            <div
-              style={{
-                width: "2px",
-                height: "35px",
-                borderRadius: "1px",
-                backgroundColor: "rgba(0, 0, 0, 0.10)",
-                marginLeft: "15px",
-              }}
-            ></div>
-          </div>
-        </div>
-      </div>
-
       <div className={styles.portalwrap}>
         <Link style={{ textDecoration: 'none' }} href={`/dorms`}>
           <div className={styles.portal}>
@@ -159,7 +137,7 @@ export default function Home() {
                   </div>
                 </Link>
               </div>
-              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
+              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/blog.png`} />
             </div>
           </div>
           <div className={styles.ReccommendedBlogs}>
@@ -189,7 +167,7 @@ export default function Home() {
             <div style={{ width: '80vw', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
           </div>
           <div className={styles.blog_poster}>
-            <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
+            <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/Dorms.png`} />
             <div className={styles.poster_info_blog}>
               <h1>Find Your Dorms in Your Way!</h1>
               <p>Friendly Interfacebr <br />
@@ -215,14 +193,14 @@ export default function Home() {
         {/* dekhor market */}
         <div>
           <div>
-            <div className={styles.title}>
+            <div className={styles.title_market}>
               <p className={styles.dekhor_title}>Dekhor</p>
               <p className={styles.blog_title}>Markets</p>
               <div style={{ width: '80vw', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
             </div>
             <div className={styles.blog_poster}>
               {/* discover (krit) */}
-              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
+              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/markets.png`} />
               <div className={styles.poster_info_market}>
                 <h1>Find the stuffs you need
                   <br />with Dekhor Markets!</h1>
