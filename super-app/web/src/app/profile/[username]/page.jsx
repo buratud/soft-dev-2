@@ -200,7 +200,7 @@ const DormCards = ({ params }) => {
             .then(res => {
                 const user = res.data.user.id;
                 if (user) {
-                    return axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms?owner=${user}`)
+                    return axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms2?owner=${user}`)
                 }
                 return Promise.reject('User not found')
             }).then(res => {

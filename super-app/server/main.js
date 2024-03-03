@@ -367,7 +367,7 @@ api.post('/your_product', async (req, res) => {
   }
 })
 
-app.get('/dorms', async (req, res) => {
+app.get('/dorms2', async (req, res) => {
   try {
     const userId = req.query.owner;
     const { data: dorms, error } = await supabase.schema('dorms').from('dorms').select('*, dorms_facilities(facilities(*)), photos(photo_url)').eq('owner', userId);
