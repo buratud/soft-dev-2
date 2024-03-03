@@ -10,7 +10,7 @@ import { createClient } from "@supabase/supabase-js";
 import "./style.css";
 import Navbar from "../../../components/nav.jsx";
 import Footer from "../../../components/footer/Footer.jsx";
-import {NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_BASE_API_URL} from "../../../config.js"; // Import config.js
+import { NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_BASE_API_URL } from "../../../config.js"; // Import config.js
 import axios from "axios";
 
 // Define the main component
@@ -30,6 +30,9 @@ export default function ContactSupport() {
   const [unsendClickedIndex, setUnsendClickedIndex] = useState(null); // State for tracking the index of the clicked row for unsend
   const [problemAdded, setProblemAdded] = useState(false); // State for tracking if a problem is added
 
+  const maxUnsendLimit = 5;
+  const statusToRemove = 'Unsent';
+
   const supabase = createClient(
     NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -43,15 +46,15 @@ export default function ContactSupport() {
       } else {
         // Fetch user data
         axios
-        .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${result.data.session.user.id}`)
-        .then((res) => {
-          setUserId(res.data.id);
-          setEmail(res.data.email);
-        });
+          .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${result.data.session.user.id}`)
+          .then((res) => {
+            setUserId(res.data.id);
+            setEmail(res.data.email);
+          });
       }
     });
   }, []);
-  
+
   // Function to get unsend icon based on the unsend status
   const getUnsendIcon = (unsend) => {
     switch (unsend) {
@@ -132,13 +135,25 @@ export default function ContactSupport() {
         .eq("user_id", user_id) // Make sure user_id is defined
         .eq("email", email) // Make sure email is defined
         .order("date_create"); // Check if order method is supported
-      
+
+      let filterData = data;
+
+      while (filterData.length > maxUnsendLimit) {
+        const indexToRemove = data.findIndex(item => item.status === statusToRemove);
+        if (indexToRemove !== -1) {
+          // Remove the oldest "unsent" item
+          filterData.splice(indexToRemove, 1);
+        }else{
+          break;
+        }
+      }
+
 
       if (error) {
         throw new Error(`Failed to fetch data from Supabase: ${error.message}`);
       }
 
-      setHistoryData(data);
+      setHistoryData(filterData);
 
       // Log the result
       console.log(data);
@@ -179,7 +194,7 @@ export default function ContactSupport() {
     } catch (err) {
       setError(
         err.message ||
-          "Unsending problem failed."
+        "Unsending problem failed."
       ); // Set error message if an error occurs during unsend operation
     } finally {
       setUnsendLoading(false); // Set unsend loading status to false after unsend operation completion (success or failure)
@@ -293,8 +308,8 @@ export default function ContactSupport() {
                               (index === unsendClickedIndex && !problemAdded) || unsendSuccess
                                 ? "unsend-success"
                                 : index === historyData.length - 1 && feedbackSent
-                                ? "feedback-success"
-                                : ""
+                                  ? "feedback-success"
+                                  : ""
                             }
                           >
                             {/* Conditional class for feedback success */}
