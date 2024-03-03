@@ -95,28 +95,6 @@ export default function Home() {
       <div className={styles.place_holder}>
         <img style={{ width: "100%" }} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/place_holder.png`} />
       </div>
-      <div className={styles.search_bar_area}>
-        <div className={styles.search_bar}>
-          <input
-            className={styles.search_bar_input}
-            type="text"
-            placeholder="Search..."
-          ></input>
-          <div style={{ position: "absolute", display: "flex" }}>
-            <img style={{ marginLeft: "21px" }} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/search-icon.png`} />
-            <div
-              style={{
-                width: "2px",
-                height: "35px",
-                borderRadius: "1px",
-                backgroundColor: "rgba(0, 0, 0, 0.10)",
-                marginLeft: "15px",
-              }}
-            ></div>
-          </div>
-        </div>
-      </div>
-
       <div className={styles.portalwrap}>
         <Link style={{ textDecoration: 'none' }} href={`/dorms`}>
           <div className={styles.portal}>
