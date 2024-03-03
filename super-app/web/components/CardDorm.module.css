@@ -27,7 +27,11 @@
     line-height: normal;
 }
 
-.dorm_name{
+.dorm_name {
+    width: 293px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     color: #092F88;
     font-family: Poppins;
     font-size: 24px;

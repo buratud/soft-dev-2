@@ -170,14 +170,15 @@ h3 {
  /* Styles for edit button */
 
  .editButtonContainer {
-  display: flex;
-  padding-top: 9rem;
-  padding-right: 4.5rem;
+  margin: auto 0;
+  padding-right: 3.5rem;
   justify-content: center;
 }
 
 .editButton {
-  background-color: darkred;
+  margin: 0 auto;
+  background-color: #092F88;
+  display: block;
   box-shadow: 0px 2px 8.6px 0px rgba(7, 46, 104, 0.36);
   border: none;
   color: white;
@@ -192,6 +193,27 @@ h3 {
 }
 
 .editButton:hover {
+  background-color: #1D4ED8; /* Darker Green */
+}
+
+.deleteButton {
+  margin: 1em auto 0 auto;
+  display: block;
+  background-color: darkred;
+  box-shadow: 0px 2px 8.6px 0px rgba(7, 46, 104, 0.36);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bolder;
+  cursor: pointer;
+  border-radius: 15px;
+  transition: background-color 0.3s ease; /* Add transition for background-color */
+}
+
+.deleteButton:hover {
   background-color: #ff0000; /* Darker Green */
 }
 
@@ -351,3 +373,68 @@ h3 {
   100% { transform: rotate(360deg); }
 }
 
+.deleteConfirmPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0px 2px 8.6px 0px rgba(7, 46, 104, 0.36);
+  z-index: 100;
+}
+
+.deleteConfirmPopupContent h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #092F88;
+}
+
+.deleteConfirmPopupButtons {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: right;
+  width: 100%;
+  gap: 1rem;
+}
+
+.deleteConfirmPopupButton {
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 80px;
+}
+
+.deleteConfirmPopupButton:not([disabled]):hover {
+  background-color: #ff0000;
+  color: white;
+
+}
+
+.deleteConfirmPopupButton.primary {
+  background-color: #092F88;
+  color: white;
+}
+
+.deleteConfirmPopupButton.primary:not([disabled]):hover {
+  background-color: #1D4ED8;
+}
+
+.deleteConfirmPopupButton:disabled {
+  background-color: #f0f0f0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.overlay2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}

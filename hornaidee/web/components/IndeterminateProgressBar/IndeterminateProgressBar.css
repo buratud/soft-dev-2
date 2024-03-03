@@ -1,0 +1,25 @@
+/* IndeterminateProgressBar.css */
+.indeterminate-progress-bar-container {
+    width: 100%;
+    height: 5px; 
+    background-color: #f0f0f0;
+    border-radius: 2px; 
+    overflow: hidden;
+  }
+  
+  .indeterminate-progress-bar {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #4285f4, #0f9d58, #db4437, #f4b400, #4285f4); /* Google-like color gradient */
+    animation: progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite; /* Non-linear animation */
+  }
+  
+  @keyframes progress {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(200%);
+    }
+  }
+  

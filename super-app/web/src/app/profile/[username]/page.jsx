@@ -10,10 +10,11 @@ import Fakedata from "../../data.js";
 import test_data_dorm from '../../test_data_dorm';
 import CardDorm from '../../../../components/CardDorm';
 import { FaCircle } from 'react-icons/fa';
-import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_BASE_API_URL } from '../../../../config';
+import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_DORMS_API_URL } from '../../../../config';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { General, supabase } from '../../../../session'
+import IndeterminateProgressBar from '../../../../components/IndeterminateProgressBar/IndeterminateProgressBar';
 
 const BlogsCards = ({ params }) => {
 
@@ -131,7 +132,7 @@ const BlogsCards = ({ params }) => {
 }
 
 const ProductCards = ({ params }) => {
-    
+
     const [yourproduct, setyourproduct] = useState([]);
     const [isUserOwner, setIsUserOwner] = useState(false);
 
@@ -139,30 +140,30 @@ const ProductCards = ({ params }) => {
         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
             username: params.username
         })
-        .then(async res => {
-            const user = res.data.user.id;
-            if (user) {
-                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
-                    user: user
-                })
-                .then(res => {
-                    setyourproduct(res.data);
-                    console.log('your product', res.data);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-    
-                // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
-                const { data: { session } } = await supabase.auth.getSession();
-                setIsUserOwner(user === session?.user?.id);
-            } 
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+            .then(async res => {
+                const user = res.data.user.id;
+                if (user) {
+                    axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
+                        user: user
+                    })
+                        .then(res => {
+                            setyourproduct(res.data);
+                            console.log('your product', res.data);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+
+                    // เช็คว่า user เป็นเจ้าของโปรไฟล์หรือไม่
+                    const { data: { session } } = await supabase.auth.getSession();
+                    setIsUserOwner(user === session?.user?.id);
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            });
     }, []);
-    
+
 
 
     return (
@@ -188,18 +189,60 @@ const ProductCards = ({ params }) => {
     )
 }
 
-const DormCards = () => {
-    const dorms = test_data_dorm.map((dorm, index) => (
-        <CardDorm
-            key={index}
-            img={dorm.img}
-            dorm_name={dorm.dorm_name}
-            price={dorm.price}
-            id={dorm.id}
-            facilities={dorm.facilities}
-            star={dorm.star}
-        />
-    ))
+const DormCards = ({ params }) => {
+    const [dormsData, setDormsData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/get-userID-from-username`, {
+            username: params.username
+        })
+            .then(res => {
+                const user = res.data.user.id;
+                if (user) {
+                    return axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms2?owner=${user}`)
+                }
+                return Promise.reject('User not found')
+            }).then(res => {
+                setDormsData(res.data)
+            }).catch((err) => {
+                console.log(err)
+            }).finally(() => {
+                setIsLoading(false)
+            })
+    }, []);
+
+    if (isLoading) {
+        return (
+            <div style={{ paddingTop: '20px' }}>
+                <IndeterminateProgressBar />
+                <p style={{ textAlign: 'center', marginTop: 10, fontSize: 20 }}>Loading...</p>
+            </div>
+        )
+    }
+
+    const dorms = dormsData.map(dorm => {
+        dorm.facilities = dorm.dorms_facilities.map(facility => facility.facilities.name).slice(0, 3).join(', ');
+        return (
+            <CardDorm
+                key={dorm.id}
+                img={dorm.photos[0]?.photo_url}
+                dorm_name={dorm.name}
+                price={dorm.rent_price}
+                id={dorm.id}
+                facilities={dorm.facilities}
+                star={dorm.stars}
+            />
+        )
+    })
+
+    if (dormsData.length === 0) {
+        return (
+            <div style={{ paddingTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center', rowGap: '30px' }}>
+                <p style={{ gridColumn: '1/3', textAlign: 'center', fontSize: 20 }}>{params.username} has no dorms</p>
+            </div>
+        )
+    }
 
     return (
         <div style={{ paddingTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center', rowGap: '30px' }}>
@@ -247,7 +290,7 @@ export default function Profile({ params }) {
                             userID: user.id
                         })
                             .then(res => {
-                                setProfileImage(res.data.picture);
+                                setProfileImage(res.data.data.picture);
                             });
                     });
 

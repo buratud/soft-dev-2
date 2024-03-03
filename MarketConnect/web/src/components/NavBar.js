@@ -31,17 +31,15 @@ const NavBar = () => {
         const user = data?.session?.user;
 
         if (user) {
-          const isAdmin = user.email == "admin@admin.com"; // แทน 'admin@example.com' ด้วยอีเมลล์ของ Admin
-
           axios
             .post(`${REACT_APP_MAIN_API_URL}/profile-picture`, {
               userID: user.id,
             })
             .then((res) => {
-              const { picture } = res.data;
+              const { picture, role } = res.data.data;
               setProfileImage(picture);
               setIsUserLoggedIn(true);
-              setIsAdminLoggedIn(isAdmin);
+              setIsAdminLoggedIn(role == 'Admin');
             });
         } else {
           setIsUserLoggedIn(false);
@@ -276,7 +274,7 @@ const NavBar = () => {
                 </div>
               </a>
             ) : (
-              <a href={`${REACT_APP_MAIN_URL}/images/profile`}>
+              <a href={`${REACT_APP_MAIN_URL}/profile`}>
                 <div>
                   <img
                     alt="Profile"

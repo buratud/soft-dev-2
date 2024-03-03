@@ -77,9 +77,19 @@ img.carousel-image {
 .prev-button {
     left: 10px;
 }
+
+.prev-button:hover {
+    left: 8px;
+    scale: 1.1;
+}
   
 .next-button {
     right: 10px;
+}
+
+.next-button:hover {
+    right: 8px;
+    scale: 1.1;
 }
 
 
@@ -106,7 +116,7 @@ img.carousel-image {
 .new-arrival-card {
     width: 300px;
     background-color: #ffffff;
-    border-radius: 10px;
+    border-radius: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     text-decoration: none;
@@ -116,17 +126,24 @@ img.carousel-image {
     flex-direction: column;
 }
 
+a.new-arrival-card:hover{
+    transform: scale(1.1);
+    transition: transform 0.5s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
 .card-image-container {
     width: 300px;
     height: 300px;
     overflow: hidden;
+    border-radius: 1rem 1rem 0 0;
 }
 
 .card-image-container img {
     width: 100%;
     height: 100%;
     background-size: cover;
-    object-fit: fill; 
+    object-fit: cover; 
 }
 
 .card-content {
@@ -143,6 +160,11 @@ img.carousel-image {
     font-family: poppins, sans-serif;
     color: #333333;
     margin-bottom: 0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .card-price {
@@ -150,6 +172,11 @@ img.carousel-image {
     font-family: poppins, sans-serif;
     color: #333333;
     margin-bottom: 0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 #rec-box{
@@ -179,8 +206,9 @@ img.carousel-image {
     gap: 1.5rem; 
     padding: 0.5rem; 
 }
-  
+
 .rec-item {
+    width: 320px;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -191,11 +219,19 @@ img.carousel-image {
     flex-direction: column;
     justify-content: space-between;
 }
+
+a.rec-item:hover{
+    transform: scale(1.05);
+    transition: transform 0.5s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
   
 .rec-item img {
-    width: 300px;
+    width: 100%;
     height: 200px; 
     object-fit: cover;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
 }
   
 .rec-item-name {
@@ -204,6 +240,11 @@ img.carousel-image {
     font-weight: bold;
     color: #333;
     margin-top: 0.5rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
   
 .rec-item-price {
@@ -211,6 +252,11 @@ img.carousel-image {
     font-family: poppins, sans-serif;
     color: #333;
     margin-bottom: 1rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .refresh-button {
@@ -222,6 +268,13 @@ img.carousel-image {
     cursor: pointer;
     font-size: 2rem;
     font-family: poppins, sans-serif;  
+}
+
+.refresh-button:hover {
+    transform: rotate(360deg);
+    transition: transform 0.5s ease;
+    color : rgb(40, 37, 37);
+    
 }
 
 ::-webkit-scrollbar {

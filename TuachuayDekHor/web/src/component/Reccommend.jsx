@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './ContentSlide.scoped.css';
+import './Reccommend.scoped.css';
 import img1 from '../../src/Assets/slide1.png';
 import { BiSolidPencil } from 'react-icons/bi';
 import axios from 'axios';
