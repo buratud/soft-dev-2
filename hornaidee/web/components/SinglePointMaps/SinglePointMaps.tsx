@@ -3,10 +3,11 @@ import * as atlas from 'azure-maps-control';
 import "azure-maps-control/dist/atlas.min.css";
 import { list } from "postcss";
 
-export default function SinglePointMaps({ lat, long, onLocationChange }: {
+export default function SinglePointMaps({ lat, long, onLocationChange, changeable }: {
     lat?: number,
     long?: number,
-    onLocationChange?: (lat: number, long: number) => void
+    onLocationChange?: (lat: number, long: number) => void,
+    changeable: boolean
 }) {
     const [map, setMap] = useState<atlas.Map>(null);
     const marketRef = useRef<atlas.HtmlMarker>(null);
@@ -56,12 +57,14 @@ export default function SinglePointMaps({ lat, long, onLocationChange }: {
                 setLocation(longLat);
             });
         }
-        map.events.add('click', function (e) {
-            if (marketRef.current) {
-                marketRef.current.setOptions({ position: e.position });
-                setLocation([e.position[0], e.position[1]]);
-            }
-        });
+        if (changeable) {
+            map.events.add('click', function (e) {
+                if (marketRef.current) {
+                    marketRef.current.setOptions({ position: e.position });
+                    setLocation([e.position[0], e.position[1]]);
+                }
+            });
+        }
         setMap(map);
     }, []);
 

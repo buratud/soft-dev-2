@@ -497,7 +497,7 @@ export default function EditDormPage() {
           </div>
         </form>
 
-        <SinglePointMaps lat={latitude} long={longitude} onLocationChange={onLocationChange}/>
+        <SinglePointMaps lat={latitude} long={longitude} onLocationChange={onLocationChange} changeable/>
 
         {imageErrors && (
           <div className="flex flex-col items-center gap-1 text-red-600 font-Poppins font-semibold">
