@@ -204,7 +204,7 @@ export default function DormDetails() {
           <div className="address">
             <FaMapPin />
             <h3>
-              {data.address} {data.property_number} {data.city} {data.province}{" "}
+              {data.property_number} {data.address} {data.city} {data.province}{" "}
               {data.zip_code}
             </h3>
           </div>
@@ -245,7 +245,7 @@ export default function DormDetails() {
             </div>
           </div>
           <div className="bigPricebox">
-            <h3>THB {data.rent_price}</h3>
+            <h3>THB {data.rent_price.toLocaleString()} </h3>
             <span>&nbsp;/mo.</span>
           </div>
           {user_id === owner_id ? (
