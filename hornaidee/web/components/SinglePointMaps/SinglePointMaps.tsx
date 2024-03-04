@@ -1,8 +1,13 @@
 import { useRef, useState, useEffect } from "react";
 import * as atlas from 'azure-maps-control';
 import "azure-maps-control/dist/atlas.min.css";
+import { list } from "postcss";
 
-export default function SinglePointMaps({ lat, long }) {
+export default function SinglePointMaps({ lat, long, onLocationChange }: {
+    lat?: number,
+    long?: number,
+    onLocationChange?: (lat: number, long: number) => void
+}) {
     const [map, setMap] = useState<atlas.Map>(null);
     const marketRef = useRef<atlas.HtmlMarker>(null);
     const mapRef = useRef(null);
@@ -33,7 +38,7 @@ export default function SinglePointMaps({ lat, long }) {
         map.controls.add(new atlas.control.CompassControl(), {
             position: atlas.ControlPosition.BottomRight
         });
-        if (typeof(lat) === 'number' && typeof(long) === 'number'){
+        if (typeof (lat) === 'number' && typeof (long) === 'number') {
             console.log('lat long', lat, long);
             setLocation([long, lat]);
             map.setCamera({
@@ -75,6 +80,7 @@ export default function SinglePointMaps({ lat, long }) {
         if (marketRef.current) {
             marketRef.current.setOptions({ position: location });
         }
+        onLocationChange?.(location[1], location[0]);
     }, [location]);
 
     return <div id="myMap" ref={mapRef} style={{ height: '500px', width: '100%', maxWidth: '1400px', padding: 0, margin: 0 }} />;
