@@ -9,6 +9,7 @@ import ImageUploadComponent from "../../image_component";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import "./style.css";
+import SinglePointMaps from "../../../../components/SinglePointMaps/SinglePointMaps";
 
 const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
@@ -484,6 +485,8 @@ export default function EditDormPage() {
           </div>
         </form>
 
+        <SinglePointMaps/>
+
         {imageErrors && (
           <div className="flex flex-col items-center gap-1 text-red-600 font-Poppins font-semibold">
             <span>{imageErrors}</span>
@@ -499,7 +502,7 @@ export default function EditDormPage() {
             )}
           </div>
         )}
-
+        
         {isFormSubmitted && (
           <div className="flex flex-col items-center gap-1 text-green-500 mb-2 font-Poppins font-semibold">
             <span>Dorm updated successfully</span>
