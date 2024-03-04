@@ -142,10 +142,12 @@ export default function DormSearch() {
             </div>
             <div className={styles.RangeSlider}>
               <span>Price per month</span>
-              <RangeSlider onMinChange={handleMinChange} onMaxChange={handleMaxChange} />
+              <RangeSlider 
+              onMinChange={handleMinChange} 
+              onMaxChange={handleMaxChange} />
               <div>
-                <p>{minValue}</p>
-                <p>{maxValue}</p>
+                <p>{minValue.toLocaleString()}</p>
+                <p>{maxValue.toLocaleString()}</p>
               </div>
             </div>
           </div>
