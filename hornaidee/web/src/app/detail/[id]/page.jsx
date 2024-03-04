@@ -241,7 +241,7 @@ export default function DormDetails() {
           <div className="bigRatingbox">
             <h3>Overall Rating</h3>
             <div className="ratingnumbox">
-              <h3>{rate.average !== null ? rate.average.toFixed(1) : "_._"}</h3>
+              <h3>{rate.average ? rate.average.toFixed(1) : "_._"}</h3>
             </div>
           </div>
           <div className="bigPricebox">
