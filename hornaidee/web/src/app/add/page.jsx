@@ -23,6 +23,8 @@ export default function AddDormPage() {
   const [zip_code, setZipCode] = useState("");
   const [rent_price, setRentPrice] = useState(0);
   const [facilities, setFacilities] = useState([]);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
   const [photos, setPhotos] = useState([]);
   const [session, setSession] = useState(null);
   const [errors, setErrors] = useState({});
@@ -144,6 +146,13 @@ export default function AddDormPage() {
     return errors;
   };
 
+
+  const onLocationChange = (latitude, longtitude) => {
+    setLatitude(latitude);
+    setLongitude(longtitude);
+    console.log(latitude, longtitude)
+  };
+
   const submitForm = () => {
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
@@ -161,6 +170,8 @@ export default function AddDormPage() {
             rent_price: parseFloat(rent_price),
             facilities: facilities,
             photos: photos,
+            latitude: latitude,
+            longitude: longitude,
           },
           { headers: { Authorization: `Bearer ${session.access_token}` } }
         )
@@ -382,7 +393,7 @@ export default function AddDormPage() {
             </div>
           </div>
         </form>
-        <SinglePointMaps />
+        <SinglePointMaps onLocationChange={onLocationChange} />
         {imageErrors && (
           <div className="flex flex-col items-center gap-1 text-red-600 font-Poppins font-semibold">
             <span>{imageErrors}</span>
