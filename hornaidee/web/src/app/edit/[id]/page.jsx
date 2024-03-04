@@ -295,24 +295,6 @@ export default function EditDormPage() {
             </div>
             <div
               className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.address ? "glow" : ""
-              }`}
-            >
-              <AiOutlineHome className="input-icon ml-4 mr-1" />
-              <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
-              <input
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="Street Address"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.address ? "border-red-500" : ""
-                }`}
-              />
-            </div>
-
-            <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
                 inputStates.property_number ? "glow" : ""
               }`}
             >
@@ -325,6 +307,24 @@ export default function EditDormPage() {
                 placeholder="Property Number"
                 className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
                   errors.property_number ? "border-red-500" : ""
+                }`}
+              />
+            </div>
+
+            <div
+              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
+                inputStates.address ? "glow" : ""
+              }`}
+            >
+              <AiOutlineHome className="input-icon ml-4 mr-1" />
+              <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Street Address"
+                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
+                  errors.address ? "border-red-500" : ""
                 }`}
               />
             </div>
