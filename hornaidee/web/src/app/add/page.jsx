@@ -9,7 +9,7 @@ import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import ImageUploadComponent from "../image_component";
 import "./style.css";
-import "azure-maps-control/dist/atlas.min.css";
+import SinglePointMaps from "../../../components/SinglePointMaps/SinglePointMaps.tsx";
 
 const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
@@ -175,39 +175,6 @@ export default function AddDormPage() {
       setErrors(errors);
     }
   };
-
-  const map = useRef(null);
-
-  const mapRef = useRef(null);
-
-  useEffect(() => {
-    import('azure-maps-control').then((atlas) => {
-      map.current = new atlas.Map(mapRef.current, {
-        center: [-122.33, 47.6],
-        zoom: 12,
-        language: 'en-US',
-        authOptions: {
-          authType: 'subscriptionKey',
-          subscriptionKey: 'yTErSdqjV2gBKj_f2-qD8Wg7bAt6C2v0SHROqdtymoQ'
-        },
-        showLogo: false,
-        showFeedbackLink: false,
-        style: 'satellite',
-      });
-      map.current.controls.add(new atlas.control.StyleControl({
-        mapStyles: ['road', 'grayscale_dark', 'night', 'road_shaded_relief', 'satellite', 'satellite_road_labels'],
-        layout: 'list'
-      }), {
-        position: 'top-right'
-      });
-      map.current.controls.add(new atlas.control.ZoomControl(), {
-        position: 'bottom-right'
-      });
-      map.current.controls.add(new atlas.control.CompassControl(), {
-        position: 'bottom-left'
-      });
-    })
-  }, []);
 
   return (
     <main className="flex flex-col items-center justify-center bg-[#F6F6FB]">
@@ -415,9 +382,7 @@ export default function AddDormPage() {
             </div>
           </div>
         </form>
-
-        <div id="myMap" ref={mapRef} style={{ height: '500px', width: '100%', maxWidth: '1400px', padding: 0, margin: 0 }}></div>
-
+        <SinglePointMaps />
         {imageErrors && (
           <div className="flex flex-col items-center gap-1 text-red-600 font-Poppins font-semibold">
             <span>{imageErrors}</span>
