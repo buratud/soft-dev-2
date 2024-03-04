@@ -206,7 +206,6 @@ export default function AddDormPage() {
             <div className="pt-10 pb-2">
               Where is the property you are listing?
             </div>
-
             <div
               className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
                 inputStates.property_number ? "glow" : ""
@@ -224,7 +223,7 @@ export default function AddDormPage() {
                 }`}
               />
             </div>
-            
+
             <div
               className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
                 inputStates.address ? "glow" : ""
