@@ -9,7 +9,6 @@ export default function SinglePointMaps() {
     const [location, setLocation] = useState([0, 0]);
 
     useEffect(() => {
-        import('azure-maps-control').then((atlas) => {
             const map = new atlas.Map(mapRef.current, {
                 center: [0, 0],
                 zoom: 16,
@@ -49,7 +48,6 @@ export default function SinglePointMaps() {
                 }
             });
             setMap(map);
-        })
     }, []);
 
     useEffect(() => {
