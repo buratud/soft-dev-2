@@ -235,6 +235,12 @@ export default function EditDormPage() {
     return errors;
   };  
 
+  const onLocationChange = (latitude, longtitude) => {
+    setLatitude(latitude);
+    setLongitude(longtitude);
+    console.log(latitude, longtitude)
+  };
+
   const submitForm = () => {
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
@@ -252,6 +258,8 @@ export default function EditDormPage() {
             rent_price: parseFloat(rent_price),
             facilities: facilities,
             photos: photos,
+            latitude: latitude,
+            longitude: longitude,
           },
           { headers: { Authorization: `Bearer ${session.access_token}` } }
         )
@@ -489,7 +497,7 @@ export default function EditDormPage() {
           </div>
         </form>
 
-        <SinglePointMaps lat={latitude} long={longitude}/>
+        <SinglePointMaps lat={latitude} long={longitude} onLocationChange={onLocationChange}/>
 
         {imageErrors && (
           <div className="flex flex-col items-center gap-1 text-red-600 font-Poppins font-semibold">
