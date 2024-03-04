@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import * as atlas from 'azure-maps-control';
 import "azure-maps-control/dist/atlas.min.css";
 
-export default function SinglePointMaps({ props }) {
+export default function SinglePointMaps({ lat, long }) {
     const [map, setMap] = useState<atlas.Map>(null);
     const marketRef = useRef<atlas.HtmlMarker>(null);
     const mapRef = useRef(null);
@@ -33,14 +33,24 @@ export default function SinglePointMaps({ props }) {
         map.controls.add(new atlas.control.CompassControl(), {
             position: atlas.ControlPosition.BottomRight
         });
-        navigator.geolocation.getCurrentPosition(function (location) {
-            const longLat = [location.coords.longitude, location.coords.latitude];
+        if (typeof(lat) === 'number' && typeof(long) === 'number'){
+            console.log('lat long', lat, long);
+            setLocation([long, lat]);
             map.setCamera({
-                center: longLat,
+                center: [long, lat],
                 zoom: 16
             });
-            setLocation(longLat);
-        });
+        }
+        else {
+            navigator.geolocation.getCurrentPosition(function (location) {
+                const longLat = [location.coords.longitude, location.coords.latitude];
+                map.setCamera({
+                    center: longLat,
+                    zoom: 16
+                });
+                setLocation(longLat);
+            });
+        }
         map.events.add('click', function (e) {
             if (marketRef.current) {
                 marketRef.current.setOptions({ position: e.position });

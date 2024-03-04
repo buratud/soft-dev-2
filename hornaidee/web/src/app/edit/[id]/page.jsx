@@ -24,6 +24,8 @@ export default function EditDormPage() {
   const [zip_code, setZipCode] = useState("");
   const [rent_price, setRentPrice] = useState(0);
   const [facilities, setFacilities] = useState([]);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
   const [photos, setPhotos] = useState([]);
   const [session, setSession] = useState(null);
   const [errors, setErrors] = useState({});
@@ -132,6 +134,8 @@ export default function EditDormPage() {
         setProvince(res.data.province);
         setZipCode(res.data.zip_code);
         setRentPrice(res.data.rent_price);
+        setLatitude(res.data.latitude);
+        setLongitude(res.data.longitude);
         const facilityIds = res.data.facilities.map(facility => facility.id);
         setFacilities(facilityIds);
   
@@ -485,7 +489,7 @@ export default function EditDormPage() {
           </div>
         </form>
 
-        <SinglePointMaps/>
+        <SinglePointMaps lat={latitude} long={longitude}/>
 
         {imageErrors && (
           <div className="flex flex-col items-center gap-1 text-red-600 font-Poppins font-semibold">
