@@ -10,8 +10,9 @@ import Fakedata from "../data.js";
 import test_data_dorm from '../test_data_dorm';
 import CardDorm from '../../../components/CardDorm';
 import { FaCircle } from 'react-icons/fa';
-import { NEXT_PUBLIC_BASE_WEB_PATH,NEXT_PUBLIC_BASE_API_URL } from '../../../config';
+import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_DORMS_API_URL } from '../../../config';
 import axios from 'axios';
+import IndeterminateProgressBar from '../../../components/IndeterminateProgressBar/IndeterminateProgressBar';
 import { useRouter } from 'next/navigation';
 import { General, supabase } from '../../../session'
 
@@ -28,11 +29,11 @@ const BlogsCards = () => {
         setShowYourBlogs(false);
     }, []);
 
-    
+
     const [Likes, setLikes] = useState([]);
     const [yourblog, setyourblog] = useState([]);
 
-    useState(()=>{
+    useState(() => {
         const checkLoginStatus = async () => {
             try {
                 const { data, error } = await supabase.auth.getSession();
@@ -45,25 +46,25 @@ const BlogsCards = () => {
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/liked_blog`, {
                         user: user,
                     })
-                    .then(res => {
-                        setLikes(res.data)
-                        console.log('likes',res.data)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
+                        .then(res => {
+                            setLikes(res.data)
+                            console.log('likes', res.data)
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
 
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_blog`, {
                         user: user,
                     })
-                    .then(res => {
-                        setyourblog(res.data)
-                        console.log('your blog',res.data)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                    
+                        .then(res => {
+                            setyourblog(res.data)
+                            console.log('your blog', res.data)
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+
                 }
                 else {
                     setIsUserLoggedIn(false);
@@ -108,7 +109,7 @@ const BlogsCards = () => {
                             key={index}
                             img={card.blog.cover_img}
                             title={card.blog.title}
-                            Blogger={card.users.username}
+                            Blogger={card.blog.users.username}
                             Categories={card.blog.blog_category.category}
                             id={card.blog.blog_id}
                         />
@@ -140,7 +141,7 @@ const ProductCards = () => {
     const { session } = useContext(General);
     const [yourproduct, setyourproduct] = useState([]);
 
-    useState(()=>{
+    useState(() => {
         const checkLoginStatus = async () => {
             try {
                 const { data, error } = await supabase.auth.getSession();
@@ -153,13 +154,13 @@ const ProductCards = () => {
                     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/your_product`, {
                         user: user,
                     })
-                    .then(res => {
-                        setyourproduct(res.data)
-                        console.log('your product',res.data)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
+                        .then(res => {
+                            setyourproduct(res.data)
+                            console.log('your product', res.data)
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
                 }
                 else {
                     setIsUserLoggedIn(false);
@@ -194,21 +195,67 @@ const ProductCards = () => {
     )
 }
 
-const DormCards = () =>{
-    const dorms = test_data_dorm.map((dorm, index) => (
-        <CardDorm
-            key={index}
-            img = {dorm.img}
-            dorm_name = {dorm.dorm_name}
-            price = {dorm.price}
-            id = {dorm.id}
-            facilities = {dorm.facilities}
-            star = {dorm.star}
-        />
-    ))
+const DormCards = ({ params }) => {
+    const [dormsData, setDormsData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    return(
-        <div style={{paddingTop:'40px',display:'grid',gridTemplateColumns:'1fr 1fr',justifyItems:'center',rowGap:'30px'}}>
+    useEffect(() => {
+        supabase.auth.getSession().then(res => {
+            const user = res.data.session.user.id;
+            if (user) {
+                return axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms2?owner=${user}`)
+            }
+            return Promise.reject('User not found')
+        // }).then(res => {
+        //     return new Promise(resolve => {
+        //         setTimeout(() => {
+        //             resolve(res)
+        //         }, 3000)
+        //     })
+        }).then(res => {
+            setDormsData(res.data)
+        }).catch((err) => {
+            console.log(err)
+        }).finally(() => {
+            setIsLoading(false)
+        })
+    }, []);
+
+    if (isLoading) {
+        return (
+            <div style={{ paddingTop: '20px' }}>
+                <IndeterminateProgressBar />
+                <p style={{ textAlign: 'center', marginTop: 10, fontSize: 20}}>Loading...</p>
+            </div>
+        )
+    }
+
+    const dorms = dormsData.map(dorm => {
+        dorm.facilities = dorm.dorms_facilities.map(facility => facility.facilities.name).slice(0, 3).join(', ');
+        return (
+            <CardDorm
+                key={dorm.id}
+                img={dorm.photos[0]?.photo_url}
+                dorm_name={dorm.name}
+                price={dorm.rent_price}
+                id={dorm.id}
+                facilities={dorm.facilities}
+                star={dorm.stars}
+            />
+        )
+    })
+
+
+    if (dormsData.length === 0) {
+        return (
+            <div style={{ paddingTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center', rowGap: '30px' }}>
+                <p style={{ gridColumn: '1/3', textAlign: 'center', fontSize: 20 }}>You have no dorms</p>
+            </div>
+        )
+    }
+
+    return (
+        <div style={{ paddingTop: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', justifyItems: 'center', rowGap: '30px' }}>
             {dorms}
         </div>
     )
@@ -227,33 +274,33 @@ export default function Profile() {
     };
 
     useEffect(() => {
-        const getProfile = async () =>{
-            const {data} = await supabase.auth.getSession();
+        const getProfile = async () => {
+            const { data } = await supabase.auth.getSession();
             const user = data?.session?.user;
 
-            if(user){
+            if (user) {
 
-                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`,{
-                    userID:user.id
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-picture`, {
+                    userID: user.id
                 })
                 .then(res =>{
-                    setProfileImage(res.data.picture);
+                    setProfileImage(res.data.data.picture);
                 });
 
-                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-username`,{
-                    userID:user.id
+                axios.post(`${NEXT_PUBLIC_BASE_API_URL}/profile-username`, {
+                    userID: user.id
                 })
-                .then(res =>{
-                    setProfileUsername(res.data.username);
-                });
+                    .then(res => {
+                        setProfileUsername(res.data.username);
+                    });
 
-            }else{
+            } else {
                 router.push('/');
             }
         }
 
         getProfile();
-    },[]);
+    }, []);
 
     return (
 
@@ -267,7 +314,7 @@ export default function Profile() {
                     <img className={style.user_img} src={profileImage} />
                     <div className={style.user_info}>
                         <div className={style.username}>{profileUsername}</div>
-                         {/* เหลือใส่ Link edit profile link */}
+                        {/* เหลือใส่ Link edit profile link */}
                         <Link href={'/profile-edit'} className={style.edit_profile_button}>
                             <div className={style.edit_profile_img}>
                                 <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/edit_profile.png`} />
@@ -286,8 +333,8 @@ export default function Profile() {
                 <div className={style.data}>
                     {selectedOption === 'blogs' && <BlogsCards />} {/* ถ้า option เป็น blogs แสดง BlogsCards */}
                     {selectedOption === 'markets' && <ProductCards />} {/* ถ้า option เป็น markets แสดง ProductCards */}
-                    {selectedOption === 'dorms' && <DormCards/>} {/* ถ้า option เป็น dorms แสดง DormCards */}
-                    
+                    {selectedOption === 'dorms' && <DormCards />} {/* ถ้า option เป็น dorms แสดง DormCards */}
+
                 </div>
             </div>
             <Footer />

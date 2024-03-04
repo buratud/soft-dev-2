@@ -1,7 +1,7 @@
 'use clinet'
 import styles from "./CardDorm.module.css";
 import Link from 'next/link';
-import { NEXT_PUBLIC_BASE_WEB_PATH } from '../config'
+import { NEXT_PUBLIC_BASE_WEB_PATH, NEXT_PUBLIC_MAIN_URL } from '../config'
 import Rating from '@mui/material/Rating';
 
 const CardDorm = (props) => {
@@ -23,10 +23,10 @@ const CardDorm = (props) => {
                     <p className={styles.facilities}>{facilities}</p>
                     <p className={styles.price}> THB{price}/mo.</p>
                 </div>
-                <Link href={''} style={{textDecoration:'none'}}>
+                <Link href={`${NEXT_PUBLIC_MAIN_URL}/dorms/detail/${id}`} style={{textDecoration:'none'}}>
                     <div className={styles.see_info_button}>
                         <p className={styles.see_info}>See Info</p>
-                        <img src="image/arrow_right.png"/>
+                        <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/images/arrow_right.png`}/>
                     </div>
                 </Link>
             </div>

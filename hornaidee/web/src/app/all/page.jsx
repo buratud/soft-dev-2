@@ -5,7 +5,7 @@ import axios from "axios";
 import styles from "./style.module.css";
 import RangeSlider from '../../../components/slider';
 import CardDorm from "../../../components/CardDorm";
-import fakedata from "./test_data_dorm"
+import search from "./search.js";
 
 import {
   NEXT_PUBLIC_SUPABASE_URL,
@@ -24,7 +24,7 @@ const supabase = createClient(
 );
 
 
-export default function DormReview() {
+export default function DormSearch() {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [minValue, setMinValue] = useState(0);
@@ -32,15 +32,10 @@ export default function DormReview() {
   const [facilities, setFacilities] = useState([]);
 
   const [Data, setData] = useState([]);//เอาไว้ใช้เก็บข้อมูลที่ดึงมาแต่ตอนนี้ยังใช้ fake data ไปก่อน
- 
+
   useEffect(() => {
-    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms`)
-      .then(res => {
-        setData(res.data);
-        console.log(res);
-      })
-    console.log(Data);
-  }, []);
+    handleSearch();
+  }, [Data]);
 
   const handleMinChange = (newValue) => {
     setMinValue(newValue);
@@ -50,27 +45,60 @@ export default function DormReview() {
     setMaxValue(newValue);
   };
 
-  useEffect(() => {
-    // เรียกใช้ handleSearch เพื่อค้นหาข้อมูลทั้งหมดเมื่อเปิดหน้ามาใหม่
-    handleSearch();
-  }, []);
-
   const handleSearch = () => {
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/dorms`)
+      .then(res => {
+        setData(res.data);
+      })
     // ทำการค้นหา dorms ที่มีชื่อที่ตรงหรือใกล้เคียงกับ searchText และอยู่ในช่วงราคาที่กำหนด และมีสิ่งอำนวยความสะดวกที่เลือก
-    const results = fakedata.filter(dorm =>
-      dorm.dorm_name.toLowerCase().includes(searchText.toLowerCase()) &&
-      dorm.price >= minValue &&
-      dorm.price <= maxValue &&
-      facilities.every(facility => dorm.facilities.includes(facility))
-    );
-    // ตั้งค่าผลการค้นหาให้กับ state searchResults
-    setSearchResults(results);
-    // ล้างค่า searchText หลังจากค้นหาเสร็จสิ้น
+    const dormsList = Data
+    let filteredDorms;
+    dormsList.map(dorm => {
+        dorm.dorms_facilities_name = dorm.dorms_facilities.map(facility => facility.facilities.name).slice(0, 3).join(', ');
+        dorm.dorms_facilities = dorm.dorms_facilities.map(facility => facility.facilities.id)
+        dorm.photos = dorm.photos.map(photo => photo.photo_url)[0]
+        dorm.stars = dorm.stars
+        return dorm;
+    });
+    
+    if (facilities == []) {
+      filteredDorms = dormsList
+    } else {
+      filteredDorms = dormsList.filter(dorm => {
+        const facilitiesID = dorm.dorms_facilities
+        for (const facility of facilities) {
+          if (!facilitiesID.includes(facility)) {
+            return false
+          }
+        }
+        return true
+      })
+    }
+
+    if (filteredDorms.length === 0) {
+        setSearchResults([]);
+        return;
+    }
+
+    filteredDorms = filteredDorms.filter(dorm => dorm.rent_price >= minValue && dorm.rent_price <= maxValue);
+
+    if (filteredDorms.length === 0) {
+        setSearchResults([]);
+        return;
+    }
+
+    if (searchText != "") {
+        const result = search(searchText, filteredDorms);
+        if (result.notFound) {
+            setSearchResults([]);
+            return;
+        }
+        setSearchResults(result.response);
+    } else {
+      setSearchResults(filteredDorms);
+    }
   }
 
-  useEffect(() => {
-    console.log([minValue, maxValue])
-  }, [[minValue, maxValue]]);
 
   const toggleFacility = (facility) => {
     if (facilities.includes(facility)) {
@@ -81,16 +109,16 @@ export default function DormReview() {
       setFacilities([...facilities, facility]);
     }
   };
-
+  
   const dorms = searchResults.map((dorm, index) => (
     <CardDorm
       key={index}
-      img={dorm.img}
-      dorm_name={dorm.dorm_name}
-      price={dorm.price}
       id={dorm.id}
-      facilities={dorm.facilities}
-      star={dorm.star}
+      dorm_name={dorm.name}
+      facilities={dorm.dorms_facilities_name}
+      price={dorm.rent_price}
+      img={dorm.photos}
+      star={dorm.stars}
     />
   ));
 
@@ -120,7 +148,6 @@ export default function DormReview() {
                 <p>{maxValue}</p>
               </div>
             </div>
-            <button onClick={handleSearch}>SEARCH</button>
           </div>
 
           <div className={styles.search_Bottom}>
@@ -208,9 +235,9 @@ export default function DormReview() {
         </div>
       </div>
 
-      <div className="w-[60vw] m-auto  font-semibold font-Poppins text-[36px] mt-[1vw] mb-[1vw]">
-        <p className="text-center">Result</p>
-        <div className="grid grid-cols-2 gap-4">
+      <div className="w-[80vw] m-auto  font-semibold font-Poppins text-[36px] mt-[1vw] mb-[1vw]">
+        <p className="text-center mb-5">Result</p>
+        <div className="grid grid-cols-2 gap-4 gap-y-8">
           {dorms}
         </div>
       </div>

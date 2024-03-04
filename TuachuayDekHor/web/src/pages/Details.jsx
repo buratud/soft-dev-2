@@ -14,7 +14,8 @@ import img1 from '../../src/Assets/slide1.png'
 import { FaRegEdit } from "react-icons/fa";
 import Footer from "../component/footer";
 // title,username,content,like,comments
-import { REACT_APP_BASE_API_URL } from '../config'
+import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config'
+
 
 const Details = () => {
   const { id } = useParams();
@@ -23,12 +24,39 @@ const Details = () => {
   const [like, setLike] = useState([]);
   const [data, setData] = useState([]);
   const [likeyet, setLikeyet] = useState([]);
+  const [content, setContent] = useState();
   useEffect(() => {
     axios.post(`${REACT_APP_BASE_API_URL}/detailpost`, {
       id
     })
       .then((res) => {
         setData(res.data[0]);
+        let modifiedBody = res.data[0].body;
+
+        const videoRegex = /<video[^>]*>[\s\S]*?<\/video>/g; // Updated regex
+        const iframeRegex = /<iframe[^>]*>[\s\S]*?<\/iframe>/g;
+        const videoMatches = modifiedBody.match(videoRegex);
+
+        if (videoMatches) {
+          // Iterate through each <video> tag found
+          videoMatches.forEach(videoTag => {
+            const styledVideoTag = videoTag.replace('<video', '<video style="max-width: 100%; max-height: 100%; width: auto; height: auto;"');
+            modifiedBody = modifiedBody.replace(videoTag, styledVideoTag);
+          });
+        }
+
+        // Find all <iframe> tags within the HTML content
+        const iframeMatches = modifiedBody.match(iframeRegex);
+
+        if (iframeMatches) {
+          // Iterate through each <iframe> tag found
+          iframeMatches.forEach(iframeTag => {
+            const styledIframeTag = iframeTag.replace('<iframe', '<iframe style="max-width: 100%; max-height: 100%; width: auto; height: auto;"');
+            modifiedBody = modifiedBody.replace(iframeTag, styledIframeTag);
+          });
+        }
+
+        setContent(modifiedBody);
       })
       .catch((error) => {
         console.error(error);
@@ -63,18 +91,24 @@ const Details = () => {
       .catch((error) => {
         console.error(error);
       });
+    }, [id]);
 
-    axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
-      user: session?.user?.id,
-      blog: id,
-    }).then(res => {
-      setLikeyet(res.data);
-    }).catch((error) => {
-      console.error(error);
-    });
-
-  }, [id]);
-
+    useState (() => {
+      console.log('session',session?.user?.id)
+      if (session?.user?.id !== undefined) {
+        axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
+          user: session?.user?.id,
+          blog: id,
+        }).then(res => {
+          setLikeyet(res.data);
+          console.log('islike',res.data)
+        }).catch((error) => {
+          console.error(error);
+        });
+      } else {
+        setLikeyet(false)
+      }
+    })
 
   // ระบบ like และ dislike
   const [loading, setLoading] = useState(false);
@@ -88,44 +122,46 @@ const Details = () => {
     setLoading(true); // Set loading state to true
 
     console.log('param', id, 'session', session?.user?.id);
-
-    axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
-      user: session?.user?.id,
-      blog: id,
-    })
-      .then(res => {
-        const liked = res.data;
-
-        if (liked) {
-          axios.post(`${REACT_APP_BASE_API_URL}/unlike`, {
-            user: session?.user?.id,
-            blog: id,
-          })
-            .then(res => {
-              setLikeyet(false); // ตั้งค่าเป็น false หลังจากกด Unlike
-              setLike(res.data.likes);
-            })
-            .catch((err) => {
-              alert(err);
-            });
-        } else {
-          axios.post(`${REACT_APP_BASE_API_URL}/like`, {
-            user: session?.user?.id,
-            blog: id,
-          })
-            .then(res => {
-              setLikeyet(true); // ตั้งค่าเป็น true หลังจากกด Like
-              setLike(res.data.likes);
-            })
-            .catch((err) => {
-              alert(err);
-            });
-        }
+    if (session?.user?.id) {
+      axios.post(`${REACT_APP_BASE_API_URL}/isliked`, {
+        user: session?.user?.id,
+        blog: id,
       })
-      .catch((err) => {
-        alert(err);
-      });
+        .then(res => {
+          const liked = res.data;
 
+            if (liked) {
+              axios.post(`${REACT_APP_BASE_API_URL}/unlike`, {
+                user: session?.user?.id,
+                blog: id,
+              })
+                .then(res => {
+                  setLikeyet(false); // ตั้งค่าเป็น false หลังจากกด Unlike
+                  setLike(res.data.likes);
+                })
+                .catch((err) => {
+                  alert(err);
+                });
+            } else {
+              axios.post(`${REACT_APP_BASE_API_URL}/like`, {
+                user: session?.user?.id,
+                blog: id,
+              })
+                .then(res => {
+                  setLikeyet(true); // ตั้งค่าเป็น true หลังจากกด Like
+                  setLike(res.data.likes);
+                })
+                .catch((err) => {
+                  alert(err);
+                });
+            }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    } else {
+      alert('please logged in before like')
+    }
 
     // Perform the server request based on the like status
     try {
@@ -152,21 +188,19 @@ const Details = () => {
               <h2>{data.title}</h2>
             </div>
             <div className="writer">
-              <div className="user__photo">
-                <Avatar src={userData.picture} />
-              </div>
-              <div className="name">
-                <h6>{userData.username}</h6>
-                <div />
+                <div className="user__photo">
+                  <Avatar src={userData.picture}/>
+                </div>
+                <Link to={`${REACT_APP_MAIN_URL}/profile/${userData.username}`} className="name">
+                  <h6>{userData.username}</h6>
+                  </Link>
 
-                {/* <div className="heart">
-                    <BsBookmark size={25} 
-                    className={like === 0 ? "nolike" : "like"}
-                    onClick={handleLikeClick}
-                    />
-                  </div> */}
-
-              </div>
+                  {/* <div className="heart">
+                      <BsBookmark size={25} 
+                      className={like === 0 ? "nolike" : "like"}
+                      onClick={handleLikeClick}
+                      />
+                    </div> */}
             </div>
             <div className="menu__icon">
               <div className="first">
@@ -205,7 +239,7 @@ const Details = () => {
           <div className="img__box">
             <img src={data.cover_img ?? img1} alt="" />
           </div>
-          <div className="content" dangerouslySetInnerHTML={{ __html: data.body }} />
+          <div className="content" dangerouslySetInnerHTML={{ __html: content }} />
         </Card>
       </div >
       <Footer></Footer>

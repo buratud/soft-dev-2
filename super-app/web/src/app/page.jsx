@@ -8,12 +8,40 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import axios from 'axios';
 import { NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_BASE_WEB_PATH } from '../../config';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NavBar from "../../components/nav";
 import Footer from "../../components/footer/Footer";
+import CardDorm_home from "../../components/CardDorm_home";
 
 export default function Home() {
   const [RecDataProduct, setRecDataProduct] = useState([]);
+  const [top_dorms, setTop_dorms] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/top-dorms`)
+      .then(res => {
+        if (res.data.length > 4) {
+          setTop_dorms(res.data.slice(0, 4));
+        } else {
+          setTop_dorms(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+  const top_dorm = top_dorms.map((dorm, index) => (
+    <CardDorm_home
+        key={index}
+        img = {dorm.photos[0].photo_url}
+        dorm_name = {dorm.name}
+        id = {dorm.dorm_id}
+        star = {dorm.average}
+        address = {dorm.province}
+    />
+  ))
+
   useState(() => {
     axios.post(`${NEXT_PUBLIC_BASE_API_URL}/recommended-product`, {
       "MaxRecommended": 4
@@ -67,28 +95,6 @@ export default function Home() {
       <div className={styles.place_holder}>
         <img style={{ width: "100%" }} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/place_holder.png`} />
       </div>
-      <div className={styles.search_bar_area}>
-        <div className={styles.search_bar}>
-          <input
-            className={styles.search_bar_input}
-            type="text"
-            placeholder="Search..."
-          ></input>
-          <div style={{ position: "absolute", display: "flex" }}>
-            <img style={{ marginLeft: "21px" }} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/search-icon.png`} />
-            <div
-              style={{
-                width: "2px",
-                height: "35px",
-                borderRadius: "1px",
-                backgroundColor: "rgba(0, 0, 0, 0.10)",
-                marginLeft: "15px",
-              }}
-            ></div>
-          </div>
-        </div>
-      </div>
-
       <div className={styles.portalwrap}>
         <Link style={{ textDecoration: 'none' }} href={`/dorms`}>
           <div className={styles.portal}>
@@ -131,7 +137,7 @@ export default function Home() {
                   </div>
                 </Link>
               </div>
-              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
+              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/blog.png`} />
             </div>
           </div>
           <div className={styles.ReccommendedBlogs}>
@@ -161,7 +167,7 @@ export default function Home() {
             <div style={{ width: '80vw', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
           </div>
           <div className={styles.blog_poster}>
-            <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
+            <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/Dorms.png`} />
             <div className={styles.poster_info_blog}>
               <h1>Find Your Dorms in Your Way!</h1>
               <p>Friendly Interfacebr <br />
@@ -176,18 +182,25 @@ export default function Home() {
               </Link>
             </div>
           </div>
+
+          <div>
+            <div className={styles.recommend_dorm}>Recommended Dorms</div>
+            <div className={styles.dorm_container}>
+                {top_dorm}
+            </div>
+          </div>
         </div>
         {/* dekhor market */}
         <div>
           <div>
-            <div className={styles.title}>
+            <div className={styles.title_market}>
               <p className={styles.dekhor_title}>Dekhor</p>
               <p className={styles.blog_title}>Markets</p>
               <div style={{ width: '80vw', height: '1px', backgroundColor: '#B5B5B5', marginBottom: '10px' }}></div>
             </div>
             <div className={styles.blog_poster}>
               {/* discover (krit) */}
-              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/poster_img.png`} />
+              <img src={`${NEXT_PUBLIC_BASE_WEB_PATH}/image/markets.png`} />
               <div className={styles.poster_info_market}>
                 <h1>Find the stuffs you need
                   <br />with Dekhor Markets!</h1>
@@ -216,7 +229,7 @@ export default function Home() {
                   }
                 })}
               </Carousel>
-            </div>
+            </div>  
           </div>
         </div>
       </div>

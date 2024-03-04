@@ -49,10 +49,15 @@
 }
 
 .destText p{
+    width: 300px;
     color: black;
     font-family:'Poppins' ;
     font-weight: 500;
+    text-overflow: ellipsis;
     height: 2rem;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-right: 1.5rem;
 }
 
 .icon{

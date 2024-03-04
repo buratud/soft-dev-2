@@ -4,12 +4,14 @@ import React, { useState, useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { ImSpinner9 } from "react-icons/im";
+import { BsDashCircleFill } from "react-icons/bs";
 import { createClient } from "@supabase/supabase-js";
 
 import "./style.css";
 import Navbar from "../../../components/nav.jsx";
 import Footer from "../../../components/footer/Footer.jsx";
-import {NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY} from "../../../config.js"; // Import config.js
+import { NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_BASE_API_URL } from "../../../config.js"; // Import config.js
+import axios from "axios";
 
 // Define the main component
 export default function ContactSupport() {
@@ -20,15 +22,38 @@ export default function ContactSupport() {
   const [historyData, setHistoryData] = useState([]); // State for storing transmission history data
   const [loading, setLoading] = useState(false); // State for tracking loading status
   const [setUnsend, setUnsendLoading] = useState(false); // State for tracking unsend operation loading status
+  const [user_id, setUserId] = useState("");
+  const [email, setEmail] = useState("");
   const [feedbackSent, setFeedbackSent] = useState(false); // State for tracking feedback sent status
   const [unsendSuccess, setUnsendSuccess] = useState(false); // State for tracking unsend success status
   const [error, setError] = useState(null); // State for storing error messages
   const [unsendClickedIndex, setUnsendClickedIndex] = useState(null); // State for tracking the index of the clicked row for unsend
-  const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  const [problemAdded, setProblemAdded] = useState(false); // State for tracking if a problem is added
 
-  // dummy user_id and email
-  const user_id = "AA000001";
-  const email = "example@domain.com";
+  const maxUnsendLimit = 5;
+  const statusToRemove = 'Unsent';
+
+  const supabase = createClient(
+    NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
+
+  useEffect(() => {
+    supabase.auth.getSession().then((result) => {
+      if (!result.data || !result.data.session || !result.data.session.user || !result.data.session.user.id) {
+        // Redirect to the home page
+        window.location.href = `/`;
+      } else {
+        // Fetch user data
+        axios
+          .get(`${NEXT_PUBLIC_BASE_API_URL}/users/${result.data.session.user.id}`)
+          .then((res) => {
+            setUserId(res.data.id);
+            setEmail(res.data.email);
+          });
+      }
+    });
+  }, []);
 
   // Function to get unsend icon based on the unsend status
   const getUnsendIcon = (unsend) => {
@@ -45,7 +70,7 @@ export default function ContactSupport() {
   // Function to fetch data only once when the component mounts.
   useEffect(() => {
     fetchDataFromSupabase(); // Initial data fetch
-  }, []);
+  }, [user_id, email]);
 
   // Function to scroll to the last row when historyData changes
   useEffect(() => {
@@ -103,22 +128,38 @@ export default function ContactSupport() {
   const fetchDataFromSupabase = async () => {
     try {
       setLoading(true);
-
       // Fetch data from Supabase with filtering
       const { data, error } = await supabase
         .from("problems")
         .select("*")
-        .eq("user_id", user_id)
-        .eq("email", email)
-        .order("date_create");
+        .eq("user_id", user_id) // Make sure user_id is defined
+        .eq("email", email) // Make sure email is defined
+        .order("date_create"); // Check if order method is supported
 
-      if (error) {
-        throw new Error("Failed to fetch data from Supabase");
+      let filterData = data;
+
+      while (filterData.length > maxUnsendLimit) {
+        const indexToRemove = data.findIndex(item => item.status === statusToRemove);
+        if (indexToRemove !== -1) {
+          // Remove the oldest "unsent" item
+          filterData.splice(indexToRemove, 1);
+        }else{
+          break;
+        }
       }
 
-      setHistoryData(data);
+
+      if (error) {
+        throw new Error(`Failed to fetch data from Supabase: ${error.message}`);
+      }
+
+      setHistoryData(filterData);
+
+      // Log the result
+      console.log(data);
     } catch (err) {
-      setError("Fetching data failed.");
+      setError(`Fetching data failed: ${err.message}`);
+      // Consider propagating the error to the calling component if needed
     } finally {
       setLoading(false);
     }
@@ -150,14 +191,14 @@ export default function ContactSupport() {
 
       setUnsendClickedIndex(index); // Set the index of the row clicked for unsend
 
-      await fetchDataFromSupabase(); // Refresh data from Supabase after unsend operation
     } catch (err) {
       setError(
         err.message ||
-          "Unsending problem failed."
+        "Unsending problem failed."
       ); // Set error message if an error occurs during unsend operation
     } finally {
       setUnsendLoading(false); // Set unsend loading status to false after unsend operation completion (success or failure)
+      await fetchDataFromSupabase(); // Refresh data from Supabase after unsend operation
     }
   };
 
@@ -196,6 +237,7 @@ export default function ContactSupport() {
         setSelectedType(""); // Reset selectedType state
         setFeedbackData(""); // Reset feedbackData state
         setFeedbackSent(true); // Set feedbackSent status to true
+        setProblemAdded(true); // Set problemAdded to true after successfully adding a problem
 
         const lastRow = document.querySelector(
           ".history_table tbody tr:last-child"
@@ -207,6 +249,7 @@ export default function ContactSupport() {
         setError("Sending problem failed."); // Set error message if an error occurs during feedback submission
       } finally {
         setLoading(false); // Set loading status to false after feedback submission completion (success or failure)
+        await fetchDataFromSupabase(); // Refresh data from Supabase after unsend operation
       }
     }
   };
@@ -262,12 +305,11 @@ export default function ContactSupport() {
                           <tr
                             key={index}
                             className={
-                              index === unsendClickedIndex || unsendSuccess
+                              (index === unsendClickedIndex && !problemAdded) || unsendSuccess
                                 ? "unsend-success"
-                                : index === historyData.length - 1 &&
-                                feedbackSent
-                                ? "feedback-success"
-                                : ""
+                                : index === historyData.length - 1 && feedbackSent
+                                  ? "feedback-success"
+                                  : ""
                             }
                           >
                             {/* Conditional class for feedback success */}
@@ -278,16 +320,18 @@ export default function ContactSupport() {
                             <td>{data.status}</td>
                             {/* Conditional class for feedback success */}
                             <td>
-                              {/* Conditionally render loading icon or unsend icon */}
+                              {/* Conditionally render loading icon, unsend icon, or BsDashCircleFill */}
                               {data.loading ? (
                                 <ImSpinner9
                                   className="loading-icon"
                                   size={23}
                                 />
+                              ) : data.status === "Solved" ? (
+                                <BsDashCircleFill size={23} /> // Change icon to BsDashCircleFill when status is "solved"
                               ) : (
                                 <div
-                                  onClick={() => handleUnsendClick(index)}
-                                  style={{ cursor: "pointer" }}
+                                  onClick={data.status === "Solved" ? null : () => handleUnsendClick(index)}
+                                  style={{ cursor: data.status === "Solved" ? "not-allowed" : "pointer" }}
                                 >
                                   {getUnsendIcon(data.unsend)}
                                 </div>
@@ -344,16 +388,6 @@ export default function ContactSupport() {
                     </div>
                   </div>
                   <div className="bottom">
-                    {/* Checkbox for DekHor Eats */}
-                    <div className="checkbox-label">
-                      <input
-                        type="checkbox"
-                        value="Eats"
-                        checked={selectedType === "Eats"}
-                        onChange={() => setSelectedType("Eats")}
-                      />
-                      <span>DekHor Eats</span>
-                    </div>
                     {/* Checkbox for DekHor Markets */}
                     <div className="checkbox-label">
                       <input
@@ -395,10 +429,10 @@ export default function ContactSupport() {
                 {feedbackSent && (
                   <div className="success-message">Problem sent!</div>
                 )}
-                {/* Success message for feedback unsent */}
+                {/* Success message for feedback unsent
                 {unsendSuccess && (
                   <div className="success-message">Problem unsent!</div>
-                )}
+                )} */}
                 {/* Error message display */}
                 {error && <div className="error-message">{error}</div>}
               </div>
