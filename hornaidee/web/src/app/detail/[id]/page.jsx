@@ -303,7 +303,7 @@ export default function DormDetails() {
       </div>
 
       <div style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '1200px', marginBottom: '1.5em', marginTop: '-2em' }}>
-        {data.latitude && <SinglePointMaps lat={data.latitude} lng={data.longitude} width="100%" />} {/* Map Component */}
+        <SinglePointMaps lat={data.latitude} long={data.longitude} width="100%" /> {/* Map Component */}
       </div>
       {/* Reviews Component */}
       <div className="reviewsbox">
