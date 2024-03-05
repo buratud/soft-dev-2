@@ -2,7 +2,7 @@
 import { AiOutlineHome, AiOutlineTag, AiOutlineEnvironment } from "react-icons/ai";
 import { BsBuildings, Bs123, BsHouse } from "react-icons/bs";
 import Link from "next/link";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { NEXT_PUBLIC_BASE_WEB_URL, NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY } from "../../../config";
 import { createClient } from "@supabase/supabase-js";
@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import ImageUploadComponent from "../image_component";
 import "./style.css";
 import SinglePointMaps from "../../../components/SinglePointMaps/SinglePointMaps.tsx";
+import NoSsr from "../../../components/NoSsr";
 
 const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
@@ -393,7 +394,9 @@ export default function AddDormPage() {
             </div>
           </div>
         </form>
-        <SinglePointMaps onLocationChange={onLocationChange} width="1400px" changeable/>
+        <NoSsr>
+          <SinglePointMaps onLocationChange={onLocationChange} width="1400px" changeable />
+        </NoSsr>
         {imageErrors && (
           <div className="flex flex-col items-center gap-1 text-red-600 font-Poppins font-semibold">
             <span>{imageErrors}</span>
