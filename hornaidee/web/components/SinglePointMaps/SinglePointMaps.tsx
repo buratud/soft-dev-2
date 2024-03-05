@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import { useRef, useState, useEffect } from "react";
 import * as atlas from 'azure-maps-control';
 import "azure-maps-control/dist/atlas.min.css";
