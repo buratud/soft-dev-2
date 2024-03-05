@@ -9,7 +9,8 @@ import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import ImageUploadComponent from "../image_component";
 import "./style.css";
-import SinglePointMaps from "../../../components/SinglePointMaps/SinglePointMaps.tsx";
+import dynamic from "next/dynamic";
+const SinglePointMaps = dynamic(() => import("../../../components/SinglePointMaps/SinglePointMaps.tsx"), {ssr: false});
 
 const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 

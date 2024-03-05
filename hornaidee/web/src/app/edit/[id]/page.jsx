@@ -9,8 +9,8 @@ import ImageUploadComponent from "../../image_component";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import "./style.css";
-import SinglePointMaps from "../../../../components/SinglePointMaps/SinglePointMaps";
-
+import dynamic from "next/dynamic";
+const SinglePointMaps = dynamic(() => import("../../../../components/SinglePointMaps/SinglePointMaps.tsx"), {ssr: false});
 const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
 export default function EditDormPage() {

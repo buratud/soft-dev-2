@@ -1,5 +1,6 @@
 'use client'
-import SinglePointMaps from "../../../components/SinglePointMaps/SinglePointMaps";
+import dynamic from "next/dynamic";
+const SinglePointMaps = dynamic(() => import("../../../components/SinglePointMaps/SinglePointMaps.tsx"), { ssr: false });
 
 export default function Page() {
   return (
