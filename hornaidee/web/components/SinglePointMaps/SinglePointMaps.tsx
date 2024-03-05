@@ -88,5 +88,5 @@ export default function SinglePointMaps({ lat, long, onLocationChange, changeabl
         onLocationChange?.(location[1], location[0]);
     }, [location]);
 
-    return <div id="myMap" ref={mapRef} style={{ height: height ?? '500px', width: width ?? '100%', maxWidth: '1400px', padding: 0, margin: 0 }} />;
+    return <div id="myMap" ref={mapRef} style={{ height: height ?? '500px', width: width ?? '100%', padding: 0, margin: 0 }} />;
 }
