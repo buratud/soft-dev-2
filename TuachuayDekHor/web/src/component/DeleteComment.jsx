@@ -8,7 +8,7 @@ import axios from 'axios';
 import { AuthContext } from '../App';
 import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config'
 
-function DeleteComment(){
+function DeleteComment({ blogId }){
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -21,7 +21,7 @@ function DeleteComment(){
   // const [data,setData] = useState([]);
     console.log('blog id',id)
     axios.post(`${REACT_APP_BASE_API_URL}/deleteblog`, {
-      blog: id
+      blog: blogId
     })
     .then(res => {
       alert('delete your blog successfully')

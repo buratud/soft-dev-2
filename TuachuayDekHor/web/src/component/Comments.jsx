@@ -65,15 +65,15 @@ function OffCanvasExample({ name, ...props }) {
   }
 
   // Elements
-  const commentElements = allcomment.map(({ user: { username }, content }, index) => {
-    const isOwner = session && commentUserId === session.user.id; // เช็คว่าผู้ใช้ที่ login เป็นเจ้าของคอมเมนต์หรือไม่
+  const commentElements = allcomment.map(({ user: { username ,id }, content }, index) => {
+    const isOwner = true
     return (
       <div className="comment_app" key={index}>
         <div className="comment_Username">
           <h5>{username}</h5>
           {isOwner && (
             <button className="Delete_wrap">
-              <DeleteComment></DeleteComment>
+              <DeleteComment blogId={id}/>
             </button>
           )}
         </div>
