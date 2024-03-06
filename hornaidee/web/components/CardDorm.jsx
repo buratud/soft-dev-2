@@ -6,6 +6,7 @@ import Rating from '@mui/material/Rating';
 
 const CardDorm = (props) => {
     const { img, dorm_name, price, id , facilities,star } = props;
+    const new_price = Number(price.toFixed(0));
     return (
         <div className={styles.dorm_card}>
             <img className={styles.image} src={img}/>
@@ -21,7 +22,7 @@ const CardDorm = (props) => {
                 </div>
                 <div style={{height:'70px'}}>
                     <p className={styles.facilities}>{facilities}</p>
-                    <p className={styles.price}> THB{price.toLocaleString()}/mo.</p>
+                    <p className={styles.price}> THB{new_price.toLocaleString()}/mo.</p>
                 </div>
                 <Link href={`${NEXT_PUBLIC_MAIN_URL}/dorms/detail/${id}`} style={{textDecoration:'none'}}>
                     <div className={styles.see_info_button}>

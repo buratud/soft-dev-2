@@ -7,6 +7,7 @@ import Image from "next/image";
 
 const CardDorm = (props) => {
     const { img, dorm_name, price, id, facilities, star } = props;
+    const new_price = Number(price.toFixed(0));
     return (
         <div className={styles.dorm_card}>
             <img className={styles.image} src={img} />
