@@ -8,13 +8,13 @@ import axios from 'axios';
 import { AuthContext } from '../App';
 import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config'
 
-function DeleteComment({ blogId }){
+function DeleteComment({ commentId }){
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const {id} = useParams();
+  const id = commentId
   const navigate = useNavigate();
   const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
   const handledelete = () => {
