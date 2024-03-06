@@ -19,13 +19,13 @@ function DeleteComment({ commentId }){
   const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
   const handledelete = () => {
   // const [data,setData] = useState([]);
-    console.log('blog id',id)
-    axios.post(`${REACT_APP_BASE_API_URL}/deleteblog`, {
-      blog: blogId
+    console.log('comment id',id)
+    axios.post(`${REACT_APP_BASE_API_URL}/deletecomment`, {
+      comment: id
     })
     .then(res => {
       alert('delete your blog successfully')
-      window.location.href = `${REACT_APP_MAIN_URL}/profile`;
+      window.location.reload();
     })
     .catch((err) => {
         alert(err)

@@ -287,8 +287,8 @@ api.post("/showcomment", async (req, res) => {
     }
 })
 
-api.delete("/deletecomment", async (req, res) => {
-    const { comment } = req.query;
+api.post("/deletecomment", async (req, res) => {
+    const { comment } = req.body;
     const { error } = await supabase
         .from("comments")
         .delete()
