@@ -189,6 +189,14 @@ api.post('/get-userID-from-username', async (req, res) => {
   }
 })
 
+api.post('/random-avatar', async (req, res) => {
+  const profileIndex = Math.floor(Math.random() * avatarArray.length)
+
+  const avatarURL = baseAvatarURL + avatarArray[profileIndex];
+
+  res.status(200).json({ picture : avatarURL });
+})
+
 api.post('/profile-picture', async (req, res) => {
   const { userID } = req.body;
   if (userID) {

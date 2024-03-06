@@ -74,13 +74,15 @@ export default function Home() {
         }));
     };
 
-    const handleRandomImage = async () => {
-        try {
-            const response = await axios.get(`${NEXT_PUBLIC_BASE_API_URL}/random-profile-picture`);
-            setProfileImage(response.data?.data.picture);
-        } catch (error) {
-            console.error("Error fetching random profile picture:", error);
-        }
+    const handleRandomImage = () => {
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/random-avatar`)
+        .then(res => {
+            console.log(res);
+            setProfileImage(res.data?.picture);
+        })
+        .catch(err => {
+            console.error("Error fetching random profile picture:", err);
+        });
     };
 
     const updateProfile = async () => {
@@ -103,7 +105,7 @@ export default function Home() {
             formData.imageURL = data.publicUrl;
         }
         else{
-            formData.imageURL = undefined;
+            formData.imageURL = profileImage;
         }
         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/set-profile`, {
             userID: formData.userID,
