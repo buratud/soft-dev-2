@@ -23,7 +23,7 @@ const CardDorm = (props) => {
                 </div>
                 <div style={{ height: '70px' }}>
                     <p className={styles.facilities}>{facilities}</p>
-                    <p className={styles.price}> THB{price}/mo.</p>
+                    <p className={styles.price}> THB{price.toLocaleString()}/mo.</p>
                 </div>
                 <Link href={`${NEXT_PUBLIC_BASE_DORMS_WEB_URL}/detail/${id}`} style={{ textDecoration: 'none' }}>
                     <div className={styles.see_info_button}>
