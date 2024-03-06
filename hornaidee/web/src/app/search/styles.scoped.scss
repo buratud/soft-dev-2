@@ -1,0 +1,10 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    width: 100%;
+    height: calc(100vh - 80px);
+}
+
+.result-box {
+    width: 350px;
+}
