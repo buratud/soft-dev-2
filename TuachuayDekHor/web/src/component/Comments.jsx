@@ -9,6 +9,7 @@ import { AuthContext } from '../App';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { REACT_APP_BASE_API_URL } from '../config'
+import DeleteComment from './DeleteComment';
 
 
 function OffCanvasExample({ name, ...props }) {
@@ -65,9 +66,17 @@ function OffCanvasExample({ name, ...props }) {
 
   // Elements
   const commentElements = allcomment.map(({ user: { username }, content }, index) => {
+    const isOwner = session && commentUserId === session.user.id; // เช็คว่าผู้ใช้ที่ login เป็นเจ้าของคอมเมนต์หรือไม่
     return (
       <div className="comment_app" key={index}>
-        <h5>{username}</h5>
+        <div className="comment_Username">
+          <h5>{username}</h5>
+          {isOwner && (
+            <button className="Delete_wrap">
+              <DeleteComment></DeleteComment>
+            </button>
+          )}
+        </div>
         <p1>{content}</p1>
       </div>
     )
