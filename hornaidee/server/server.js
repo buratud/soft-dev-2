@@ -7,7 +7,7 @@ const { search } = require("./search");
 const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest } = require('./type');
 
 const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET, LOG_LEVEL } = require('./config');
-const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage } = require('./util');
+const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage, calculateDistance } = require('./util');
 const { log } = require('console');
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -155,12 +155,17 @@ app.get('/dorms', async (req, res) => {
 app.get('/v2/search', async (req, res) => {
     try {
         const { faliclites, minPrice, maxPrice, radius, longOrigin, latOrigin } = req.query;
-        const query = supabase.schema('dorms').rpc('search', { lat: Number(latOrigin), long: Number(longOrigin) });
+        const query = supabase.schema('dorms').from('dorms').select('*, dorms_facilities(...facilities(*)), photos(photo_url), average_stars(average)');
         const { data, error } = await query;
         if (error) {
             logger.error(error);
             res.status(500).send();
             return;
+        }
+        for (const dorm of data) {
+            dorm.distance = calculateDistance(latOrigin, longOrigin, dorm.latitude, dorm.longitude);
+            dorm.average_stars = dorm.average_stars.map(star => star.average)[0] ?? null;
+            dorm.photos = dorm.photos.map(photo => photo.photo_url);
         }
         return res.json(data);
     } catch (error) {
