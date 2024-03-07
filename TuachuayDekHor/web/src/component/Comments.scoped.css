@@ -141,3 +141,30 @@ textarea {
     border-bottom: 1px solid rgba(178, 178, 178, 0.779);
     margin-bottom: 0.85rem;
 }
+
+.comment_Username{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.Delete_wrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(209, 89, 89);
+    color: #f8f8f8;
+    width: 30px;
+    height: 30px;
+    padding: 0.2rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    border: none;
+    margin-right: 2rem;
+}
+
+.icon-delete:hover{
+    scale: 1.1;
+    background-color: rgb(176, 74, 74);
+}
