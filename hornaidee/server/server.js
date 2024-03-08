@@ -156,9 +156,10 @@ app.get('/v2/search', async (req, res) => {
     try {
         let { faliclites, minPrice, maxPrice, radius, longOrigin, latOrigin, minStar, maxStar } = req.query;
         if (!faliclites) {
-            faliclites = '';
+            faliclites = [];
+        } else {
+            faliclites = faliclites.split(',').map(Number);
         }
-        faliclites = faliclites.split(',').map(Number);
         const query = supabase.schema('dorms').from('dorms').select('*, dorms_facilities(...facilities(*)), photos(photo_url), average_stars(average)');
         const { data, error } = await query;
         if (error) {
@@ -174,7 +175,8 @@ app.get('/v2/search', async (req, res) => {
         let filtered = data.filter(dorm => dorm.distance <= radius && dorm.rent_price >= minPrice && dorm.rent_price <= maxPrice
             && dorm.average_stars >= minStar && dorm.average_stars <= maxStar);
         if (faliclites.length > 0) {
-            filtered = filtered.filter(dorm => dorm.dorms_facilities.some(facility => true));
+            console.log(faliclites)
+            filtered = filtered.filter(dorm => dorm.dorms_facilities.some(facility => faliclites.includes(facility.id)));
         }
         return res.json(filtered);
     } catch (error) {
