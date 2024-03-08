@@ -20,3 +20,9 @@ export interface DormFacility {
     id: number;
     name: string;
 }
+
+export interface DormDiff {
+    added: Dorm[];
+    removed: Dorm[];
+    updated: Dorm[];
+}

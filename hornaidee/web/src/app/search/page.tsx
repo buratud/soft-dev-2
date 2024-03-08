@@ -28,7 +28,7 @@ export default function Page() {
   return (
     <div className="container">
       <div>
-        <DormsSearchMaps/>
+        <DormsSearchMaps dorms={data}/>
       </div>
       <div className="result-box">
         <div className="filter"></div>
