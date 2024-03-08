@@ -15,6 +15,7 @@ import {KnownSearchAddressResultType, MapsSearchClient, SearchAddressResultItem}
 import DormSearchResultRangeSlider from "../../../components/DormSearchResultRangeSlider/DormSearchResultRangeSlider";
 import {FaPaw, FaShoppingBag, FaSnowflake, FaUtensils, FaWifi} from "react-icons/fa";
 import {MdElevator} from "react-icons/md";
+import DormSearchResultSlider from "../../../components/DormSearchResultSlider/DormSearchResultSlider";
 
 export default function Page() {
   const client = new MapsSearchClient(new AzureKeyCredential(NEXT_PUBLIC_AZURE_MAPS_KEY));
@@ -80,9 +81,8 @@ export default function Page() {
           }}
                                        maxValue={5} minValue={0} step={1}/>
           <p className={styles["label"]}>Distance (Radius)</p>
-          <DormSearchResultRangeSlider onMinChange={() => {
-          }} onMaxChange={() => {
-          }}
+          <DormSearchResultSlider onChange={() => {
+          }} initValue={20} suffix={"km"}
                                        maxValue={20} minValue={0} step={1}/>
           <p className={styles["label"]} style={{marginBottom: '10px'}}>Facilities</p>
           <label className="flex items-center gap-2 ">
