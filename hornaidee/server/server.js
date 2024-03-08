@@ -155,6 +155,7 @@ app.get('/dorms', async (req, res) => {
 app.get('/v2/search', async (req, res) => {
     try {
         let { faliclites, minPrice, maxPrice, radius, longOrigin, latOrigin, minStar, maxStar } = req.query;
+        logger.debug(faliclites);
         if (!faliclites) {
             faliclites = [];
         } else {
@@ -175,7 +176,7 @@ app.get('/v2/search', async (req, res) => {
         let filtered = data.filter(dorm => dorm.distance <= radius && dorm.rent_price >= minPrice && dorm.rent_price <= maxPrice
             && dorm.average_stars >= minStar && dorm.average_stars <= maxStar);
         if (faliclites.length > 0) {
-            console.log(faliclites)
+            logger.debug(faliclites)
             filtered = filtered.filter(dorm => dorm.dorms_facilities.some(facility => faliclites.includes(facility.id)));
         }
         return res.json(filtered);
