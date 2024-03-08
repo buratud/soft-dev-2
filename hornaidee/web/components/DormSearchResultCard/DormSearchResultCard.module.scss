@@ -1,5 +1,5 @@
 .card {
-  padding: 1.5em;
+  padding: 1.5em 1.5em 1em;
 }
 
 .name {
@@ -50,6 +50,18 @@
   font-size: 1.1em;
 }
 
-p {
-  //line-height: 1.4em;
+.button {
+  display: flex;
+    align-items: center;
+  margin-left: auto;
+  margin-top: 1em;
+  padding: 0.5em 0.7em;
+  transition: background-color 0.3s;
+    cursor: pointer;
+  border-radius: 0.5em;
+  width: fit-content;
+  color: #3d5eff;
+  &:hover {
+    background-color: #e0e0e0;
+  }
 }
