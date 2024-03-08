@@ -14,12 +14,12 @@ export default function DormSearchResultCard({dorm}: { dorm: Dorm }) {
       <h3 className={styles["name"]}>{dorm.name}</h3>
       <div className={styles["info"]}>
         <div className={styles["image-container"]}>
-          <Image src={dorm.photos[0]} alt={dorm.name} className={styles["image"]} fill/>
+          <Image src={dorm.photos[0]} alt={dorm.name} className={styles["image"]} fill sizes="100px"/>
         </div>
         <div className={styles["detail"]}>
           <span className={styles["star-container"]}>
             <FaStar className={styles["star"]}/>&nbsp;<span
-            className={styles["star-text"]}>{dorm.average_stars?.toFixed(2) ?? "No ratings"}</span>
+            className={styles["star-text"]}>{!dorm.average_stars ? "No ratings" : dorm.average_stars.toFixed(2)}</span>
           </span>
           <p className={styles["address"]}>{dorm.address}</p>
           <p className={styles["price"]}>{dorm.rent_price.toLocaleString()} บาท/เดือน</p>
