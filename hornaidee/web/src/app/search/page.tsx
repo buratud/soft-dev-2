@@ -54,7 +54,12 @@ const facilities = [
     icon: <FaUtensils/>
   }
 ];
-function paramReducer (state: DormSearchParams, action: {type:string, value: number, isActive?: boolean}): DormSearchParams {
+
+const paramReducer = (state: DormSearchParams, action: {
+  type: string,
+  value: number,
+  isActive?: boolean
+}): DormSearchParams => {
   if (action.type === "minPrice") {
     return {...state, price: {...state.price, min: action.value}};
   } else if (action.type === "maxPrice") {
@@ -64,17 +69,19 @@ function paramReducer (state: DormSearchParams, action: {type:string, value: num
   } else if (action.type === "maxRating") {
     return {...state, rating: {...state.rating, max: action.value}};
   } else if (action.type === "distance") {
-    return {...state, distance: action.value};
+    return {...state, distance: action.value * 1000};
   } else if (action.type === "facility") {
-    const facility = state.facilities;
+    let facility = state.facilities;
     if (action.isActive) {
       facility.push(action.value);
     } else {
-      facility.filter((value) => value !== action.value);
+      console.log("REMOVE", action.value)
+      facility = facility.filter((value) => value !== action.value);
     }
     return {...state, facilities: facility};
   }
 }
+
 export default function Page() {
   const client = new MapsSearchClient(new AzureKeyCredential(NEXT_PUBLIC_AZURE_MAPS_KEY));
   const [data, setData] = useState<Dorm[]>([]);
@@ -91,22 +98,21 @@ export default function Page() {
       min: 0,
       max: 5,
     },
-    distance: 20,
+    distance: 20000,
     facilities: [],
   });
   useEffect(() => {
-      // Form a query string from searchParams and origin
-      const params = new URLSearchParams();
-      const facility = searchParams.facilities.join(",");
-      params.append("latOrigin", origin[1].toString());
-      params.append("longOrigin", origin[0].toString());
-      params.append("radius", searchParams.distance.toString());
-      params.append("minPrice", searchParams.price.min.toString());
-      params.append("maxPrice", searchParams.price.max.toString());
-      params.append("minStar", searchParams.rating.min.toString());
-      params.append("maxStar", searchParams.rating.max.toString());
-      params.append("faliclites", facility);
-      console.log(params.toString());
+    // Form a query string from searchParams and origin
+    const params = new URLSearchParams();
+    const facility = searchParams.facilities.join(",");
+    params.append("latOrigin", origin[1].toString());
+    params.append("longOrigin", origin[0].toString());
+    params.append("radius", searchParams.distance.toString());
+    params.append("minPrice", searchParams.price.min.toString());
+    params.append("maxPrice", searchParams.price.max.toString());
+    params.append("minStar", searchParams.rating.min.toString());
+    params.append("maxStar", searchParams.rating.max.toString());
+    params.append("faliclites", facility);
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/v2/search?${params.toString()}`)
       .then((response) => {
           console.log(response.data);
@@ -116,8 +122,9 @@ export default function Page() {
       .catch((error) => {
         console.log(error);
       });
-  }, [searchParams,origin]);
+  }, [searchParams, origin]);
   useEffect(() => {
+    console.log("SETTTTT")
     navigator.geolocation.getCurrentPosition(loc => {
       setOrigin([loc.coords.longitude, loc.coords.latitude]);
     }, () => {
@@ -154,24 +161,22 @@ export default function Page() {
         <div className={styles["filter-container"]}>
           <h4>Filter</h4>
           <p className={styles["label"]}>Price</p>
-          <DormSearchResultRangeSlider onMinChange={() => {
-          }} onMaxChange={() => {
-          }}
+          <DormSearchResultRangeSlider onMinChange={val => dispatch({type: "minPrice", value: val})}
+                                       onMaxChange={val => dispatch({type: "maxPrice", value: val})}
                                        maxValue={10000} minValue={0} step={1000}/>
           <p className={styles["label"]}>Rating</p>
-          <DormSearchResultRangeSlider onMinChange={() => {
-          }} onMaxChange={() => {
-          }}
+          <DormSearchResultRangeSlider onMinChange={val => dispatch({type: "minRating", value: val})}
+                                       onMaxChange={val => dispatch({type: "maxRating", value: val})}
                                        maxValue={5} minValue={0} step={1}/>
           <p className={styles["label"]}>Distance (Radius)</p>
-          <DormSearchResultSlider onChange={() => {
-          }} initValue={20} suffix={"km"}
-                                       maxValue={20} minValue={0} step={1}/>
+          <DormSearchResultSlider onChange={ val => dispatch({type: "distance", value: val }) } initValue={20} suffix={"km"}
+                                  maxValue={20} minValue={0} step={1}/>
           <p className={styles["label"]} style={{marginBottom: '10px'}}>Facilities</p>
           {facilities.map((facility, index) => (
             <label className="flex items-center gap-2 " key={facility.id}>
               <input type="checkbox"
-                     onChange={() => {
+                     onChange={e => {
+                        dispatch({type: "facility", value: facility.id, isActive: e.target.checked})
                      }}
                      className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
               />
