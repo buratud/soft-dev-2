@@ -7,4 +7,17 @@
 
 .result-box {
     width: 350px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.dorm-list {
+    overflow-y: auto;
+    height: 100%;
+}
+
+.divider {
+    border: 1px solid #ccc;
+    width: calc(100% - 2em);
+    margin: 0 1em;
 }
