@@ -18,7 +18,7 @@ export default function DormsSearchMaps({dorms: dormData = [], origin}: { dorms?
   const [map, setMap] = useState<atlas.Map>(null);
   const markerRef = useRef<atlas.HtmlMarker>(null);
   const mapRef = useRef(null);
-  const dataSource = new atlas.source.DataSource();
+  const dataSource = useRef(new atlas.source.DataSource());
 
   useEffect(() => {
     const map = new atlas.Map(mapRef.current, {
@@ -45,12 +45,12 @@ export default function DormsSearchMaps({dorms: dormData = [], origin}: { dorms?
     setMap(map);
 
     map.events.add('ready', () => {
-        const symbolLayer = new atlas.layer.SymbolLayer(dataSource, null, {
+        const symbolLayer = new atlas.layer.SymbolLayer(dataSource.current, null, {
           iconOptions: {
             image: 'marker-red'
           }
         });
-        map.sources.add(dataSource);
+        map.sources.add(dataSource.current);
         map.layers.add(symbolLayer);
         map.events.add('click', symbolLayer, (e) => {
           console.log(e);
@@ -84,11 +84,12 @@ export default function DormsSearchMaps({dorms: dormData = [], origin}: { dorms?
     const diffRes = diff(previousDorms.current, dormData);
     for (const dorm of diffRes.added) {
       const point = new atlas.Shape(new atlas.data.Point([dorm.longitude, dorm.latitude]));
-      dataSource.add([point]);
+      dataSource.current.add([point]);
     }
     for (const dorm of diffRes.removed) {
-      const point = dataSource.getShapes().find((shape) => shape.getType() === 'Point' && shape.getCoordinates()[0] === dorm.longitude && shape.getCoordinates()[1] === dorm.latitude);
-      dataSource.remove([point]);
+      console.log(dataSource.current.getShapes())
+      const point = dataSource.current.getShapes().find((shape) => shape.getType() === 'Point' && shape.getCoordinates()[0] === dorm.longitude && shape.getCoordinates()[1] === dorm.latitude);
+      dataSource.current.remove([point]);
     }
     previousDorms.current = dormData;
   }, [dormData]);
