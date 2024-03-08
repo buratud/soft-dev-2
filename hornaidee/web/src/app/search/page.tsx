@@ -13,6 +13,8 @@ import {FaMagnifyingGlassLocation} from "react-icons/fa6";
 import {AzureKeyCredential} from "@azure/core-auth";
 import {KnownSearchAddressResultType, MapsSearchClient, SearchAddressResultItem} from "@azure/maps-search";
 import DormSearchResultSlider from "../../../components/DormSearchResultSlider/DormSearchResultSlider";
+import {FaPaw, FaShoppingBag, FaSnowflake, FaUtensils, FaWifi} from "react-icons/fa";
+import {MdElevator} from "react-icons/md";
 
 export default function Page() {
   const client = new MapsSearchClient(new AzureKeyCredential(NEXT_PUBLIC_AZURE_MAPS_KEY));
@@ -89,7 +91,7 @@ export default function Page() {
                    }}
                    className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
             />
-            Air-Conditioner
+            <FaSnowflake /> Air-Conditioner
           </label>
           <label className="flex items-center gap-2 ">
             <input type="checkbox"
@@ -97,7 +99,7 @@ export default function Page() {
                    }}
                    className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
             />
-            Pet-Friendly
+            <FaPaw /> Pet-Friendly
           </label>
           <label className="flex items-center gap-2 ">
             <input type="checkbox"
@@ -105,7 +107,7 @@ export default function Page() {
                    }}
                    className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
             />
-            Free WiFi
+            <FaWifi /> Free WiFi
           </label>
           <label className="flex items-center gap-2 ">
             <input type="checkbox"
@@ -113,7 +115,7 @@ export default function Page() {
                    }}
                    className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
             />
-            Elevator
+            <MdElevator /> Elevator
           </label>
           <label className="flex items-center gap-2 ">
             <input type="checkbox"
@@ -121,7 +123,7 @@ export default function Page() {
                    }}
                    className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
             />
-            Near Bus Stop
+            <MdElevator /> Near Bus Stop
           </label>
           <label className="flex items-center gap-2 ">
             <input type="checkbox"
@@ -129,7 +131,7 @@ export default function Page() {
                    }}
                    className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
             />
-            Near Shopping Malls
+            <FaShoppingBag /> Near Shopping Malls
           </label>
           <label className="flex items-center gap-2 ">
             <input type="checkbox"
@@ -137,7 +139,7 @@ export default function Page() {
                    }}
                    className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
             />
-            Near Restaurants
+            <FaUtensils /> Near Restaurants
           </label>
         </div>
         {/* Naming is hard :( */}
