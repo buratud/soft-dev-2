@@ -3,15 +3,14 @@ import dynamic from "next/dynamic";
 
 const DormsSearchMaps = dynamic(() => import("../../../components/DormsSearchMaps/DormsSearchMaps"), {ssr: false});
 import './styles.scoped.scss'
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
-import {NEXT_PUBLIC_AZURE_MAPS_CLIENT_ID, NEXT_PUBLIC_AZURE_MAPS_KEY, NEXT_PUBLIC_BASE_API_URL} from "../../../config";
+import {NEXT_PUBLIC_AZURE_MAPS_KEY, NEXT_PUBLIC_BASE_API_URL} from "../../../config";
 import {Dorm} from "../../types";
 import DormSearchResultCard from "../../../components/DormSearchResultCard/DormSearchResultCard";
 import React from "react";
 import {FaMagnifyingGlassLocation} from "react-icons/fa6";
-import atlas from "azure-maps-control";
-import {AccessToken, AzureKeyCredential, TokenCredential} from "@azure/core-auth";
+import {AzureKeyCredential} from "@azure/core-auth";
 import {KnownSearchAddressResultType, MapsSearchClient, SearchAddressResultItem} from "@azure/maps-search";
 
 export default function Page() {
