@@ -9,6 +9,7 @@ import {NEXT_PUBLIC_BASE_API_URL} from "../../../config";
 import {Dorm} from "../../types";
 import DormSearchResultCard from "../../../components/DormSearchResultCard/DormSearchResultCard";
 import React from "react";
+import {FaMagnifyingGlassLocation} from "react-icons/fa6";
 
 export default function Page() {
   const [data, setData] = useState<Dorm[]>([]);
@@ -27,15 +28,22 @@ export default function Page() {
 
   return (
     <div className="container">
-      <div>
+      <div className="map">
         <DormsSearchMaps dorms={data}/>
+        {/* Naming is hard :( */}
+        <div className="search-box-container">
+          <div className="search-bar">
+            <FaMagnifyingGlassLocation className="search-icon"/>
+            <input className="search-box" placeholder={"Search origin"}/>
+          </div>
+        </div>
       </div>
       <div className="result-box">
         <div className="filter"></div>
         <div className="dorm-list">
           {data.map((dorm, index) => (
             <React.Fragment key={dorm.id}>
-              <DormSearchResultCard dorm={dorm} />
+              <DormSearchResultCard dorm={dorm}/>
               <div className="divider"/>
             </React.Fragment>
           ))}
