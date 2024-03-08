@@ -10,3 +10,4 @@ exports.NEXT_PUBLIC_SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KE
 exports.NEXT_PUBLIC_MAIN_URL = process.env.NEXT_PUBLIC_MAIN_URL || 'https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com';
 exports.NEXT_PUBLIC_MAIN_API_URL = process.env.NEXT_PUBLIC_MAIN_URL ? `${exports.NEXT_PUBLIC_MAIN_URL}/api` : 'http://localhost:4000';
 exports.NEXT_PUBLIC_AZURE_MAPS_KEY = 'yTErSdqjV2gBKj_f2-qD8Wg7bAt6C2v0SHROqdtymoQ';
+exports.NEXT_PUBLIC_AZURE_MAPS_CLIENT_ID = 'cef864c9-291b-4de0-8059-97919dca5221';

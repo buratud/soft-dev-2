@@ -1,58 +1,82 @@
 .container {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    width: 100%;
-    height: calc(100vh - 80px);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  width: 100%;
+  height: calc(100vh - 80px);
 }
 
 .result-box {
-    width: 350px;
-    height: 100%;
-    overflow: hidden;
+  width: 350px;
+  height: 100%;
+  overflow: hidden;
 }
 
 .dorm-list {
-    overflow-y: auto;
-    height: 100%;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .divider {
-    border: 1px solid #ccc;
-    width: calc(100% - 2em);
-    margin: 0 1em;
+  border: 1px solid #ccc;
+  width: calc(100% - 2em);
+  margin: 0 1em;
 }
 
 .search-box-container {
-    margin: 1em;
-    position: absolute;
-    top: 0;
-    border-radius: 1em;
-    background-color: #fff;
+  margin: 1em;
+  position: absolute;
+  top: 0;
+  border-radius: 1em;
+  background-color: #fff;
+  box-shadow: 0 0 5px 0 #aaa;
+  width: 400px;
+  &:focus-within, &:active {
+    .search-result {
+      display: block;
+    }
+  }
+  overflow: hidden;
 }
 
 .search-bar {
-    width: 400px;
-    height: 40px;
-        display: flex;
-    align-items: center;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
 }
 
 .search-icon {
-    margin: 0 0.7em;
-    font-size: 1.2em;
+  margin: 0 0.7em;
+  font-size: 1.2em;
 }
 
 .search-box {
-    width: 100%;
-    height: 100%;
-    border: none;
-    background-color: transparent;
-    outline: none;
-    font-size: 1em;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  font-size: 1em;
 }
 
 .map {
-    width: 100%;
-    height: 100%;
-    position: relative;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.search-result {
+  overflow-y: auto;
+  height: 50%;
+  display: none;
+}
+
+.search-result-item {
+  padding: 0.5em 1em;
+  transition: background-color 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
 }
