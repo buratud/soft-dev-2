@@ -8,6 +8,7 @@
 .result-box {
   width: 350px;
   height: 100%;
+  font-family: Poppins;
   overflow: hidden;
 }
 
@@ -23,6 +24,7 @@
 }
 
 .search-box-container {
+  font-family: Poppins;
   margin: 1em;
   position: absolute;
   top: 0;
@@ -65,6 +67,8 @@
   position: relative;
 }
 
+
+
 .search-result {
   overflow-y: auto;
   height: 50%;
@@ -78,5 +82,25 @@
 
   &:hover {
     background-color: #e0e0e0;
+  }
+}
+
+.filter-container {
+  margin: 4.5em 0 0 1em;
+  position: absolute;
+  top: 0;
+  padding: 1em;
+  border-radius: 1em;
+  background-color: #fff;
+  box-shadow: 0 0 5px 0 #aaa;
+  width: 300px;
+  font-family: Poppins;
+  h4 {
+    font-weight: bold;
+    font-size: 1.3em;
+  }
+  .label {
+    margin-top: 0.5em;
+    font-weight: bold;
   }
 }
