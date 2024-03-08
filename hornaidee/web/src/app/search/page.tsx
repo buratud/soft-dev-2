@@ -3,10 +3,10 @@ import dynamic from "next/dynamic";
 
 const DormsSearchMaps = dynamic(() => import("../../../components/DormsSearchMaps/DormsSearchMaps"), {ssr: false});
 import styles from './styles.module.scss'
-import {useEffect, useState} from "react";
+import {useEffect, useReducer, useState} from "react";
 import axios from "axios";
 import {NEXT_PUBLIC_AZURE_MAPS_KEY, NEXT_PUBLIC_BASE_API_URL} from "../../../config";
-import {Dorm} from "../../types";
+import {Dorm, DormSearchParams} from "../../types";
 import DormSearchResultCard from "../../../components/DormSearchResultCard/DormSearchResultCard";
 import React from "react";
 import {FaMagnifyingGlassLocation} from "react-icons/fa6";
@@ -54,7 +54,27 @@ const facilities = [
     icon: <FaUtensils/>
   }
 ];
-
+function paramReducer (state: DormSearchParams, action: {type:string, value: number, isActive?: boolean}): DormSearchParams {
+  if (action.type === "minPrice") {
+    return {...state, price: {...state.price, min: action.value}};
+  } else if (action.type === "maxPrice") {
+    return {...state, price: {...state.price, max: action.value}};
+  } else if (action.type === "minRating") {
+    return {...state, rating: {...state.rating, min: action.value}};
+  } else if (action.type === "maxRating") {
+    return {...state, rating: {...state.rating, max: action.value}};
+  } else if (action.type === "distance") {
+    return {...state, distance: action.value};
+  } else if (action.type === "facility") {
+    const facility = state.facilities;
+    if (action.isActive) {
+      facility.push(action.value);
+    } else {
+      facility.filter((value) => value !== action.value);
+    }
+    return {...state, facilities: facility};
+  }
+}
 export default function Page() {
   const client = new MapsSearchClient(new AzureKeyCredential(NEXT_PUBLIC_AZURE_MAPS_KEY));
   const [data, setData] = useState<Dorm[]>([]);
@@ -62,13 +82,32 @@ export default function Page() {
   const [searchResult, setSearchResult] = useState<SearchAddressResultItem[]>([]);
   const [noPoi, setNoPoi] = useState<boolean>(false);
   const [origin, setOrigin] = useState<number[]>([100.514266205884, 13.8188104311351]);
-  const [searchFocused, setSearchFocused] = useState<boolean>(false);
+  const [searchParams, dispatch] = useReducer(paramReducer, {
+    price: {
+      min: 0,
+      max: 10000,
+    },
+    rating: {
+      min: 0,
+      max: 5,
+    },
+    distance: 20,
+    facilities: [],
+  });
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(loc => {
-      setOrigin([loc.coords.longitude, loc.coords.latitude]);
-    }, () => {
-    });
-    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/v2/search?latOrigin=${origin[1]}&longOrigin=${origin[0]}&radius=1000`)
+      // Form a query string from searchParams and origin
+      const params = new URLSearchParams();
+      const facility = searchParams.facilities.join(",");
+      params.append("latOrigin", origin[1].toString());
+      params.append("longOrigin", origin[0].toString());
+      params.append("radius", searchParams.distance.toString());
+      params.append("minPrice", searchParams.price.min.toString());
+      params.append("maxPrice", searchParams.price.max.toString());
+      params.append("minStar", searchParams.rating.min.toString());
+      params.append("maxStar", searchParams.rating.max.toString());
+      params.append("faliclites", facility);
+      console.log(params.toString());
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/v2/search?${params.toString()}`)
       .then((response) => {
           console.log(response.data);
           setData(response.data);
@@ -77,6 +116,12 @@ export default function Page() {
       .catch((error) => {
         console.log(error);
       });
+  }, [searchParams,origin]);
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(loc => {
+      setOrigin([loc.coords.longitude, loc.coords.latitude]);
+    }, () => {
+    });
   }, []);
 
   useEffect(() => {
