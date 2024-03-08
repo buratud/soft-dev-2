@@ -23,7 +23,7 @@ export default function Page() {
   const [search, setSearch] = useState<string>("");
   const [searchResult, setSearchResult] = useState<SearchAddressResultItem[]>([]);
   const [noPoi, setNoPoi] = useState<boolean>(false);
-  const [origin, setOrigin] = useState<number[]>([100.523186, 13.736717]);
+  const [origin, setOrigin] = useState<number[]>([100.514266205884, 13.8188104311351]);
   const [searchFocused, setSearchFocused] = useState<boolean>(false);
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(loc => {
