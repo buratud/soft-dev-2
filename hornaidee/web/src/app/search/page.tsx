@@ -60,7 +60,7 @@ export default function Page() {
   }
 
   return (
-    <div className="container">
+    <div className="dorms-container">
       <div className="map">
         <DormsSearchMaps dorms={data} origin={origin}/>
         {/* Naming is hard :( */}
