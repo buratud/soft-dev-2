@@ -2,7 +2,7 @@
 import {useRef, useState, useEffect, CSSProperties, useMemo, useReducer} from "react";
 import * as atlas from 'azure-maps-control';
 import "azure-maps-control/dist/atlas.min.css";
-import './DormsSearchMaps.scoped.scss';
+import styles from './DormsSearchMaps.module.scss';
 import {Dorm, DormDiff} from "../../src/types";
 import {NEXT_PUBLIC_AZURE_MAPS_KEY} from "../../config.js";
 
@@ -93,5 +93,5 @@ export default function DormsSearchMaps({dorms: dormData = [], origin}: { dorms?
     previousDorms.current = dormData;
   }, [dormData]);
 
-  return <div ref={mapRef} className="maps"/>;
+  return <div ref={mapRef} className={styles.maps}/>;
 }
