@@ -5,6 +5,7 @@ import "azure-maps-control/dist/atlas.min.css";
 import './DormsSearchMaps.scoped.scss';
 import {Dorm, DormDiff} from "../../src/types";
 import {NEXT_PUBLIC_AZURE_MAPS_KEY} from "../../config.js";
+
 function diff(a: Dorm[], b: Dorm[]): DormDiff {
   const added = b.filter((dorm) => !a.some((d) => d.id === dorm.id));
   const removed = a.filter((dorm) => !b.some((d) => d.id === dorm.id));
@@ -12,7 +13,7 @@ function diff(a: Dorm[], b: Dorm[]): DormDiff {
   return {added, removed, updated};
 }
 
-export default function DormsSearchMaps({dorms: dormData = [], origin}: { dorms?: Dorm[], origin: number[]} ) {
+export default function DormsSearchMaps({dorms: dormData = [], origin}: { dorms?: Dorm[], origin: number[] }) {
   const previousDorms = useRef<Dorm[]>([]);
   const [map, setMap] = useState<atlas.Map>(null);
   const markerRef = useRef<atlas.HtmlMarker>(null);
@@ -44,29 +45,22 @@ export default function DormsSearchMaps({dorms: dormData = [], origin}: { dorms?
     setMap(map);
 
     map.events.add('ready', () => {
-      map.imageSprite.add('icon', 'https://cdn.discordapp.com/emojis/1149657537747091536.webp?size=128&quality=lossless').then(
-        () => {
-          const symbolLayer = new atlas.layer.SymbolLayer(dataSource, null, {
-            iconOptions: {
-              image: 'marker-red'
-            }
-          });
-          map.sources.add(dataSource);
-          map.layers.add(symbolLayer);
-          map.events.add('click', symbolLayer, (e) => {
-            console.log(e);
-          });
-          for (const dorm of dormData) {
-            const point = new atlas.Shape(new atlas.data.Point([dorm.longitude, dorm.latitude]));
-            dataSource.add([point]);
+        const symbolLayer = new atlas.layer.SymbolLayer(dataSource, null, {
+          iconOptions: {
+            image: 'marker-red'
           }
-        },
-        (error) => {
-          console.error(error);
+        });
+        map.sources.add(dataSource);
+        map.layers.add(symbolLayer);
+        map.events.add('click', symbolLayer, (e) => {
+          console.log(e);
+        });
+        for (const dorm of dormData) {
+          const point = new atlas.Shape(new atlas.data.Point([dorm.longitude, dorm.latitude]));
+          dataSource.add([point]);
         }
-      )
-
-    });
+      },
+    );
   }, []);
 
   useEffect(() => {
