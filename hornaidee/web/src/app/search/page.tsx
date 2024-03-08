@@ -12,7 +12,7 @@ import React from "react";
 import {FaMagnifyingGlassLocation} from "react-icons/fa6";
 import {AzureKeyCredential} from "@azure/core-auth";
 import {KnownSearchAddressResultType, MapsSearchClient, SearchAddressResultItem} from "@azure/maps-search";
-import DormSearchResultSlider from "../../../components/DormSearchResultSlider/DormSearchResultSlider";
+import DormSearchResultRangeSlider from "../../../components/DormSearchResultRangeSlider/DormSearchResultRangeSlider";
 import {FaPaw, FaShoppingBag, FaSnowflake, FaUtensils, FaWifi} from "react-icons/fa";
 import {MdElevator} from "react-icons/md";
 
@@ -29,7 +29,7 @@ export default function Page() {
       setOrigin([loc.coords.longitude, loc.coords.latitude]);
     }, () => {
     });
-    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/v2/search?latOrigin=13.736717&longOrigin=100.523186&radius=1000`)
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/v2/search?latOrigin=${origin[1]}&longOrigin=${origin[0]}&radius=1000`)
       .then((response) => {
           console.log(response.data);
           setData(response.data);
@@ -70,20 +70,20 @@ export default function Page() {
         <div className={styles["filter-container"]}>
           <h4>Filter</h4>
           <p className={styles["label"]}>Price</p>
-          <DormSearchResultSlider onMinChange={() => {
+          <DormSearchResultRangeSlider onMinChange={() => {
           }} onMaxChange={() => {
           }}
-                                  maxValue={10000} minValue={0} step={1000}/>
+                                       maxValue={10000} minValue={0} step={1000}/>
           <p className={styles["label"]}>Rating</p>
-          <DormSearchResultSlider onMinChange={() => {
+          <DormSearchResultRangeSlider onMinChange={() => {
           }} onMaxChange={() => {
           }}
-                                  maxValue={5} minValue={0} step={1}/>
+                                       maxValue={5} minValue={0} step={1}/>
           <p className={styles["label"]}>Distance (Radius)</p>
-          <DormSearchResultSlider onMinChange={() => {
+          <DormSearchResultRangeSlider onMinChange={() => {
           }} onMaxChange={() => {
           }}
-                                  maxValue={20} minValue={0} step={1}/>
+                                       maxValue={20} minValue={0} step={1}/>
           <p className={styles["label"]} style={{marginBottom: '10px'}}>Facilities</p>
           <label className="flex items-center gap-2 ">
             <input type="checkbox"

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import styles from './DormSearchResultSlider.module.scss';
+import styles from './DormSearchResultRangeSlider.module.scss';
 
-export default function DormSearchResultSlider({ onMinChange, onMaxChange, minValue, maxValue, step }) {
+export default function DormSearchResultRangeSlider({ onMinChange, onMaxChange, minValue, maxValue, step }) {
   const [value, setValue] = React.useState([minValue, maxValue]);
 
   const handleChange = (event, newValue) => {
