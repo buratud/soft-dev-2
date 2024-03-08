@@ -17,6 +17,44 @@ import {FaPaw, FaShoppingBag, FaSnowflake, FaUtensils, FaWifi} from "react-icons
 import {MdElevator} from "react-icons/md";
 import DormSearchResultSlider from "../../../components/DormSearchResultSlider/DormSearchResultSlider";
 
+const facilities = [
+  {
+    id: 3,
+    name: "Air-Conditioner",
+    icon: <FaSnowflake/>,
+  },
+  {
+    id: 4,
+    name: "Pet-Friendly",
+    icon: <FaPaw/>
+  },
+  {
+    id: 5,
+    name: "Free WiFi",
+    icon: <FaWifi/>
+  },
+  {
+    id: 6,
+    name: "Elevator",
+    icon: <MdElevator/>
+  },
+  {
+    id: 7,
+    name: "Near Bus Stop",
+    icon: <MdElevator/>
+  },
+  {
+    id: 8,
+    name: "Near Shopping Malls",
+    icon: <FaShoppingBag/>
+  },
+  {
+    id: 9,
+    name: "Near Restaurants",
+    icon: <FaUtensils/>
+  }
+];
+
 export default function Page() {
   const client = new MapsSearchClient(new AzureKeyCredential(NEXT_PUBLIC_AZURE_MAPS_KEY));
   const [data, setData] = useState<Dorm[]>([]);
@@ -85,62 +123,17 @@ export default function Page() {
           }} initValue={20} suffix={"km"}
                                        maxValue={20} minValue={0} step={1}/>
           <p className={styles["label"]} style={{marginBottom: '10px'}}>Facilities</p>
-          <label className="flex items-center gap-2 ">
-            <input type="checkbox"
-                   onChange={() => {
-                   }}
-                   className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-            />
-            <FaSnowflake /> Air-Conditioner
-          </label>
-          <label className="flex items-center gap-2 ">
-            <input type="checkbox"
-                   onChange={() => {
-                   }}
-                   className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-            />
-            <FaPaw /> Pet-Friendly
-          </label>
-          <label className="flex items-center gap-2 ">
-            <input type="checkbox"
-                   onChange={() => {
-                   }}
-                   className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-            />
-            <FaWifi /> Free WiFi
-          </label>
-          <label className="flex items-center gap-2 ">
-            <input type="checkbox"
-                   onChange={() => {
-                   }}
-                   className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-            />
-            <MdElevator /> Elevator
-          </label>
-          <label className="flex items-center gap-2 ">
-            <input type="checkbox"
-                   onChange={() => {
-                   }}
-                   className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-            />
-            <MdElevator /> Near Bus Stop
-          </label>
-          <label className="flex items-center gap-2 ">
-            <input type="checkbox"
-                   onChange={() => {
-                   }}
-                   className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-            />
-            <FaShoppingBag /> Near Shopping Malls
-          </label>
-          <label className="flex items-center gap-2 ">
-            <input type="checkbox"
-                   onChange={() => {
-                   }}
-                   className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-            />
-            <FaUtensils /> Near Restaurants
-          </label>
+          {facilities.map((facility, index) => (
+            <label className="flex items-center gap-2 " key={facility.id}>
+              <input type="checkbox"
+                     onChange={() => {
+                     }}
+                     className="form-checkbox h-5 w-5 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
+              />
+              {facility.icon}{facility.name}
+            </label>
+          ))}
+
         </div>
         {/* Naming is hard :( */}
         <div className={styles["search-box-container"]}>
