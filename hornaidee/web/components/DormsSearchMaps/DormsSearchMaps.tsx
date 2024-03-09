@@ -83,13 +83,12 @@ export default function DormsSearchMaps({dorms: dormData = [], origin}: { dorms?
   useEffect(() => {
     const diffRes = diff(previousDorms.current, dormData);
     for (const dorm of diffRes.added) {
-      const point = new atlas.Shape(new atlas.data.Point([dorm.longitude, dorm.latitude]));
+      const point = new atlas.Shape(new atlas.data.Point([dorm.longitude, dorm.latitude]), dorm.id.toString());
       dataSource.current.add([point]);
     }
     for (const dorm of diffRes.removed) {
       console.log(dataSource.current.getShapes())
-      const point = dataSource.current.getShapes().find((shape) => shape.getType() === 'Point' && shape.getCoordinates()[0] === dorm.longitude && shape.getCoordinates()[1] === dorm.latitude);
-      dataSource.current.remove([point]);
+      dataSource.current.remove(dorm.id.toString());
     }
     previousDorms.current = dormData;
   }, [dormData]);
