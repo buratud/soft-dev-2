@@ -116,6 +116,7 @@ export default function Page() {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/v2/search?${params.toString()}`)
       .then((response) => {
           console.log(response.data);
+          response.data.sort((a, b) => a.distance - b.distance);
           setData(response.data);
         }
       )
