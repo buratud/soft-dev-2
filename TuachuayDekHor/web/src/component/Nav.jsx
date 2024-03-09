@@ -163,7 +163,7 @@ const Navbar = () => {
             <a href={`${REACT_APP_MAIN_URL}/dorms/search`}>
               <div>
                 <span>
-                  All Dorms
+                  Search Dorms
                 </span>
               </div>
             </a>
