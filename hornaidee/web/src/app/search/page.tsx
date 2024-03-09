@@ -13,7 +13,7 @@ import {FaMagnifyingGlassLocation} from "react-icons/fa6";
 import {AzureKeyCredential} from "@azure/core-auth";
 import {KnownSearchAddressResultType, MapsSearchClient, SearchAddressResultItem} from "@azure/maps-search";
 import DormSearchResultRangeSlider from "../../../components/DormSearchResultRangeSlider/DormSearchResultRangeSlider";
-import {FaPaw, FaShoppingBag, FaSnowflake, FaUtensils, FaWifi} from "react-icons/fa";
+import {FaBus, FaPaw, FaShoppingBag, FaSnowflake, FaUtensils, FaWifi} from "react-icons/fa";
 import {MdElevator} from "react-icons/md";
 import DormSearchResultSlider from "../../../components/DormSearchResultSlider/DormSearchResultSlider";
 
@@ -41,7 +41,7 @@ const facilities = [
   {
     id: 7,
     name: "Near Bus Stop",
-    icon: <MdElevator/>
+    icon: <FaBus/>
   },
   {
     id: 8,
