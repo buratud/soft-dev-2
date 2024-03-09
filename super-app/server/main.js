@@ -8,7 +8,7 @@ const Sentry = require("@sentry/node");
 const app = express();
 const api = express.Router();
 
-const baseAvatarURL = SUPABASE_URL+"storage/v1/object/public/Profile_User/";
+const baseAvatarURL = SUPABASE_URL+"/storage/v1/object/public/Profile_User/";
 const {avatarArray} = require("./avatar");
 
 Sentry.init({
