@@ -77,7 +77,6 @@ export default function Home() {
     const handleRandomImage = () => {
         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/random-avatar`)
         .then(res => {
-            console.log(res);
             setProfileImage(res.data?.picture);
         })
         .catch(err => {
