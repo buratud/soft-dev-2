@@ -52,6 +52,10 @@ export default function DormsSearchMaps({dorms: dormData = [], origin}: { dorms?
         });
         map.sources.add(dataSource.current);
         map.layers.add(symbolLayer);
+        const popup = new atlas.Popup({
+          pixelOffset: [0, -18],
+          closeButton: false
+        });
         map.events.add('click', symbolLayer, (e) => {
           console.log(e);
         });
@@ -83,8 +87,9 @@ export default function DormsSearchMaps({dorms: dormData = [], origin}: { dorms?
   useEffect(() => {
     const diffRes = diff(previousDorms.current, dormData);
     for (const dorm of diffRes.added) {
-      const point = new atlas.Shape(new atlas.data.Point([dorm.longitude, dorm.latitude]), dorm.id.toString());
-      dataSource.current.add([point]);
+      const point = new atlas.data.Point([dorm.longitude, dorm.latitude]);
+      // const shape = new atlas.Shape(point, dorm.id.toString());
+      dataSource.current.add(new atlas.data.Feature(point, dorm, dorm.id.toString()));
     }
     for (const dorm of diffRes.removed) {
       console.log(dataSource.current.getShapes())
