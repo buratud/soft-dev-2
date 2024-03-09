@@ -163,7 +163,7 @@ export default function Page() {
           <p className={styles["label"]}>Price</p>
           <DormSearchResultRangeSlider onMinChange={val => dispatch({type: "minPrice", value: val})}
                                        onMaxChange={val => dispatch({type: "maxPrice", value: val})}
-                                       maxValue={10000} minValue={0} step={1000}/>
+                                       maxValue={30000} minValue={0} step={1000}/>
           <p className={styles["label"]}>Rating</p>
           <DormSearchResultRangeSlider onMinChange={val => dispatch({type: "minRating", value: val})}
                                        onMaxChange={val => dispatch({type: "maxRating", value: val})}
