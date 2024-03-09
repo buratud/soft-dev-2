@@ -28,7 +28,7 @@ export default function SinglePointMaps({ lat, long, onLocationChange, changeabl
             },
             showLogo: false,
             showFeedbackLink: false,
-            style: 'satellite',
+            style: 'satellite_road_labels',
         });
         map.controls.add(new atlas.control.StyleControl({
             mapStyles: ['road', 'grayscale_dark', 'night', 'road_shaded_relief', 'satellite', 'satellite_road_labels'],
