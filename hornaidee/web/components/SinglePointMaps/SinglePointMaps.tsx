@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import * as atlas from 'azure-maps-control';
 import "azure-maps-control/dist/atlas.min.css";
 import { list } from "postcss";
-
+import {NEXT_PUBLIC_AZURE_MAPS_KEY} from "../../config.js";
 export default function SinglePointMaps({ lat, long, onLocationChange, changeable, width, height }: {
     lat?: number,
     long?: number,
@@ -24,7 +24,7 @@ export default function SinglePointMaps({ lat, long, onLocationChange, changeabl
             language: 'th-TH',
             authOptions: {
                 authType: atlas.AuthenticationType.subscriptionKey,
-                subscriptionKey: 'yTErSdqjV2gBKj_f2-qD8Wg7bAt6C2v0SHROqdtymoQ'
+                subscriptionKey: NEXT_PUBLIC_AZURE_MAPS_KEY
             },
             showLogo: false,
             showFeedbackLink: false,
