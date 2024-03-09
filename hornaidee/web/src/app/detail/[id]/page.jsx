@@ -35,6 +35,7 @@ import {
 } from "../../../../config";
 import { createClient } from "@supabase/supabase-js";
 import IndeterminateProgressBar from "../../../../components/IndeterminateProgressBar/IndeterminateProgressBar";
+import SinglePointMaps from "../../../../components/SinglePointMaps/SinglePointMaps";
 
 const supabase = createClient(
   NEXT_PUBLIC_SUPABASE_URL,
@@ -241,7 +242,7 @@ export default function DormDetails() {
           <div className="bigRatingbox">
             <h3>Overall Rating</h3>
             <div className="ratingnumbox">
-              <h3>{rate.average !== null ? rate.average.toFixed(1) : "_._"}</h3>
+              <h3>{rate.average ? rate.average.toFixed(1) : "_._"}</h3>
             </div>
           </div>
           <div className="bigPricebox">
@@ -301,6 +302,9 @@ export default function DormDetails() {
         </div>
       </div>
 
+      <div style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '1200px', marginBottom: '1.5em', marginTop: '-2em' }}>
+        <SinglePointMaps lat={data.latitude} long={data.longitude} width="100%" /> {/* Map Component */}
+      </div>
       {/* Reviews Component */}
       <div className="reviewsbox">
         <div className="flex justify-between">

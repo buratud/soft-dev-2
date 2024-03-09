@@ -4,10 +4,10 @@ const bodyParser = require('body-parser')
 const { createClient } = require('@supabase/supabase-js');
 const { z } = require('zod');
 const { search } = require("./search");
-const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest} = require('./type');
+const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest } = require('./type');
 
 const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET, LOG_LEVEL } = require('./config');
-const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage } = require('./util');
+const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage, calculateDistance } = require('./util');
 const { log } = require('console');
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -59,7 +59,7 @@ app.get('/recent-reviews', async (_, res) => {
 
 app.get('/dorms/search', async (req, res) => {
     try {
-        const { name: searchTerm, filter:facilityFilter, range: priceRange } = req.body;
+        const { name: searchTerm, filter: facilityFilter, range: priceRange } = req.body;
         const { data: dormsList, dormError } = await supabase.schema('dorms').from('dorms').select('id, name, rent_price, dorms_facilities(facility_id), photos(photo_url), average_stars(average)')
         dormsList.map(dorm => {
             dorm.dorms_facilities = dorm.dorms_facilities.map(facility => facility.facility_id)
@@ -83,10 +83,10 @@ app.get('/dorms/search', async (req, res) => {
         }
 
         if (dormsList.length === 0) {
-            res.json({message: 'There are no matching dorms'});
+            res.json({ message: 'There are no matching dorms' });
             return;
         }
-        
+
         for (const dorm of dormsList) {
             const facilitiesID = dorm.dorms_facilities
             if (facilityFilter == []) {
@@ -104,14 +104,14 @@ app.get('/dorms/search', async (req, res) => {
         }
 
         if (dormsList.length === 0) {
-            res.json({message: 'There are no matching dorms'});
+            res.json({ message: 'There are no matching dorms' });
             return;
         }
 
         if (searchTerm != "") {
             const result = search(searchTerm, dormsList);
             if (result.notFound) {
-                res.json({message: 'There are no matching dorms'});
+                res.json({ message: 'There are no matching dorms' });
                 return;
             }
             res.json(result);
@@ -146,6 +146,40 @@ app.get('/dorms', async (req, res) => {
             dorm.stars = average;
         }
         res.json(dorms);
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send();
+    }
+});
+
+app.get('/v2/search', async (req, res) => {
+    try {
+        let { faliclites, minPrice, maxPrice, radius, longOrigin, latOrigin, minStar, maxStar } = req.query;
+        logger.debug(faliclites);
+        if (!faliclites) {
+            faliclites = [];
+        } else {
+            faliclites = faliclites.split(',').map(Number);
+        }
+        const query = supabase.schema('dorms').from('dorms').select('*, dorms_facilities(...facilities(*)), photos(photo_url), average_stars(average)');
+        const { data, error } = await query;
+        if (error) {
+            logger.error(error);
+            res.status(500).send();
+            return;
+        }
+        for (const dorm of data) {
+            dorm.distance = calculateDistance(latOrigin, longOrigin, dorm.latitude, dorm.longitude);
+            dorm.average_stars = dorm.average_stars.map(star => star.average)[0] ?? 0;
+            dorm.photos = dorm.photos.map(photo => photo.photo_url);
+        }
+        let filtered = data.filter(dorm => dorm.distance <= radius && dorm.rent_price >= minPrice && dorm.rent_price <= maxPrice
+            && dorm.average_stars >= minStar && dorm.average_stars <= maxStar);
+        if (faliclites.length > 0) {
+            logger.debug(faliclites)
+            filtered = filtered.filter(dorm => dorm.dorms_facilities.some(facility => faliclites.includes(facility.id)));
+        }
+        return res.json(filtered);
     } catch (error) {
         logger.error(error);
         res.status(500).send();
@@ -321,7 +355,7 @@ app.put('/dorms/:id', async (req, res) => {
         const dormOwner = dormInfo.map(object => object.owner)[0]
 
         if (req.user.sub != dormOwner) {
-            res.status(403).json({message: 'You are not the owner of this dorm'});
+            res.status(403).json({ message: 'You are not the owner of this dorm' });
             return;
         }
 
