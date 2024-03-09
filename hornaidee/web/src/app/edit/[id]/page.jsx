@@ -10,6 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import "./style.css";
 import dynamic from "next/dynamic";
+import Footer from "../../footer";
 const SinglePointMaps = dynamic(() => import("../../../../components/SinglePointMaps/SinglePointMaps.tsx"), {ssr: false});
 const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
@@ -536,6 +537,7 @@ export default function EditDormPage() {
           </button>
         </div>
       </div>
+      <Footer/>
     </main>
   );
 }

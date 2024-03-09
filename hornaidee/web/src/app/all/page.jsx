@@ -14,6 +14,7 @@ import {
   NEXT_PUBLIC_BASE_WEB_PATH
 } from "../../../config";
 import { createClient } from "@supabase/supabase-js";
+import Footer from "../footer";
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -241,6 +242,7 @@ export default function DormSearch() {
           {dorms}
         </div>
       </div>
+      <Footer />
     </>
   );
 }
