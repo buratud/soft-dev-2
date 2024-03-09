@@ -94,27 +94,13 @@
 
 .search_Bottom {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  text-align: center;
   margin-top: 24px;
   /* จัดเรียงชิดด้านของส่วนซ้ายและขวา */
 }
 
 .Bottom_left {
-  width: 48%;
   /* กำหนดความกว้างของ Bottom left เป็น 48% */
-  text-align: center;
-  color: #000;
-  font-family: Poppins;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-}
-
-.Bottom_right {
-  width: 48%;
-  /* กำหนดความกว้างของ Bottom right เป็น 48% */
   text-align: center;
   color: #000;
   font-family: Poppins;

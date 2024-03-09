@@ -55,13 +55,13 @@ export default function DormSearch() {
     const dormsList = Data
     let filteredDorms;
     dormsList.map(dorm => {
-        dorm.dorms_facilities_name = dorm.dorms_facilities.map(facility => facility.facilities.name).slice(0, 3).join(', ');
-        dorm.dorms_facilities = dorm.dorms_facilities.map(facility => facility.facilities.id)
-        dorm.photos = dorm.photos.map(photo => photo.photo_url)[0]
-        dorm.stars = dorm.stars
-        return dorm;
+      dorm.dorms_facilities_name = dorm.dorms_facilities.map(facility => facility.facilities.name).slice(0, 3).join(', ');
+      dorm.dorms_facilities = dorm.dorms_facilities.map(facility => facility.facilities.id)
+      dorm.photos = dorm.photos.map(photo => photo.photo_url)[0]
+      dorm.stars = dorm.stars
+      return dorm;
     });
-    
+
     if (facilities == []) {
       filteredDorms = dormsList
     } else {
@@ -77,24 +77,24 @@ export default function DormSearch() {
     }
 
     if (filteredDorms.length === 0) {
-        setSearchResults([]);
-        return;
+      setSearchResults([]);
+      return;
     }
 
     filteredDorms = filteredDorms.filter(dorm => dorm.rent_price >= minValue && dorm.rent_price <= maxValue);
 
     if (filteredDorms.length === 0) {
-        setSearchResults([]);
-        return;
+      setSearchResults([]);
+      return;
     }
 
     if (searchText != "") {
-        const result = search(searchText, filteredDorms);
-        if (result.notFound) {
-            setSearchResults([]);
-            return;
-        }
-        setSearchResults(result.response);
+      const result = search(searchText, filteredDorms);
+      if (result.notFound) {
+        setSearchResults([]);
+        return;
+      }
+      setSearchResults(result.response);
     } else {
       setSearchResults(filteredDorms);
     }
@@ -110,7 +110,7 @@ export default function DormSearch() {
       setFacilities([...facilities, facility]);
     }
   };
-  
+
   const dorms = searchResults.map((dorm, index) => (
     <CardDorm
       key={index}
@@ -143,9 +143,9 @@ export default function DormSearch() {
             </div>
             <div className={styles.RangeSlider}>
               <span>Price per month</span>
-              <RangeSlider 
-              onMinChange={handleMinChange} 
-              onMaxChange={handleMaxChange} />
+              <RangeSlider
+                onMinChange={handleMinChange}
+                onMaxChange={handleMaxChange} />
               <div>
                 <p>{minValue.toLocaleString()}</p>
                 <p>{maxValue.toLocaleString()}</p>
@@ -154,57 +154,46 @@ export default function DormSearch() {
           </div>
 
           <div className={styles.search_Bottom}>
-
+            <div className="m-auto text-[24px] font-bold font-Poppins">Facilities</div>
             <div className={styles.Bottom_left}>
-              <p>Facilities</p>
-              <div className="flex flex-row justify-between text-[18px] font-normal mt-[1vw]">
-                <div className="flex flex-col gap-4">
-                  <label className="flex items-center gap-2 ">
-                    <input
-                      type="checkbox"
-                      onChange={() => toggleFacility(3)}
-                      checked={facilities.includes(3)}
-                      className="form-checkbox h-6 w-6 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-                    />
-                    Air-Conditioner
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      onChange={() => toggleFacility(6)}
-                      checked={facilities.includes(6)}
-                      className="form-checkbox h-6 w-6 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-                    />
-                    Elevator
-                  </label>
-                </div>
+              <div className="grid grid-cols-4 gap-4 text-[18px] font-normal mt-[1vw]">
+                <label className="flex items-center gap-2 ">
+                  <input
+                    type="checkbox"
+                    onChange={() => toggleFacility(3)}
+                    checked={facilities.includes(3)}
+                    className="form-checkbox h-6 w-6 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
+                  />
+                  Air-Conditioner
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    onChange={() => toggleFacility(6)}
+                    checked={facilities.includes(6)}
+                    className="form-checkbox h-6 w-6 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
+                  />
+                  Elevator
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    onChange={() => toggleFacility(7)}
+                    checked={facilities.includes(7)}
+                    className="form-checkbox h-6 w-6 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
+                  />
+                  Near Bus Stop
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    onChange={() => toggleFacility(9)}
+                    checked={facilities.includes(9)}
+                    className="form-checkbox h-6 w-6 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
+                  />
+                  Near Restaurants
+                </label>
 
-                <div className="flex flex-col gap-4">
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      onChange={() => toggleFacility(7)}
-                      checked={facilities.includes(7)}
-                      className="form-checkbox h-6 w-6 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-                    />
-                    Near Bus Stop
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      onChange={() => toggleFacility(9)}
-                      checked={facilities.includes(9)}
-                      className="form-checkbox h-6 w-6 accent-bg-[#092F88] rounded cursor-pointer bg-[#8D8D8D]"
-                    />
-                    Near Restaurants
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.Bottom_right}>
-              <p>Popular Filters</p>
-              <div className="flex flex-row justify-between text-[18px] font-normal mt-[1vw] flex-wrap gap-4"> {/* เพิ่ม flex-wrap */}
                 <label className="flex items-center gap-2">
                   <input
                     type="checkbox"
