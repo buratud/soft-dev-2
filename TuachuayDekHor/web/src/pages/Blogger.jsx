@@ -13,6 +13,7 @@ function Blogger() {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [noResults, setNoResults] = useState(false);
   const { supabase_for_use: supabase, session, user } = useContext(AuthContext);
 
   // Back
@@ -21,6 +22,7 @@ function Blogger() {
       .then(res => {
         console.log('blogger',res.data);
         setData(res.data);
+        setNoResults(false);
       })
       .catch((err) => {
         alert(err);
@@ -33,6 +35,7 @@ function Blogger() {
       blogger.toLowerCase().includes(searchInput.toLowerCase())
     );
     setFilteredData(filtered);
+    setNoResults(filtered.length === 0);
   }, [data, searchInput]);
 
   const handleSearchInputChange = (event) => {
@@ -70,6 +73,7 @@ function Blogger() {
 
           </form>
         </div>
+        { noResults && <p className="noResults">No results found. Please try another search.</p>}
         <div className="blogger_list">
           <div className="blogger_wrapper">
             {/* ข้อมูล backend ใส่ตรงนี้ */}
