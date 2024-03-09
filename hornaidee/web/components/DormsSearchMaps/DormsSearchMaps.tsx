@@ -96,15 +96,10 @@ export default function DormsSearchMaps({dorms: dormData = [], origin}: { dorms?
   }, [origin]);
 
   useEffect(() => {
-    const diffRes = diff(previousDorms.current, dormData);
-    for (const dorm of diffRes.added) {
+    dataSource.current.clear();
+    for (const dorm of dormData) {
       const point = new atlas.data.Point([dorm.longitude, dorm.latitude]);
-      // const shape = new atlas.Shape(point, dorm.id.toString());
       dataSource.current.add(new atlas.data.Feature(point, dorm, dorm.id.toString()));
-    }
-    for (const dorm of diffRes.removed) {
-      console.log(dataSource.current.getShapes())
-      dataSource.current.remove(dorm.id.toString());
     }
     previousDorms.current = dormData;
   }, [dormData]);
