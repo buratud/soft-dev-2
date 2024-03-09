@@ -16,6 +16,7 @@ import DormSearchResultRangeSlider from "../../../components/DormSearchResultRan
 import {FaBus, FaPaw, FaShoppingBag, FaSnowflake, FaUtensils, FaWifi} from "react-icons/fa";
 import {MdElevator} from "react-icons/md";
 import DormSearchResultSlider from "../../../components/DormSearchResultSlider/DormSearchResultSlider";
+import NoResult from "../../../components/NoResult/NoResult";
 
 const facilities = [
   {
@@ -216,7 +217,7 @@ export default function Page() {
       <div className={styles["result-box"]}>
         <div className={styles["filter"]}></div>
         <div className={styles["dorm-list"]}>
-          {data.map((dorm, index) => (
+          {!data.length ? <NoResult/> : data.map((dorm, index) => (
             <React.Fragment key={dorm.id}>
               <DormSearchResultCard dorm={dorm}/>
               <div className={styles["divider"]}/>
