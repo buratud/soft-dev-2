@@ -191,7 +191,7 @@ export default function AddDormPage() {
 
   return (
     <main className="flex flex-col items-center justify-center bg-[#F6F6FB]">
-      <div className="flex flex-col justify-center items-center w-full md:w-3/4 lg:w-full gap-4" style={{ marginTop: 40 }}>
+      <div className="flex flex-col justify-center items-center w-full md:w-3/4 lg:w-full gap-4" style={{ marginTop: '4rem' }}>
         <form className="flex flex-col md:flex-row gap-36 font-Poppins flex-grow">
           <div className="flex flex-col w-full self-end">
             <div className="text-[#092F88] font-bold text-4xl font-Poppins mb-4">
