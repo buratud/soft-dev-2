@@ -169,6 +169,13 @@ export default function NavBar() {
                                 </span>
                             </div>
                         </Link>
+                        <Link href={`/search`}>
+                            <div>
+                                <span>
+                                    Search Dorms
+                                </span>
+                            </div>
+                        </Link>
                         <Link href={`/all`}>
                             <div>
                                 <span>
