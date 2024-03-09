@@ -115,7 +115,8 @@ export default function Page() {
     params.append("minStar", searchParams.rating.min.toString());
     params.append("maxStar", searchParams.rating.max.toString());
     params.append("faliclites", facility);
-    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/v2/search?${params.toString()}`)
+    const controller = new AbortController();
+    axios.get(`${NEXT_PUBLIC_BASE_API_URL}/v2/search?${params.toString()}`, {signal: controller.signal})
       .then((response) => {
           console.log(response.data);
           response.data.sort((a, b) => a.distance - b.distance);
@@ -125,6 +126,7 @@ export default function Page() {
       .catch((error) => {
         console.log(error);
       });
+    return () => controller.abort();
   }, [searchParams, origin]);
   useEffect(() => {
     console.log("SETTTTT")
