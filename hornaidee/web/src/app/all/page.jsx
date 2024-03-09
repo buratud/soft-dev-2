@@ -153,7 +153,7 @@ export default function DormSearch() {
           </div>
 
           <div className={styles.search_Bottom}>
-            <div className="m-auto text-[24px] font-bold mt-[1vw] font-Poppins">Facilities</div>
+            <div className="m-auto text-[24px] font-bold font-Poppins">Facilities</div>
             <div className={styles.Bottom_left}>
               <div className="grid grid-cols-4 gap-4 text-[18px] font-normal mt-[1vw]">
                 <label className="flex items-center gap-2 ">
