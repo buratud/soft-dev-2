@@ -6,7 +6,6 @@ import styles from './DormsSearchMaps.module.scss';
 import {Dorm, DormDiff} from "../../src/types";
 import {NEXT_PUBLIC_AZURE_MAPS_KEY} from "../../config.js";
 import {renderToString} from "react-dom/server";
-import MarkerPopup from "./MarkerPopup";
 import DormSearchResultCard from "../DormSearchResultCard/DormSearchResultCard";
 
 function diff(a: Dorm[], b: Dorm[]): DormDiff {
