@@ -90,6 +90,7 @@ export default function Page() {
   const [searchResult, setSearchResult] = useState<SearchAddressResultItem[]>([]);
   const [noPoi, setNoPoi] = useState<boolean>(false);
   const [origin, setOrigin] = useState<number[]>([100.514266205884, 13.8188104311351]);
+  const [isOpenFirstTime, setIsOpenFirstTime] = useState<boolean>(true);
   const [searchParams, dispatch] = useReducer(paramReducer, {
     price: {
       min: 0,
@@ -154,6 +155,7 @@ export default function Page() {
 
   const setOriginLocation = (place: SearchAddressResultItem) => {
     setOrigin([place.position[1], place.position[0]])
+    setIsOpenFirstTime(false);
   }
 
   return (
@@ -214,7 +216,7 @@ export default function Page() {
         </div>
 
       </div>
-      <div className={styles["result-box"]}>
+      <div className={`${styles["result-box"]} ${!isOpenFirstTime && styles.block}`}>
         <div className={styles["filter"]}></div>
         <div className={styles["dorm-list"]}>
           {!data.length ? <NoResult/> : data.map((dorm, index) => (

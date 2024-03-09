@@ -10,6 +10,7 @@
   height: 100%;
   font-family: Poppins;
   overflow: hidden;
+  display: none;
 }
 
 .dorm-list {
@@ -103,4 +104,8 @@
     margin-top: 0.5em;
     font-weight: bold;
   }
+}
+
+.block {
+    display: block;
 }
