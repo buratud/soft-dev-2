@@ -56,6 +56,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+    margin-bottom: 2rem;
 }
 
 .profile {
@@ -106,6 +107,12 @@
     cursor: pointer;
 }
 
+.uploadbtn:hover {
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+    scale: 1.1;
+    transition: .3s ease;
+}
+
 .username {
     width: 50%;
     display: flex;
@@ -141,6 +148,7 @@
     align-self: flex-end;
 }
 
+
 .update {
     display: flex;
     justify-content: space-evenly;
@@ -156,6 +164,13 @@
     margin: 2%;
     cursor: pointer;
 }
+
+.update:hover {
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+    scale: 1.1;
+    transition: .3s ease;
+}
+
 
 .cancel {
     display: flex;
@@ -173,6 +188,13 @@
     margin: 2%;
 }
 
+.cancel:hover {
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+    scale: 1.1;
+    transition: .3s ease;
+}
+
+
 .frameremind {
     display: flex;
     font-size: 2vh;
@@ -182,3 +204,24 @@
 .editfooter {
     justify-content: flex-end;
 }
+
+.random {
+    background-color: rgba(15, 15, 15, 0.941);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: Poppins;
+}
+
+.random:hover {
+    background: #101011;
+    box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+    scale: 1.1;
+    transition: .3s ease;
+}
+

@@ -8,6 +8,7 @@ import axios from 'axios';
 import { AuthContext } from '../App';
 import { REACT_APP_BASE_API_URL, REACT_APP_MAIN_URL } from '../config'
 
+// เพิ่มลบเข้ามา
 function DeleteComment({ commentId }){
   const [show, setShow] = useState(false);
 

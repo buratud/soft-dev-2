@@ -173,3 +173,8 @@ img{
 .footer{
     margin-top: 10rem;
 }
+
+.noResults{
+    margin-top: 2rem;
+    font-style: italic;
+}
