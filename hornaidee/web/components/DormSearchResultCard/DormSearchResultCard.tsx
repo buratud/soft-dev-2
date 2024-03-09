@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export default function DormSearchResultCard({dorm}: { dorm: Dorm }) {
   return (
-    <div className={styles["card"]}>
+    <div className={styles["card"]} style={{fontFamily: 'Poppins'}}>
       <h3 className={styles["name"]}>{dorm.name}</h3>
       <div className={styles["info"]}>
         <div className={styles["image-container"]}>
