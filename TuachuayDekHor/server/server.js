@@ -244,18 +244,6 @@ api.post("/updateLike", async (req, res) => {
 
 })
 
-//unlike
-// api.delete("/unlike", async (req, res) => {
-//     const { id_post, id } = req.query;
-//     const { error } = await supabase.from("likes").delete().eq('id', id).eq('id_post', id_post)
-//     if (error) {
-//         res.status(500).json(error);
-//     }
-//     else {
-//         res.status(200).json({ msg: "success" })
-//     }
-// })
-
 //comment
 api.post("/commentpost", async (req, res) => {
     const { user_id, blog_id, comment } = req.body;
@@ -272,7 +260,7 @@ api.post("/commentpost", async (req, res) => {
 api.post("/showcomment", async (req, res) => {
     try {
         const { blog_id } = req.body;
-        const { data, error } = await supabase.from("comments").select('user_id,content').eq("blog_id", blog_id);
+        const { data, error } = await supabase.from("comments").select('*').eq("blog_id", blog_id);
 
         for (let post of data) {
             const { data: userData, error: userError } = await supabase
@@ -299,8 +287,19 @@ api.post("/showcomment", async (req, res) => {
     }
 })
 
-
-
+api.post("/deletecomment", async (req, res) => {
+    const { comment } = req.body;
+    const { error } = await supabase
+        .from("comments")
+        .delete()
+        .eq('comment_id', comment)
+    if (error) {
+        res.status(500).json(error);
+    }
+    else {
+        res.status(200).json({ msg: "success" })
+    }
+})
 
 //randompost
 api.post("/randompost", async (req, res) => {
