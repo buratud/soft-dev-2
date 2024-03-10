@@ -45,7 +45,7 @@ const driver = new Builder()
     await delay(2000);
     console.log('clear and edit product');
     await driver.findElement(By.className('form-box-right')).findElement(By.xpath('/html/body/div/div/form/div[1]/div[2]/input[1]')).clear();
-    await driver.findElement(By.className('form-box-right')).findElement(By.xpath('/html/body/div/div/form/div[1]/div[2]/input[1]')).sendKeys('EWHF');
+    await driver.findElement(By.className('form-box-right')).findElement(By.xpath('/html/body/div/div/form/div[1]/div[2]/input[1]')).sendKeys('Blue Hawaii');
     await driver.findElement(By.className('form-box-right')).findElement(By.xpath('/html/body/div/div/form/div[1]/div[2]/input[2]')).clear();
     await driver.findElement(By.className('form-box-right')).findElement(By.xpath('/html/body/div/div/form/div[1]/div[2]/input[2]')).sendKeys('777');
     await driver.findElement(By.className('form-box-right')).findElement(By.id('category')).findElement(By.xpath('//option[text()="Drinks"]')).click();
@@ -54,7 +54,7 @@ const driver = new Builder()
     await driver.findElement(By.className('description')).findElement(By.className('center-textarea')).clear();
     await driver.findElement(By.className('description')).findElement(By.className('center-textarea')).sendKeys("I'm not gonna heat sugarcoat it.");
 
-    const filePath = path.join(__dirname, 'EWHF.jpeg');
+    const filePath = path.join(__dirname, 'BH.jpeg');
     //let fileInput = await driver.findElement(By.className('form-box-left')).findElement(By.className('upload-button'));
     let fileInput = await driver.findElement(By.className('form-box-left')).findElement(By.css('input[type="file"]'));
     await fileInput.sendKeys(filePath);

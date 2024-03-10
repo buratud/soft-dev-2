@@ -19,6 +19,7 @@ const driver = new Builder()
     await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
     await delay(3000);
     console.log('Successfully opened Dekhor in Firefox.');
+    // Wait for page to update header
     // Wait until the title of the page becomes "home"  
     await driver.wait(until.titleIs('Create Next App'), 3000);
     //let myElement = await driver.findElement(By.id('main'));
@@ -40,8 +41,24 @@ const driver = new Builder()
     //await driver.findElement(By.tagName('a')).click();
 
     //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop/register'); 
+    
     await driver.wait(until.titleIs('DekHor | Register'), 3000);
     console.log('Successfully opened Dekhor register page.');
+    let register_form = await driver.findElement(By.className('register_register_form__7jFI0'));
+    let getHead1 = await driver.findElement(By.css('head1'));
+    let getHead2 = await driver.findElement(By.css('head2'));
+    let h1text = await getHead1.getText();
+    let h2text = await getHead2.getText();
+    assert.equal(h1text,'Get Started with','The h1 text does not match the expected text.');
+    assert.equal(h2text,'DekHor ID','The h2 text does not match the expected text.');
+    console.log('Test passed: Head text matches the expected text.');
+    
+    let Intro_text = await driver.findElement(By.className('register_Intro_2__1he0S'));
+    console.log(await Intro_text.getText());
+
+    
+
+
     // Can't use duplicate email/user have to change every time.
     await driver.findElement(By.name('username')).sendKeys('YourUsername6');
     await driver.findElement(By.name('email')).sendKeys('you6@example.com');
@@ -103,11 +120,20 @@ const driver = new Builder()
     let fileInput = await driver.findElement(By.className('pfedit_uploadbtn___tge5')).findElement(By.css('input[type="file"]'));
     await fileInput.sendKeys(filePath);
     await delay(1000);
-
     await driver.findElement(By.className('pfedit_update__EllKo')).click();
+    await delay(1000);
+
+   // await driver.switchTo().alert().accept(); 
+   // console.log('Close alert');
+
+    await delay(1000);
 
 
-  } finally {
+  } 
+  catch (error) {
+    console.error('Test failed:', error); } 
+  
+  finally {
     // Close the browser
     await driver.quit();
   }
