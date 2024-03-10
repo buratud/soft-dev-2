@@ -48,7 +48,7 @@ const FoodDetail = () => {
             </h2>
             <div className="product-price">
               <p className="last-price">
-                {" "}{" "}{food?.Price ?? "-"} ฿
+                {" "}{food?.Price ? `${food.Price.toLocaleString('en-US')}` : "-"} ฿
               </p>
             </div>
             <hr className="separator-line-top"/>
