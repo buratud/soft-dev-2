@@ -61,7 +61,7 @@ const FoodItems = ({ foodData }) => {
       <Link className="food-item" key={item.id} to={"/fooddetail/" + item.id}>
         <img src={item.URL} alt="" />
         <div className="food-item-name">{item.Food_Name}</div>
-        <div className="food-item-price">{item.Price?.toFixed(2)} ฿</div>
+        <div className="food-item-price">{item.Price?.toLocaleString('en-US')} ฿</div>
       </Link>
     );
   });
