@@ -13,7 +13,8 @@ const driver = new Builder()
 
   (async function User_can_view_other_blog() {
     try {
-      await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
+      await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/');
+      //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
       await delay(3000);
       console.log('Successfully opened Dekhor in Firefox.');
       await driver.findElement(By.className('nav_login_btn__jYgLf')).click();

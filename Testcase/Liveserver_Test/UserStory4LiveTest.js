@@ -15,7 +15,8 @@ const driver = new Builder()
 // Navigate to the specified website
 (async function User_can_write_blog_in_other_catagory() {
   try {
-    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
+    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/');
+    //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
     await delay(3000);
     console.log('Successfully opened Dekhor in Firefox.');
     await driver.findElement(By.className('nav_login_btn__jYgLf')).click();

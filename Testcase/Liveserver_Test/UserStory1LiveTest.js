@@ -16,7 +16,8 @@ const driver = new Builder()
 // Navigate to web DekHor
 (async function User_can_open_web_site_and_register_login_edit_profile() {
   try {
-    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
+    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/');
+    //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
     await delay(3000);
     console.log('Successfully opened Dekhor in Firefox.');
     // Wait for page to update header
@@ -86,7 +87,7 @@ const driver = new Builder()
     //console.log('User fill in otp and summit')
     await delay(5000);
 */
-    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
+    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/');
     console.log('Hop back to home page')
     await delay(3000);
     console.log('Successfully opened Dekhor in Firefox.');
@@ -115,6 +116,7 @@ const driver = new Builder()
 
 
     await driver.wait(until.titleIs('DekHor | Profile Edit'), 3000);
+    console.log('Edit profile.');
     await driver.findElement(By.className('pfedit_usernameedit__Y2f8P')).sendKeys('step');
     const filePath = path.join(__dirname, 'PP1.jpeg');
     let fileInput = await driver.findElement(By.className('pfedit_uploadbtn___tge5')).findElement(By.css('input[type="file"]'));

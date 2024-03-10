@@ -16,7 +16,8 @@ const driver = new Builder()
 // Navigate to web DekHor
 (async function User_can_access_market_and_add_product() {
   try {
-    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
+    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/');
+    //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
     await delay(3000);
     console.log('Successfully opened Dekhor in Firefox.');
     // Wait until the title of the page becomes "home"  

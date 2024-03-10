@@ -14,7 +14,8 @@ const driver = new Builder()
 // Navigate to the specified website
 (async function User_can_search_in_market() {
   try {
-    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
+    await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/');
+    //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
     await delay(3000);
     console.log('Successfully opened Dekhor in Firefox.');
     await driver.findElement(By.className('nav_login_btn__jYgLf')).click();
@@ -31,10 +32,10 @@ const driver = new Builder()
     await driver.findElement(By.xpath('//span[text()="All Products"]')).click();
     console.log('Go to market product page');
     await delay(2000);
-    await driver.findElement(By.className('textbox_container')).findElement(By.tagName('input')).sendKeys('EW');
+    await driver.findElement(By.className('textbox_container')).findElement(By.tagName('input')).sendKeys('Blue');
     await delay(2000);
     console.log('Wait for search result');
-    let searched = await driver.findElement(By.className('search_result_item_title')).findElement(By.xpath('//div[contains(text(), "EW")]'));
+    let searched = await driver.findElement(By.className('search_result_item_title')).findElement(By.xpath('//div[contains(text(), "Blue")]'));
     console.log('Show search result');
     console.log(await searched.getText());
     await delay(500);
@@ -43,7 +44,7 @@ const driver = new Builder()
     let searchresult = await driver.findElement(By.css('h2'));
     let h2text = await searchresult.getText();
     
-    assert.strictEqual(h2text, 'EWGF', 'The H2 text does not match the expected text.');
+    assert.strictEqual(h2text, 'Blue Hawaii', 'The H2 text does not match the expected text.');
 
     console.log('Test passed: The H2 text matches the expected text.');
 } catch (error) {

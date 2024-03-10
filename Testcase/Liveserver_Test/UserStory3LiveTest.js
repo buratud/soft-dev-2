@@ -13,7 +13,8 @@ const driver = new Builder()
 
   (async function User_can_write_blog() {
     try {
-      await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
+      await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/');
+      //await driver.get('https://linux-vm-southeastasia-2.southeastasia.cloudapp.azure.com/develop');
       await delay(3000);
       console.log('Successfully opened Dekhor in Firefox.');
       await driver.findElement(By.className('nav_login_btn__jYgLf')).click();
@@ -41,7 +42,7 @@ const driver = new Builder()
       await delay(1000);
       await driver.findElement(By.className('title__head')).findElement(By.tagName('input')).sendKeys('Khao Khitchakut');
       await driver.findElement(By.className('Catagory')).findElement(By.id('Category')).findElement(By.xpath('//option[text()="story"]')).click();
-      await driver.findElement(By.className('jodit-wysiwyg')).sendKeys('How to destroy you ankle as buddish');
+      await driver.findElement(By.className('jodit-wysiwyg')).sendKeys('Nirvana path for who have strange');
 
       await delay(1000);
       //await driver.findElement(By.tagName('button')).findElement(By.xpath('/html/body/div[1]/div/div[1]/div/div/div/form/div[5]/button')).location
