@@ -125,8 +125,8 @@ const driver = new Builder()
     await driver.findElement(By.className('pfedit_update__EllKo')).click();
     await delay(1000);
 
-   // await driver.switchTo().alert().accept(); 
-   // console.log('Close alert');
+    await driver.switchTo().alert().accept(); 
+    console.log('Close alert');
 
     await delay(1000);
 
