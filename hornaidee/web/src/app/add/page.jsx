@@ -2,13 +2,16 @@
 import { AiOutlineHome, AiOutlineTag, AiOutlineEnvironment } from "react-icons/ai";
 import { BsBuildings, Bs123, BsHouse } from "react-icons/bs";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import axios from "axios";
 import { NEXT_PUBLIC_BASE_WEB_URL, NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY } from "../../../config";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import ImageUploadComponent from "../image_component";
 import "./style.css";
+import dynamic from "next/dynamic";
+import Footer from "../footer";
+const SinglePointMaps = dynamic(() => import("../../../components/SinglePointMaps/SinglePointMaps.tsx"), {ssr: false});
 
 const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
@@ -22,6 +25,8 @@ export default function AddDormPage() {
   const [zip_code, setZipCode] = useState("");
   const [rent_price, setRentPrice] = useState(0);
   const [facilities, setFacilities] = useState([]);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
   const [photos, setPhotos] = useState([]);
   const [session, setSession] = useState(null);
   const [errors, setErrors] = useState({});
@@ -95,27 +100,27 @@ export default function AddDormPage() {
 
   const validateForm = () => {
     const errors = {};
-  
+
     if (!name.trim()) {
       errors.name = "Name is required";
     }
-  
+
     if (!address.trim()) {
       errors.address = "Address is required";
     }
-  
+
     if (!property_number.trim()) {
       errors.property_number = "Property number is required";
     }
-  
+
     if (!city.trim()) {
       errors.city = "City is required";
     }
-  
+
     if (!province.trim()) {
       errors.province = "Province is required";
     }
-  
+
     if (
       !zip_code.trim() ||
       zip_code.trim().length !== 5 ||
@@ -123,25 +128,32 @@ export default function AddDormPage() {
     ) {
       errors.zip_code = "Zip code must be 5 digits";
     }
-  
-     if (rent_price === "" || rent_price < 0) {
-    if (rent_price === "") {
-      errors.rent_price = "Rent price is required";
-    } else {
-      errors.rent_price = "Rent price must be a non-negative number";
+
+    if (rent_price === "" || rent_price < 0) {
+      if (rent_price === "") {
+        errors.rent_price = "Rent price is required";
+      } else {
+        errors.rent_price = "Rent price must be a non-negative number";
+      }
     }
-  }
-  
+
     if (facilities.length === 0) {
       errors.facilities = "Select at least one facility";
     }
-  
+
     if (photos.length === 0) {
       errors.photos = "Upload at least one photo";
     }
-  
+
     return errors;
-  };  
+  };
+
+
+  const onLocationChange = (latitude, longtitude) => {
+    setLatitude(latitude);
+    setLongitude(longtitude);
+    console.log(latitude, longtitude)
+  };
 
   const submitForm = () => {
     const errors = validateForm();
@@ -160,6 +172,8 @@ export default function AddDormPage() {
             rent_price: parseFloat(rent_price),
             facilities: facilities,
             photos: photos,
+            latitude: latitude,
+            longitude: longitude,
           },
           { headers: { Authorization: `Bearer ${session.access_token}` } }
         )
@@ -174,11 +188,10 @@ export default function AddDormPage() {
       setErrors(errors);
     }
   };
-  
 
   return (
-    <main className="flex flex-col items-center justify-center h-screen bg-[#F6F6FB]">
-      <div className="flex flex-col justify-center items-center w-full md:w-3/4 lg:w-full gap-4">
+    <main className="flex flex-col items-center justify-center bg-[#F6F6FB]">
+      <div className="flex flex-col justify-center items-center w-full md:w-3/4 lg:w-full gap-4" style={{ marginTop: '4rem' }}>
         <form className="flex flex-col md:flex-row gap-36 font-Poppins flex-grow">
           <div className="flex flex-col w-full self-end">
             <div className="text-[#092F88] font-bold text-4xl font-Poppins mb-4">
@@ -186,9 +199,8 @@ export default function AddDormPage() {
             </div>
             <div>Tell us your property name.</div>
             <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.name ? "glow" : ""
-              }`}
+              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${inputStates.name ? "glow" : ""
+                }`}
             >
               <BsBuildings className="input-icon ml-4 mr-1" />
               <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
@@ -197,9 +209,8 @@ export default function AddDormPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Name"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.name ? "border-red-500" : ""
-                }`}
+                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${errors.name ? "border-red-500" : ""
+                  }`}
               />
             </div>
 
@@ -207,27 +218,8 @@ export default function AddDormPage() {
               Where is the property you are listing?
             </div>
             <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.address ? "glow" : ""
-              }`}
-            >
-              <AiOutlineHome className="input-icon ml-4 mr-1" />
-              <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
-              <input
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="Street Address"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.address ? "border-red-500" : ""
+              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${inputStates.property_number ? "glow" : ""
                 }`}
-              />
-            </div>
-
-            <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.property_number ? "glow" : ""
-              }`}
             >
               <BsHouse className="input-icon ml-4 mr-1" />
               <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
@@ -236,16 +228,30 @@ export default function AddDormPage() {
                 value={property_number}
                 onChange={(e) => setPropertyNumber(e.target.value)}
                 placeholder="Property Number"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.property_number ? "border-red-500" : ""
-                }`}
+                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${errors.property_number ? "border-red-500" : ""
+                  }`}
               />
             </div>
 
             <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.city ? "glow" : ""
-              }`}
+              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${inputStates.address ? "glow" : ""
+                }`}
+            >
+              <AiOutlineHome className="input-icon ml-4 mr-1" />
+              <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Street Address"
+                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${errors.address ? "border-red-500" : ""
+                  }`}
+              />
+            </div>
+
+            <div
+              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${inputStates.city ? "glow" : ""
+                }`}
             >
               <AiOutlineEnvironment className="input-icon ml-4 mr-1" />
               <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
@@ -254,16 +260,14 @@ export default function AddDormPage() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="City"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.city ? "border-red-500" : ""
-                }`}
+                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${errors.city ? "border-red-500" : ""
+                  }`}
               />
             </div>
 
             <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.province ? "glow" : ""
-              }`}
+              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${inputStates.province ? "glow" : ""
+                }`}
             >
               <AiOutlineEnvironment className="input-icon ml-4 mr-1" />
               <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
@@ -272,16 +276,14 @@ export default function AddDormPage() {
                 value={province}
                 onChange={(e) => setProvince(e.target.value)}
                 placeholder="Province"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.province ? "border-red-500" : ""
-                }`}
+                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${errors.province ? "border-red-500" : ""
+                  }`}
               />
             </div>
 
             <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.zip_code ? "glow" : ""
-              }`}
+              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${inputStates.zip_code ? "glow" : ""
+                }`}
             >
               <Bs123 className="input-icon ml-4 mr-1" />
               <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
@@ -290,9 +292,8 @@ export default function AddDormPage() {
                 value={zip_code}
                 onChange={(e) => setZipCode(e.target.value)}
                 placeholder="Zip Code"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.zip_code ? "border-red-500" : ""
-                }`}
+                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${errors.zip_code ? "border-red-500" : ""
+                  }`}
               />
             </div>
           </div>
@@ -377,9 +378,8 @@ export default function AddDormPage() {
             <div>
               <div>How much do you want to charge per month?</div>
               <div
-                className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9]  ${
-                  inputStates.rent_price ? "glow" : ""
-                }`}
+                className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9]  ${inputStates.rent_price ? "glow" : ""
+                  }`}
               >
                 <AiOutlineTag className="input-icon ml-4 mr-1" />
                 <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
@@ -388,21 +388,20 @@ export default function AddDormPage() {
                   value={rent_price}
                   onChange={(e) => setRentPrice(e.target.value)}
                   placeholder="Price per month (in THB)"
-                  className={`input-field ml-2 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                    errors.rent_price ? "border-red-500" : ""
-                  }`}
+                  className={`input-field ml-2 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${errors.rent_price ? "border-red-500" : ""
+                    }`}
                 />
               </div>
             </div>
           </div>
         </form>
-
+        <SinglePointMaps onLocationChange={onLocationChange} width="1100px" changeable/>
         {imageErrors && (
           <div className="flex flex-col items-center gap-1 text-red-600 font-Poppins font-semibold">
             <span>{imageErrors}</span>
           </div>
         )}
-        {Object.values(errors).some((error) => !!error) &&(
+        {Object.values(errors).some((error) => !!error) && (
           <div className="flex flex-col items-center gap-1 text-red-500 mb-2 font-Poppins font-semibold">
             {Object.values(errors).map(
               (error, index) =>
@@ -433,6 +432,7 @@ export default function AddDormPage() {
           </Link>
         </div>
       </div>
+      <Footer/>
     </main>
   );
 }

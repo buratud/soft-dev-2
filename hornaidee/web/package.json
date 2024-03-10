@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@azure/maps-search": "^1.0.0-beta.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.15.11",
@@ -16,7 +17,8 @@
     "@supabase/supabase-js": "^2.39.7",
     "autoprefixer": "^10.4.17",
     "axios": "^1.6.7",
-    "next": "14.1.0",
+    "azure-maps-control": "^2.3.7",
+    "next": "^14.1.3",
     "postcss": "^8.4.35",
     "prop-types": "^15.8.1",
     "react": "^18",
@@ -24,6 +26,7 @@
     "react-icons": "^5.0.1",
     "react-multi-carousel": "^2.8.4",
     "react-stars": "^2.2.5",
+    "sass": "^1.71.1",
     "tailwindcss": "^3.4.1"
   },
   "devDependencies": {

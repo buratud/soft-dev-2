@@ -8,6 +8,9 @@ const Sentry = require("@sentry/node");
 const app = express();
 const api = express.Router();
 
+const baseAvatarURL = SUPABASE_URL+"/storage/v1/object/public/Profile_User/";
+const {avatarArray} = require("./avatar");
+
 Sentry.init({
   dsn: "https://855f86989b23867e7eeccee682fbc826@linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com/3",
   integrations: [
@@ -98,15 +101,27 @@ api.put("/register", async (req, res) => {
   }
 });
 
-api.put('/update-username', async (req) => {
+api.put('/update-username', async (req, res) => {
   const { email, username, data } = req.body;
+
+  const profileIndex = Math.floor(Math.random() * avatarArray.length)
+
+  const avatarURL = baseAvatarURL + avatarArray[profileIndex];
 
   const { insert_username, err } = await supabase
     .from("users")
-    .upsert([{ id: data.user.id, username: username, email: email }], {
+    .upsert([{ id: data.user.id, username: username, email: email , picture: avatarURL}], {
       onConflict: ["email"],
     })
     .select();
+  
+    if(err){
+      console.log(err);
+      res.status(400).json({success : false});
+    }
+    else{
+      res.status(200).json({success : true})
+    }
 })
 
 //-----------------------------superapp home page-----------------------------------
@@ -174,6 +189,14 @@ api.post('/get-userID-from-username', async (req, res) => {
   }
 })
 
+api.post('/random-avatar', async (req, res) => {
+  const profileIndex = Math.floor(Math.random() * avatarArray.length)
+
+  const avatarURL = baseAvatarURL + avatarArray[profileIndex];
+
+  res.status(200).json({ picture : avatarURL });
+})
+
 api.post('/profile-picture', async (req, res) => {
   const { userID } = req.body;
   if (userID) {
@@ -225,9 +248,16 @@ api.post('/set-profile', async (req, res) => {
       if (imageURL && username) {
         const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
         const oldFilename = oldPicture.substring(oldPicture.lastIndexOf('/') + 1);
-        if (oldFilename && oldFilename !== 'PersonCircle.svg') {
+        let usedAvatar = false;
+        avatarArray.forEach(async avatarFile => {
+          if (oldFilename && oldFilename == avatarFile) {
+            usedAvatar = true;
+          }
+        });
+        if(!usedAvatar){
           await supabase.storage.from('Profile_User').remove(oldFilename);
         }
+        
         const { error } = await supabase.from('users').update({ username: username, picture: imageURL }).eq('id', userID)
         if (error) {
 
@@ -244,7 +274,13 @@ api.post('/set-profile', async (req, res) => {
       else if (imageURL) {
         const filename = imageURL.substring(imageURL.lastIndexOf('/') + 1);
         const oldFilename = oldPicture.substring(oldPicture.lastIndexOf('/') + 1);
-        if (oldFilename && oldFilename !== 'PersonCircle.svg') {
+        let usedAvatar = false;
+        avatarArray.forEach(async avatarFile => {
+          if (oldFilename && oldFilename == avatarFile) {
+            usedAvatar = true;
+          }
+        });
+        if(!usedAvatar){
           await supabase.storage.from('Profile_User').remove(oldFilename);
         }
         const { error } = await supabase.from('users').update({ picture: imageURL }).eq('id', userID)

@@ -9,7 +9,9 @@ import ImageUploadComponent from "../../image_component";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import "./style.css";
-
+import dynamic from "next/dynamic";
+import Footer from "../../footer";
+const SinglePointMaps = dynamic(() => import("../../../../components/SinglePointMaps/SinglePointMaps.tsx"), {ssr: false});
 const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
 export default function EditDormPage() {
@@ -23,6 +25,8 @@ export default function EditDormPage() {
   const [zip_code, setZipCode] = useState("");
   const [rent_price, setRentPrice] = useState(0);
   const [facilities, setFacilities] = useState([]);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
   const [photos, setPhotos] = useState([]);
   const [session, setSession] = useState(null);
   const [errors, setErrors] = useState({});
@@ -131,6 +135,8 @@ export default function EditDormPage() {
         setProvince(res.data.province);
         setZipCode(res.data.zip_code);
         setRentPrice(res.data.rent_price);
+        setLatitude(res.data.latitude);
+        setLongitude(res.data.longitude);
         const facilityIds = res.data.facilities.map(facility => facility.id);
         setFacilities(facilityIds);
   
@@ -230,6 +236,12 @@ export default function EditDormPage() {
     return errors;
   };  
 
+  const onLocationChange = (latitude, longtitude) => {
+    setLatitude(latitude);
+    setLongitude(longtitude);
+    console.log(latitude, longtitude)
+  };
+
   const submitForm = () => {
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
@@ -247,6 +259,8 @@ export default function EditDormPage() {
             rent_price: parseFloat(rent_price),
             facilities: facilities,
             photos: photos,
+            latitude: latitude,
+            longitude: longitude,
           },
           { headers: { Authorization: `Bearer ${session.access_token}` } }
         )
@@ -264,8 +278,8 @@ export default function EditDormPage() {
   
 
   return (
-    <main className="flex flex-col items-center justify-center h-screen bg-[#F6F6FB]">
-      <div className="flex flex-col justify-center items-center w-full md:w-3/4 lg:w-full gap-4">
+    <main className="flex flex-col items-center justify-center bg-[#F6F6FB]">
+      <div className="flex flex-col justify-center items-center w-full md:w-3/4 lg:w-full gap-4" style={{marginTop: '4rem'}}>
         <form className="flex flex-col md:flex-row gap-36 font-Poppins flex-grow">
           <div className="flex flex-col w-full self-end">
             <div className="text-[#092F88] font-bold text-4xl font-Poppins mb-4">
@@ -295,24 +309,6 @@ export default function EditDormPage() {
             </div>
             <div
               className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
-                inputStates.address ? "glow" : ""
-              }`}
-            >
-              <AiOutlineHome className="input-icon ml-4 mr-1" />
-              <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
-              <input
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="Street Address"
-                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
-                  errors.address ? "border-red-500" : ""
-                }`}
-              />
-            </div>
-
-            <div
-              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
                 inputStates.property_number ? "glow" : ""
               }`}
             >
@@ -325,6 +321,24 @@ export default function EditDormPage() {
                 placeholder="Property Number"
                 className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
                   errors.property_number ? "border-red-500" : ""
+                }`}
+              />
+            </div>
+
+            <div
+              className={`flex items-center py-2 my-3 pr-2 rounded-2xl select-none bg-[#D9D9D9] ${
+                inputStates.address ? "glow" : ""
+              }`}
+            >
+              <AiOutlineHome className="input-icon ml-4 mr-1" />
+              <div className="h-5 bg-[#000000] w-[2px] bg-opacity-10 rounded-full mx-1"></div>
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Street Address"
+                className={`input-field ml-1 flex-grow border-none bg-[#D9D9D9] focus:outline-none font-medium ${
+                  errors.address ? "border-red-500" : ""
                 }`}
               />
             </div>
@@ -484,6 +498,8 @@ export default function EditDormPage() {
           </div>
         </form>
 
+        <SinglePointMaps lat={latitude} long={longitude} width="1100px" onLocationChange={onLocationChange} changeable/>
+
         {imageErrors && (
           <div className="flex flex-col items-center gap-1 text-red-600 font-Poppins font-semibold">
             <span>{imageErrors}</span>
@@ -499,7 +515,7 @@ export default function EditDormPage() {
             )}
           </div>
         )}
-
+        
         {isFormSubmitted && (
           <div className="flex flex-col items-center gap-1 text-green-500 mb-2 font-Poppins font-semibold">
             <span>Dorm updated successfully</span>
@@ -521,6 +537,7 @@ export default function EditDormPage() {
           </button>
         </div>
       </div>
+      <Footer/>
     </main>
   );
 }
