@@ -19,7 +19,7 @@ export default function Home() {
   useEffect(() => {
     axios.get(`${NEXT_PUBLIC_BASE_API_URL}/top-dorms`)
       .then(res => {
-        setTop_dorms(res.data);
+        setTop_dorms(res.data.slice(0,8));
         console.log(res.data);
       })
       .catch((err) => {
