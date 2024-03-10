@@ -33,8 +33,8 @@ const driver = new Builder()
     await driver.findElement(By.className('style_button__BMJeP')).click();
     await delay(2000);
     const actions = driver.actions({bridge: true});
-    const sliderHandle1 = await driver.findElement(By.css('span.MuiSlider-thumb:nth-child(3)'));
-    const sliderHandle2 = await driver.findElement(By.css('span.MuiSlider-thumb:nth-child(4)'));
+    const sliderHandle1 = await driver.findElement(By.css('span.MuiSlider-thumb:nth-child(14)'));
+    const sliderHandle2 = await driver.findElement(By.css('span.MuiSlider-thumb:nth-child(15)'));
     await actions.dragAndDrop(sliderHandle1, {x: 50, y: 0}).perform();
     await delay(1000);
     console.log('Move left slide bar');
