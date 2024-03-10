@@ -108,7 +108,7 @@ const NewArrivals = () => {
           </div>
           <div className="card-content">
             <div className="card-title">{item.Food_Name}</div>
-            <div className="card-price">{item.Price?.toLocaleString('en-US')} ฿</div>
+            <div className="card-price">{Number(item.Price).toLocaleString('en-US')} ฿</div>
           </div>
         </Link>
       ))}
