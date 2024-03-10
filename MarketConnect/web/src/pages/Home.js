@@ -108,7 +108,7 @@ const NewArrivals = () => {
           </div>
           <div className="card-content">
             <div className="card-title">{item.Food_Name}</div>
-            <div className="card-price">{item.Price ? item.Price.toFixed(2) : '0.00'} ฿</div>
+            <div className="card-price">{item.Price ? item.Price.toLocaleString('en-US') : '0'} ฿</div>
           </div>
         </Link>
       ))}
