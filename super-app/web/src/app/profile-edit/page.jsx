@@ -74,6 +74,16 @@ export default function Home() {
         }));
     };
 
+    const handleRandomImage = () => {
+        axios.post(`${NEXT_PUBLIC_BASE_API_URL}/random-avatar`)
+        .then(res => {
+            setProfileImage(res.data?.picture);
+        })
+        .catch(err => {
+            console.error("Error fetching random profile picture:", err);
+        });
+    };
+
     const updateProfile = async () => {
         const currentDate = new Date();
         const fileName = `${currentDate.getTime()}_${formData.userID}`
@@ -94,7 +104,7 @@ export default function Home() {
             formData.imageURL = data.publicUrl;
         }
         else{
-            formData.imageURL = undefined;
+            formData.imageURL = profileImage;
         }
         axios.post(`${NEXT_PUBLIC_BASE_API_URL}/set-profile`, {
             userID: formData.userID,
@@ -134,6 +144,9 @@ export default function Home() {
                                     <div>Upload Your Photo
                                         <img className={styles.uploadicon} src={`${NEXT_PUBLIC_BASE_WEB_PATH}/pfpcamicon.png`} alt="cam" /></div>
                                 </label>
+                                <button onClick={handleRandomImage} className={styles.random}>
+                                    Random Avatar 
+                                </button>
                             </div>
                             <div className={styles.username}>
                                 Username Change
@@ -162,3 +175,4 @@ export default function Home() {
         </main>
     )
 }
+

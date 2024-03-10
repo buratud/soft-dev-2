@@ -11,6 +11,8 @@ exports.CreateDormRequest = z.object({
     rent_price: z.number(),
     facilities: z.array(z.number()),
     photos: z.array(z.string().min(1)).min(1),
+    latitude: z.number(),
+    longitude: z.number(),
 });
 
 exports.PutDormRequest = z.object({
@@ -24,6 +26,8 @@ exports.PutDormRequest = z.object({
     rent_price: z.number(),
     facilities: z.array(z.number()),
     photos: z.array(z.string().min(1)).min(1),
+    latitude: z.number(),
+    longitude: z.number(),
 });
 
 exports.CreateReviewRequest = z.object({
