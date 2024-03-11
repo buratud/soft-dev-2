@@ -5,7 +5,7 @@ const { createClient } = require('@supabase/supabase-js');
 const { z } = require('zod');
 const { search } = require("./search");
 const { CreateDormRequest, CreateReviewRequest, PutReviewRequest, PutDormRequest } = require('./type');
-
+const { v4: uuidv4 } = require('uuid');
 const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET, LOG_LEVEL } = require('./config');
 const { getMimeTypeFromBase64, getFileExtensionFromMimeType, getRawBase64, isImage, calculateDistance } = require('./util');
 const { log } = require('console');
@@ -432,7 +432,7 @@ app.put('/dorms/:id', async (req, res) => {
                 return;
             }
             const { data: uploadData, error: uploadError } = await supabase.storage.from('dorms')
-                .upload(`dorms/${result[0].id}/${i}.${fileExtension}`, decodedData, { contentType: mimeType });
+                .upload(`dorms/${result[0].id}/${uuidv4()}.${fileExtension}`, decodedData, { contentType: mimeType });
 
             if (uploadError) {
                 if (uploadError.statusCode === "409") {
