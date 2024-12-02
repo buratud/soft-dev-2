@@ -11,7 +11,7 @@ export default withSentryConfig(withSentryConfig(nextConfig, {
 
 // Suppresses source map uploading logs during build
 silent: true,
-org: "-",
+org: "0c3de0c5bc67",
 project: "super-app",
 url: "https://f376c20e720ec045954bcf13060240ae@o4507243238195200.ingest.de.sentry.io/4508396661047376"
 }, {

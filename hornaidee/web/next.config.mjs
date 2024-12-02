@@ -23,7 +23,7 @@ export default withSentryConfig(withSentryConfig(nextConfig, {
 
 // Suppresses source map uploading logs during build
 silent: true,
-org: "-",
+org: "0c3de0c5bc67",
 project: "dorms-web",
 url: "https://9e5550b79b2073fdcef989b6ce84858e@o4507243238195200.ingest.de.sentry.io/4508396712820816"
 }, {
