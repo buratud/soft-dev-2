@@ -13,7 +13,7 @@
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.15.11",
-    "@sentry/nextjs": "^7.102.1",
+    "@sentry/nextjs": "^8.41.0",
     "@supabase/supabase-js": "^2.39.7",
     "autoprefixer": "^10.4.17",
     "axios": "^1.6.7",
