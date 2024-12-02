@@ -41,7 +41,7 @@ app.get('/recent-reviews', async (_, res) => {
         const { data: reviewsList, error } = await supabase.schema('dorms').from('reviews').select('*, dorms(name, photos(photo_url))').order('review_datetime', { ascending: false }).limit(10);
         const reviews = reviewsList.map(review => {
             review.name = review.dorms.name
-            review.photo = review.dorms.photos
+            review.photos = review.dorms.photos
             delete review.dorms
             return review;
         });
