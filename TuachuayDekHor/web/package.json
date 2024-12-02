@@ -43,7 +43,7 @@
   "scripts": {
     "start": "craco --openssl-legacy-provider start",
     "dev": "concurrently \"npm start\" \"npm start --prefix ../server/\"",
-    "build": "craco --openssl-legacy-provider build",
+    "build": "craco --openssl-legacy-provider build && npm run sentry:sourcemaps",
     "test": "craco test",
     "eject": "react-scripts eject",
     "sentry:sourcemaps": "sentry-cli sourcemaps inject --org soft-dev-2 --project blogs-web ./build && sentry-cli --url https://linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com sourcemaps upload --org soft-dev-2 --project blogs-web ./build"
