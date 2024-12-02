@@ -6,7 +6,7 @@ const app = express();
 const router = require('./server');
 
 Sentry.init({
-    dsn: "https://384213f7f34ec9e89507ec28fbb51094@linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com/5",
+    dsn: "https://c37f397db0fbd5d8b2b76470ec16028c@o4507243238195200.ingest.de.sentry.io/4508396733595728",
     integrations: [
         new Sentry.Integrations.Http({ tracing: true }),
         new Sentry.Integrations.Express({ app }),
