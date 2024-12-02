@@ -36,7 +36,7 @@ export default function Home() {
         key={index}
         img = {dorm.photos[0].photo_url}
         dorm_name = {dorm.name}
-        id = {dorm.dorm_id}
+        id = {dorm.id}
         star = {dorm.average}
         address = {dorm.province}
     />
