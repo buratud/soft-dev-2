@@ -15,6 +15,7 @@
     "@types/node": "^16.11.14",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "ajv": "^8.17.1",
     "axios": "^1.6.7",
     "base64-arraybuffer": "^1.0.2",
     "concurrently": "^8.2.2",

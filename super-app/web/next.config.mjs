@@ -11,9 +11,9 @@ export default withSentryConfig(withSentryConfig(nextConfig, {
 
 // Suppresses source map uploading logs during build
 silent: true,
-org: "soft-dev-2",
-project: "superapp-web",
-url: "https://linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com"
+org: "-",
+project: "super-app",
+url: "https://f376c20e720ec045954bcf13060240ae@o4507243238195200.ingest.de.sentry.io/4508396661047376"
 }, {
 // For all available options, see:
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
