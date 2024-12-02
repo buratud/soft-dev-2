@@ -285,6 +285,7 @@ app.post('/dorms', async (req, res) => {
         const { data: result, error } = await supabase.schema('dorms').from('dorms').insert(dormData).select('id');
         logger.debug(result);
         if (error) {
+            logger.error("An error occurred while inserting data into the database");
             logger.error(error);
             res.status(500).send();
             return;
@@ -295,6 +296,7 @@ app.post('/dorms', async (req, res) => {
                 facility_id: facility
             });
             if (error) {
+                logger.error("An error occurred while inserting facility data into the database");
                 logger.error(error);
                 res.status(500).send();
                 return;
@@ -314,6 +316,7 @@ app.post('/dorms', async (req, res) => {
                 contentType: mimeType
             });
             if (uploadError) {
+                logger.error("An error occurred while uploading the image to the storage");
                 logger.error(uploadError);
                 res.status(500).send();
                 return;
@@ -324,6 +327,7 @@ app.post('/dorms', async (req, res) => {
                 photo_url: pictureMetadata.publicUrl
             })
             if (insertError) {
+                logger.error("An error occurred while inserting the image URL into the database");
                 logger.error(insertError);
                 res.status(500).send();
                 return;
@@ -336,6 +340,7 @@ app.post('/dorms', async (req, res) => {
             res.status(400).json(error.errors);
             return;
         }
+        logger.error("An unknown error occurred");
         logger.error(error);
         res.status(500).send();
     }
