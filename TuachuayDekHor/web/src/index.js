@@ -9,7 +9,7 @@ import { REACT_APP_BASE_WEB_PATH } from "./config";
 import * as Sentry from "@sentry/react";
 
 Sentry.init({
-  dsn: "https://1c251de7913758fa91758f808f62458b@linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com/7",
+  dsn: "https://b91c553e5e66d7da9c452aadd21c0589@o4507243238195200.ingest.de.sentry.io/4508396756271184",
   integrations: [
     new Sentry.BrowserTracing({
       // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
