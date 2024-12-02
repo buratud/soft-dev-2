@@ -42,7 +42,7 @@ export default function Home() {
   const reviews = recent_reviews.slice(0, 6).map((dorm, index) => (
     <Recent_review
       key={index}
-      img={dorm.photo[0].photo_url}
+      img={dorm.photos[0].photo_url}
       dorm_name={dorm.name}
       id={dorm.dorm_id}
       star={dorm.stars}
