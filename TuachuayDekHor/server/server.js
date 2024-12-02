@@ -11,7 +11,7 @@ const app = express();
 const api = express.Router();
 
 Sentry.init({
-    dsn: "https://606bd57329db8498f61cab466b96bb80@linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com/8",
+    dsn: "https://549167be6df0037f9474e32e648b9579@o4507243238195200.ingest.de.sentry.io/4508396765053008",
     integrations: [
         // enable HTTP calls tracing
         new Sentry.Integrations.Http({ tracing: true }),
