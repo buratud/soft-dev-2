@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: markets-server
-          image: softdev2southeastasia.azurecr.io/markets-server:{{ .Values.global.revision }}
+          image: dekhor.azurecr.io/markets-server:{{ .Values.global.revision }}
           ports:
             - containerPort: {{ include "markets-server.port" . }}
           env:

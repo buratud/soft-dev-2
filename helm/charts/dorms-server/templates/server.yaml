@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: dorms-server
-          image: softdev2southeastasia.azurecr.io/dorms-server:{{ .Values.global.revision }}
+          image: dekhor.azurecr.io/dorms-server:{{ .Values.global.revision }}
           ports:
             - containerPort: 4003
           env:

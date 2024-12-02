@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: blogs-server
-          image: softdev2southeastasia.azurecr.io/blogs-server:{{ .Values.global.revision }}
+          image: dekhor.azurecr.io/blogs-server:{{ .Values.global.revision }}
           ports:
             - containerPort: 4002
           env:

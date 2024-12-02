@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: superapp-web
-          image: softdev2southeastasia.azurecr.io/superapp-web:{{ .Values.global.revision }}
+          image: dekhor.azurecr.io/superapp-web:{{ .Values.global.revision }}
           ports:
             - containerPort: 3000
           env:
