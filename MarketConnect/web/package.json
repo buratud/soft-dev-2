@@ -38,7 +38,7 @@
     "build": "craco build && npm run sentry:sourcemaps",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org \"-\" --project markets-web ./build && sentry-cli --url https://2bf6076f971eb7fcd40dda63cf927481@o4507243238195200.ingest.de.sentry.io sourcemaps upload --org \"-\" --project markets-web ./build"
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org 0c3de0c5bc67 --project markets-web ./build && sentry-cli sourcemaps upload --org 0c3de0c5bc67 --project markets-web ./build"
   },
   "eslintConfig": {
     "root": true
