@@ -12,7 +12,7 @@ const baseAvatarURL = SUPABASE_URL+"/storage/v1/object/public/Profile_User/";
 const {avatarArray} = require("./avatar");
 
 Sentry.init({
-  dsn: "https://855f86989b23867e7eeccee682fbc826@linux-vm-southeastasia-3.southeastasia.cloudapp.azure.com/3",
+  dsn: "https://f21f32ae7d4ce416b77634cd1a7f2db4@o4507243238195200.ingest.de.sentry.io/4508396707250256",
   integrations: [
     // enable HTTP calls tracing
     new Sentry.Integrations.Http({ tracing: true }),
