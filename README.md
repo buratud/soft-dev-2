@@ -42,4 +42,12 @@ For sentry, you must create 1 Sentry project for each of sub-project. The total 
 
 ## Demo showcase
 
-![alt text](showcase-image/image.png)
+### Portal
+![alt text](showcase-image/main-page.png)
+![alt text](showcase-image/profile-dorm.png)
+
+### Dorms
+![alt text](showcase-image/dorm-page.png)
+![alt text](showcase-image/dorm-detail.png)
+![alt text](showcase-image/search-dorm.png)
+![alt text](showcase-image/add-dorm.png)
